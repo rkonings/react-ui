@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "storybook": "start-storybook"
+    "storybook": "start-storybook",
+    "build-storybook": "build-storybook -c .storybook -o .out",
+    "build": "rm -rf /build/lib && tsc"
   },
   "repository": {
     "type": "git",
@@ -24,18 +26,20 @@
   "homepage": "https://github.com/rkonings/react-ui#readme",
   "devDependencies": {
     "@babel/core": "^7.5.0",
+    "@babel/preset-typescript": "^7.3.3",
     "@storybook/react": "^5.1.9",
     "@types/enzyme": "^3.10.1",
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "@types/jest": "^24.0.15",
     "@types/storybook__react": "^4.0.2",
-    "@types/styled-components": "^4.1.16",
     "babel-loader": "^8.0.6",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "jest": "^24.8.0",
+    "source-map-loader": "^0.2.4",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.5.2"
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
   },
   "dependencies": {
     "react": "^16.8.6",
