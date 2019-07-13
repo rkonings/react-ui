@@ -3,7 +3,7 @@ module.exports = ({ config, mode }) => {
       test: /\.(ts|tsx)$/,
       loader: require.resolve('babel-loader'),
       options: {
-        presets: [['react-app', { flow: false, typescript: true }]],
+        presets: ["@babel/react", "@babel/typescript", ["@babel/env", { "modules": false }]],
       },
     });
     config.resolve.extensions.push('.ts', '.tsx');
