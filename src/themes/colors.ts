@@ -48,8 +48,8 @@ const gray = {
 const color = {
     white: '#FFF',
     black: '#1B2327',
-    ...blue, 
-    ...orange,    
+    ...blue,
+    ...orange,
     ...gray,
     green: {
         light: '#30BE76'

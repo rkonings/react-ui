@@ -1,9 +1,8 @@
 import Theme from '../interfaces/Theme';
 
-import color from './colors';
 import button from './buttons';
+import color from './colors';
 import table from './table';
-
 
 const theme: Theme = {
     fontFamily: 'Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
