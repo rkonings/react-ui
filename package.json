@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "storybook": "start-storybook --port 6006",
     "build-storybook": "build-storybook -c .storybook -o .out",
     "build": "rm -rf /build/lib && tsc",

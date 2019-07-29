@@ -3,3 +3,4 @@ package-lock.json
 .out
 .DS_Store
 build
+coverage
