@@ -9,6 +9,7 @@
     "storybook": "start-storybook --port 6006",
     "build-storybook": "build-storybook -c .storybook -o .out",
     "build": "rm -rf /build/lib && tsc",
+    "build:icons": "svgr --out-dir src/Icon/ --template svgr.template.js --ext tsx src/assets/icons/",
     "lint:ts": "tslint 'src/**/*.{ts,tsx,js}'",
     "lint:style": "stylelint 'src/**/*.{ts,tsx,js}'"
   },
@@ -33,6 +34,7 @@
     "@storybook/addon-actions": "^5.1.9",
     "@storybook/addon-knobs": "^5.1.9",
     "@storybook/react": "^5.1.9",
+    "@svgr/cli": "^4.3.2",
     "@types/enzyme": "^3.10.1",
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "@types/jest": "^24.0.15",
