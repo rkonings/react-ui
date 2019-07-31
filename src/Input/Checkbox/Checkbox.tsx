@@ -59,7 +59,7 @@ const StyledCheckBox = styled(CheckBox)`
             opacity: 0;
         }
     ${/*sc-selector*/InnerCheckbox}:checked ~ ${/*sc-selector*/CustomCheckBox} {
-        ${Check} {
+        ${/*sc-selector*/Check} {
             opacity: 1;
         }
     }
