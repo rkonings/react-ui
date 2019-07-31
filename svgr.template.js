@@ -9,7 +9,8 @@ function template(
         import * as React from 'react';
         import styled from 'styled-components';
         import { SVGIcon } from '../mixins/SVGIcon';
-        const COMPONENT_NAME = (props: React.SVGProps<SVGSVGElement>) => JSX;
+        import IconProps from '../interfaces/IconProps';
+        const COMPONENT_NAME = (props: IconProps) => JSX;
         
         export default styled(COMPONENT_NAME)\`\${SVGIcon};\`;
     `;
