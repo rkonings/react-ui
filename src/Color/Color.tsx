@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import useTheme from './../hooks/useTheme';
+import useTheme from '../hooks/useTheme';
 
 import { readableColor } from 'polished';
 
