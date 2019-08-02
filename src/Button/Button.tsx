@@ -55,6 +55,7 @@ export const FilledButton = styled(Button)`
             svg {
                 transition: all 0.1s linear 0.1s;
                 height: 1.2em;
+                width: 1.2em;
                 stroke: ${style.default.color};
                 fill: ${style.default.color};
             }
