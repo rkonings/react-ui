@@ -1,7 +1,7 @@
 /* tslint:disable */
 import * as React from 'react';
 import styled from 'styled-components';
-import { SVGIcon } from '../mixins/SVGIcon';
+import { SVGIcon, IconSpacing } from '../mixins/SVGIcon';
 import IconProps from '../interfaces/IconProps';
 
 const SvgHryvnia = (props: IconProps) => (
@@ -12,4 +12,5 @@ const SvgHryvnia = (props: IconProps) => (
 
 export default styled(SvgHryvnia)`
   ${SVGIcon};
+  ${IconSpacing};
 `;

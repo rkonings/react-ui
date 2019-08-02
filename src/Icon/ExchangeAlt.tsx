@@ -1,7 +1,7 @@
 /* tslint:disable */
 import * as React from 'react';
 import styled from 'styled-components';
-import { SVGIcon } from '../mixins/SVGIcon';
+import { SVGIcon, IconSpacing } from '../mixins/SVGIcon';
 import IconProps from '../interfaces/IconProps';
 
 const SvgExchangeAlt = (props: IconProps) => (
@@ -12,4 +12,5 @@ const SvgExchangeAlt = (props: IconProps) => (
 
 export default styled(SvgExchangeAlt)`
   ${SVGIcon};
+  ${IconSpacing};
 `;
