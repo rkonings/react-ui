@@ -8,11 +8,11 @@ function template(
         /* tslint:disable */
         import * as React from 'react';
         import styled from 'styled-components';
-        import { SVGIcon } from '../mixins/SVGIcon';
+        import { SVGIcon, IconSpacing } from '../mixins/SVGIcon';
         import IconProps from '../interfaces/IconProps';
         const COMPONENT_NAME = (props: IconProps) => JSX;
         
-        export default styled(COMPONENT_NAME)\`\${SVGIcon};\`;
+        export default styled(COMPONENT_NAME)\`\${SVGIcon};\${IconSpacing};\`;
     `;
 
     const typeScriptTpl = template.smart(code, { plugins: ['typescript'], preserveComments: true })
