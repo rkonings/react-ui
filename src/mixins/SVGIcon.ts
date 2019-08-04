@@ -17,7 +17,7 @@ export const IconSpacing = ({spacing}: IconProps) => {
 
 const getIconSize = (theme: Theme, size?: IconSize) => {
   if (size) {
-      return theme.size[size];
+      return theme.icon.size[size];
   }
   return theme.icon.size.m;
 };
