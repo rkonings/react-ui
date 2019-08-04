@@ -1,4 +1,5 @@
-import IconProps from '../interfaces/IconProps';
+import IconProps, { IconSize } from '../interfaces/IconProps';
+import Theme from '../interfaces/Theme';
 import DefaultTheme from '../themes/default';
 
 export const IconSpacing = ({spacing}: IconProps) => {
@@ -14,8 +15,15 @@ export const IconSpacing = ({spacing}: IconProps) => {
   return;
 };
 
+const getIconSize = (theme: Theme, size?: IconSize) => {
+  if (size) {
+      return theme.size[size];
+  }
+  return theme.icon.size.m;
+};
+
 export const SVGIcon = ({theme = DefaultTheme, type = 'default', size}: IconProps) => `
   fill: ${theme.icon[type] || theme.icon.default};
-  width: ${size || theme.icon.defaultSize}px;
-  height: ${size || theme.icon.defaultSize}px;
+  width: ${getIconSize(theme, size)}px;
+  height: ${getIconSize(theme, size)}px;
 `;
