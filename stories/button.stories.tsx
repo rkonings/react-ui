@@ -2,8 +2,8 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import Button, { GhostButton } from '../src/Button/Button';
-import Icon, { IconLeft, IconRight } from '../src/Icon/Icon';
+import Button from '../src/Button/Button';
+import { CaretDown } from '../src/Icon';
 import Loader from '../src/Loader/Loader';
 
 storiesOf('Button', module)
@@ -15,43 +15,50 @@ storiesOf('Button', module)
   ))
   .add('with icon on the left', () => (
     <React.Fragment>
-      <Button onClick={action('Click')}><IconLeft />Default</Button>
+      <Button onClick={action('Click')}><CaretDown spacing="right" />Default</Button>
     </React.Fragment>
   ))
   .add('with icon on the right', () => (
     <React.Fragment>
-      <Button onClick={action('Click')}>Default<IconRight /></Button>
+      <Button onClick={action('Click')}>Default<CaretDown spacing="left" /></Button>
     </React.Fragment>
   ))
   .add('primary with text', () => (
     <Button type={'primary'} onClick={action('Click')}>Primary</Button>
   ))
   .add('primary with icon', () => (
-    <Button type={'primary'} onClick={action('Click')}><IconLeft />Primary</Button>
+    <Button type={'primary'} onClick={action('Click')}><CaretDown spacing="right" />Primary</Button>
   ))
   .add('seondairy with text', () => (
     <Button type={'secondairy'} onClick={action('Click')}>Secondairy</Button>
   ))
   .add('seondairy with icon', () => (
-    <Button type={'secondairy'} onClick={action('Click')}><IconLeft />Secondairy</Button>
+    <Button type={'secondairy'} onClick={action('Click')}><CaretDown spacing="right" />Secondairy</Button>
   ));
 
-storiesOf('Button/Ghost', module)
+storiesOf('Button/outline', module)
   .add('with text', () => (
-    <GhostButton onClick={action('Click')}>Default</GhostButton>
+    <Button outline={true} onClick={action('Click')}>Default</Button>
   ))
   .add('with icon', () => (
-    <GhostButton onClick={action('Click')}><Icon /></GhostButton>
+    <Button outline={true} onClick={action('Click')}><CaretDown /></Button>
   ))
   .add('primary with text', () => (
-    <GhostButton type={'primary'} onClick={action('Click')}>Primary</GhostButton>
+    <Button outline={true} type={'primary'} onClick={action('Click')}>Primary</Button>
   ))
   .add('primary with icon', () => (
-    <GhostButton type={'primary'} onClick={action('Click')}><IconLeft />Primary</GhostButton>
+    <Button outline={true} type={'primary'} onClick={action('Click')}><CaretDown spacing="right" />Primary</Button>
   ))
   .add('seondairy with text', () => (
-    <GhostButton type={'secondairy'} onClick={action('Click')}>Secondairy</GhostButton>
+    <Button outline={true} type={'secondairy'} onClick={action('Click')}>Secondairy</Button>
   ))
   .add('seondairy with icon', () => (
-    <GhostButton type={'secondairy'} onClick={action('Click')}><IconLeft />Secondairy</GhostButton>
+    <Button
+      outline={true}
+      type={'secondairy'}
+      onClick={action('Click')}
+    >
+      <CaretDown spacing="right" />
+      Secondairy
+    </Button>
   ));
