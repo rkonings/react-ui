@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Theme from '../interfaces/Theme';
+import Theme, { Size as ButtonSize } from '../interfaces/Theme';
 
 const ButtonText = styled.span`
   position: relative;
@@ -15,6 +15,7 @@ interface ButtonProps {
   outline?: boolean;
   className?: string;
   theme: Theme;
+  size?: ButtonSize;
   onClick?(event: React.MouseEvent): void;
 }
 
@@ -26,11 +27,14 @@ const Button = ({ children, className, onClick }: ButtonProps): JSX.Element => {
   );
 };
 
-const ButtonStyle = ({ theme, type = 'default', outline }: ButtonProps) => {
+const ButtonStyle = ({ theme, type = 'default', outline, size = 'm'}: ButtonProps) => {
     const style = theme.button[type];
     const background = outline ? 'none' : style.default.background;
     const color = outline ? style.default.outlineColor : style.default.color;
     const border = outline ? `1px solid ${color} ` : 'none';
+    const fontSize = theme.button.size[size];
+
+    const height = fontSize * 3;
 
     return `
         font-family: ${theme.fontFamily};
@@ -38,7 +42,7 @@ const ButtonStyle = ({ theme, type = 'default', outline }: ButtonProps) => {
         background: ${background};
         color: ${color};
         display: flex;
-        font-size: 14px;
+        font-size: ${fontSize}px;
         overflow: hidden;
         align-items: center;
         border-radius: 0;
@@ -47,7 +51,7 @@ const ButtonStyle = ({ theme, type = 'default', outline }: ButtonProps) => {
         position: relative;
         transition: color 0.1s linear 0.1s;
         text-transform: uppercase;
-        height: 50px;
+        height: ${height}px;
 
         ${ButtonText} {
             margin-left: 1em;

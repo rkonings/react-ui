@@ -2,6 +2,14 @@ import color from './colors';
 
 const Button = {
     fontWeight: 500,
+    size: {
+        xs: 10,
+        s: 12,
+        m: 14,
+        l: 16,
+        xl: 18
+    },
+    defaultSize: 'm',
     default: {
         default: {
             background: color.gray20,
