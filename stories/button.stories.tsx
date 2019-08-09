@@ -85,43 +85,4 @@ storiesOf('Button', module)
         </Button>
       </React.Fragment>
     );
-  })
-  .add('primary with text', () => (
-    <Button type={'primary'} onClick={action('Click')}>Primary</Button>
-  ))
-  .add('primary with icon', () => (
-    <Button type={'primary'} onClick={action('Click')}><CaretDown spacing="right" />Primary</Button>
-  ))
-  .add('seondairy with text', () => (
-    <Button type={'secondairy'} onClick={action('Click')}>Secondairy</Button>
-  ))
-  .add('seondairy with icon', () => (
-    <Button type={'secondairy'} onClick={action('Click')}><CaretDown spacing="right" />Secondairy</Button>
-  ));
-
-storiesOf('Button/outline', module)
-  .add('with text', () => (
-    <Button outline={true} onClick={action('Click')}>Default</Button>
-  ))
-  .add('with icon', () => (
-    <Button outline={true} onClick={action('Click')}><CaretDown /></Button>
-  ))
-  .add('primary with text', () => (
-    <Button outline={true} type={'primary'} onClick={action('Click')}>Primary</Button>
-  ))
-  .add('primary with icon', () => (
-    <Button outline={true} type={'primary'} onClick={action('Click')}><CaretDown spacing="right" />Primary</Button>
-  ))
-  .add('seondairy with text', () => (
-    <Button outline={true} type={'secondairy'} onClick={action('Click')}>Secondairy</Button>
-  ))
-  .add('seondairy with icon', () => (
-    <Button
-      outline={true}
-      type={'secondairy'}
-      onClick={action('Click')}
-    >
-      <CaretDown spacing="right" />
-      Secondairy
-    </Button>
-  ));
+  });
