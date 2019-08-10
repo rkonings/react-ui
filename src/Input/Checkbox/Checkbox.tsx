@@ -1,39 +1,41 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Check } from '../../Icon/';
+import { Size as CheckBoxSize, Type as CheckBoxType } from '../../interfaces/Theme';
 
 const InnerCheckbox = styled.input.attrs({ type: 'checkbox' })`
     opacity: 0;
     position: absolute;
 `;
 
-const SIZE = 12;
-
 const CustomCheckBox = styled.div`
-    background: #ccc;
-    width: ${SIZE}px;
-    height: ${SIZE}px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-`;
+    ${({theme: {type = 'default', input : { checkbox }}}) => `
+        border: ${checkbox.borderSize} solid ${checkbox[type].default.borderColor};
+        border-radius: ${checkbox.borderRadius};
+        background: ${checkbox[type].default.background};
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
 
-const StyledPolyline = styled.polyline`
-    stroke: #000000;
-`;
+        &:hover {
+            border-color: ${checkbox[type].hover.borderColor};
 
-const SVG = styled.svg`
-    opacity: 0;
+        }
+    `}
+
 `;
 
 interface CheckBoxProps {
     className?: string;
     checked?: boolean;
+    size?: CheckBoxSize;
+    type?: CheckBoxType;
     onChange?(checked: boolean): void;
 }
 
-const CheckBox = ({className, onChange, checked = false}: CheckBoxProps) => {
+const CheckBox = ({className, onChange, checked = false, size = 'm'}: CheckBoxProps) => {
     const [isChecked, setIsChecked] = React.useState(checked);
 
     const onChangeHandler = (checked: boolean) => {
@@ -47,22 +49,28 @@ const CheckBox = ({className, onChange, checked = false}: CheckBoxProps) => {
         <label className={className}>
             <InnerCheckbox checked={isChecked} onChange={({target: { checked }}) => onChangeHandler(checked)} />
             <CustomCheckBox>
-                <Check type="default" width={SIZE - 2} height={SIZE - 2} />
+                <Check type="default" size={size} />
             </CustomCheckBox>
         </label>
     );
 };
 
 const StyledCheckBox = styled(CheckBox)`
-    position: relative;
-    ${Check} {
-            opacity: 0;
-        }
-    ${/*sc-selector*/InnerCheckbox}:checked ~ ${/*sc-selector*/CustomCheckBox} {
+    ${({type = 'default', theme: { input: { checkbox} } } ) => `
+        position: relative;
+
         ${/*sc-selector*/Check} {
-            opacity: 1;
+            opacity: 0;
+            fill: ${checkbox[type].default.color}};
         }
-    }
+        ${/*sc-selector*/InnerCheckbox}:checked ~ ${/*sc-selector*/CustomCheckBox} {
+            background: ${checkbox[type].checked.backgroundColor};
+            ${/*sc-selector*/Check} {
+                opacity: 1;
+                fill: ${checkbox[type].checked.color}};
+            }
+        }
+    `}
 `;
 
 export default StyledCheckBox;
