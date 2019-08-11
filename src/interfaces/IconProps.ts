@@ -1,7 +1,7 @@
 import Theme from './Theme';
 type IconType = 'default' | 'primary' | 'seconadairy';
 type IconSpacing = 'top' | 'right' | 'bottom' | 'left';
-export type IconSize = 'xs' | 'sm' | 'm' | 'l' | 'xl';
+export type IconSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 
 export default interface IconProps {
     type?: IconType;
