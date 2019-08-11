@@ -1,15 +1,15 @@
 import color from './colors';
 
 const icon = {
-    default: color.gray130,
+    default: color.gray120,
     primary: color.blue60,
     secondairy: color.orange60,
     size: {
-        xs: 10,
-        s: 20,
-        m: 30,
-        l: 40,
-        xl: 50
+        xs: 8,
+        s: 10,
+        m: 12,
+        l: 14,
+        xl: 16
     }
 };
 
