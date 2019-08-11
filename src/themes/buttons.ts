@@ -3,11 +3,11 @@ import color from './colors';
 const Button = {
     fontWeight: 500,
     size: {
-        xs: 10,
-        s: 12,
-        m: 14,
-        l: 16,
-        xl: 18
+        xs: 8,
+        s: 10,
+        m: 12,
+        l: 14,
+        xl: 16
     },
     defaultSize: 'm',
     default: {
