@@ -34,18 +34,28 @@ storiesOf('Button', module)
     const type = select(typeLabel, typeOptions, typeDefaultValue);
     const outline = boolean(outlineLabel, outlineDefaultValue);
     const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
+    const active = boolean('Active', false);
 
     return (
-      <Button outline={outline} type={type} size={size} onClick={action('Click')}>{buttonText}</Button>
+      <Button active={active} outline={outline} type={type} size={size} onClick={action('Click')}>{buttonText}</Button>
     );
   })
   .add('with loader', () => {
     const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
     const type = select(typeLabel, typeOptions, typeDefaultValue);
     const outline = boolean(outlineLabel, outlineDefaultValue);
+    const active = boolean('Active', false);
 
     return (
-      <Button type={type} outline={outline} size={size} onClick={action('Click')}><Loader size={20} /></Button>
+      <Button
+        active={active}
+        type={type}
+        outline={outline}
+        size={size}
+        onClick={action('Click')}
+      >
+        <Loader size={20} />
+      </Button>
     );
   })
   .add('with icon on the left', () => {
@@ -53,10 +63,12 @@ storiesOf('Button', module)
     const type = select(typeLabel, typeOptions, typeDefaultValue);
     const outline = boolean(outlineLabel, outlineDefaultValue);
     const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
+    const active = boolean('Active', false);
 
     return (
       <React.Fragment>
         <Button
+          active={active}
           outline={outline}
           type={type}
           size={size}
