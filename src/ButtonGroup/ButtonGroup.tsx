@@ -11,10 +11,11 @@ interface ButtonGroupProps {
     outline?: boolean;
     theme?: Theme;
     className?: string;
+    setActive?: boolean;
     children: JSX.Element | JSX.Element[];
 }
 
-const ButtonGroup = ({className, children, type, size, outline}: ButtonGroupProps) => {
+const ButtonGroup = ({setActive = false, className, children, type, size, outline}: ButtonGroupProps) => {
 
     const [activeIndex, setActiveIndex] = React.useState<number>(-1);
     const buttons = React.Children.map(children, (child, index) => {
@@ -22,9 +23,9 @@ const ButtonGroup = ({className, children, type, size, outline}: ButtonGroupProp
             type: child.props.type || type,
             size,
             outline,
-            onClick: () => {
-                setActiveIndex(index);
-                if (child.props.onClick) { child.props.onClick(); }
+            onClick: (event) => {
+                if (setActive) {setActiveIndex(index); }
+                if (child.props.onClick) { child.props.onClick(event); }
             },
             active: (activeIndex === index)
           });

@@ -30,9 +30,10 @@ storiesOf('ButtonGroup', module)
     const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
     const type = select(typeLabel, typeOptions, typeDefaultValue);
     const outline = boolean(outlineLabel, outlineDefaultValue);
+    const setActive = boolean('setActive', false);
 
     return (
-      <ButtonGroup outline={outline} type={type} size={size}>
+      <ButtonGroup setActive={setActive} outline={outline} type={type} size={size}>
         <Button type={'secondairy'} onClick={action('Click')}>Button<CaretDown spacing="left" /></Button>
         <Button onClick={action('Click')}>Button</Button>
         <Button onClick={action('Click')}>Button</Button>
