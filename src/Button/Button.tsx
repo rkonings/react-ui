@@ -9,17 +9,18 @@ const ButtonText = styled.span`
 
 type ButtonType = 'default' | 'primary' | 'secondairy';
 
-interface ButtonProps {
+export interface ButtonProps {
   children: string | JSX.Element | Array<string | JSX.Element>;
   type?: ButtonType;
   outline?: boolean;
   className?: string;
   theme: Theme;
   size?: ButtonSize;
+  active?: boolean;
   onClick?(event: React.MouseEvent): void;
 }
 
-const Button = ({ children, className, onClick }: ButtonProps): JSX.Element => {
+const Button = ({active, children, className, onClick }: ButtonProps): JSX.Element => {
   return (
     <button className={className} type={`button`} onClick={onClick}>
       <ButtonText>{children}</ButtonText>
@@ -27,10 +28,11 @@ const Button = ({ children, className, onClick }: ButtonProps): JSX.Element => {
   );
 };
 
-const ButtonStyle = ({ theme, type = 'default', outline, size = 'm'}: ButtonProps) => {
+const ButtonStyle = ({active, theme, type = 'default', outline, size = 'm'}: ButtonProps) => {
     const style = theme.button[type];
-    const background = outline ? 'none' : style.default.background;
-    const color = outline ? style.default.outlineColor : style.default.color;
+    const state = active ? 'active' : 'default';
+    const background = outline ? 'none' : style[state].background;
+    const color = outline ? style[state].outlineColor : style[state].color;
     const border = outline ? `1px solid ${color} ` : 'none';
     const fontSize = theme.button.size[size];
 
