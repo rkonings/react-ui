@@ -3,6 +3,13 @@ import color from './colors';
 const checkbox = {
     borderRadius: '2px',
     borderSize: '1px',
+    size: {
+        xs: 10,
+        s: 12,
+        m: 14,
+        l: 16,
+        xl: 18
+    },
     default: {
         default: {
             borderColor: color.gray60,
