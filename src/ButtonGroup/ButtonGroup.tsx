@@ -24,7 +24,7 @@ const ButtonGroup = ({className, children, type, size, outline}: ButtonGroupProp
             outline,
             onClick: () => {
                 setActiveIndex(index);
-                child.props.onClick();
+                if (child.props.onClick) { child.props.onClick(); }
             },
             active: (activeIndex === index)
           });
