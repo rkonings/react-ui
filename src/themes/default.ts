@@ -1,6 +1,6 @@
 import Theme from '../interfaces/Theme';
 
-import button from './buttons';
+import button, { buttonGroup } from './buttons';
 import color from './colors';
 import icon from './icon';
 import input from './input';
@@ -12,6 +12,7 @@ const theme: Theme = {
     icon,
     input,
     button,
+    buttonGroup,
     table,
     loader: {
         default: {

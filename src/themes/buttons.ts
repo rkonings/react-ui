@@ -73,4 +73,16 @@ const Button = {
     }
 };
 
+export const buttonGroup = {
+    default: {
+        borderColor: color.gray40
+    },
+    primary: {
+        borderColor: color.blue100
+    },
+    secondairy: {
+        borderColor: color.orange100
+    }
+};
+
 export default Button;
