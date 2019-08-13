@@ -145,7 +145,7 @@ storiesOf('Button', module)
     const active = boolean('Active', false);
 
     return (
-      <Button active={active} outline={outline} type={type} size={size} onClick={action('Click')}>{buttonText}</Button>
+      <Button active={active} type={type} size={size} onClick={action('Click')}>{buttonText}</Button>
     );
   })
   .add('with loader', () => {
