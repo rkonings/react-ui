@@ -5,6 +5,8 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import Button from '../src/Button/Button';
+import OutlinedButton from '../src/Button/OutlinedButton';
+import TextButton from '../src/Button/TextButton';
 import { CaretDown } from '../src/Icon';
 import Loader from '../src/Loader/Loader';
 
@@ -22,17 +24,123 @@ const typeLabel = 'Type';
 const typeOptions = ['default', 'primary', 'secondairy'];
 const typeDefaultValue = 'default';
 
-const outlineLabel = 'Outline';
-const outlineDefaultValue = false;
-
 const buttonTextLabel = 'Label';
 const buttonTextDefaultValue = 'Button';
+
+storiesOf('OutlinedButton', module)
+.add('with text', () => {
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  const type = select(typeLabel, typeOptions, typeDefaultValue);
+  const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
+  const active = boolean('Active', false);
+
+  return (
+    <OutlinedButton
+      active={active}
+      type={type}
+      size={size}
+      onClick={action('Click')}
+    >
+      {buttonText}
+    </OutlinedButton>
+  );
+})
+.add('with icon on the left', () => {
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  const type = select(typeLabel, typeOptions, typeDefaultValue);
+  const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
+  const active = boolean('Active', false);
+
+  return (
+    <React.Fragment>
+      <OutlinedButton
+        active={active}
+        type={type}
+        size={size}
+        onClick={action('Click')}
+      >
+          <CaretDown spacing="right" />{buttonText}
+      </OutlinedButton>
+    </React.Fragment>
+  );
+})
+.add('with icon on the right', () => {
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  const type = select(typeLabel, typeOptions, typeDefaultValue);
+  const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
+
+  return  (
+    <React.Fragment>
+      <OutlinedButton
+        type={type}
+        size={size}
+        onClick={action('Click')}
+      >
+        {buttonText}<CaretDown spacing="left" />
+      </OutlinedButton>
+    </React.Fragment>
+  );
+});
+
+storiesOf('TextButton', module)
+.add('with text', () => {
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  const type = select(typeLabel, typeOptions, typeDefaultValue);
+  const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
+  const active = boolean('Active', false);
+
+  return (
+    <TextButton
+      active={active}
+      type={type}
+      size={size}
+      onClick={action('Click')}
+    >
+      {buttonText}
+    </TextButton>
+  );
+})
+.add('with icon on the left', () => {
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  const type = select(typeLabel, typeOptions, typeDefaultValue);
+  const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
+  const active = boolean('Active', false);
+
+  return (
+    <React.Fragment>
+      <TextButton
+        active={active}
+        type={type}
+        size={size}
+        onClick={action('Click')}
+      >
+          <CaretDown spacing="right" />{buttonText}
+      </TextButton>
+    </React.Fragment>
+  );
+})
+.add('with icon on the right', () => {
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  const type = select(typeLabel, typeOptions, typeDefaultValue);
+  const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
+
+  return  (
+    <React.Fragment>
+      <TextButton
+        type={type}
+        size={size}
+        onClick={action('Click')}
+      >
+        {buttonText}<CaretDown spacing="left" />
+      </TextButton>
+    </React.Fragment>
+  );
+});
 
 storiesOf('Button', module)
   .add('with text', () => {
     const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
     const type = select(typeLabel, typeOptions, typeDefaultValue);
-    const outline = boolean(outlineLabel, outlineDefaultValue);
     const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
     const active = boolean('Active', false);
 
@@ -43,14 +151,12 @@ storiesOf('Button', module)
   .add('with loader', () => {
     const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
     const type = select(typeLabel, typeOptions, typeDefaultValue);
-    const outline = boolean(outlineLabel, outlineDefaultValue);
     const active = boolean('Active', false);
 
     return (
       <Button
         active={active}
         type={type}
-        outline={outline}
         size={size}
         onClick={action('Click')}
       >
@@ -61,7 +167,6 @@ storiesOf('Button', module)
   .add('with icon on the left', () => {
     const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
     const type = select(typeLabel, typeOptions, typeDefaultValue);
-    const outline = boolean(outlineLabel, outlineDefaultValue);
     const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
     const active = boolean('Active', false);
 
@@ -69,7 +174,6 @@ storiesOf('Button', module)
       <React.Fragment>
         <Button
           active={active}
-          outline={outline}
           type={type}
           size={size}
           onClick={action('Click')}
@@ -82,13 +186,11 @@ storiesOf('Button', module)
   .add('with icon on the right', () => {
     const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
     const type = select(typeLabel, typeOptions, typeDefaultValue);
-    const outline = boolean(outlineLabel, outlineDefaultValue);
     const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
 
     return  (
       <React.Fragment>
         <Button
-          outline={outline}
           type={type}
           size={size}
           onClick={action('Click')}
