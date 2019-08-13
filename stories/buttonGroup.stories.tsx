@@ -2,8 +2,9 @@ import { action } from '@storybook/addon-actions';
 import { boolean, select } from '@storybook/addon-knobs';
 
 import Button from '../src/Button/Button';
+import TextButton from '../src/Button/TextButton';
 import ButtonGroup from '../src/ButtonGroup/ButtonGroup';
-import { CaretDown } from '../src/Icon';
+import { CaretDown, Pen, Search, Trash } from '../src/Icon';
 
 import { storiesOf } from '@storybook/react';
 import React from 'react';
@@ -22,23 +23,47 @@ const typeLabel = 'Type';
 const typeOptions = ['default', 'primary', 'secondairy'];
 const typeDefaultValue = 'default';
 
-const outlineLabel = 'Outline';
-const outlineDefaultValue = false;
-
 storiesOf('ButtonGroup', module)
   .add('with buttons', () => {
     const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
     const type = select(typeLabel, typeOptions, typeDefaultValue);
-    const outline = boolean(outlineLabel, outlineDefaultValue);
     const setActive = boolean('setActive', false);
 
     return (
-      <ButtonGroup setActive={setActive} outline={outline} type={type} size={size}>
+      <ButtonGroup setActive={setActive} type={type} size={size}>
         <Button type={'secondairy'} onClick={action('Click')}>Button<CaretDown spacing="left" /></Button>
         <Button onClick={action('Click')}>Button</Button>
         <Button onClick={action('Click')}>Button</Button>
         <Button onClick={action('Click')}>Button</Button>
         <Button onClick={action('Click')}>Button</Button>
+      </ButtonGroup>
+    );
+  })
+  .add('with text buttons', () => {
+    const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+    const type = select(typeLabel, typeOptions, typeDefaultValue);
+    const setActive = boolean('setActive', false);
+
+    return (
+      <ButtonGroup setActive={setActive} type={type} size={size}>
+        <TextButton type={'secondairy'} onClick={action('Click')}>Button<CaretDown spacing="left" /></TextButton>
+        <TextButton onClick={action('Click')}>Button</TextButton>
+        <TextButton onClick={action('Click')}>Button</TextButton>
+        <TextButton onClick={action('Click')}>Button</TextButton>
+        <TextButton onClick={action('Click')}>Button</TextButton>
+      </ButtonGroup>
+    );
+  })
+  .add('with mixed buttons', () => {
+    const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+    const type = select(typeLabel, typeOptions, typeDefaultValue);
+    const setActive = boolean('setActive', false);
+
+    return (
+      <ButtonGroup setActive={setActive} type={type} size={size}>
+        <Button type={'primary'} onClick={action('Click')}>Button<Trash spacing="left" /></Button>
+        <TextButton onClick={action('Click')}><Pen /></TextButton>
+        <TextButton onClick={action('Click')}><Search /></TextButton>
       </ButtonGroup>
     );
   });
