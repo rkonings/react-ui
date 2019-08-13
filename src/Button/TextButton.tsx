@@ -12,7 +12,7 @@ const ButtonColorStyle = ({active, theme, type = 'default'}: ButtonProps) => {
 
 const ButtonStyleIcon = ({ theme, type = 'default' }: ButtonProps) => {
     const style = theme.button[type];
-    const color = style.default.text;
+    const color = style.default.outlined;
 
     return `
         svg {
