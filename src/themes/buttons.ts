@@ -12,62 +12,54 @@ const Button = {
     defaultSize: 'm',
     default: {
         default: {
-            background: color.gray20,
-            color: color.black,
-            outlineColor: color.gray100,
+            main: color.gray20,
+            text: color.black,
+            outlined: color.black,
         },
         active: {
-            background: color.gray60,
-            border: color.gray60,
-            outlineColor: color.gray110,
-            outlineBackground: color.gray20,
+            main: color.gray60,
+            text: color.black,
+            outlined: color.black,
         },
         hover: {
-            background: color.gray50,
-            border: color.gray50,
-            outlineColor: color.gray100,
-            outlineBackground: color.gray10,
+            main: color.gray50,
+            text: color.black,
+            outlined: color.gray100,
         }
     },
     primary: {
         default: {
-            background: color.blue80,
-            color: color.white,
-            outlineColor: color.blue80,
+            main: color.blue80,
+            text: color.white,
+            outlined: color.blue80,
         },
         active: {
-            color: color.white,
-            background: color.blue110,
-            border: color.blue110,
-            outlineColor: color.blue110,
-            outlineBackground: color.blue20,
+            main: color.blue110,
+            text: color.white,
+            outlined: color.blue110,
         },
         hover: {
-            background: color.blue100,
-            border: color.blue100,
-            outlineColor: color.blue110,
-            outlineBackground: color.blue10,
+            main: color.blue100,
+            text: color.white,
+            outlined: color.blue100,
         }
 
     },
     secondairy: {
         default: {
-            background: color.orange80,
-            color: color.white,
-            outlineColor: color.orange80,
+            main: color.orange80,
+            text: color.white,
+            outlined: color.orange80,
         },
         active: {
-            color: color.white,
-            background: color.orange110,
-            border: color.orange110,
-            outlineColor: color.orange110,
-            outlineBackground: color.orange20,
+            main: color.orange110,
+            text: color.white,
+            outlined: color.orange110,
         },
         hover: {
-            background: color.orange100,
-            border: color.orange100,
-            outlineColor: color.orange110,
-            outlineBackground: color.orange10,
+            main: color.orange100,
+            text: color.white,
+            outlined: color.orange100,
         }
 
     }
