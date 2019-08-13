@@ -23,7 +23,11 @@ export { default as CaretDown } from './CaretDown';
 export { default as CaretLeft } from './CaretLeft';
 export { default as CaretRight } from './CaretRight';
 
+export { default as Pen } from './Pen';
 export { default as Plus } from './Plus';
 export { default as Minus } from './Minus';
 
 export { default as Check } from './Check';
+
+export { default as Trash } from './Trash';
+export { default as Search } from './Search';
