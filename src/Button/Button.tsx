@@ -12,7 +12,6 @@ type ButtonType = 'default' | 'primary' | 'secondairy';
 export interface ButtonProps {
   children: string | JSX.Element | Array<string | JSX.Element>;
   type?: ButtonType;
-  outline?: boolean;
   className?: string;
   theme: Theme;
   size?: ButtonSize;
@@ -20,7 +19,7 @@ export interface ButtonProps {
   onClick?(event: React.MouseEvent): void;
 }
 
-const Button = ({active, children, className, onClick }: ButtonProps): JSX.Element => {
+export const Button = ({children, className, onClick }: ButtonProps): JSX.Element => {
   return (
     <button className={className} type={`button`} onClick={onClick}>
       <ButtonText>{children}</ButtonText>
@@ -28,27 +27,30 @@ const Button = ({active, children, className, onClick }: ButtonProps): JSX.Eleme
   );
 };
 
-const ButtonStyle = ({active, theme, type = 'default', outline, size = 'm'}: ButtonProps) => {
+const ButtonColorStyle = ({active, theme, type = 'default'}: ButtonProps) => {
     const style = theme.button[type];
     const state = active ? 'active' : 'default';
-    const background = outline ? 'none' : style[state].background;
-    const color = outline ? style[state].outlineColor : style[state].color;
-    const border = outline ? `1px solid ${color} ` : 'none';
-    const fontSize = theme.button.size[size];
+    const color = style[state].text;
+    const background = style[state].main;
+    return `
+        border: none;
+        background: ${background};
+        color: ${color}
+    `;
+};
 
+export const ButtonBaseStyle = ({theme, size = 'm'}: ButtonProps) => {
+    const fontSize = theme.button.size[size];
     const height = fontSize * 3;
 
     return `
         font-family: ${theme.fontFamily};
         font-weight: ${theme.button.fontWeight};
-        background: ${background};
-        color: ${color};
         display: flex;
         font-size: ${fontSize}px;
         overflow: hidden;
         align-items: center;
         border-radius: 0;
-        border: ${border};
         cursor: pointer;
         position: relative;
         transition: color 0.1s linear 0.1s;
@@ -69,16 +71,14 @@ const ButtonStyle = ({active, theme, type = 'default', outline, size = 'm'}: But
     `;
 };
 
-const ButtonStyleHover = ({ theme, type = 'default', outline }: ButtonProps) => {
+export const ButtonStyleHover = ({ theme, type = 'default' }: ButtonProps) => {
     const style = theme.button[type];
-    const color = outline ? style.hover.outlineColor : style.hover.color;
-    const background = outline ? style.hover.outlineBackground : style.hover.background;
-    const border = outline ? `1px solid  ${color};` : 'none';
+    const color = style.hover.text;
+    const background = style.hover.main;
 
     return `
         &:hover{
             color: ${color};
-            border: ${border};
             svg {
                 stroke: ${color};
                 fill: ${color};
@@ -110,9 +110,9 @@ const ButtonStyleHover = ({ theme, type = 'default', outline }: ButtonProps) => 
     `;
 };
 
-const ButtonStyleIcon = ({ theme, type = 'default', outline }: ButtonProps) => {
+const ButtonStyleIcon = ({ theme, type = 'default' }: ButtonProps) => {
     const style = theme.button[type];
-    const color = outline ? style.default.outlineColor : style.default.color;
+    const color = style.default.text;
 
     return `
         svg {
@@ -128,7 +128,8 @@ const ButtonStyleIcon = ({ theme, type = 'default', outline }: ButtonProps) => {
 
 /* Button hover effects: https://codepen.io/ritchiejacobs/pen/qEJjBM */
 const StyledButton = styled(Button)`
-    ${ButtonStyle};
+    ${ButtonBaseStyle}
+    ${ButtonColorStyle};
     ${ButtonStyleHover};
     ${ButtonStyleIcon};
 `;
