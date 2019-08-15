@@ -30,4 +30,12 @@ export { default as Minus } from './Minus';
 export { default as Check } from './Check';
 
 export { default as Trash } from './Trash';
+export { default as Save } from './Save';
+export { default as Edit } from './Edit';
+export { default as Cog } from './Cog';
+export { default as Copy } from './Copy';
+export { default as User } from './User';
 export { default as Search } from './Search';
+export { default as Options } from './EllipsisV';
+
+export { default as Phone } from './Phone';
