@@ -37,6 +37,7 @@
     "@svgr/cli": "^4.3.2",
     "@types/enzyme": "^3.10.1",
     "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/faker": "^4.1.5",
     "@types/jest": "^24.0.15",
     "@types/storybook__react": "^4.0.2",
     "@types/styled-components": "4.1.8",
@@ -56,6 +57,7 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
+    "faker": "^4.1.0",
     "polished": "^3.4.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
