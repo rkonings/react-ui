@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Check } from '../../Icon/';
+import { Check } from '../../Icon';
 import { Size as CheckBoxSize, Type as CheckBoxType } from '../../interfaces/Theme';
 
 const InnerCheckbox = styled.input.attrs({ type: 'checkbox' })`
