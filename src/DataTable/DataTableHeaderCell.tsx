@@ -1,30 +1,38 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { ArrowDown, ArrowUp } from '../Icon/index';
+import { CellInner, CellProps } from './DataTableCell';
 
-const HeaderCellInner = styled.div`
-    padding: 0 20px;
-    font-weight: normal;
-    color: #a5a5a5;
-    font-size: 12px;
-`;
-
-interface HeaderCellProps {
-    children: string | JSX.Element | Array<string | JSX.Element>;
-    width?: number;
-    className?: string;
+export interface HeaderCellProps extends CellProps {
+    sort?: 'ASC' | 'DESC';
 }
 
-const HeaderCell = ({children, className}: HeaderCellProps) => {
+const HeaderCell = ({children, className, width, align, sort}: HeaderCellProps) => {
+    let sortingIcon;
+    if (sort === 'ASC') {
+        sortingIcon = <ArrowDown />;
+    } else if (sort === 'DESC') {
+        sortingIcon = <ArrowUp />;
+    }
     return (
         <th className={className}>
-            <HeaderCellInner >{children}</HeaderCellInner>
+            <CellInner width={width} align={align}>
+                <React.Fragment>
+                    {children}
+                    {sortingIcon}
+                </React.Fragment>
+            </CellInner>
         </th>
     );
 };
 
 const StyledHeaderCell = styled(HeaderCell)`
-    ${({width}) => width ? `width: ${width}px` : null}
-    text-align: left;
+    font-size: 12px;
+    ${CellInner} {
+        ${ArrowDown}, ${ArrowUp} {
+            margin-left: 5px;
+        }
+    }
 `;
 
 export default StyledHeaderCell;
