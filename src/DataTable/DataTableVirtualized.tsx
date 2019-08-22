@@ -243,12 +243,14 @@ const DataTableVirtualized = ({data, fields, className, columns}: DataTableVirtu
             />
             <Grid
                 columnWidth={(index) => getColumnWidth(index)}
+                overscanRowCount={20}
                 columnCount={columns.length}
-                rowHeight={() => 50}
+                rowHeight={() => 40}
                 rowCount={data.length}
                 itemData={itemData}
                 width={800}
                 height={600}
+                overscanCount={10}
             >
             {StyledCell}
             </Grid>
