@@ -38,21 +38,28 @@ const fields: DataField[] = [
 const columns = [
     {
         type: 'SELECT',
+        width: 50
     },
     {
         type: 'DATA',
-        fieldName: 'company'
+        fieldName: 'company',
+        width: 300
     },
     {
         type: 'DATA',
-        fieldName: 'phone'
+        fieldName: 'phone',
+        width: 150,
+        align: 'right'
     },
     {
         type: 'DATA',
-        fieldName: 'last_seen'
+        fieldName: 'last_seen',
+        width: 150,
+        align: 'right'
     },
     {
         type: 'TOOLBAR',
+        width: 150,
         toolbar: (row: DataRow) => (
             <ButtonGroup size={'s'}>
                 <RowAction onClick={() => console.log('Edit', row)}><Edit /></RowAction>
