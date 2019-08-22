@@ -1,13 +1,11 @@
 import { storiesOf } from '@storybook/react';
+import faker from 'faker/locale/nl';
 import React from 'react';
 
-// import { boolean } from '@storybook/addon-knobs';
-import { action } from '@storybook/addon-actions';
-
-import faker from 'faker/locale/nl';
 import ButtonGroup from '../src/ButtonGroup/ButtonGroup';
 import DataTable from '../src/DataTable/DataTable';
 import RowAction from '../src/DataTable/DataTableRowAction';
+import DataTableVirtualized from '../src/DataTable/DataTableVirtualized';
 import { Edit, Options, Trash } from '../src/Icon';
 
 import { DataField, DataRow } from '../src/interfaces/Data';
@@ -37,13 +35,40 @@ const fields: DataField[] = [
     }
 ];
 
-const rowToolBar = (row: DataRow) => (
-    <ButtonGroup size={'s'}>
-        <RowAction onClick={() => console.log('Edit', row)}><Edit /></RowAction>
-        <RowAction onClick={() => console.log('Delete', row)}><Trash /></RowAction>
-        <RowAction><Options /></RowAction>
-    </ButtonGroup>
-);
+const columns = [
+    {
+        type: 'SELECT',
+        width: 50
+    },
+    {
+        type: 'DATA',
+        fieldName: 'company',
+        width: 300
+    },
+    {
+        type: 'DATA',
+        fieldName: 'phone',
+        width: 150,
+        align: 'right'
+    },
+    {
+        type: 'DATA',
+        fieldName: 'last_seen',
+        width: 150,
+        align: 'right'
+    },
+    {
+        type: 'TOOLBAR',
+        width: 150,
+        toolbar: (row: DataRow) => (
+            <ButtonGroup size={'s'}>
+                <RowAction onClick={() => console.log('Edit', row)}><Edit /></RowAction>
+                <RowAction onClick={() => console.log('Delete', row)}><Trash /></RowAction>
+                <RowAction><Options /></RowAction>
+            </ButtonGroup>
+        )
+    }
+];
 
 for (let i = 0; i < 100; i++) {
     const row: DataRow = {
@@ -59,6 +84,9 @@ for (let i = 0; i < 100; i++) {
 }
 
 storiesOf('DataTable', module)
+    .add('DataTableVirtualized', () => (
+        <DataTableVirtualized columns={columns} data={data} fields={fields}  />
+    ))
   .add('DataTable', () => (
-      <DataTable data={data} selectable={true} rowToolBar={rowToolBar} fields={fields}  />
+      <DataTable data={data} selectable={true} fields={fields} />
   ));

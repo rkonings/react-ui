@@ -39,7 +39,10 @@
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "@types/faker": "^4.1.5",
     "@types/jest": "^24.0.15",
+    "@types/memoize-one": "^4.1.1",
     "@types/moment": "^2.13.0",
+    "@types/react-virtualized": "^9.21.4",
+    "@types/react-window": "^1.8.1",
     "@types/storybook__react": "^4.0.2",
     "@types/styled-components": "4.1.8",
     "babel-loader": "^8.0.6",
@@ -59,10 +62,13 @@
   },
   "dependencies": {
     "faker": "^4.1.0",
+    "memoize-one": "^5.1.0",
     "moment": "^2.24.0",
     "polished": "^3.4.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-virtualized": "^9.21.1",
+    "react-window": "^1.8.5",
     "styled-components": "^4.3.2"
   }
 }
