@@ -1,168 +1,216 @@
 import * as React from 'react';
-import { Column, Table } from 'react-virtualized';
+import { useState } from 'react';
+import { VariableSizeGrid as Grid } from 'react-window';
 import styled from 'styled-components';
+import CheckBox from '../Input/Checkbox/Checkbox';
 import { Data, DataField, DataRow } from '../interfaces/Data';
+
+interface Column {
+    type: string;
+    fieldName?: string;
+    width?: string | number;
+    toolbar?(row: DataRow): JSX.Element;
+}
 
 interface DataTableVirtualizedProps {
     className?: string;
     data: DataRow[];
     fields: DataField[];
+    columns: Column[];
 }
 
-export interface RowRendererParams {
-    className: string;
-    columns: JSX.Element[];
-    index: number;
-    key: string;
-    isScrolling: boolean;
-    rowData: Data;
-    style: {
-        [key: string]: string;
-    };
+interface ItemData {
+    rows: DataRow[];
+    fields: DataField[];
+    selected: Set<Data>;
+    columns: Column[];
+    setSelectedItems(item: Data): void;
+    toggleSelectAll(): void;
 }
 
-interface RowProps {
+interface CellProps {
     className?: string;
-    children: JSX.Element[];
-    style: {
-        [key: string]: string;
-    };
-
+    data: ItemData;
+    columnIndex: number;
+    rowIndex: number;
+    style: React.CSSProperties;
 }
 
-const Row = ({className, style, children}: RowProps) => {
+const Cell = ({ data, rowIndex, columnIndex, style, className }: CellProps) => {
+    const { setSelectedItems, rows, selected, fields, columns } = data;
+    const row = rows[rowIndex];
+    const column = columns[columnIndex];
+
+    let content;
+
+    switch (column.type) {
+        case 'TOOLBAR':
+            content = column.toolbar && column.toolbar(row);
+        break;
+        case 'SELECT':
+            content = (
+                <CheckBox
+                    checked={selected.has(row.data)}
+                    onChange={() => setSelectedItems(row.data)}
+                    type={'primary'}
+                />
+            );
+        break;
+        case 'DATA':
+        default:
+            const field = fields.find( (f) => f.name === column.fieldName);
+            if (field) {
+                content = row.data[field.name];
+            }
+
+        break;
+    }
+
     return (
-        <div role="row" className={className} style={style}>
-            {children}
-        </div>
+      <div
+        className={className}
+        style={style}
+      >
+        {content}
+      </div>
     );
 };
 
-const StyledRow = styled(Row)<RowProps>`
+const StyledCell = styled(Cell)<CellProps>`
+    display: flex;
+    align-items: center;
+    ${({rowIndex}) => rowIndex % 2 ? `background: #fbf9f9;` : `` }
+    box-sizing: border-box;
+    padding: 0 2em;
+`;
+
+interface HeaderProps {
+    className?: string;
+    fields: DataField[];
+    selectAll: boolean;
+    columns: Column[];
+    toggleSelectAll(): void;
+    columnWidth(index: number): number;
+}
+
+interface HeaderCellProps {
+    width: number;
+}
+
+const HeaderCell = styled.div<HeaderCellProps>`
+    width: ${({width}) => width}px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 2em;
+    height: 50px;
+    font-weight: bold;
+    font-size: 1.1em;
+    background: #f7f7f7;
+`;
+
+const Header = ({fields, className, columnWidth, toggleSelectAll, selectAll, columns}: HeaderProps) => {
+    return (
+        <div className={className}>
+        {
+            columns.map((column, index) => {
+                switch (column.type) {
+
+                    case 'SELECT':
+                        return (
+                            <HeaderCell width={columnWidth(index)}>
+                                <CheckBox checked={selectAll} onChange={() => toggleSelectAll()} />
+                            </HeaderCell>
+                        );
+                    break;
+                    case 'TOOLBAR':
+                        return <HeaderCell width={columnWidth(index)} key={index}>&nbsp;</HeaderCell>;
+                    break;
+                    case 'DATA':
+                    default:
+                        const field = fields.find( (f) => f.name === column.fieldName);
+                        if (field) {
+                            return <HeaderCell width={columnWidth(index)} key={index}>{field.display}</HeaderCell>;
+                        }
+
+                    break;
+                }
+
+                return <HeaderCell width={columnWidth(index)} key={index}>&nbsp;</HeaderCell>;
+
+            })
+        }
+        </div>
+    );
+
+};
+
+const StyledHeader = styled(Header)`
     display: flex;
 `;
 
-const rowRenderer = ({style, columns, key}: RowRendererParams) => {
-    return (
-        <StyledRow
-            key={key}
-            style={style}
-        >
-            {columns}
-        </StyledRow>
-    );
-};
+const DataTableVirtualized = ({data, fields, className, columns, rowToolBar}: DataTableVirtualizedProps) => {
 
-const DataTableVirtualized = ({data, fields, className}: DataTableVirtualizedProps) => {
+    const [selectAll, setSelectAll] = useState(false);
+    const [selected, setSelected] = useState<Set<Data>>(new Set());
+
+    const setSelectedItems = (item: Data) => {
+        const newSelected = new Set(selected);
+        setSelectAll(false);
+        if (selected.has(item)) {
+            newSelected.delete(item);
+        } else {
+            newSelected.add(item);
+        }
+        setSelected(newSelected);
+    };
+
+    const toggleSelectAll = () => {
+        if (selectAll) {
+            setSelected(new Set());
+            setSelectAll(false);
+        } else {
+            setSelected(new Set(data.map((row) => row.data)));
+            setSelectAll(true);
+        }
+    };
+
+    const itemData = {
+        rows: data,
+        fields,
+        setSelectedItems,
+        toggleSelectAll,
+        selected,
+        columns,
+        rowToolBar
+    };
+
     return (
-        <Table
-            className={className}
-            width={900}
-            height={600}
-            headerHeight={20}
-            rowHeight={50}
-            rowRenderer={rowRenderer}
-            rowCount={data.length}
-            rowGetter={({ index }) => data[index].data}
-        >
-            {
-                fields.map((field) => (
-                    <Column
-                        key={field.name}
-                        label={field.display}
-                        dataKey={field.name}
-                        width={300}
-                    />
-                ))
-            }
-        </Table>
+        <div className={className}>
+            <StyledHeader
+                toggleSelectAll={toggleSelectAll}
+                selectAll={selectAll}
+                fields={fields}
+                columnWidth={(index) => 800 / columns.length}
+                columns={columns}
+            />
+            <Grid
+                columnWidth={(index) => 800 / columns.length}
+                columnCount={columns.length}
+                rowHeight={() => 50}
+                rowCount={data.length}
+                itemData={itemData}
+                width={800}
+                height={600}
+            >
+            {StyledCell}
+            </Grid>
+        </div>
     );
+
 };
 
 export default styled(DataTableVirtualized)`
     font-family: ${({ theme: { fontFamily } }) => fontFamily};
     font-size: 12px;
-    .ReactVirtualized__Collection {
-    }
-
-    .ReactVirtualized__Collection__innerScrollContainer {
-    }
-
-    /* Grid default theme */
-
-    .ReactVirtualized__Grid {
-    }
-
-    .ReactVirtualized__Grid__innerScrollContainer {
-    }
-
-    .ReactVirtualized__Table {
-
-    }
-
-    .ReactVirtualized__Table__Grid {
-    }
-
-    .ReactVirtualized__Table__headerRow {
-        font-weight: 700;
-        text-transform: uppercase;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-    .ReactVirtualized__Table__row {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        transition: background-color 0.2s linear;
-        &:nth-child(even) {
-             background: #fbf9f9;
-        }
-        &:hover {
-            background: #f3f0f0;
-        }
-    }
-
-    .ReactVirtualized__Table__headerTruncatedText {
-        display: inline-block;
-        max-width: 100%;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
-
-    .ReactVirtualized__Table__headerColumn,
-    .ReactVirtualized__Table__rowColumn {
-        margin-right: 10px;
-        min-width: 0px;
-    }
-    .ReactVirtualized__Table__rowColumn {
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .ReactVirtualized__Table__headerColumn:first-of-type,
-    .ReactVirtualized__Table__rowColumn:first-of-type {
-        margin-left: 10px;
-    }
-    .ReactVirtualized__Table__sortableHeaderColumn {
-    cursor: pointer;
-    }
-
-    .ReactVirtualized__Table__sortableHeaderIconContainer {
-        display: flex;
-        align-items: center;
-    }
-    .ReactVirtualized__Table__sortableHeaderIcon {
-        flex: 0 0 24px;
-        height: 1em;
-        width: 1em;
-        fill: currentColor;
-    }
-
-    /* List default theme */
-
-    .ReactVirtualized__List {
-    }
-
 `;
