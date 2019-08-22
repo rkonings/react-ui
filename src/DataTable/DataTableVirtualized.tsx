@@ -1,14 +1,24 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { VariableSizeGrid as Grid } from 'react-window';
+import { areEqual, VariableSizeGrid as Grid } from 'react-window';
 import styled from 'styled-components';
 import CheckBox from '../Input/Checkbox/Checkbox';
 import { Data, DataField, DataRow } from '../interfaces/Data';
+
+const CellAlignment = (align: string = 'left') => {
+    if (align === 'center') {
+        return `justify-content: center;`;
+    } else if (align === 'right') {
+        return `justify-content: flex-end;`;
+    } else {
+        return 'justify-content: flex-start';
+    }
+};
 
 interface Column {
     type: string;
     fieldName?: string;
     width?: string | number;
+    align?: string;
     toolbar?(row: DataRow): JSX.Element;
 }
 
@@ -36,7 +46,6 @@ interface CellProps {
     style: React.CSSProperties;
 }
 
-const Cell = ({ data, rowIndex, columnIndex, style, className }: CellProps) => {
     const { setSelectedItems, rows, selected, fields, columns } = data;
     const row = rows[rowIndex];
     const column = columns[columnIndex];
@@ -74,7 +83,6 @@ const Cell = ({ data, rowIndex, columnIndex, style, className }: CellProps) => {
         {content}
       </div>
     );
-};
 
 const StyledCell = styled(Cell)<CellProps>`
     display: flex;
@@ -82,6 +90,28 @@ const StyledCell = styled(Cell)<CellProps>`
     ${({rowIndex}) => rowIndex % 2 ? `background: #fbf9f9;` : `` }
     box-sizing: border-box;
     padding: 0 2em;
+    ${({data, columnIndex}) => {
+        const column = data.columns[columnIndex];
+       return CellAlignment(column.align);
+    }};
+`;
+
+interface HeaderCellProps {
+    width: number;
+    align?: string;
+}
+
+const HeaderCell = styled.div<HeaderCellProps>`
+    width: ${({width}) => width}px;
+    ${({align = 'left'}) => CellAlignment(align)};
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 2em;
+    height: 50px;
+    font-weight: bold;
+    font-size: 1.1em;
+    background: #f7f7f7;
 `;
 
 interface HeaderProps {
@@ -93,22 +123,6 @@ interface HeaderProps {
     columnWidth(index: number): number;
 }
 
-interface HeaderCellProps {
-    width: number;
-}
-
-const HeaderCell = styled.div<HeaderCellProps>`
-    width: ${({width}) => width}px;
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 0 2em;
-    height: 50px;
-    font-weight: bold;
-    font-size: 1.1em;
-    background: #f7f7f7;
-`;
-
 const Header = ({fields, className, columnWidth, toggleSelectAll, selectAll, columns}: HeaderProps) => {
     return (
         <div className={className}>
@@ -118,25 +132,39 @@ const Header = ({fields, className, columnWidth, toggleSelectAll, selectAll, col
 
                     case 'SELECT':
                         return (
-                            <HeaderCell width={columnWidth(index)}>
+                            <HeaderCell align={column.align} key={index} width={columnWidth(index)}>
                                 <CheckBox checked={selectAll} onChange={() => toggleSelectAll()} />
                             </HeaderCell>
                         );
                     break;
                     case 'TOOLBAR':
-                        return <HeaderCell width={columnWidth(index)} key={index}>&nbsp;</HeaderCell>;
+                        return (
+                            <HeaderCell
+                                align={column.align}
+                                width={columnWidth(index)}
+                                key={index}
+                            >&nbsp;
+                            </HeaderCell>
+                        );
                     break;
                     case 'DATA':
                     default:
                         const field = fields.find( (f) => f.name === column.fieldName);
                         if (field) {
-                            return <HeaderCell width={columnWidth(index)} key={index}>{field.display}</HeaderCell>;
+                            return (
+                                <HeaderCell
+                                    align={column.align}
+                                    width={columnWidth(index)}
+                                    key={index}
+                                >{field.display}
+                                </HeaderCell>
+                            );
                         }
 
                     break;
                 }
 
-                return <HeaderCell width={columnWidth(index)} key={index}>&nbsp;</HeaderCell>;
+                return <HeaderCell align={column.align} width={columnWidth(index)} key={index}>&nbsp;</HeaderCell>;
 
             })
         }
@@ -149,7 +177,7 @@ const StyledHeader = styled(Header)`
     display: flex;
 `;
 
-const DataTableVirtualized = ({data, fields, className, columns, rowToolBar}: DataTableVirtualizedProps) => {
+const DataTableVirtualized = ({data, fields, className, columns}: DataTableVirtualizedProps) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selected, setSelected] = useState<Set<Data>>(new Set());
@@ -175,6 +203,22 @@ const DataTableVirtualized = ({data, fields, className, columns, rowToolBar}: Da
         }
     };
 
+    const getColumnWidth = memoize((index: number): number => {
+        const column = columns[index];
+        if (column.type === 'SELECT') {
+            return 50;
+        }
+
+        const width = column.width;
+        if (typeof width === 'undefined') {
+            return 100;
+        } else if (typeof width === 'string') {
+            return Number(width);
+        }
+
+        return width;
+    });
+
     const itemData = {
         rows: data,
         fields,
@@ -182,7 +226,6 @@ const DataTableVirtualized = ({data, fields, className, columns, rowToolBar}: Da
         toggleSelectAll,
         selected,
         columns,
-        rowToolBar
     };
 
     return (
@@ -191,11 +234,11 @@ const DataTableVirtualized = ({data, fields, className, columns, rowToolBar}: Da
                 toggleSelectAll={toggleSelectAll}
                 selectAll={selectAll}
                 fields={fields}
-                columnWidth={(index) => 800 / columns.length}
+                columnWidth={(index) => getColumnWidth(index)}
                 columns={columns}
             />
             <Grid
-                columnWidth={(index) => 800 / columns.length}
+                columnWidth={(index) => getColumnWidth(index)}
                 columnCount={columns.length}
                 rowHeight={() => 50}
                 rowCount={data.length}
