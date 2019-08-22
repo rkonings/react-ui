@@ -1,4 +1,6 @@
+import memoize from 'memoize-one';
 import * as React from 'react';
+import { memo, useState } from 'react';
 import { areEqual, VariableSizeGrid as Grid } from 'react-window';
 import styled from 'styled-components';
 import CheckBox from '../Input/Checkbox/Checkbox';
@@ -46,6 +48,7 @@ interface CellProps {
     style: React.CSSProperties;
 }
 
+const Cell = memo(({ data, rowIndex, columnIndex, style, className }: CellProps) => {
     const { setSelectedItems, rows, selected, fields, columns } = data;
     const row = rows[rowIndex];
     const column = columns[columnIndex];
@@ -83,6 +86,7 @@ interface CellProps {
         {content}
       </div>
     );
+}, areEqual);
 
 const StyledCell = styled(Cell)<CellProps>`
     display: flex;
