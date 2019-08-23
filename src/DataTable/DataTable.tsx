@@ -24,7 +24,7 @@ interface Column {
     toolbar?(row: DataRow): JSX.Element;
 }
 
-interface DataTableVirtualizedProps {
+interface DataTableProps {
     className?: string;
     data: DataRow[];
     fields: DataField[];
@@ -181,7 +181,7 @@ const StyledHeader = styled(Header)`
     display: flex;
 `;
 
-const DataTableVirtualized = ({data, fields, className, columns}: DataTableVirtualizedProps) => {
+const DataTable = ({data, fields, className, columns}: DataTableProps) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selected, setSelected] = useState<Set<Data>>(new Set());
@@ -259,7 +259,7 @@ const DataTableVirtualized = ({data, fields, className, columns}: DataTableVirtu
 
 };
 
-export default styled(DataTableVirtualized)`
+export default styled(DataTable)`
     font-family: ${({ theme: { fontFamily } }) => fontFamily};
     font-size: 12px;
 `;

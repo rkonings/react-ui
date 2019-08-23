@@ -3,8 +3,8 @@ import faker from 'faker/locale/nl';
 import React from 'react';
 
 import ButtonGroup from '../src/ButtonGroup/ButtonGroup';
+import { DataTable } from '../src/DataTable';
 import RowAction from '../src/DataTable/DataTableRowAction';
-import DataTableVirtualized from '../src/DataTable/DataTableVirtualized';
 import { Edit, Options, Trash } from '../src/Icon';
 
 import { DataField, DataRow } from '../src/interfaces/Data';
@@ -83,6 +83,6 @@ for (let i = 0; i < 100; i++) {
 }
 
 storiesOf('DataTable', module)
-    .add('DataTableVirtualized', () => (
-        <DataTableVirtualized columns={columns} data={data} fields={fields}  />
+    .add('DataTable', () => (
+        <DataTable columns={columns} data={data} fields={fields}  />
     ));
