@@ -58,7 +58,7 @@ const columns = [
     },
     {
         type: 'TOOLBAR',
-        width: 150,
+        width: 110,
         toolbar: (row: DataRow) => (
             <ButtonGroup size={'s'}>
                 <RowAction onClick={() => console.log('Edit', row)}><Edit /></RowAction>
