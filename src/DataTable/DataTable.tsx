@@ -181,6 +181,21 @@ const StyledHeader = styled(Header)`
     display: flex;
 `;
 
+const getColumnWidthByType = (column: Column): number => {
+    if (column.type === 'SELECT') {
+        return 50;
+    }
+
+    const width = column.width;
+    if (typeof width === 'undefined') {
+        return 100;
+    } else if (typeof width === 'string') {
+        return Number(width);
+    }
+
+    return width;
+};
+
 const DataTable = ({data, fields, className, columns}: DataTableProps) => {
 
     const [selectAll, setSelectAll] = useState(false);
@@ -209,17 +224,14 @@ const DataTable = ({data, fields, className, columns}: DataTableProps) => {
 
     const getColumnWidth = memoize((index: number): number => {
         const column = columns[index];
-        if (column.type === 'SELECT') {
-            return 50;
-        }
+        return getColumnWidthByType(column);
+    });
 
-        const width = column.width;
-        if (typeof width === 'undefined') {
-            return 100;
-        } else if (typeof width === 'string') {
-            return Number(width);
-        }
-
+    const getTableWidth = memoize((columns: Column[]) => {
+        let width = 0;
+        columns.forEach((column) => {
+            width = width + getColumnWidthByType(column);
+        });
         return width;
     });
 
@@ -248,7 +260,7 @@ const DataTable = ({data, fields, className, columns}: DataTableProps) => {
                 rowHeight={() => 40}
                 rowCount={data.length}
                 itemData={itemData}
-                width={800}
+                width={getTableWidth(columns)}
                 height={600}
                 overscanCount={10}
             >
