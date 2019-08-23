@@ -227,6 +227,11 @@ const DataTable = ({data, fields, className, columns}: DataTableProps) => {
         return getColumnWidthByType(column);
     });
 
+    const getTableWidth = memoize((columns: Column[]) => {
+        let width = 0;
+        columns.forEach((column) => {
+            width = width + getColumnWidthByType(column);
+        });
         return width;
     });
 
