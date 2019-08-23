@@ -3,6 +3,7 @@ import * as React from 'react';
 import { memo, useState } from 'react';
 import { areEqual, VariableSizeGrid as Grid } from 'react-window';
 import styled from 'styled-components';
+import useTheme from '../hooks/useTheme';
 import CheckBox from '../Input/Checkbox/Checkbox';
 import { Data, DataField, DataRow } from '../interfaces/Data';
 
@@ -91,9 +92,9 @@ const Cell = memo(({ data, rowIndex, columnIndex, style, className }: CellProps)
 const StyledCell = styled(Cell)<CellProps>`
     display: flex;
     align-items: center;
-    ${({rowIndex}) => rowIndex % 2 ? `background: #fbf9f9;` : `` }
+    ${({rowIndex, theme: { table: { row }}}) => rowIndex % 2 ? `background: ${row.secondairyColor};` : `` }
     box-sizing: border-box;
-    padding: 0 2em;
+    padding: 0 20px;
     ${({data, columnIndex}) => {
         const column = data.columns[columnIndex];
        return CellAlignment(column.align);
@@ -111,11 +112,17 @@ const HeaderCell = styled.div<HeaderCellProps>`
     display: flex;
     align-items: center;
     box-sizing: border-box;
-    padding: 0 2em;
-    height: 50px;
+    padding: 0 20px;
     font-weight: bold;
-    font-size: 1.1em;
-    background: #f7f7f7;
+
+    ${({theme: { table: { header } }}) => {
+        return `
+            background: ${header.color};
+            height: ${header.height}px;
+            color: ${header.text};
+            font-size: ${header.fontSize};
+        `;
+    } };
 `;
 
 interface HeaderProps {
@@ -200,6 +207,7 @@ const DataTable = ({data, fields, className, columns}: DataTableProps) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selected, setSelected] = useState<Set<Data>>(new Set());
+    const theme = useTheme();
 
     const setSelectedItems = (item: Data) => {
         const newSelected = new Set(selected);
@@ -257,7 +265,7 @@ const DataTable = ({data, fields, className, columns}: DataTableProps) => {
                 columnWidth={(index) => getColumnWidth(index)}
                 overscanRowCount={20}
                 columnCount={columns.length}
-                rowHeight={() => 40}
+                rowHeight={() => theme.table.row.height}
                 rowCount={data.length}
                 itemData={itemData}
                 width={getTableWidth(columns)}
@@ -272,6 +280,12 @@ const DataTable = ({data, fields, className, columns}: DataTableProps) => {
 };
 
 export default styled(DataTable)`
-    font-family: ${({ theme: { fontFamily } }) => fontFamily};
-    font-size: 12px;
+    ${({ theme: { fontFamily, table: { fontSize } } }) => {
+        return `
+            font-family: ${fontFamily};
+            font-size: ${fontSize};
+
+        `;
+    }};
+
 `;
