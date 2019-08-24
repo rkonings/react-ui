@@ -4,6 +4,8 @@ import { memo, useState } from 'react';
 import { areEqual, VariableSizeGrid as Grid } from 'react-window';
 import styled from 'styled-components';
 import useTheme from '../hooks/useTheme';
+import { ArrowDown, ArrowLeft, ArrowUp } from '../Icon/index';
+import Sort from '../Icon/Sort';
 import CheckBox from '../Input/Checkbox/Checkbox';
 import { Data, DataField, DataRow } from '../interfaces/Data';
 
@@ -17,11 +19,19 @@ const CellAlignment = (align: string = 'left') => {
     }
 };
 
+export interface Sort {
+    direction: string;
+    field: DataField;
+}
+
 interface Column {
     type: string;
     fieldName?: string;
     width?: string | number;
     align?: string;
+    sortable?: boolean;
+    defaultSort?: boolean;
+    defaultSortDirection?: string;
     toolbar?(row: DataRow): JSX.Element;
 }
 
@@ -30,6 +40,7 @@ interface DataTableProps {
     data: DataRow[];
     fields: DataField[];
     columns: Column[];
+    sortHandler?(sort: Sort): void;
 }
 
 interface ItemData {
@@ -125,20 +136,89 @@ const HeaderCell = styled.div<HeaderCellProps>`
     } };
 `;
 
+interface HeaderCellSortableProps extends HeaderCellProps {
+    children: JSX.Element | string;
+    className?: string;
+    sortDirection?: string;
+    currentSort?: boolean;
+    onClick(e: React.MouseEvent): void;
+
+}
+
+const HeaderCellSortable = ({onClick, sortDirection, className, children, ...props}: HeaderCellSortableProps) => (
+
+        <HeaderCell {...props}>
+            <button className={className} onClick={onClick}>
+                {children}
+                {sortDirection === 'DESC' && <ArrowUp spacing={'left'} />}
+                {sortDirection === 'ASC' && <ArrowDown spacing={'left'} />}
+            </button>
+        </HeaderCell>
+
+);
+
+const StyledHeaderCellSortable = styled(HeaderCellSortable)`
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    ${({theme: { table: { header } }}) => {
+        return `
+            background: ${header.color};
+            height: ${header.height}px;
+            color: ${header.text};
+            font-size: ${header.fontSize};
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        `;
+    } };
+
+    &:hover {
+        ${ArrowLeft}, ${ArrowDown} {
+            opacity: ${({currentSort}) => currentSort ? 1 : 0.8 };
+        }
+    }
+
+    ${ArrowLeft}, ${ArrowDown} {
+        animation: opacity .4s ease-in;;
+        opacity: ${({currentSort}) => currentSort ? 1 : 0.1 };
+    }
+
+    &:focus {
+        outline: none;
+    }
+`;
+
 interface HeaderProps {
     className?: string;
     fields: DataField[];
     selectAll: boolean;
     columns: Column[];
+    sort: Sort;
     toggleSelectAll(): void;
     columnWidth(index: number): number;
+    setSort(sort: Sort): void;
 }
 
-const Header = ({fields, className, columnWidth, toggleSelectAll, selectAll, columns}: HeaderProps) => {
+const getNewSortDirection = (sort: Sort, field: DataField) => {
+    const sortDirection = sort.field === field ? sort.direction : 'ASC';
+
+    let newSortDirection;
+    if (sort.field === field) {
+        newSortDirection = sortDirection === 'ASC' ? 'DESC' : 'ASC';
+    } else {
+        newSortDirection = 'ASC';
+    }
+
+    return {field, direction: newSortDirection};
+};
+
+const Header = ({fields, sort, setSort, className, columnWidth, toggleSelectAll, selectAll, columns}: HeaderProps) => {
     return (
         <div className={className}>
         {
             columns.map((column, index) => {
+
                 switch (column.type) {
 
                     case 'SELECT':
@@ -162,12 +242,30 @@ const Header = ({fields, className, columnWidth, toggleSelectAll, selectAll, col
                     default:
                         const field = fields.find( (f) => f.name === column.fieldName);
                         if (field) {
+                            if (column.sortable) {
+                                const sortDirection = sort.field === field ? sort.direction : 'ASC';
+                                const newSort = getNewSortDirection(sort, field);
+                                return (
+                                    <StyledHeaderCellSortable
+                                        align={column.align}
+                                        width={columnWidth(index)}
+                                        key={index}
+                                        currentSort={sort.field === field}
+                                        sortDirection={sortDirection}
+                                        onClick={() => setSort(newSort)}
+                                    >
+                                        {field.display}
+                                    </StyledHeaderCellSortable>
+                                );
+
+                            }
                             return (
                                 <HeaderCell
                                     align={column.align}
                                     width={columnWidth(index)}
                                     key={index}
-                                >{field.display}
+                                >
+                                    {field.display}
                                 </HeaderCell>
                             );
                         }
@@ -203,11 +301,39 @@ const getColumnWidthByType = (column: Column): number => {
     return width;
 };
 
-const DataTable = ({data, fields, className, columns}: DataTableProps) => {
+export const getDefaultSort = (columns: Column[], fields: DataField[]): Sort => {
+    const DEFAULT_SORT: Sort = {
+        direction: 'ASC',
+        field: fields[0]
+    };
+
+    const column = columns.find( (column) => column.defaultSort === true);
+    if (column) {
+        const field = fields.find( (field) => field.name === column.fieldName);
+        return {
+            direction: column.defaultSortDirection || 'ASC',
+            field: field || fields[0]
+        };
+    }
+
+    return DEFAULT_SORT;
+};
+
+const DataTable = ({data, sortHandler, fields, className, columns}: DataTableProps) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selected, setSelected] = useState<Set<Data>>(new Set());
+    const defaultSort = getDefaultSort(columns, fields);
+    const [sort, _setSort] = useState<Sort>(defaultSort);
+
     const theme = useTheme();
+
+    const setSort = (sort: Sort) => {
+        _setSort(sort);
+        if (sortHandler) {
+            sortHandler(sort);
+        }
+    };
 
     const setSelectedItems = (item: Data) => {
         const newSelected = new Set(selected);
@@ -260,6 +386,8 @@ const DataTable = ({data, fields, className, columns}: DataTableProps) => {
                 fields={fields}
                 columnWidth={(index) => getColumnWidth(index)}
                 columns={columns}
+                sort={sort}
+                setSort={setSort}
             />
             <Grid
                 columnWidth={(index) => getColumnWidth(index)}
@@ -284,7 +412,6 @@ export default styled(DataTable)`
         return `
             font-family: ${fontFamily};
             font-size: ${fontSize};
-
         `;
     }};
 
