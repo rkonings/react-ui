@@ -1,4 +1,5 @@
 import { storiesOf } from '@storybook/react';
+import arraySort from 'array-sort';
 import faker from 'faker/locale/nl';
 import React from 'react';
 
@@ -7,9 +8,23 @@ import { DataTable } from '../src/DataTable';
 import RowAction from '../src/DataTable/DataTableRowAction';
 import { Edit, Options, Trash } from '../src/Icon';
 
+import { getDefaultSort, Sort } from '../src/DataTable/DataTable';
 import { DataField, DataRow } from '../src/interfaces/Data';
 
-const data: DataRow[] = [];
+const defaultData: DataRow[] = [];
+for (let i = 0; i < 100; i++) {
+    const row: DataRow = {
+        data:
+            {
+                company: faker.company.companyName(),
+                phone: faker.phone.phoneNumber(),
+                last_seen: faker.date.between('2015-01-01', '2018-12-31').toDateString()
+            }
+
+    };
+    defaultData.push(row);
+}
+
 const fields: DataField[] = [
     {
         type: 'string',
@@ -43,7 +58,7 @@ const columns = [
         type: 'DATA',
         fieldName: 'company',
         width: 300,
-        sortable: true
+        sortable: true,
     },
     {
         type: 'DATA',
@@ -57,7 +72,9 @@ const columns = [
         fieldName: 'last_seen',
         width: 150,
         align: 'right',
-        sortable: true
+        sortable: true,
+        defaultSort: true,
+        defaultSortDirection: 'ASC'
     },
     {
         type: 'TOOLBAR',
@@ -72,20 +89,28 @@ const columns = [
     }
 ];
 
-for (let i = 0; i < 100; i++) {
-    const row: DataRow = {
-        data:
-            {
-                company: faker.company.companyName(),
-                phone: faker.phone.phoneNumber(),
-                last_seen: faker.date.between('2015-01-01', '2018-12-31').toDateString()
-            }
+const sortData = (data: DataRow[], sort: Sort) => {
+    const reverse = (sort.direction === 'DESC') ? {reverse: true} : null;
+    return arraySort(data, `data.${sort.field.name}`, reverse);
+};
 
+const DataTableWithSort = () => {
+    const defaultSort = getDefaultSort(columns, fields);
+    const sortedData = sortData(defaultData, defaultSort);
+
+    const [data, setData] = React.useState<DataRow[]>(sortedData);
+
+    const sortHandler = (sort: Sort) => {
+        const sortedData = sortData(data, sort);
+        setData(sortedData);
     };
-    data.push(row);
-}
+
+    return (
+        <DataTable columns={columns} data={data} sortHandler={sortHandler} fields={fields}  />
+    );
+};
 
 storiesOf('DataTable', module)
-    .add('DataTable', () => (
-        <DataTable columns={columns} data={data} fields={fields}  />
+    .add('DataTable with sort', () => (
+        <DataTableWithSort   />
     ));
