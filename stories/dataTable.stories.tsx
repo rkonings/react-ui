@@ -42,19 +42,22 @@ const columns = [
     {
         type: 'DATA',
         fieldName: 'company',
-        width: 300
+        width: 300,
+        sortable: true
     },
     {
         type: 'DATA',
         fieldName: 'phone',
         width: 150,
-        align: 'right'
+        align: 'right',
+        sortable: true
     },
     {
         type: 'DATA',
         fieldName: 'last_seen',
         width: 150,
-        align: 'right'
+        align: 'right',
+        sortable: true
     },
     {
         type: 'TOOLBAR',
