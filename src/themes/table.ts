@@ -10,7 +10,7 @@ export default {
         color: colors.gray30,
         text: colors.black,
         height: 50,
-        fontSize: '1.1em'
+        fontSize: '13px'
     },
     fontSize: '12px'
 };
