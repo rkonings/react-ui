@@ -59,6 +59,8 @@ const columns = [
         fieldName: 'company',
         width: 300,
         sortable: true,
+        defaultSort: true,
+        defaultSortDirection: 'ASC'
     },
     {
         type: 'DATA',
@@ -73,8 +75,6 @@ const columns = [
         width: 150,
         align: 'right',
         sortable: true,
-        defaultSort: true,
-        defaultSortDirection: 'ASC'
     },
     {
         type: 'TOOLBAR',
