@@ -68,7 +68,7 @@ const BaseStyle = ({theme: {input: { textField }}, error = false, width, disable
             padding-top: 4px;
         }
 
-        input[type="text"] {
+        input {
             width: 100%;
             font-size: 14px;
             padding: 1em;
