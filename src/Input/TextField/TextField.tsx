@@ -5,7 +5,7 @@ import Theme from '../../interfaces/Theme';
 const DEFAULT_TYPE = 'text';
 
 interface TextFieldProps {
-    inputType?: 'text' | 'password' | 'email';
+    inputType?: string;
     className?: string;
     placeHolder?: string;
     value?: string;
