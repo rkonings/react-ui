@@ -2,7 +2,10 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Theme from '../../interfaces/Theme';
 
+const DEFAULT_TYPE = 'text';
+
 interface TextFieldProps {
+    inputType?: 'text' | 'password' | 'email';
     className?: string;
     placeHolder?: string;
     value?: string;
@@ -23,7 +26,7 @@ const HelperText = styled.div`
 const ErrorText = styled.div``;
 
 const TextField = ({className, value, placeHolder, onChange,
-    helperText, error, autoFocus, disabled}: TextFieldProps) => {
+    helperText, error, autoFocus, disabled, inputType = DEFAULT_TYPE}: TextFieldProps) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     React.useEffect(() => {
@@ -36,7 +39,7 @@ const TextField = ({className, value, placeHolder, onChange,
         <div className={className}>
             <label>
                 <input
-                    type="text"
+                    type={inputType}
                     ref={inputRef}
                     placeholder={placeHolder}
                     value={value}

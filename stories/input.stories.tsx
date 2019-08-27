@@ -20,6 +20,10 @@ const sizeOptions = {
 };
 const sizeDefaultValue = 'm';
 
+const inputTypeLabel = 'Input Type';
+const inputTypeOptions = ['text', 'password', 'email'];
+const inputTypeDefault = 'text';
+
 storiesOf('Input', module)
   .add('Checkbox', () => {
     const type = select(typeLabel, typeOptions, typeDefaultValue);
@@ -31,8 +35,9 @@ storiesOf('Input', module)
 storiesOf('Input/TextField', module)
 .add('with value', () => {
   const value = text('Value', 'react@development.nl');
+  const inputType = select(inputTypeLabel, inputTypeOptions, inputTypeDefault);
   return (
-    <TextField value={value} onChange={action('onChange')} />
+    <TextField value={value} inputType={inputType} onChange={action('onChange')} />
   );
 })
 .add('with placeholder', () => {
