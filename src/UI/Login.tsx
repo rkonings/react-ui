@@ -44,7 +44,7 @@ const Login = ({className, onLogin}: LoginProps) => {
                     }, 100);
                 }}
             >
-                {({ handleSubmit, handleChange, values, errors, touched }) => (
+                {({ handleSubmit, handleChange, values, errors, touched, handleBlur }) => (
                     <form onSubmit={handleSubmit}>
                         <TextField
                             name={'email'}
@@ -52,6 +52,7 @@ const Login = ({className, onLogin}: LoginProps) => {
                             error={touched.email ? errors.email : undefined}
                             value={values.email}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeHolder={'e-mail'}
                         />
                         <TextField
@@ -62,6 +63,7 @@ const Login = ({className, onLogin}: LoginProps) => {
                             placeHolder={'password'}
                             inputType={'password'}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                         />
                         <Button inputType={'submit'} type={'primary'}>Login</Button>
                     </form>
