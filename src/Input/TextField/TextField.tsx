@@ -105,7 +105,7 @@ const StyledTextField = styled(TextField)`
         const type = 'default';
         const borderColor = error ? textField[type].error.borderColor : textField[type].default.borderColor;
         return `
-            input[type="text"] {
+            input {
                 color: ${textField[type].default.color};
                 border: ${textField.borderSize} solid ${borderColor};
                 &:hover {
