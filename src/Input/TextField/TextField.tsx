@@ -83,8 +83,6 @@ const BaseStyle = ({theme: {input: { textField }}, error = false, width, disable
                 color: ${textField[type].default.placeholderColor};
             }
             &::-ms-input-placeholder { color: ${textField[type].default.placeholderColor}; }
-
-
         }
 
     `;
