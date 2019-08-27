@@ -72,20 +72,6 @@ const Login = ({className, onLogin}: LoginProps) => {
     );
 };
 
-/*
- <TextField
-                value={email}
-                onChange={(e: React.FormEvent<HTMLInputElement>) => setEmail(e.currentTarget.value)}
-                placeHolder={'e-mail'}
-            />
-            <TextField
-                placeHolder={'password'}
-                inputType={'password'}
-                onChange={(e: React.FormEvent<HTMLInputElement>) => setPassword(e.currentTarget.value)}
-            />
-            <Button onClick={onClick} type={'primary'}>Login</Button>
-            */
-
 const StyledLogin = styled(Login)`
     ${TextField} {
         margin-bottom: 10px;
