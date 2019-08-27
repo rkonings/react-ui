@@ -11,6 +11,7 @@ type ButtonType = 'default' | 'primary' | 'secondairy';
 
 export interface ButtonProps {
   children: string | JSX.Element | Array<string | JSX.Element>;
+  inputType?: 'button' | 'reset' | 'submit';
   type?: ButtonType;
   className?: string;
   theme: Theme;
@@ -19,9 +20,9 @@ export interface ButtonProps {
   onClick?(event: React.MouseEvent): void;
 }
 
-export const Button = ({children, className, onClick }: ButtonProps): JSX.Element => {
+export const Button = ({children, className, onClick, inputType = 'button' }: ButtonProps): JSX.Element => {
   return (
-    <button className={className} type={`button`} onClick={onClick}>
+    <button className={className} type={inputType} onClick={onClick}>
       <ButtonText>{children}</ButtonText>
     </button>
   );
