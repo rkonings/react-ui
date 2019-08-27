@@ -32,7 +32,7 @@ const TextField = ({className, value, placeHolder, onChange, helperText, error, 
     return (
         <div className={className}>
             <label>
-                <input type="text" ref={inputRef} placeholder={placeHolder} value={value} onChange={onChange}  />;
+                <input type="text" ref={inputRef} placeholder={placeHolder} value={value} onChange={onChange}  />
             </label>
             {helperText && !error && <HelperText>{helperText}</HelperText>}
             {error && <ErrorText>{error}</ErrorText>}
