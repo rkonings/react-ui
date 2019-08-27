@@ -18,6 +18,7 @@ interface TextFieldProps {
     theme: Theme;
     name?: string;
     onChange?(e: React.FormEvent<HTMLInputElement>): void;
+    onBlur?(e: React.FormEvent<HTMLInputElement>): void;
 }
 
 const HelperText = styled.div`
@@ -26,7 +27,7 @@ const HelperText = styled.div`
 
 const ErrorText = styled.div``;
 
-const TextField = ({className, value, placeHolder, onChange, name,
+const TextField = ({className, value, placeHolder, onChange, onBlur, name,
     helperText, error, autoFocus, disabled, inputType = DEFAULT_TYPE}: TextFieldProps) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -46,6 +47,7 @@ const TextField = ({className, value, placeHolder, onChange, name,
                     placeholder={placeHolder}
                     value={value}
                     onChange={onChange}
+                    onBlur={onBlur}
                     disabled={disabled}
                 />
             </label>
