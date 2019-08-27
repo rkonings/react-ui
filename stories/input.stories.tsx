@@ -51,4 +51,9 @@ storiesOf('Input/TextField', module)
   return (
     <TextField placeHolder={'name'} error={'this is required'} onChange={action('onChange')} />
   );
+})
+.add('with autofocus', () => {
+  return (
+    <TextField autoFocus={true} placeHolder={'name'} onChange={action('onChange')} />
+  );
 });

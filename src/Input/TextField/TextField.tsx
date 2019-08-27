@@ -7,10 +7,10 @@ interface TextFieldProps {
     value?: string;
     error?: string;
     helperText?: string;
-    width ?: number;
-    disabled ?: boolean;
-    autoFocus ?: boolean;
-    required ?: boolean;
+    width?: number;
+    disabled?: boolean;
+    autoFocus?: boolean;
+    required?: boolean;
     onChange?(e: React.FormEvent<HTMLInputElement>): void;
 }
 
@@ -20,12 +20,19 @@ const HelperText = styled.div`
 
 const ErrorText = styled.div``;
 
-const TextField = ({className, value, placeHolder, onChange, helperText, error}: TextFieldProps) => {
-    const input = <input type="text" placeholder={placeHolder} value={value} onChange={onChange}  />;
+const TextField = ({className, value, placeHolder, onChange, helperText, error, autoFocus}: TextFieldProps) => {
+    const inputRef = React.useRef<HTMLInputElement>(null);
+
+    React.useEffect(() => {
+        if (autoFocus && inputRef && inputRef.current) {
+          inputRef.current.focus();
+        }
+      }, [autoFocus]);
+
     return (
         <div className={className}>
             <label>
-                {input}
+                <input type="text" ref={inputRef} placeholder={placeHolder} value={value} onChange={onChange}  />;
             </label>
             {helperText && !error && <HelperText>{helperText}</HelperText>}
             {error && <ErrorText>{error}</ErrorText>}
