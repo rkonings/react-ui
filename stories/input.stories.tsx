@@ -62,4 +62,10 @@ storiesOf('Input/TextField', module)
   return (
     <TextField placeHolder={'name'} width={width} onChange={action('onChange')} />
   );
+})
+.add('with disabled', () => {
+  const disabled = boolean('Disabled', true);
+  return (
+    <TextField placeHolder={'name'} disabled={disabled} onChange={action('onChange')} />
+  );
 });
