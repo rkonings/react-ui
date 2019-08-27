@@ -1,48 +1,63 @@
-import * as React from 'react';
-
 import { Formik, FormikActions } from 'formik';
-
+import * as React from 'react';
 import styled from 'styled-components';
+import * as Yup from 'yup';
+
 import Button from '../Button/Button';
 import TextField from '../Input/TextField/TextField';
-
-interface LoginProps {
-    className?: string;
-    onLogin?(email: string, password: string): void;
-}
 
 interface Values {
     password: string;
     email: string;
 }
 
+interface LoginProps {
+    className?: string;
+    onLogin?(values: Values): void;
+}
+
+const LoginSchema = Yup.object().shape({
+    email: Yup.string()
+        .email('not an e-mail')
+        .required('e-mail is required'),
+    password: Yup.string()
+        .min(6, 'password must have more than 6 chars')
+        .max(50, 'password is too long')
+        .required('password is required')
+  });
+
 const Login = ({className, onLogin}: LoginProps) => {
     return (
         <div className={className}>
             <Formik
+                validationSchema={LoginSchema}
                 initialValues={{
                     email: '',
                     password: ''
                 }}
                 onSubmit={(values: Values, { setSubmitting }: FormikActions<Values>) => {
                     setTimeout(() => {
-                      console.log(JSON.stringify(values, null, 2));
+                        if (onLogin) {
+                            onLogin(values);
+                        }
                       setSubmitting(false);
-                    }, 500);
+                    }, 100);
                 }}
             >
-                {({ handleSubmit, handleChange, values, errors }) => (
+                {({ handleSubmit, handleChange, values, errors, touched }) => (
                     <form onSubmit={handleSubmit}>
                         <TextField
                             name={'email'}
-                            error={errors.email}
+                            helperText={'enter your e-mail'}
+                            error={touched.email ? errors.email : undefined}
                             value={values.email}
                             onChange={handleChange}
                             placeHolder={'e-mail'}
                         />
                         <TextField
                             name={'password'}
-                            error={errors.password}
+                            helperText={'use a strong password'}
+                            error={touched.password ? errors.password : undefined}
                             value={values.password}
                             placeHolder={'password'}
                             inputType={'password'}
