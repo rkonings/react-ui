@@ -16,6 +16,7 @@ interface TextFieldProps {
     autoFocus?: boolean;
     required?: boolean;
     theme: Theme;
+    name?: string;
     onChange?(e: React.FormEvent<HTMLInputElement>): void;
 }
 
@@ -25,7 +26,7 @@ const HelperText = styled.div`
 
 const ErrorText = styled.div``;
 
-const TextField = ({className, value, placeHolder, onChange,
+const TextField = ({className, value, placeHolder, onChange, name,
     helperText, error, autoFocus, disabled, inputType = DEFAULT_TYPE}: TextFieldProps) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -39,6 +40,7 @@ const TextField = ({className, value, placeHolder, onChange,
         <div className={className}>
             <label>
                 <input
+                    name={name}
                     type={inputType}
                     ref={inputRef}
                     placeholder={placeHolder}
