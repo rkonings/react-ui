@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import { boolean, select, text } from '@storybook/addon-knobs';
+import { boolean, number, select, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
@@ -55,5 +55,11 @@ storiesOf('Input/TextField', module)
 .add('with autofocus', () => {
   return (
     <TextField autoFocus={true} placeHolder={'name'} onChange={action('onChange')} />
+  );
+})
+.add('with custom width', () => {
+  const width = number('Width', 200);
+  return (
+    <TextField placeHolder={'name'} width={width} onChange={action('onChange')} />
   );
 });

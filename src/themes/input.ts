@@ -62,6 +62,7 @@ const checkbox = {
 const textField = {
     borderRadius: '0px',
     borderSize: '1px',
+    defaultWidth: 300,
     size: {
         xs: 10,
         s: 12,

@@ -43,7 +43,7 @@ const TextField = ({className, value, placeHolder, onChange, helperText, error, 
 
 const StyledTextField = styled(TextField)`
 
-        ${({theme: {input: { textField }}, error = false}) => {
+        ${({theme: {input: { textField }}, error = false, width}) => {
             const type = 'default';
             const borderColor = error ? textField[type].error.borderColor : textField[type].default.borderColor;
             return `
@@ -61,9 +61,9 @@ const StyledTextField = styled(TextField)`
                 }
 
                 input[type="text"] {
+                    width: ${width || textField.defaultWidth}px;
                     font-size: 14px;
                     padding: 1em;
-                    width: 300px;
                     color: ${textField[type].default.color};
                     border: ${textField.borderSize} solid ${borderColor};
                     transition : border 500ms ease-out;
