@@ -4,11 +4,13 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import Button from '../Button/Button';
+import CheckBox from '../Input/Checkbox/Checkbox';
 import TextField from '../Input/TextField/TextField';
 
 interface Values {
     password: string;
     email: string;
+    remember?: boolean;
 }
 
 interface LoginProps {
@@ -33,7 +35,8 @@ const Login = ({className, onLogin}: LoginProps) => {
                 validationSchema={LoginSchema}
                 initialValues={{
                     email: '',
-                    password: ''
+                    password: '',
+                    remember: false
                 }}
                 onSubmit={(values: Values, { setSubmitting }: FormikActions<Values>) => {
                     setTimeout(() => {
@@ -65,7 +68,13 @@ const Login = ({className, onLogin}: LoginProps) => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                         />
-                        <Button inputType={'submit'} type={'primary'}>Login</Button>
+                        <CheckBox
+                            label={'remember me'}
+                            name={'remember'}
+                            checked={values.remember}
+                            onChange={handleChange}
+                        />
+                        <Button width={150} inputType={'submit'} type={'primary'}>Login</Button>
                     </form>
                 )}
             </Formik>
