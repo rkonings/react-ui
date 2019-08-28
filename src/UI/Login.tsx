@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import Button from '../Button/Button';
+import TextButton from '../Button/TextButton';
 import CheckBox from '../Input/Checkbox/Checkbox';
 import TextField from '../Input/TextField/TextField';
 
@@ -51,7 +52,6 @@ const Login = ({className, onLogin}: LoginProps) => {
                     <form onSubmit={handleSubmit}>
                         <TextField
                             name={'email'}
-                            helperText={'enter your e-mail'}
                             error={touched.email ? errors.email : undefined}
                             value={values.email}
                             onChange={handleChange}
@@ -60,7 +60,6 @@ const Login = ({className, onLogin}: LoginProps) => {
                         />
                         <TextField
                             name={'password'}
-                            helperText={'use a strong password'}
                             error={touched.password ? errors.password : undefined}
                             value={values.password}
                             placeHolder={'password'}
@@ -75,6 +74,7 @@ const Login = ({className, onLogin}: LoginProps) => {
                             onChange={handleChange}
                         />
                         <Button width={150} inputType={'submit'} type={'primary'}>Login</Button>
+                        <TextButton>or create account</TextButton>
                     </form>
                 )}
             </Formik>
