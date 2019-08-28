@@ -15,6 +15,7 @@ const checkbox = {
             borderColor: color.gray60,
             color: color.gray120,
             backgroundColor: 'none',
+            label: color.gray70,
         },
         hover: {
             borderColor: color.gray100

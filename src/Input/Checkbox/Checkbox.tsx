@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Check } from '../../Icon';
 import { Size as CheckBoxSize, Type as CheckBoxType } from '../../interfaces/Theme';
+import theme from '../../themes/default';
 
 const InnerCheckbox = styled.input.attrs({ type: 'checkbox' })`
     opacity: 0;
@@ -38,10 +39,14 @@ interface CheckBoxProps {
     checked?: boolean;
     size?: CheckBoxSize;
     type?: CheckBoxType;
+    name?: string;
+    label?: string | JSX.Element;
     onChange?(checked: boolean): void;
 }
 
-const CheckBox = ({className, onChange, checked = false, size = 'm'}: CheckBoxProps) => {
+const CheckBoxLabel = styled.span``;
+
+const CheckBox = ({className, onChange, checked = false, size = 'm', name, label}: CheckBoxProps) => {
     const [isChecked, setIsChecked] = React.useState(checked);
 
     const onChangeHandler = (checked: boolean) => {
@@ -53,10 +58,15 @@ const CheckBox = ({className, onChange, checked = false, size = 'm'}: CheckBoxPr
 
     return (
         <label className={className}>
-            <InnerCheckbox checked={isChecked} onChange={({target: { checked }}) => onChangeHandler(checked)} />
+            <InnerCheckbox
+                checked={isChecked}
+                name={name}
+                onChange={({target: { checked }}) => onChangeHandler(checked)}
+            />
             <CustomCheckBox size={size}>
                 <Check type="default" />
             </CustomCheckBox>
+            {label && <CheckBoxLabel>{label}</CheckBoxLabel>}
         </label>
     );
 };
@@ -64,6 +74,9 @@ const CheckBox = ({className, onChange, checked = false, size = 'm'}: CheckBoxPr
 const StyledCheckBox = styled(CheckBox)`
     ${({size = 'm', type = 'default', theme: { input: { checkbox} } } ) => `
         position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
 
         ${/*sc-selector*/Check} {
             opacity: 0;
@@ -77,6 +90,12 @@ const StyledCheckBox = styled(CheckBox)`
                 opacity: 1;
                 fill: ${checkbox[type].checked.color}};
             }
+        }
+
+        ${CheckBoxLabel} {
+            font-size: 13px;
+            margin-left: 15px;
+            color: ${checkbox[type].default.label};
         }
         `
     }
