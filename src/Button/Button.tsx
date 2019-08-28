@@ -17,6 +17,7 @@ export interface ButtonProps {
   theme: Theme;
   size?: ButtonSize;
   active?: boolean;
+  width?: number | string;
   contentAlignment?: string;
   onClick?(event: React.MouseEvent): void;
 }
