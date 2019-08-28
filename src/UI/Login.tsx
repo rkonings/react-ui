@@ -84,9 +84,8 @@ const Login = ({className, onLogin}: LoginProps) => {
 };
 
 const StyledLogin = styled(Login)`
-    ${TextField} {
-        margin-bottom: 10px;
+    ${TextField}, ${CheckBox} {
+        margin-bottom: 20px;
     }
 `;
-
 export default StyledLogin;
