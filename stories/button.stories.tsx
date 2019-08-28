@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import { boolean, select, text } from '@storybook/addon-knobs';
+import { boolean, number, select, text } from '@storybook/addon-knobs';
 
 import { storiesOf } from '@storybook/react';
 import React from 'react';
@@ -27,18 +27,27 @@ const typeDefaultValue = 'default';
 const buttonTextLabel = 'Label';
 const buttonTextDefaultValue = 'Button';
 
+const buttonContentAlignmenLabel = 'Content alignment';
+const buttonContentAlignmentOptions = ['left', 'center', 'right'];
+const buttonContentAlignmentDefaultValue = 'center';
+
 storiesOf('OutlinedButton', module)
 .add('with text', () => {
   const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
   const type = select(typeLabel, typeOptions, typeDefaultValue);
   const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
   const active = boolean('Active', false);
+  const contentAlignment = select(buttonContentAlignmenLabel, buttonContentAlignmentOptions,
+    buttonContentAlignmentDefaultValue);
+  const width = number('Width', 100);
 
   return (
     <OutlinedButton
       active={active}
       type={type}
+      width={width}
       size={size}
+      contentAlignment={contentAlignment}
       onClick={action('Click')}
     >
       {buttonText}
@@ -50,6 +59,9 @@ storiesOf('OutlinedButton', module)
   const type = select(typeLabel, typeOptions, typeDefaultValue);
   const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
   const active = boolean('Active', false);
+  const contentAlignment = select(buttonContentAlignmenLabel, buttonContentAlignmentOptions,
+    buttonContentAlignmentDefaultValue);
+  const width = number('Width', 100);
 
   return (
     <React.Fragment>
@@ -57,6 +69,8 @@ storiesOf('OutlinedButton', module)
         active={active}
         type={type}
         size={size}
+        contentAlignment={contentAlignment}
+        width={width}
         onClick={action('Click')}
       >
           <CaretDown spacing="right" />{buttonText}

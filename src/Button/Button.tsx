@@ -17,6 +17,7 @@ export interface ButtonProps {
   theme: Theme;
   size?: ButtonSize;
   active?: boolean;
+  contentAlignment?: string;
   onClick?(event: React.MouseEvent): void;
 }
 
@@ -40,13 +41,22 @@ const ButtonColorStyle = ({active, theme, type = 'default'}: ButtonProps) => {
     `;
 };
 
-export const ButtonBaseStyle = ({theme, size = 'm'}: ButtonProps) => {
+export const ButtonBaseStyle = ({theme, size = 'm', contentAlignment = 'center', width}: ButtonProps) => {
     const fontSize = theme.button.size[size];
     const height = fontSize * 3;
 
+    let buttonWidth;
+    if (typeof width === 'number') {
+        buttonWidth = `width: ${width}px`;
+    } else if (typeof width === 'string') {
+        buttonWidth = `width: ${width}`;
+    }
+
     return `
+        ${theme.align(contentAlignment)}
         font-family: ${theme.fontFamily};
         font-weight: ${theme.button.fontWeight};
+        ${buttonWidth}
         display: flex;
         font-size: ${fontSize}px;
         overflow: hidden;
@@ -63,7 +73,6 @@ export const ButtonBaseStyle = ({theme, size = 'm'}: ButtonProps) => {
             margin-right: 1em;
             display: flex;
             align-items: center;
-            justify-content: center;
         }
 
         &:focus{
