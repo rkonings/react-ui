@@ -11,7 +11,7 @@ interface TextFieldProps {
     value?: string;
     error?: string;
     helperText?: string;
-    width?: number;
+    width?: string;
     disabled?: boolean;
     autoFocus?: boolean;
     required?: boolean;
@@ -21,10 +21,7 @@ interface TextFieldProps {
     onBlur?(e: React.FormEvent<HTMLInputElement>): void;
 }
 
-const HelperText = styled.div`
-
-`;
-
+const HelperText = styled.div``;
 const ErrorText = styled.div``;
 
 const TextField = ({className, value, placeHolder, onChange, onBlur, name,
@@ -58,11 +55,12 @@ const TextField = ({className, value, placeHolder, onChange, onBlur, name,
 
 };
 
-const BaseStyle = ({theme: {input: { textField }}, error = false, width, disabled}: TextFieldProps) => {
+const BaseStyle = ({theme: {input: { textField }}, error = false, width = '300px', disabled}: TextFieldProps) => {
     const type = 'default';
 
     return `
-        width: ${width || textField.defaultWidth}px;
+        box-sizing: border-box;
+        width: ${width};
         ${ErrorText} {
             color: ${textField[type].error.errorText};
             font-size: 14px;
@@ -76,6 +74,7 @@ const BaseStyle = ({theme: {input: { textField }}, error = false, width, disable
         }
 
         input {
+            box-sizing: border-box;
             width: 100%;
             font-size: 14px;
             padding: 1em;
