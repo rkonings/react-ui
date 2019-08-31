@@ -21,10 +21,7 @@ interface TextFieldProps {
     onBlur?(e: React.FormEvent<HTMLInputElement>): void;
 }
 
-const HelperText = styled.div`
-
-`;
-
+const HelperText = styled.div``;
 const ErrorText = styled.div``;
 
 const TextField = ({className, value, placeHolder, onChange, onBlur, name,
