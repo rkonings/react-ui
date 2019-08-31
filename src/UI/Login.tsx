@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 
 import Button from '../Button/Button';
 import TextButton from '../Button/TextButton';
+import { Grid, Item } from '../Grid';
 import CheckBox from '../Input/Checkbox/Checkbox';
 import TextField from '../Input/TextField/TextField';
 
@@ -50,31 +51,45 @@ const Login = ({className, onLogin}: LoginProps) => {
             >
                 {({ handleSubmit, handleChange, values, errors, touched, handleBlur }) => (
                     <form onSubmit={handleSubmit}>
-                        <TextField
-                            name={'email'}
-                            error={touched.email ? errors.email : undefined}
-                            value={values.email}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            placeHolder={'e-mail'}
-                        />
-                        <TextField
-                            name={'password'}
-                            error={touched.password ? errors.password : undefined}
-                            value={values.password}
-                            placeHolder={'password'}
-                            inputType={'password'}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                        <CheckBox
-                            label={'remember me'}
-                            name={'remember'}
-                            checked={values.remember}
-                            onChange={handleChange}
-                        />
-                        <Button width={150} inputType={'submit'} type={'primary'}>Login</Button>
-                        <TextButton>or create account</TextButton>
+                        <Grid width="400px" spacing={20}>
+                            <Item width="100%">
+                                <TextField
+                                    name={'email'}
+                                    error={touched.email ? errors.email : undefined}
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    placeHolder={'e-mail'}
+                                    width="100%"
+                                />
+                            </Item>
+                            <Item width="100%">
+                                <TextField
+                                    name={'password'}
+                                    error={touched.password ? errors.password : undefined}
+                                    value={values.password}
+                                    placeHolder={'password'}
+                                    inputType={'password'}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    width="100%"
+                                />
+                            </Item>
+                            <Item width="100%">
+                                <CheckBox
+                                    label={'remember me'}
+                                    name={'remember'}
+                                    checked={values.remember}
+                                    onChange={handleChange}
+                                />
+                            </Item>
+                            <Item width="50%">
+                                <Button width="100%" inputType={'submit'} type={'primary'}>Login</Button>
+                            </Item>
+                            <Item width="50%">
+                                <TextButton width="100%">or create account</TextButton>
+                            </Item>
+                        </Grid>
                     </form>
                 )}
             </Formik>
@@ -83,9 +98,5 @@ const Login = ({className, onLogin}: LoginProps) => {
     );
 };
 
-const StyledLogin = styled(Login)`
-    ${TextField}, ${CheckBox} {
-        margin-bottom: 20px;
-    }
-`;
+const StyledLogin = styled(Login)``;
 export default StyledLogin;
