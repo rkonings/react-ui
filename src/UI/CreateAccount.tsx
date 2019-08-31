@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import Button from '../Button/Button';
+import { Grid, Item } from '../Grid';
 import TextField from '../Input/TextField/TextField';
 
 interface Values {
@@ -58,53 +59,72 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
             >
                 {({ handleSubmit, handleChange, values, errors, touched, handleBlur }) => (
                     <form onSubmit={handleSubmit}>
-                        <TextField
-                            name={'firstName'}
-                            helperText={'enter your firstname'}
-                            error={touched.firstName ? errors.firstName : undefined}
-                            value={values.firstName}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            placeHolder={'firstname'}
-                        />
-                        <TextField
-                            name={'lastName'}
-                            helperText={'enter your lastname'}
-                            error={touched.lastName ? errors.lastName : undefined}
-                            value={values.lastName}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            placeHolder={'lastname'}
-                        />
-                        <TextField
-                            name={'phone'}
-                            helperText={'enter your phone number'}
-                            error={touched.phone ? errors.phone : undefined}
-                            value={values.phone}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            placeHolder={'phone number'}
-                        />
-                        <TextField
-                            name={'email'}
-                            helperText={'enter your e-mail'}
-                            error={touched.email ? errors.email : undefined}
-                            value={values.email}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            placeHolder={'e-mail'}
-                        />
-                        <TextField
-                            name={'password'}
-                            helperText={'use a strong password'}
-                            error={touched.password ? errors.password : undefined}
-                            value={values.password}
-                            placeHolder={'password'}
-                            inputType={'password'}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                        <Button inputType={'submit'} type={'primary'}>Create</Button>
+                        <Grid width="400px" spacing={20}>
+                            <Item width="100%">
+                                <TextField
+                                    name={'firstName'}
+                                    helperText={'enter your firstname'}
+                                    error={touched.firstName ? errors.firstName : undefined}
+                                    value={values.firstName}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    placeHolder={'firstname'}
+                                    width="100%"
+                                />
+                            </Item>
+                            <Item width="100%">
+                                <TextField
+                                    name={'lastName'}
+                                    helperText={'enter your lastname'}
+                                    error={touched.lastName ? errors.lastName : undefined}
+                                    value={values.lastName}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    placeHolder={'lastname'}
+                                    width="100%"
+                                />
+                            </Item>
+                            <Item width="100%">
+                                <TextField
+                                    name={'phone'}
+                                    helperText={'enter your phone number'}
+                                    error={touched.phone ? errors.phone : undefined}
+                                    value={values.phone}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    placeHolder={'phone number'}
+                                    width="100%"
+                                />
+                            </Item>
+                            <Item width="100%">
+                                <TextField
+                                    name={'email'}
+                                    helperText={'enter your e-mail'}
+                                    error={touched.email ? errors.email : undefined}
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    placeHolder={'e-mail'}
+                                    width="100%"
+                                />
+                            </Item>
+                            <Item width="100%">
+                                <TextField
+                                    name={'password'}
+                                    helperText={'use a strong password'}
+                                    error={touched.password ? errors.password : undefined}
+                                    value={values.password}
+                                    placeHolder={'password'}
+                                    inputType={'password'}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    width="100%"
+                                />
+                            </Item>
+                            <Item width="100%">
+                                <Button inputType={'submit'} type={'primary'}>Create</Button>
+                            </Item>
+                        </Grid>
                     </form>
                 )}
             </Formik>
@@ -113,10 +133,6 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
     );
 };
 
-const StyledCreateAccount = styled(CreateAccount)`
-    ${TextField} {
-        margin-bottom: 10px;
-    }
-`;
+const StyledCreateAccount = styled(CreateAccount)``;
 
 export default StyledCreateAccount;
