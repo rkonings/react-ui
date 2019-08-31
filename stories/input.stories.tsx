@@ -28,8 +28,15 @@ storiesOf('Input', module)
   .add('Checkbox', () => {
     const type = select(typeLabel, typeOptions, typeDefaultValue);
     const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+    const label = text('Label', 'label');
     return (
-        <CheckBox type={type} size={size} onChange={action('onChange')} checked={boolean('Checked', false)} />
+        <CheckBox
+          type={type}
+          size={size}
+          label={label}
+          onChange={action('onChange')}
+          checked={boolean('Checked', false)}
+        />
         );
 });
 storiesOf('Input/TextField', module)

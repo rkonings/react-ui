@@ -4,11 +4,15 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import Button from '../Button/Button';
+import TextButton from '../Button/TextButton';
+import { Grid, Item } from '../Grid';
+import CheckBox from '../Input/Checkbox/Checkbox';
 import TextField from '../Input/TextField/TextField';
 
 interface Values {
     password: string;
     email: string;
+    remember?: boolean;
 }
 
 interface LoginProps {
@@ -33,7 +37,8 @@ const Login = ({className, onLogin}: LoginProps) => {
                 validationSchema={LoginSchema}
                 initialValues={{
                     email: '',
-                    password: ''
+                    password: '',
+                    remember: false
                 }}
                 onSubmit={(values: Values, { setSubmitting }: FormikActions<Values>) => {
                     setTimeout(() => {
@@ -46,26 +51,45 @@ const Login = ({className, onLogin}: LoginProps) => {
             >
                 {({ handleSubmit, handleChange, values, errors, touched, handleBlur }) => (
                     <form onSubmit={handleSubmit}>
-                        <TextField
-                            name={'email'}
-                            helperText={'enter your e-mail'}
-                            error={touched.email ? errors.email : undefined}
-                            value={values.email}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            placeHolder={'e-mail'}
-                        />
-                        <TextField
-                            name={'password'}
-                            helperText={'use a strong password'}
-                            error={touched.password ? errors.password : undefined}
-                            value={values.password}
-                            placeHolder={'password'}
-                            inputType={'password'}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                        <Button inputType={'submit'} type={'primary'}>Login</Button>
+                        <Grid width="400px" spacing={20}>
+                            <Item width="100%">
+                                <TextField
+                                    name={'email'}
+                                    error={touched.email ? errors.email : undefined}
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    placeHolder={'e-mail'}
+                                    width="100%"
+                                />
+                            </Item>
+                            <Item width="100%">
+                                <TextField
+                                    name={'password'}
+                                    error={touched.password ? errors.password : undefined}
+                                    value={values.password}
+                                    placeHolder={'password'}
+                                    inputType={'password'}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    width="100%"
+                                />
+                            </Item>
+                            <Item width="100%">
+                                <CheckBox
+                                    label={'remember me'}
+                                    name={'remember'}
+                                    checked={values.remember}
+                                    onChange={handleChange}
+                                />
+                            </Item>
+                            <Item width="50%">
+                                <Button width="100%" inputType={'submit'} type={'primary'}>Login</Button>
+                            </Item>
+                            <Item width="50%">
+                                <TextButton width="100%">or create account</TextButton>
+                            </Item>
+                        </Grid>
                     </form>
                 )}
             </Formik>
@@ -74,10 +98,5 @@ const Login = ({className, onLogin}: LoginProps) => {
     );
 };
 
-const StyledLogin = styled(Login)`
-    ${TextField} {
-        margin-bottom: 10px;
-    }
-`;
-
+const StyledLogin = styled(Login)``;
 export default StyledLogin;
