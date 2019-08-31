@@ -1,0 +1,98 @@
+import * as React from 'react';
+import styled from 'styled-components';
+
+// https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+
+interface Alignment {
+    horizontalAlignment?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
+    verticalAlignment?: 'flex-start' | 'center' | 'flex-end' | 'stretch' | 'baseline';
+}
+
+interface Grid extends Alignment {
+    className?: string;
+    children: JSX.Element | JSX.Element[];
+    width?: string;
+    height?: string;
+    spacing?: number;
+}
+
+const Grid = ({className, children, spacing}: Grid) => {
+
+    if (spacing) {
+        const items = React.Children.map(children, (child) => {
+            return React.cloneElement<Item>(child, {
+                spacing: child.props.spacing || spacing,
+              });
+        });
+        return (
+            <div className={className}>{items}</div>
+        );
+
+    }
+
+    return (
+        <div className={className}>{children}</div>
+    );
+};
+
+const getWidth = (value?: string | number, spacing?: number) => {
+    if (typeof value === 'string') {
+        if (spacing) {
+            return `calc(${value} - ${spacing}px)`;
+        }
+        return value;
+    } else if (typeof value === 'number') {
+        return `${value}px`;
+    }
+
+    if (spacing) {
+        return `calc(100% - ${spacing}px)`;
+    }
+    return '100%';
+};
+
+const horizontalAlignment = ({horizontalAlignment = 'flex-start'}: Alignment) => `
+    justify-content: ${horizontalAlignment};
+`;
+
+const verticalAlignment = ({verticalAlignment = 'flex-start'}: Alignment) => `
+    align-items: ${verticalAlignment};
+`;
+
+export const StyledGrid = styled(Grid)<Grid>`
+    display: flex;
+    flex-flow: row wrap;
+
+    width: ${({width}) => getWidth(width)};
+    height: ${({height}) => height};
+    box-sizing: border-box;
+
+    ${horizontalAlignment};
+    ${verticalAlignment};
+`;
+
+interface Item extends Grid {
+    spacing?: number;
+}
+
+const Item = ({className, children}: Item) => (
+    <div className={className}>{children}</div>
+);
+
+export const StyledItem = styled(Item)<Item>`
+    display: flex;
+    flex-flow: row wrap;
+
+    width: ${({width, spacing}) => getWidth(width, spacing)};
+    height: ${({height}) => height};
+    box-sizing: border-box;
+
+    ${horizontalAlignment};
+    ${verticalAlignment};
+    ${({spacing}: Item) => {
+        if (spacing) {
+            return `margin: ${spacing * 0.5}px`;
+        }
+        return  ``;
+    }};
+`;
