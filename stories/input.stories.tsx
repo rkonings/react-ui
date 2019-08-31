@@ -63,7 +63,7 @@ storiesOf('Input/TextField', module)
   );
 })
 .add('with custom width', () => {
-  const width = number('Width', 200);
+  const width = text('Width', '200px');
   return (
     <TextField placeHolder={'name'} width={width} onChange={action('onChange')} />
   );
