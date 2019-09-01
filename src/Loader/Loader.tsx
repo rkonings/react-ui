@@ -6,9 +6,10 @@ interface LoaderProps {
     className?: string;
     size: number;
     speed?: number;
+    color?: string;
 }
 
-const Loader = ({className}: LoaderProps) => {
+const Loader = ({className, color}: LoaderProps) => {
     return <div className={className}><span /></div>;
 };
 
@@ -60,7 +61,7 @@ const StyledLoader = styled(Loader)`
             height: ${({size}) => size}px;
             width: ${({size}) => size}px;
             clip: rect(0, ${({size}) => size}px, ${({size}) => size}px, ${({size}) => size * 0.5}px);
-            border: 3px solid ${({theme: { loader }}) => loader.default.color};
+            border: 3px solid ${({color, theme: { loader }}) => color || loader.default.color};
             border-radius: 50%;
             animation: ${LoaderInnerAfterKeyFrames} ${({speed = 1}) => 1.2 / speed}s cubic-bezier(0.770, 0.000, 0.175, 1.000) infinite;
         }
