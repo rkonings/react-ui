@@ -8,7 +8,6 @@ import Button from '../src/Button/Button';
 import OutlinedButton from '../src/Button/OutlinedButton';
 import TextButton from '../src/Button/TextButton';
 import { CaretDown } from '../src/Icon';
-import Loader from '../src/Loader/Loader';
 
 const sizeLabel = 'Size';
 const sizeOptions = {
@@ -51,6 +50,24 @@ storiesOf('OutlinedButton', module)
       onClick={action('Click')}
     >
       {buttonText}
+    </OutlinedButton>
+  );
+})
+.add('with loader', () => {
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  const type = select(typeLabel, typeOptions, typeDefaultValue);
+  const active = boolean('Active', false);
+  const isLoading = boolean('IsLoading', true);
+
+  return (
+    <OutlinedButton
+      active={active}
+      type={type}
+      size={size}
+      onClick={action('Click')}
+      isLoading={isLoading}
+    >
+      Save
     </OutlinedButton>
   );
 })
@@ -114,6 +131,24 @@ storiesOf('TextButton', module)
     </TextButton>
   );
 })
+.add('with loader', () => {
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  const type = select(typeLabel, typeOptions, typeDefaultValue);
+  const active = boolean('Active', false);
+  const isLoading = boolean('IsLoading', true);
+
+  return (
+    <TextButton
+      active={active}
+      type={type}
+      size={size}
+      onClick={action('Click')}
+      isLoading={isLoading}
+    >
+      Save
+    </TextButton>
+  );
+})
 .add('with icon on the left', () => {
   const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
   const type = select(typeLabel, typeOptions, typeDefaultValue);
@@ -166,6 +201,7 @@ storiesOf('Button', module)
     const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
     const type = select(typeLabel, typeOptions, typeDefaultValue);
     const active = boolean('Active', false);
+    const isLoading = boolean('IsLoading', true);
 
     return (
       <Button
@@ -173,8 +209,9 @@ storiesOf('Button', module)
         type={type}
         size={size}
         onClick={action('Click')}
+        isLoading={isLoading}
       >
-        <Loader size={20} />
+        Save
       </Button>
     );
   })
