@@ -54,10 +54,10 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
                             onCreate(values);
                         }
                       setSubmitting(false);
-                    }, 100);
+                    }, 2000);
                 }}
             >
-                {({ handleSubmit, handleChange, values, errors, touched, handleBlur }) => (
+                {({ handleSubmit, handleChange, values, errors, touched, handleBlur, isSubmitting }) => (
                     <form onSubmit={handleSubmit}>
                         <Grid width="400px" spacing={20}>
                             <Item width="100%">
@@ -122,7 +122,7 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
                                 />
                             </Item>
                             <Item width="100%">
-                                <Button inputType={'submit'} type={'primary'}>Create</Button>
+                                <Button isLoading={isSubmitting} inputType={'submit'} type={'primary'}>Create</Button>
                             </Item>
                         </Grid>
                     </form>
