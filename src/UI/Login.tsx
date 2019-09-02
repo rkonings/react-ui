@@ -7,6 +7,7 @@ import Button from '../Button/Button';
 import TextButton from '../Button/TextButton';
 import { Grid, Item } from '../Grid';
 import CheckBox from '../Input/Checkbox/Checkbox';
+import Switch from '../Input/Switch/Switch';
 import TextField from '../Input/TextField/TextField';
 
 interface Values {
@@ -78,6 +79,14 @@ const Login = ({className, onLogin}: LoginProps) => {
                             <Item width="100%">
                                 <CheckBox
                                     label={'remember me'}
+                                    name={'remember'}
+                                    checked={values.remember}
+                                    onChange={handleChange}
+                                />
+                            </Item>
+                            <Item width="100%">
+                                <Switch
+                                    label="remember me"
                                     name={'remember'}
                                     checked={values.remember}
                                     onChange={handleChange}
