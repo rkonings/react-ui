@@ -123,7 +123,23 @@ const textField = {
     }
 
 };
+
+const _switch = {
+    label: color.gray70,
+    default: {
+        backgroundColor: color.gray30,
+        thumbColor: color.gray70
+    },
+    hover: {
+        backgroundColor: color.gray50,
+    },
+    checked: {
+        thumbColor: color.primary
+    }
+};
+
 export default {
     checkbox,
-    textField
+    textField,
+    switch: _switch
 };
