@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import CheckBox from '../src/Input/Checkbox/Checkbox';
+import Switch from '../src/Input/Switch/Switch';
 import TextField from '../src/Input/TextField/TextField';
 
 const typeLabel = 'Type';
@@ -39,6 +40,15 @@ storiesOf('Input', module)
         />
         );
 });
+storiesOf('Input/Switch', module)
+.add('swtich', () => {
+  const value = text('Value', 'react@development.nl');
+  const inputType = select(inputTypeLabel, inputTypeOptions, inputTypeDefault);
+  return (
+    <Switch />
+  );
+});
+
 storiesOf('Input/TextField', module)
 .add('with value', () => {
   const value = text('Value', 'react@development.nl');
