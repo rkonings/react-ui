@@ -42,10 +42,13 @@ storiesOf('Input', module)
 });
 storiesOf('Input/Switch', module)
 .add('swtich', () => {
-  const value = text('Value', 'react@development.nl');
-  const inputType = select(inputTypeLabel, inputTypeOptions, inputTypeDefault);
+
   return (
-    <Switch />
+    <Switch
+      label={text('Label', 'remember me')}
+      onChange={action('onChange')}
+      checked={boolean('Checked', false)}
+    />
   );
 });
 
