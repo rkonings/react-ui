@@ -146,9 +146,11 @@ const Select  = ({className, options, value: _value, isOpen: _open = false, onCh
     }, []);
 
     const changeValue = (val: string) => {
-        setValue(val);
-        if (onChange) {
-            onChange(val);
+        if (val !== value) {
+            setValue(val);
+            if (onChange) {
+                onChange(val);
+            }
         }
     };
 
