@@ -60,6 +60,33 @@ const checkbox = {
 
 };
 
+const select = {
+    borderSize: '1px',
+    default: {
+        borderColor: color.gray60,
+        color: color.gray120,
+        item: {
+            color: color.gray120,
+        }
+    },
+    hover: {
+        borderColor: color.blue110,
+        item: {
+            color: color.white,
+            backgroundColor: color.blue90,
+        }
+    },
+    focus: {
+        borderColor: color.gray100,
+        color: color.gray120,
+        item: {
+            backgroundColor: color.blue110,
+            color: color.white,
+
+        }
+    }
+};
+
 const textField = {
     borderRadius: '0px',
     borderSize: '1px',
@@ -141,5 +168,6 @@ const _switch = {
 export default {
     checkbox,
     textField,
-    switch: _switch
+    switch: _switch,
+    select
 };
