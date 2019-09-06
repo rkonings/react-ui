@@ -11,7 +11,7 @@ interface Select {
     isOpen?: boolean;
     options: string[];
     width?: string;
-    onChange?(e: React.FormEvent<HTMLInputElement>): void;
+    onChange?(value: string): void;
     onBlur?(e: React.FormEvent<HTMLInputElement>): void;
 }
 
@@ -130,7 +130,7 @@ const StyledClickAway = styled.div`
     right:0;
 `;
 
-const Select  = ({className, options, value: _value, isOpen: _open = false}: Select) => {
+const Select  = ({className, options, value: _value, isOpen: _open = false, onChange}: Select) => {
     const [value, setValue] = React.useState<string>('');
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
     const [selectedItem, setSelectedItem] = React.useState<string | undefined>();
@@ -144,6 +144,13 @@ const Select  = ({className, options, value: _value, isOpen: _open = false}: Sel
         setSelectedItem(val);
         setIsOpen(_open);
     }, []);
+
+    const changeValue = (val: string) => {
+        setValue(val);
+        if (onChange) {
+            onChange(val);
+        }
+    };
 
     const nextSelectedItem = () => {
         let nextIndex = 0;
@@ -174,7 +181,7 @@ const Select  = ({className, options, value: _value, isOpen: _open = false}: Sel
         } else if (e.key === 'Enter' && isOpen) {
             e.preventDefault();
             if (selectedItem) {
-                setValue(selectedItem);
+                changeValue(selectedItem);
             }
             setIsOpen(false);
         } else if (e.key === 'ArrowUp' && isOpen) {
@@ -210,7 +217,9 @@ const Select  = ({className, options, value: _value, isOpen: _open = false}: Sel
                     }}
                     type="text"
                     name={name}
-                    onChange={(e) => setValue(e.currentTarget.value)}
+                    onChange={(e) => {
+                        setValue(e.currentTarget.value);
+                    }}
                     value={value}
                 />
                 <StyledArrow direction={(isOpen) ? 'UP' : 'DOWN'} />
@@ -223,9 +232,9 @@ const Select  = ({className, options, value: _value, isOpen: _open = false}: Sel
                             (option, optIndex) => (
                                 <StyledMenuItem
                                     onClick={() => {
-                                        setValue(option);
                                         setSelectedItem(option);
                                         setIsOpen(false);
+                                        changeValue(option);
                                     }}
                                     key={optIndex}
                                     selected={selectedItem === option}
