@@ -74,7 +74,7 @@ storiesOf('Input/TextField', module)
 })
 .add('with error', () => {
   return (
-    <TextField placeHolder={'name'} error={'this is required'} onChange={action('onChange')} />
+    <TextField placeHolder={'name'} errorText={'this is required'} onChange={action('onChange')} />
   );
 })
 .add('with autofocus', () => {
