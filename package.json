@@ -63,6 +63,7 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
+    "@charlietango/use-focus-trap": "^1.2.3",
     "array-sort": "^1.0.0",
     "faker": "^4.1.0",
     "formik": "^1.5.8",
