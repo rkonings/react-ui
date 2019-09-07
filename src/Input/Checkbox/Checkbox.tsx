@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Check } from '../../Icon';
 import { Size as CheckBoxSize, Type as CheckBoxType } from '../../interfaces/Theme';
 import theme from '../../themes/default';
+import { ErrorText, HelperText } from '../Core/index';
 
 const InnerCheckbox = styled.input.attrs({ type: 'checkbox' })`
     opacity: 0;
@@ -14,10 +15,12 @@ interface CustomCheckBoxProps {
     size?: CheckBoxSize;
 }
 
-const CustomCheckBox = styled.div<CustomCheckBoxProps>`
-    ${({theme: {type = 'default', input : { checkbox }, icon}, size = 'm'}) => {
+const CustomCheckBox = styled.div<CustomCheckBoxProps & ErrorText>`
+    ${({theme: {type = 'default', input : { checkbox, error }, icon}, size = 'm', errorText}) => {
+        const borderColor = errorText ? error.color : checkbox[type].default.borderColor;
+
         return `
-            border: ${checkbox.borderSize} solid ${checkbox[type].default.borderColor};
+            border: ${checkbox.borderSize} solid ${borderColor};
             border-radius: ${checkbox.borderRadius};
             background: ${checkbox[type].default.backgroundColor};
             width: ${checkbox.size[size]}px;
@@ -35,7 +38,7 @@ const CustomCheckBox = styled.div<CustomCheckBoxProps>`
     }};
 `;
 
-interface CheckBoxProps {
+interface CheckBoxProps extends HelperText, ErrorText {
     className?: string;
     checked?: boolean;
     size?: CheckBoxSize;
@@ -47,7 +50,8 @@ interface CheckBoxProps {
 
 const CheckBoxLabel = styled.span``;
 
-const CheckBox = ({className, onChange, checked = false, size = 'm', name, label}: CheckBoxProps) => {
+const CheckBox = ({className, onChange, checked = false, size = 'm',
+name, label, helperText, errorText}: CheckBoxProps) => {
     const [isChecked, setIsChecked] = React.useState(checked);
 
     const onChangeHandler = (checked: boolean) => {
@@ -58,26 +62,43 @@ const CheckBox = ({className, onChange, checked = false, size = 'm', name, label
     React.useEffect(() => setIsChecked(checked), [checked]);
 
     return (
-        <label className={className}>
-            <InnerCheckbox
-                checked={isChecked}
-                name={name}
-                onChange={({target: { checked }}) => onChangeHandler(checked)}
-            />
-            <CustomCheckBox size={size}>
-                <Check type="default" />
-            </CustomCheckBox>
-            {label && <CheckBoxLabel>{label}</CheckBoxLabel>}
-        </label>
+        <div className={className}>
+            <label>
+                <InnerCheckbox
+                    checked={isChecked}
+                    name={name}
+                    onChange={({target: { checked }}) => onChangeHandler(checked)}
+                />
+                <CustomCheckBox size={size} errorText={errorText}>
+                    <Check type="default" />
+                </CustomCheckBox>
+                {label && <CheckBoxLabel>{label}</CheckBoxLabel>}
+            </label>
+            {helperText && !errorText && <HelperText>{helperText}</HelperText>}
+            {errorText && <ErrorText>{errorText}</ErrorText>}
+        </div>
+
     );
 };
 
 const StyledCheckBox = styled(CheckBox)`
-    ${({size = 'm', type = 'default', theme: { input: { checkbox} } } ) => `
+    ${({size = 'm', type = 'default', theme: { input: { checkbox, errorText, helper} } } ) => `
         position: relative;
         display: flex;
-        align-items: center;
         justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+
+        label {
+            display: flex;
+            align-items: center;
+            justigy-content: flex-start;
+        }
+
+        ${InnerCheckbox} {
+            width: ${checkbox.size[size]}px;
+            height: ${checkbox.size[size]}px;
+        }
 
         ${/*sc-selector*/Check} {
             opacity: 0;
