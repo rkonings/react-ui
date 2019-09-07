@@ -3,9 +3,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { ArrowDown, ArrowUp } from '../../Icon/index';
-import { HelperText } from '../Core/';
+import { ErrorText, HelperText } from '../Core/';
 
-interface Select extends HelperText {
+interface Select extends HelperText, ErrorText {
     className?: string;
     value?: string;
     name?: string;
@@ -86,8 +86,11 @@ interface InputWrapper {
     isFocused: boolean;
 }
 
-const InputWrapper = styled.div<InputWrapper>`
-    border: 1px solid ${({isFocused = false, theme: { input: { select }}}) => {
+const InputWrapper = styled.div<InputWrapper & ErrorText>`
+    border: 1px solid ${({errorText, isFocused = false, theme: { input: { select, error }}}) => {
+        if (errorText) {
+            return error.color;
+        }
         return isFocused ? select.focus.borderColor : select.default.borderColor;
     }};
     transition : border 500ms ease-out;
@@ -132,7 +135,7 @@ const StyledClickAway = styled.div`
 `;
 
 const Select  = ({className, options, value: _value, isOpen: _open = false,
-    onChange, helperText}: Select) => {
+    onChange, helperText, errorText}: Select) => {
     const [value, setValue] = React.useState<string>('');
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
     const [selectedItem, setSelectedItem] = React.useState<string | undefined>();
@@ -210,6 +213,7 @@ const Select  = ({className, options, value: _value, isOpen: _open = false,
                     setIsOpen(!isOpen);
                     setIsFocused(true);
                 }}
+                errorText={errorText}
             >
                 <input
                     readOnly={true}
@@ -228,7 +232,8 @@ const Select  = ({className, options, value: _value, isOpen: _open = false,
                 />
                 <StyledArrow direction={(isOpen) ? 'UP' : 'DOWN'} />
             </InputWrapper>
-            {helperText && <HelperText>{helperText}</HelperText>}
+            {helperText && !errorText && <HelperText>{helperText}</HelperText>}
+            {errorText && <ErrorText>{errorText}</ErrorText>}
             { isOpen && (
                 <React.Fragment>
                     <StyledClickAway onClick={() => setIsOpen(false)} />
