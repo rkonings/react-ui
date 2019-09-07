@@ -7,6 +7,7 @@ import theme from '../../themes/default';
 const InnerCheckbox = styled.input.attrs({ type: 'checkbox' })`
     opacity: 0;
     position: absolute;
+    z-index: -1;
 `;
 
 interface CustomCheckBoxProps {
