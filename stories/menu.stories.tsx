@@ -8,8 +8,11 @@ import { MenuItem } from '../src/Menu/Menu';
 
 storiesOf('Menu', module)
 .add('Button menu', () => {
+    const menuAlign = select('Menu alignment', ['LEFT', 'RIGHT'], 'LEFT');
+
   return (
       <ButtonMenu
+        menuAlign={menuAlign}
         items={ (close) => (
             <React.Fragment>
                 <MenuItem onClick={() => close()}>Profile</MenuItem>
