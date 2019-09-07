@@ -15,7 +15,6 @@ const InnerCheckbox = styled.input.attrs({ type: 'checkbox' })`
     z-index: 1;
     position: absolute;
     width: 100%;
-    height: 100%;
     cursor: pointer;
 `;
 
@@ -93,6 +92,12 @@ const StyledSwitch = styled(Switch)`
 
     label {
         display: flex;
+
+        &:hover {
+            ${/*sc-selector*/CustomSwitch} {
+                background: ${({theme: { input }}) => input.switch.hover.backgroundColor};
+            }
+        }
     }
 
     position: relative;
@@ -103,11 +108,7 @@ const StyledSwitch = styled(Switch)`
         }
     }
 
-    &:hover {
-        ${/*sc-selector*/CustomSwitch} {
-            background: ${({theme: { input }}) => input.switch.hover.backgroundColor};
-        }
-    }
+
 `;
 
 export default StyledSwitch;
