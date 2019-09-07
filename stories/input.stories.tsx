@@ -27,8 +27,8 @@ const inputTypeLabel = 'Input Type';
 const inputTypeOptions = ['text', 'password', 'email'];
 const inputTypeDefault = 'text';
 
-storiesOf('Input', module)
-  .add('Select', () => {
+storiesOf('Input/Select', module)
+  .add('default', () => {
 
     const options = [
       'Dijkstra - Jacobs',
@@ -50,6 +50,30 @@ storiesOf('Input', module)
           </Item>
         </Grid>
     );
+})
+.add('with helper text', () => {
+
+  const options = [
+    'Dijkstra - Jacobs',
+    'Ven V.O.F.',
+    'Janssen, Groot and Dijk',
+    'Boer, Stichting and Jacobs',
+    'Willems Group',
+    'Brink, Brink and Dijkstra',
+    'Smits, Boer and Brouwer'
+  ];
+  return (
+    <Grid width="600px" horizontalAlignment="flex-start">
+      <Item width="100%" horizontalAlignment="flex-start" verticalAlignment="center">
+        <Select
+          onChange={action('onChange')}
+          options={array('Options', options, ':')}
+          name={'companies'}
+          helperText={'This is a helper'}
+        />
+        </Item>
+      </Grid>
+  );
 });
 storiesOf('Input/Checkbox', module)
   .add('with label', () => {
