@@ -1,7 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { HelperText } from '../Core';
 
-interface Switch {
+interface Switch extends HelperText {
     className?: string;
     checked?: boolean;
     name?: string;
@@ -57,7 +58,8 @@ const Label = styled.span`
     color: ${({theme: { input }}) => input.switch.label};
 `;
 
-const Switch = ({className, checked = false, onChange, name, label}: Switch) => {
+const Switch = ({className, checked = false, helperText,
+    onChange, name, label}: Switch) => {
     const [isChecked, setIsChecked] = React.useState(checked);
 
     const onChangeHandler = (checked: boolean) => {
@@ -68,22 +70,30 @@ const Switch = ({className, checked = false, onChange, name, label}: Switch) => 
     React.useEffect(() => setIsChecked(checked), [checked]);
 
     return (
-        <label className={className}>
-            <InnerCheckbox
-                checked={isChecked}
-                name={name}
-                onChange={({target: { checked }}) => onChangeHandler(checked)}
-            />
-            <CustomSwitch checked={isChecked}>
-                <SwitchThumb />
-            </CustomSwitch>
-            {label && <Label>{label}</Label>}
-        </label>
+        <div className={className}>
+            <label>
+                <InnerCheckbox
+                    checked={isChecked}
+                    name={name}
+                    onChange={({target: { checked }}) => onChangeHandler(checked)}
+                />
+                <CustomSwitch checked={isChecked}>
+                    <SwitchThumb />
+                </CustomSwitch>
+                {label && <Label>{label}</Label>}
+            </label>
+            {helperText && <HelperText>{helperText}</HelperText>}
+        </div>
     );
 };
 
 const StyledSwitch = styled(Switch)`
     display:flex;
+    flex-direction: column;
+
+    label {
+        display: flex;
+    }
 
     position: relative;
     ${/*sc-selector*/InnerCheckbox}:checked ~ ${/*sc-selector*/CustomSwitch} {

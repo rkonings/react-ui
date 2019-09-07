@@ -81,7 +81,19 @@ storiesOf('Input/Switch', module)
       checked={boolean('Checked', false)}
     />
   );
-});
+})
+.add('with helper', () => {
+
+  return (
+    <Switch
+      label={text('Label', 'remember me')}
+      onChange={action('onChange')}
+      checked={boolean('Checked', false)}
+      helperText={'This is a helper'}
+    />
+  );
+})
+;
 
 storiesOf('Input/TextField', module)
 .add('with value', () => {
