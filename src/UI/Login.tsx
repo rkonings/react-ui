@@ -56,7 +56,7 @@ const Login = ({className, onLogin}: LoginProps) => {
                             <Item width="100%">
                                 <TextField
                                     name={'email'}
-                                    error={touched.email ? errors.email : undefined}
+                                    errorText={touched.email ? errors.email : undefined}
                                     value={values.email}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -67,7 +67,7 @@ const Login = ({className, onLogin}: LoginProps) => {
                             <Item width="100%">
                                 <TextField
                                     name={'password'}
-                                    error={touched.password ? errors.password : undefined}
+                                    errorText={touched.password ? errors.password : undefined}
                                     value={values.password}
                                     placeHolder={'password'}
                                     inputType={'password'}
