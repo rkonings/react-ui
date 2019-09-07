@@ -6,6 +6,7 @@ export const MenuItem = styled.a`
     color: ${({theme: { menu: { item } }}) => item.default.color };
     display: flex;
     cursor: pointer;
+    font-size: 14px;
 
     &:hover {
         ${({theme: { menu: {item: { hover}} }}) => {
