@@ -50,8 +50,23 @@ storiesOf('Input', module)
           </Item>
         </Grid>
     );
+});
+storiesOf('Input/Checkbox', module)
+  .add('with label', () => {
+    const type = select(typeLabel, typeOptions, typeDefaultValue);
+    const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+    const label = text('Label', 'label');
+    return (
+        <CheckBox
+          type={type}
+          size={size}
+          label={label}
+          onChange={action('onChange')}
+          checked={boolean('Checked', false)}
+        />
+        );
 })
-.add('Checkbox', () => {
+.add('with error', () => {
   const type = select(typeLabel, typeOptions, typeDefaultValue);
   const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
   const label = text('Label', 'label');
@@ -61,6 +76,23 @@ storiesOf('Input', module)
         size={size}
         label={label}
         onChange={action('onChange')}
+        errorText={'Error'}
+        // helperText={'This is a helper'}
+        checked={boolean('Checked', false)}
+      />
+      );
+})
+.add('with helper', () => {
+  const type = select(typeLabel, typeOptions, typeDefaultValue);
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  const label = text('Label', 'label');
+  return (
+      <CheckBox
+        type={type}
+        size={size}
+        label={label}
+        onChange={action('onChange')}
+        helperText={'This is a helper'}
         checked={boolean('Checked', false)}
       />
       );
@@ -75,7 +107,19 @@ storiesOf('Input/Switch', module)
       checked={boolean('Checked', false)}
     />
   );
-});
+})
+.add('with helper', () => {
+
+  return (
+    <Switch
+      label={text('Label', 'remember me')}
+      onChange={action('onChange')}
+      checked={boolean('Checked', false)}
+      helperText={'This is a helper'}
+    />
+  );
+})
+;
 
 storiesOf('Input/TextField', module)
 .add('with value', () => {
@@ -99,7 +143,7 @@ storiesOf('Input/TextField', module)
 })
 .add('with error', () => {
   return (
-    <TextField placeHolder={'name'} error={'this is required'} onChange={action('onChange')} />
+    <TextField placeHolder={'name'} errorText={'this is required'} onChange={action('onChange')} />
   );
 })
 .add('with autofocus', () => {

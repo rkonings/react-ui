@@ -165,7 +165,17 @@ const _switch = {
     }
 };
 
+const error = {
+    color: color.error
+};
+
+const helper = {
+    color: color.gray70
+};
+
 export default {
+    helper,
+    error,
     checkbox,
     textField,
     switch: _switch,
