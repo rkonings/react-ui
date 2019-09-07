@@ -64,7 +64,7 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
                                 <TextField
                                     name={'firstName'}
                                     helperText={'enter your firstname'}
-                                    error={touched.firstName ? errors.firstName : undefined}
+                                    errorText={touched.firstName ? errors.firstName : undefined}
                                     value={values.firstName}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -76,7 +76,7 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
                                 <TextField
                                     name={'lastName'}
                                     helperText={'enter your lastname'}
-                                    error={touched.lastName ? errors.lastName : undefined}
+                                    errorText={touched.lastName ? errors.lastName : undefined}
                                     value={values.lastName}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -88,7 +88,7 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
                                 <TextField
                                     name={'phone'}
                                     helperText={'enter your phone number'}
-                                    error={touched.phone ? errors.phone : undefined}
+                                    errorText={touched.phone ? errors.phone : undefined}
                                     value={values.phone}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -100,7 +100,7 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
                                 <TextField
                                     name={'email'}
                                     helperText={'enter your e-mail'}
-                                    error={touched.email ? errors.email : undefined}
+                                    errorText={touched.email ? errors.email : undefined}
                                     value={values.email}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -112,7 +112,7 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
                                 <TextField
                                     name={'password'}
                                     helperText={'use a strong password'}
-                                    error={touched.password ? errors.password : undefined}
+                                    errorText={touched.password ? errors.password : undefined}
                                     value={values.password}
                                     placeHolder={'password'}
                                     inputType={'password'}
