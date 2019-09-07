@@ -1,16 +1,15 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Theme from '../../interfaces/Theme';
+import { ErrorText, HelperText } from '../Core';
 
 const DEFAULT_TYPE = 'text';
 
-interface TextFieldProps {
+interface TextFieldProps extends HelperText, ErrorText {
     inputType?: string;
     className?: string;
     placeHolder?: string;
     value?: string;
-    error?: string;
-    helperText?: string;
     width?: string;
     disabled?: boolean;
     autoFocus?: boolean;
@@ -21,11 +20,8 @@ interface TextFieldProps {
     onBlur?(e: React.FormEvent<HTMLInputElement>): void;
 }
 
-const HelperText = styled.div``;
-const ErrorText = styled.div``;
-
 const TextField = ({className, value, placeHolder, onChange, onBlur, name,
-    helperText, error, autoFocus, disabled, inputType = DEFAULT_TYPE}: TextFieldProps) => {
+    helperText, errorText, autoFocus, disabled, inputType = DEFAULT_TYPE}: TextFieldProps) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     React.useEffect(() => {
@@ -48,30 +44,19 @@ const TextField = ({className, value, placeHolder, onChange, onBlur, name,
                     disabled={disabled}
                 />
             </label>
-            {helperText && !error && <HelperText>{helperText}</HelperText>}
-            {error && <ErrorText>{error}</ErrorText>}
+            {helperText && !errorText && <HelperText>{helperText}</HelperText>}
+            {errorText && <ErrorText>{errorText}</ErrorText>}
         </div>
     );
 
 };
 
-const BaseStyle = ({theme: {input: { textField }}, error = false, width = '300px', disabled}: TextFieldProps) => {
+const BaseStyle = ({theme: {input: { textField }}, width = '300px', disabled}: TextFieldProps) => {
     const type = 'default';
 
     return `
         box-sizing: border-box;
         width: ${width};
-        ${ErrorText} {
-            color: ${textField[type].error.errorText};
-            font-size: 14px;
-            padding-top: 4px;
-        }
-
-        ${HelperText} {
-            color: ${textField[type].default.helperText};
-            font-size: 14px;
-            padding-top: 4px;
-        }
 
         input {
             box-sizing: border-box;
@@ -99,14 +84,14 @@ const StyledTextField = styled(TextField)`
 
     ${BaseStyle};
 
-    ${({theme: {input: { textField }}, error = false, disabled}) => {
+    ${({theme: {input: { textField, error }}, errorText = false, disabled}) => {
 
         if (disabled) {
             return ``;
         }
 
         const type = 'default';
-        const borderColor = error ? textField[type].error.borderColor : textField[type].default.borderColor;
+        const borderColor = errorText ? error.color : textField[type].default.borderColor;
         return `
             input {
                 color: ${textField[type].default.color};
