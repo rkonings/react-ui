@@ -6,6 +6,20 @@ import icon from './icon';
 import input from './input';
 import table from './table';
 
+const menu = {
+    backgroundColor: color.white,
+    boxShadow: '0px 4px 9px rgba(0, 0, 0, 0.05);',
+    item: {
+        default: {
+            color: color.black
+        },
+        hover: {
+            color: color.white,
+            backgroundColor: color.primary
+        }
+    }
+};
+
 const align = (contentAlignment = 'center') => {
     let align;
     if (contentAlignment === 'center') {
@@ -26,6 +40,7 @@ const theme: Theme = {
     input,
     button,
     buttonGroup,
+    menu,
     table,
     loader: {
         default: {
