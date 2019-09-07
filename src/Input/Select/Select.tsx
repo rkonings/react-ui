@@ -3,8 +3,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { ArrowDown, ArrowUp } from '../../Icon/index';
+import { HelperText } from '../Core/';
 
-interface Select {
+interface Select extends HelperText {
     className?: string;
     value?: string;
     name?: string;
@@ -130,7 +131,8 @@ const StyledClickAway = styled.div`
     right:0;
 `;
 
-const Select  = ({className, options, value: _value, isOpen: _open = false, onChange}: Select) => {
+const Select  = ({className, options, value: _value, isOpen: _open = false,
+    onChange, helperText}: Select) => {
     const [value, setValue] = React.useState<string>('');
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
     const [selectedItem, setSelectedItem] = React.useState<string | undefined>();
@@ -226,6 +228,7 @@ const Select  = ({className, options, value: _value, isOpen: _open = false, onCh
                 />
                 <StyledArrow direction={(isOpen) ? 'UP' : 'DOWN'} />
             </InputWrapper>
+            {helperText && <HelperText>{helperText}</HelperText>}
             { isOpen && (
                 <React.Fragment>
                     <StyledClickAway onClick={() => setIsOpen(false)} />
