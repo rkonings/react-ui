@@ -9,19 +9,35 @@ import { MenuItem } from '../src/Menu/Menu';
 storiesOf('Menu', module)
 .add('Button menu', () => {
     const menuAlign = select('Menu alignment', ['LEFT', 'RIGHT'], 'LEFT');
+    const typeLabel = 'Type';
+    const typeOptions = ['default', 'primary', 'secondairy'];
+    const typeDefaultValue = 'default';
+    const sizeLabel = 'Size';
+    const sizeOptions = {
+        xs: 'xs',
+        s: 's',
+        m: 'm',
+        l: 'l',
+        xl: 'xl'
+    };
+    const sizeDefaultValue = 'm';
 
-  return (
-      <ButtonMenu
-        menuAlign={menuAlign}
-        items={ (close) => (
-            <React.Fragment>
-                <MenuItem onClick={() => close()}>Profile</MenuItem>
-                <MenuItem onClick={() => close()}>Settings</MenuItem>
-                <MenuItem onClick={() => close()}>Sign out</MenuItem>
-            </React.Fragment>
-          )}
-      >
-          Menu
-      </ButtonMenu>
-  );
+    const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+    const type = select(typeLabel, typeOptions, typeDefaultValue);
+    return (
+        <ButtonMenu
+            size={size}
+            type={type}
+            menuAlign={menuAlign}
+            items={ (close) => (
+                <React.Fragment>
+                    <MenuItem onClick={() => close()}>Profile</MenuItem>
+                    <MenuItem onClick={() => close()}>Settings</MenuItem>
+                    <MenuItem onClick={() => close()}>Sign out</MenuItem>
+                </React.Fragment>
+            )}
+        >
+            Menu
+        </ButtonMenu>
+    );
 });
