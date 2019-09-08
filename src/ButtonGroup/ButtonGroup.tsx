@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Button, { ButtonProps } from '../Button/Button';
 import Theme, { Size as ButtonGroupSize } from '../interfaces/Theme';
+import ButtonMenu from '../Menu/ButtonMenu';
 
 type ButtonGroupType = 'default' | 'primary' | 'secondairy';
 
@@ -36,7 +37,7 @@ const StyledButtonGroup = styled(ButtonGroup)`
     flex-direction: row;
     align-items: center;
 
-    ${Button} {
+    > ${Button}, > ${ButtonMenu} {
         ${({theme: { buttonGroup }, type = 'default'}) => {
             return `
                 border-width: 0px;

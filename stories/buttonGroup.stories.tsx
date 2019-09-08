@@ -8,6 +8,8 @@ import { CaretDown, Pen, Search, Trash } from '../src/Icon';
 
 import { storiesOf } from '@storybook/react';
 import React from 'react';
+import ButtonMenu from '../src/Menu/ButtonMenu';
+import { MenuItem } from '../src/Menu/Menu';
 
 const sizeLabel = 'Size';
 const sizeOptions = {
@@ -33,6 +35,32 @@ storiesOf('ButtonGroup', module)
       <ButtonGroup setActive={setActive} type={type} size={size}>
         <Button type={'secondairy'} onClick={action('Click')}>Button<CaretDown spacing="left" /></Button>
         <Button onClick={action('Click')}>Button</Button>
+        <Button onClick={action('Click')}>Button</Button>
+        <Button onClick={action('Click')}>Button</Button>
+        <Button onClick={action('Click')}>Button</Button>
+      </ButtonGroup>
+    );
+  })
+  .add('with menu', () => {
+    const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+    const type = select(typeLabel, typeOptions, typeDefaultValue);
+    const setActive = boolean('setActive', false);
+
+    return (
+      <ButtonGroup setActive={setActive} type={type} size={size}>
+        <Button type={'secondairy'} onClick={action('Click')}>Button<CaretDown spacing="left" /></Button>
+        <Button onClick={action('Click')}>Button</Button>
+        <ButtonMenu
+          items={ (close) => (
+              <React.Fragment>
+                  <MenuItem onClick={() => close()}>Profile</MenuItem>
+                  <MenuItem onClick={() => close()}>Settings</MenuItem>
+                  <MenuItem onClick={() => close()}>Sign out</MenuItem>
+              </React.Fragment>
+            )}
+        >
+            Menu<CaretDown spacing="left" />
+        </ButtonMenu>
         <Button onClick={action('Click')}>Button</Button>
         <Button onClick={action('Click')}>Button</Button>
         <Button onClick={action('Click')}>Button</Button>

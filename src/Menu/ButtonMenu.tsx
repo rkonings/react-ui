@@ -16,7 +16,7 @@ const StyledClickAway = styled.div`
 interface ButtonMenu {
     className?: string;
     menuAlign?: 'LEFT' | 'RIGHT';
-    children: string | JSX.Element;
+    children: Array<string | JSX.Element>;
     items(close: () => void): JSX.Element;
 
 }
