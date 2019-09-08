@@ -2,7 +2,8 @@ import useFocusTrap from '@charlietango/use-focus-trap';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import Button from '../Button/Button';
+import Button, { ButtonType } from '../Button/Button';
+import { Size } from '../interfaces/Theme';
 import { Menu, MenuItem } from './Menu';
 
 const StyledClickAway = styled.div`
@@ -16,18 +17,27 @@ const StyledClickAway = styled.div`
 interface ButtonMenu {
     className?: string;
     menuAlign?: 'LEFT' | 'RIGHT';
-    children: Array<string | JSX.Element>;
+    type?: ButtonType;
+    children: string | JSX.Element | Array<string | JSX.Element>;
+    size?: Size;
+    active?: boolean;
     items(close: () => void): JSX.Element;
-
 }
 
-const ButtonMenu = ({className, items, children}: ButtonMenu) => {
+const ButtonMenu = ({className, items, children, size = 'm', type = 'default'}: ButtonMenu) => {
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
     const focusTrap = useFocusTrap();
 
     return (
         <div className={className}>
-            <Button active={isOpen} onClick={() => setIsOpen(!isOpen)}>{children}</Button>
+            <Button
+                active={isOpen}
+                onClick={() => setIsOpen(!isOpen)}
+                type={type}
+                size={size}
+            >{
+                children}
+            </Button>
             {isOpen && (
                 <React.Fragment>
                     <StyledClickAway onClick={() => setIsOpen(false)} />
