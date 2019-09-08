@@ -69,6 +69,7 @@
     "formik": "^1.5.8",
     "memoize-one": "^5.1.0",
     "moment": "^2.24.0",
+    "momentjs": "^2.0.0",
     "polished": "^3.4.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
