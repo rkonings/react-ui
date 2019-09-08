@@ -9,7 +9,7 @@ const ButtonText = styled.span`
   z-index: 1;
 `;
 
-type ButtonType = 'default' | 'primary' | 'secondairy';
+export type ButtonType = 'default' | 'primary' | 'secondairy';
 
 export interface ButtonProps {
   children: string | JSX.Element | Array<string | JSX.Element>;
