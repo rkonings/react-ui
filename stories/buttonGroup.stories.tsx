@@ -48,7 +48,18 @@ storiesOf('ButtonGroup', module)
 
     return (
       <ButtonGroup setActive={setActive} type={type} size={size}>
-        <Button type={'secondairy'} onClick={action('Click')}>Button<CaretDown spacing="left" /></Button>
+        <ButtonMenu
+          type="secondairy"
+          items={ (close) => (
+              <React.Fragment>
+                  <MenuItem onClick={() => close()}>Profile</MenuItem>
+                  <MenuItem onClick={() => close()}>Settings</MenuItem>
+                  <MenuItem onClick={() => close()}>Sign out</MenuItem>
+              </React.Fragment>
+            )}
+        >
+            Menu<CaretDown spacing="left" />
+        </ButtonMenu>
         <Button onClick={action('Click')}>Button</Button>
         <ButtonMenu
           items={ (close) => (
