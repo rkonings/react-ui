@@ -59,7 +59,7 @@ storiesOf('ButtonGroup', module)
               </React.Fragment>
             )}
         >
-            Menu
+            Menu<CaretDown spacing="left" />
         </ButtonMenu>
         <Button onClick={action('Click')}>Button</Button>
         <Button onClick={action('Click')}>Button</Button>
