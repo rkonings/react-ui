@@ -2,6 +2,8 @@ import moment from 'moment';
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { FixedSizeList as List } from 'react-window';
+
 interface Month {
     selected: boolean;
     selectedDateInMonth: boolean;
@@ -50,16 +52,19 @@ const Title = styled.div`
 interface Calendar {
     className?: string;
     year: number;
+    style?: React.CSSProperties;
     selectedMonth: number;
     selectedYear: number;
     selectedDate: moment.Moment;
     onChange(year: number, month: number): void;
 }
 
-const Calendar = styled(({className, onChange, year, selectedMonth, selectedYear, selectedDate}: Calendar) => {
+const Calendar = styled(({className, onChange, style, year,
+    selectedMonth, selectedYear, selectedDate}: Calendar) => {
+
     const months = moment.monthsShort('-MMM-');
     return (
-        <div className={className}>
+        <div className={className} style={style}>
             <Title>{year}</Title>
             {months.map((m, index) => (
                 <Month
@@ -91,6 +96,31 @@ interface MonthSelect {
     onChange(year: number, month: number): void;
 }
 
+interface RowData {
+   selectedDate: moment.Moment;
+   selectedMonth: number;
+   startYear: number;
+   selectedYear: number;
+   onChange(year: number, month: number): void;
+}
+
+interface Row {
+    data: RowData;
+    index: number;
+    style: React.CSSProperties;
+}
+
+const Row = ({ data, index, style }: Row) => (
+    <Calendar
+        style={style}
+        selectedDate={data.selectedDate}
+        selectedMonth={data.selectedMonth}
+        selectedYear={data.selectedYear}
+        year={data.startYear + index}
+        onChange={data.onChange}
+    />
+  );
+
 export const MonthSelect = styled(({className, onChange, selectedMonth,
     selectedYear, selectedDate, startYear, endYear}: MonthSelect) => {
 
@@ -98,22 +128,36 @@ export const MonthSelect = styled(({className, onChange, selectedMonth,
         onChange(year, month);
     };
 
-    const calendar = [];
-    for (let i = 0; i <= (endYear - startYear); i++) {
-        calendar.push(
-            <Calendar
-                selectedDate={selectedDate}
-                selectedMonth={selectedMonth}
-                selectedYear={selectedYear}
-                year={startYear + i}
-                onChange={onChangeHandler}
-            />
-        );
-    }
+    const ref = React.useRef<List>(null);
+
+    React.useEffect(() => {
+        if (ref.current) {
+            const scrollToItem = selectedDate.year() - startYear;
+            ref.current.scrollToItem(scrollToItem, 'center');
+        }
+
+    }, [selectedDate]);
 
     return (
         <div className={className}>
-            {calendar}
+            <List
+                ref={ref}
+                itemData={
+                    {
+                        selectedDate,
+                        selectedMonth,
+                        selectedYear,
+                        onChange: onChangeHandler,
+                        startYear
+                    }
+                }
+                height={350}
+                itemCount={endYear - startYear + 1}
+                itemSize={100}
+                width={300}
+            >
+                {Row}
+            </List>
         </div>
     );
 })`
