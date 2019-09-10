@@ -12,7 +12,7 @@ storiesOf('Calendar', module)
     const options = {
         range: true,
         min: 2000,
-        max: 2022,
+        max: 2028,
         step: 1,
     };
 
@@ -20,7 +20,7 @@ storiesOf('Calendar', module)
         <Calendar
             onChange={action('Change')}
             startYear={number('Start year', 2018, options)}
-            endYear={number('End year', 2020, options)}
+            endYear={number('End year', 2028, options)}
             value={moment(date('Date', new Date()))}
         />
     );
