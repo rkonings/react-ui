@@ -45,7 +45,7 @@ const Day = styled(({className, day, month, year, inCurrentMonth, isDisabled, on
 
     ${({isSelected, isDisabled, inCurrentMonth, isDayInRange, theme: { color }}) => {
 
-        if (isSelected) {
+        if (isSelected && inCurrentMonth) {
             return `
                 background: ${color.primary};
                 color: ${color.white};
@@ -57,22 +57,22 @@ const Day = styled(({className, day, month, year, inCurrentMonth, isDisabled, on
                 color: ${color.gray70};
                 cursor: default;
             `;
-        } else if (!inCurrentMonth) {
-            return `
-                color: ${color.gray40};
-            `;
         } else if (isDayInRange && inCurrentMonth) {
             return `
                 background: ${color.blue10};
             }
         `;
+        } else if (!inCurrentMonth) {
+            return `
+                color: ${color.gray40};
+            `;
         }
 
         return;
     }}
 
-    ${({isDisabled, theme: { color }}) => {
-        if (!isDisabled) {
+    ${({isDisabled, inCurrentMonth, theme: { color }}) => {
+        if (!isDisabled && inCurrentMonth) {
             return `
                 cursor: pointer;
                 &:hover {
