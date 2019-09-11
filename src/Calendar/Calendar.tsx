@@ -13,15 +13,16 @@ interface Day {
     year: number;
     inCurrentMonth: boolean;
     isSelected: boolean;
+    isDisabled: boolean;
     isDayInRange: boolean;
     onClick(year: number, month: number, day: number): void;
 }
 
-const Day = styled(({className, day, month, year, inCurrentMonth, onClick}: Day) => {
+const Day = styled(({className, day, month, year, inCurrentMonth, isDisabled, onClick}: Day) => {
     return (
         <div
             onClick={() => {
-                if (inCurrentMonth) {
+                if (inCurrentMonth && !isDisabled) {
                     onClick(year, month, day);
                 }
             }}
@@ -38,35 +39,45 @@ const Day = styled(({className, day, month, year, inCurrentMonth, onClick}: Day)
     height: 40px;
     font-size: 12px;
 
-    ${({isSelected, inCurrentMonth, isDayInRange, theme: { color }}) => {
+    ${({isSelected, isDisabled, inCurrentMonth, isDayInRange, theme: { color }}) => {
 
-        if (isDayInRange && inCurrentMonth) {
+        if (isSelected) {
+            return `
+                background: ${color.primary};
+                color: ${color.white};
+            `;
+
+        } else if (isDisabled && inCurrentMonth) {
+            return `
+                background: ${color.gray20};
+                color: ${color.gray70};
+                cursor: default;
+            `;
+        } else if (!inCurrentMonth) {
+            return `
+                color: ${color.gray40};
+            `;
+        } else if (isDayInRange && inCurrentMonth) {
             return `
                 background: ${color.blue10};
             }
         `;
-        } else if (!isSelected) { return null; }
-        return `
-                background: ${color.primary};
-                color: ${color.white};
-            }
-        `;
+        }
+
+        return;
     }}
 
-    ${({inCurrentMonth, isSelected, theme: { color }}) => {
-        if (!inCurrentMonth) {
+    ${({isDisabled, theme: { color }}) => {
+        if (!isDisabled) {
             return `
-                color: ${color.gray40};
+                cursor: pointer;
+                &:hover {
+                    background: ${color.primary};
+                    color: ${color.white};
+                }
             `;
         }
-        return `
-            cursor: pointer;
-            color: ${isSelected ? color.white : color.black};
-            &:hover {
-                background: ${color.primary};
-                color: ${color.white};
-            }
-        `;
+        return;
     }}
 `;
 
@@ -124,6 +135,14 @@ const isDayInRange = (selectedDate: moment.Moment | DateRange, startOfIsoWeek: m
     return false;
 };
 
+const isDisabled = (selected: moment.Moment | DateRange, day: number, month: number, year: number) => {
+    if (isDateRange(selected) && selected.start && selected.end === null) {
+        return moment([year, month, day]).isBefore(selected.start, 'day');
+    }
+
+    return false;
+};
+
 const Week = styled(({className, week, month, year, onChange, value}: Week) => {
     const date = moment().set({year, isoWeek: week}).startOf('isoWeek');
     const days = [1, 2, 3, 4, 5, 6, 7];
@@ -132,15 +151,18 @@ const Week = styled(({className, week, month, year, onChange, value}: Week) => {
         <div className={className}>
             <WeekNumber>{date.isoWeek()}</WeekNumber>
             {days.map((weekDay) => {
+                const day = date.isoWeekday(weekDay).get('D');
+                const disabled = isDisabled(value, day, month, year);
 
                 return (
                     <Day
                         onClick={onChange}
                         key={weekDay}
                         inCurrentMonth={date.isoWeekday(weekDay).isSame(moment([year, month, 1]), 'month')}
-                        day={date.isoWeekday(weekDay).get('D')}
+                        day={day}
                         month={month}
                         year={year}
+                        isDisabled={disabled}
                         isSelected={isDaySelected(value, date, weekDay )}
                         isDayInRange={isDayInRange(value, date, weekDay)}
                     />);
