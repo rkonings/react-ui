@@ -224,6 +224,39 @@ interface Calendar {
     endYear: number;
     onChange(value: moment.Moment | DateRange): void;
 }
+interface DaySelect {
+    className?: string;
+    month: number;
+    year: number;
+    value: moment.Moment | DateRange;
+    amountMonths: number;
+    onChange(year: number, month: number, day: number): void;
+}
+const DaySelect = styled(({className, value, onChange, month, year, amountMonths = 3}: DaySelect) => {
+
+    const months = [];
+    const monthYear = moment([year, month]);
+
+    for (let i = 0; i < amountMonths; i++) {
+        months.push(
+            <Month
+                value={value}
+                onChange={onChange}
+                month={monthYear.month()}
+                year={monthYear.year()}
+            />
+        );
+        monthYear.add(1, 'month');
+    }
+
+    return (
+        <div className={className}>
+            {months}
+        </div>
+    );
+})`
+
+`;
 
 const Calendar = ({className, value: _value, onChange, startYear, endYear}: Calendar) => {
     const [value, setValue] = React.useState<DateRange | moment.Moment>(_value);
@@ -285,7 +318,8 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear}: Cale
                 />
             )}
             {!isOpen && (
-                <Month
+                <DaySelect
+                    amountMonths={2}
                     value={value}
                     onChange={onChangeHandler}
                     month={month}
