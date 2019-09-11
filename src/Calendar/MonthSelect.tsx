@@ -188,17 +188,11 @@ export const MonthSelect = styled(({className, onChange, selectedMonth,
 
     React.useEffect(() => {
         if (ref.current) {
-            let scrollToItem;
-            if ('start' in selectedDate && selectedDate.start) {
-                scrollToItem = selectedDate.start.year() - startYear;
-                ref.current.scrollToItem(scrollToItem, 'center');
-            } else if (isMoment(selectedDate)) {
-                scrollToItem = selectedDate.year() - startYear;
-                ref.current.scrollToItem(scrollToItem, 'center');
-            }
+            const scrollToItem = selectedYear - startYear;
+            ref.current.scrollToItem(scrollToItem, 'smart');
         }
 
-    }, [selectedDate]);
+    }, [selectedYear]);
 
     return (
         <div className={className}>

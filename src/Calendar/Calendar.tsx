@@ -2,7 +2,9 @@ import moment, { isMoment } from 'moment';
 import * as React from 'react';
 import styled from 'styled-components';
 
+import TextButton from '../Button/TextButton';
 import isDateRange from '../Helpers/isDateRange';
+import { CaretDown } from '../Icon/index';
 import { DateRange } from '../interfaces/Date';
 import { MonthSelect } from './MonthSelect';
 
@@ -228,6 +230,8 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear}: Cale
     const [month, setMonth] = React.useState<number>(moment().month());
     const [year, setYear] = React.useState<number>(moment().year());
 
+    const [isOpen, setIsOpen] = React.useState<boolean>(false);
+
     React.useEffect(() => {
         if (isMoment(_value)) {
             setMonth(_value.month());
@@ -259,30 +263,46 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear}: Cale
     const onChangeMonthHandler = (year: number, month: number) => {
         setMonth(month);
         setYear(year);
+        setIsOpen(false);
     };
 
     return (
         <div className={className}>
-            <MonthSelect
-                startYear={startYear}
-                endYear={endYear}
-                selectedDate={value}
-                selectedYear={year}
-                selectedMonth={month}
-                onChange={onChangeMonthHandler}
-            />
-            <Month
-                value={value}
-                onChange={onChangeHandler}
-                month={month}
-                year={year}
-            />
+            <TextButton
+                onClick={() => setIsOpen(!isOpen)}
+            >
+                {moment([year, month]).format('MMM YYYY')}
+                <CaretDown spacing="left" />
+            </TextButton>
+            {isOpen && (
+                <MonthSelect
+                    startYear={startYear}
+                    endYear={endYear}
+                    selectedDate={value}
+                    selectedYear={year}
+                    selectedMonth={month}
+                    onChange={onChangeMonthHandler}
+                />
+            )}
+            {!isOpen && (
+                <Month
+                    value={value}
+                    onChange={onChangeHandler}
+                    month={month}
+                    year={year}
+                />
+            )}
+
         </div>
     );
 };
 
 const StyledCalendar = styled(Calendar)`
     width: 280px;
+
+    ${TextButton} {
+        margin-bottom: 25px;
+    }
 `;
 
 export default StyledCalendar;
