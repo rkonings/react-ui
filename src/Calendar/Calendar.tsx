@@ -3,8 +3,10 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import TextButton from '../Button/TextButton';
+import StyledButtonGroup from '../ButtonGroup/ButtonGroup';
+import { Grid, Item } from '../Grid';
 import isDateRange from '../Helpers/isDateRange';
-import { CaretDown } from '../Icon/index';
+import { ArrowLeft, ArrowRight, CaretDown } from '../Icon/index';
 import { DateRange } from '../interfaces/Date';
 import { MonthSelect } from './MonthSelect';
 
@@ -301,12 +303,45 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear}: Cale
 
     return (
         <div className={className}>
-            <TextButton
-                onClick={() => setIsOpen(!isOpen)}
-            >
-                {moment([year, month]).format('MMM YYYY')}
-                <CaretDown spacing="left" />
-            </TextButton>
+            <Grid width="100%">
+                <Item width="50%">
+                    <TextButton
+                        onClick={() => setIsOpen(!isOpen)}
+                    >
+                        {moment([year, month]).format('MMM YYYY')}
+                        <CaretDown spacing="left" />
+                    </TextButton>
+                </Item>
+                <Item width="50%" horizontalAlignment="flex-end">
+                    <StyledButtonGroup>
+                        <TextButton
+                            onClick={() => {
+                                const prevMonth = moment([year, month]).subtract(1, 'month');
+                                if (prevMonth.isAfter(moment([startYear - 1, 11]), 'month')) {
+                                    setMonth(prevMonth.month());
+                                    setYear(prevMonth.year());
+                                }
+
+                            }}
+                        >
+                            <ArrowLeft size="s" />
+                        </TextButton>
+                        <TextButton
+                            onClick={() => {
+                                const nextMonth = moment([year, month]).add(1, 'month');
+                                if (nextMonth.isBefore(moment([endYear + 1, 0]), 'month')) {
+                                    setMonth(nextMonth.month());
+                                    setYear(nextMonth.year());
+                                }
+
+                            }}
+                        >
+                            <ArrowRight />
+                        </TextButton>
+                    </StyledButtonGroup>
+                </Item>
+            </Grid>
+
             {isOpen && (
                 <MonthSelect
                     startYear={startYear}
