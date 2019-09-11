@@ -270,13 +270,17 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear}: Cale
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
     React.useEffect(() => {
-        if (isMoment(_value)) {
+
+        if (isDateRange(_value)) {
+            if (_value.start) {
+                setMonth(_value.start.month());
+                setYear(_value.start.year());
+            }
+        } else {
             setMonth(_value.month());
-                setYear(_value.year());
-        } else if ('start' in _value && isMoment(_value.start)) {
-            setMonth(_value.start.month());
-            setYear(_value.start.year());
+            setYear(_value.year());
         }
+
     }, [_value]);
 
     const onChangeHandler = (year: number, month: number, day: number) => {
