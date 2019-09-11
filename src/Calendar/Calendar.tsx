@@ -1,7 +1,9 @@
-import moment from 'moment';
+import moment, { isMoment } from 'moment';
 import * as React from 'react';
 import styled from 'styled-components';
 
+import isDateRange from '../Helpers/isDateRange';
+import { DateRange } from '../interfaces/Date';
 import { MonthSelect } from './MonthSelect';
 
 interface Day {
@@ -11,6 +13,7 @@ interface Day {
     year: number;
     inCurrentMonth: boolean;
     isSelected: boolean;
+    isDayInRange: boolean;
     onClick(year: number, month: number, day: number): void;
 }
 
@@ -35,8 +38,14 @@ const Day = styled(({className, day, month, year, inCurrentMonth, onClick}: Day)
     height: 40px;
     font-size: 12px;
 
-    ${({isSelected, theme: { color }}) => {
-        if (!isSelected) { return null; }
+    ${({isSelected, inCurrentMonth, isDayInRange, theme: { color }}) => {
+
+        if (isDayInRange && inCurrentMonth) {
+            return `
+                background: ${color.blue10};
+            }
+        `;
+        } else if (!isSelected) { return null; }
         return `
                 background: ${color.primary};
                 color: ${color.white};
@@ -83,26 +92,59 @@ interface Week {
     week: number;
     month: number;
     year: number;
-    value: moment.Moment;
+    value: moment.Moment | DateRange;
     onChange(year: number, month: number, day: number): void;
 }
+
+const isDaySelected = (selectedDate: moment.Moment | DateRange, startOfIsoWeek: moment.Moment, weekDay: number) => {
+    let isSelected = false;
+    if (isMoment(selectedDate)) {
+        isSelected = selectedDate.isSame(startOfIsoWeek.isoWeekday(weekDay), 'day');
+
+    } else {
+        if ('start' in selectedDate && isMoment(selectedDate.start) &&
+        'end' in selectedDate && isMoment(selectedDate.end)) {
+
+            isSelected = selectedDate.start.isSame(startOfIsoWeek.isoWeekday(weekDay), 'day') ||
+            selectedDate.end.isSame(startOfIsoWeek.isoWeekday(weekDay), 'day');
+
+        } else if ('start' in selectedDate && isMoment(selectedDate.start)) {
+            isSelected = selectedDate.start.isSame(startOfIsoWeek.isoWeekday(weekDay), 'day');
+
+        }
+    }
+
+    return isSelected;
+};
+
+const isDayInRange = (selectedDate: moment.Moment | DateRange, startOfIsoWeek: moment.Moment, weekDay: number) => {
+    if (isDateRange(selectedDate) && selectedDate.start && selectedDate.end) {
+        return startOfIsoWeek.isoWeekday(weekDay).isBetween(selectedDate.start, selectedDate.end, 'day');
+    }
+    return false;
+};
+
 const Week = styled(({className, week, month, year, onChange, value}: Week) => {
     const date = moment().set({year, isoWeek: week}).startOf('isoWeek');
     const days = [1, 2, 3, 4, 5, 6, 7];
+
     return (
         <div className={className}>
             <WeekNumber>{date.isoWeek()}</WeekNumber>
-            {days.map((day) => (
-                <Day
-                    onClick={onChange}
-                    key={day}
-                    inCurrentMonth={date.isoWeekday(day).isSame(moment([year, month, 1]), 'month')}
-                    day={date.isoWeekday(day).get('D')}
-                    month={month}
-                    year={year}
-                    isSelected={value.isSame(date.isoWeekday(day), 'day')}
-                />
-            ))}
+            {days.map((weekDay) => {
+
+                return (
+                    <Day
+                        onClick={onChange}
+                        key={weekDay}
+                        inCurrentMonth={date.isoWeekday(weekDay).isSame(moment([year, month, 1]), 'month')}
+                        day={date.isoWeekday(weekDay).get('D')}
+                        month={month}
+                        year={year}
+                        isSelected={isDaySelected(value, date, weekDay )}
+                        isDayInRange={isDayInRange(value, date, weekDay)}
+                    />);
+                })}
         </div>
     );
 })`
@@ -116,7 +158,7 @@ interface Month {
     className?: string;
     month: number;
     year: number;
-    value: moment.Moment;
+    value: moment.Moment | DateRange;
     onChange(year: number, month: number, day: number): void;
 }
 
@@ -153,27 +195,44 @@ const Month = styled(({className, month, year, value, onChange}: Month) => {
 
 interface Calendar {
     className?: string;
-    value: moment.Moment;
+    value: DateRange | moment.Moment;
     startYear: number;
     endYear: number;
-    onChange(year: number, month: number, day: number): void;
+    onChange(value: moment.Moment | DateRange): void;
 }
 
 const Calendar = ({className, value: _value, onChange, startYear, endYear}: Calendar) => {
-    const [value, setValue] = React.useState<moment.Moment>(_value || moment());
-    const [month, setMonth] = React.useState<number>(value.month());
-    const [year, setYear] = React.useState<number>(value.year());
+    const [value, setValue] = React.useState<DateRange | moment.Moment>(_value);
+    const [month, setMonth] = React.useState<number>(moment().month());
+    const [year, setYear] = React.useState<number>(moment().year());
 
     React.useEffect(() => {
-        setValue(_value);
-        setMonth(_value.month());
-        setYear(_value.year());
+        if (isMoment(_value)) {
+            setMonth(_value.month());
+                setYear(_value.year());
+        } else if ('start' in _value && isMoment(_value.start)) {
+            setMonth(_value.start.month());
+            setYear(_value.start.year());
+        }
     }, [_value]);
 
     const onChangeHandler = (year: number, month: number, day: number) => {
-        setValue(moment([year, month, day]));
-        onChange(year, month, day);
+
+        if (isDateRange(value)) {
+            if (value.start == null || (value.start && value.end)) {
+                setValue({start: moment([year, month, day]), end: null});
+            } else {
+                setValue({start: value.start, end: moment([year, month, day])});
+            }
+        } else {
+            setValue(moment([year, month, day]));
+        }
+
     };
+
+    React.useEffect(() => {
+        onChange(value);
+    }, [value]);
 
     const onChangeMonthHandler = (year: number, month: number) => {
         setMonth(month);

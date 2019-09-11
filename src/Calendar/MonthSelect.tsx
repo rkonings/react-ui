@@ -1,12 +1,15 @@
-import moment from 'moment';
+import moment, { isMoment } from 'moment';
 import * as React from 'react';
 import styled from 'styled-components';
 
 import { FixedSizeList as List } from 'react-window';
+import isDateRange from '../Helpers/isDateRange';
+import { DateRange } from '../interfaces/Date';
 
 interface Month {
     selected: boolean;
     selectedDateInMonth: boolean;
+    isInSelectedRange: boolean;
 }
 
 const Month = styled.div<Month>`
@@ -19,7 +22,7 @@ const Month = styled.div<Month>`
     justify-content: center;
     align-items: center;
 
-    ${({selected, selectedDateInMonth, theme: { color}}) => {
+    ${({selected, selectedDateInMonth, isInSelectedRange, theme: { color}}) => {
         let backgroundColor = 'none';
         let textColor = color.black;
         let borderColor = 'rgba(0,0,0,0)';
@@ -28,6 +31,8 @@ const Month = styled.div<Month>`
             textColor = color.white;
         } else if (selectedDateInMonth) {
             borderColor = color.primary;
+        } else if (isInSelectedRange) {
+            borderColor = color.blue30;
         }
 
         return `
@@ -55,9 +60,31 @@ interface Calendar {
     style?: React.CSSProperties;
     selectedMonth: number;
     selectedYear: number;
-    selectedDate: moment.Moment;
+    selectedDate: moment.Moment | DateRange;
     onChange(year: number, month: number): void;
 }
+
+const isMonthSelected = (selected: moment.Moment | DateRange, month: moment.Moment) => {
+    if (isDateRange(selected)) {
+        if (selected.start && selected.end) {
+            return selected.start.isSame(month, 'month') || selected.end.isSame(month, 'month');
+        } else if (selected.start) {
+            return selected.start.isSame(month, 'month');
+        } else {
+            return false;
+        }
+    } else {
+        return selected.isSame(month);
+    }
+};
+
+const isInSelectedRange = (selected: moment.Moment | DateRange, month: moment.Moment) => {
+    if (isDateRange(selected) && selected.start && selected.end) {
+        return month.isBetween(selected.start, selected.end, 'month');
+    } else {
+        return false;
+    }
+};
 
 const Calendar = styled(({className, onChange, style, year,
     selectedMonth, selectedYear, selectedDate}: Calendar) => {
@@ -67,15 +94,17 @@ const Calendar = styled(({className, onChange, style, year,
         <div className={className} style={style}>
             <Title>{year}</Title>
             {months.map((m, index) => (
-                <Month
-                    onClick={() => onChange(year, index)}
-                    key={m}
-                    selected={selectedMonth === index && selectedYear === year}
-                    selectedDateInMonth={selectedDate.isSame(moment([year, index]), 'month')}
-                >
-                    {m}
-                </Month>
-            ))}
+                    <Month
+                        onClick={() => onChange(year, index)}
+                        key={m}
+                        isInSelectedRange={isInSelectedRange(selectedDate, moment([year, index]))}
+                        selected={selectedMonth === index && selectedYear === year}
+                        selectedDateInMonth={isMonthSelected(selectedDate, moment([year, index]))}
+                    >
+                        {m}
+                    </Month>
+                )
+            )}
         </div>
     );
 })`
@@ -92,7 +121,7 @@ interface MonthSelect {
     endYear: number;
     selectedMonth: number;
     selectedYear: number;
-    selectedDate: moment.Moment;
+    selectedDate: moment.Moment | DateRange;
     onChange(year: number, month: number): void;
 }
 
@@ -132,8 +161,14 @@ export const MonthSelect = styled(({className, onChange, selectedMonth,
 
     React.useEffect(() => {
         if (ref.current) {
-            const scrollToItem = selectedDate.year() - startYear;
-            ref.current.scrollToItem(scrollToItem, 'center');
+            let scrollToItem;
+            if ('start' in selectedDate && selectedDate.start) {
+                scrollToItem = selectedDate.start.year() - startYear;
+                ref.current.scrollToItem(scrollToItem, 'center');
+            } else if (isMoment(selectedDate)) {
+                scrollToItem = selectedDate.year() - startYear;
+                ref.current.scrollToItem(scrollToItem, 'center');
+            }
         }
 
     }, [selectedDate]);
