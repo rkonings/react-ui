@@ -10,6 +10,7 @@ interface Month {
     selected: boolean;
     selectedDateInMonth: boolean;
     isInSelectedRange: boolean;
+    disabled: boolean;
 }
 
 const Month = styled.div<Month>`
@@ -42,10 +43,24 @@ const Month = styled.div<Month>`
         `;
     }};
 
-    &:hover {
-        background: ${({theme: { color }}) => color.blue90};
-        color: ${({theme: { color }}) => color.white};
-    }
+    ${({disabled, theme: { color }}) => {
+
+        if (disabled) {
+            return `
+                background: ${color.gray20};
+                color: ${color.gray70};
+                cursor: default;
+            `;
+        }
+
+        return `
+            cursor: pointer;
+            &:hover {
+                background: ${color.blue90};
+                color: ${color.white};
+            }
+        `;
+    }}
 `;
 
 const Title = styled.div`
@@ -86,6 +101,14 @@ const isInSelectedRange = (selected: moment.Moment | DateRange, month: moment.Mo
     }
 };
 
+const isDisabled = (selected: moment.Moment | DateRange, month: number, year: number) => {
+    if (isDateRange(selected) && selected.start && selected.end === null) {
+        return moment([year, month]).isBefore(selected.start, 'month');
+    }
+
+    return false;
+};
+
 const Calendar = styled(({className, onChange, style, year,
     selectedMonth, selectedYear, selectedDate}: Calendar) => {
 
@@ -93,18 +116,22 @@ const Calendar = styled(({className, onChange, style, year,
     return (
         <div className={className} style={style}>
             <Title>{year}</Title>
-            {months.map((m, index) => (
+            {months.map((m, index) => {
+                const disabled = isDisabled(selectedDate, index, year);
+                const onClick = !disabled ? () => onChange(year, index) : undefined;
+                return (
                     <Month
-                        onClick={() => onChange(year, index)}
+                        onClick={onClick}
                         key={m}
+                        disabled={disabled}
                         isInSelectedRange={isInSelectedRange(selectedDate, moment([year, index]))}
                         selected={selectedMonth === index && selectedYear === year}
                         selectedDateInMonth={isMonthSelected(selectedDate, moment([year, index]))}
                     >
                         {m}
                     </Month>
-                )
-            )}
+                );
+            })}
         </div>
     );
 })`
