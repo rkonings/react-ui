@@ -104,9 +104,9 @@ const MonthTitle = styled.div`
 
 interface Week {
     className?: string;
-    week: number;
     month: number;
     year: number;
+    isoWeek: moment.Moment;
     value: moment.Moment | DateRange;
     onChange(year: number, month: number, day: number): void;
 }
@@ -147,28 +147,28 @@ const isDisabled = (selected: moment.Moment | DateRange, day: number, month: num
     return false;
 };
 
-const Week = styled(({className, week, month, year, onChange, value}: Week) => {
-    const date = moment().set({year, isoWeek: week}).startOf('isoWeek');
+const Week = styled(({className, isoWeek, month, year, onChange, value}: Week) => {
     const days = [1, 2, 3, 4, 5, 6, 7];
 
     return (
         <div className={className}>
-            <WeekNumber>{date.isoWeek()}</WeekNumber>
+            <WeekNumber>{isoWeek.isoWeek()}</WeekNumber>
             {days.map((weekDay) => {
-                const day = date.isoWeekday(weekDay).get('D');
+                isoWeek.isoWeekday(weekDay);
+                const day = isoWeek.date();
                 const disabled = isDisabled(value, day, month, year);
 
                 return (
                     <Day
                         onClick={onChange}
                         key={weekDay}
-                        inCurrentMonth={date.isoWeekday(weekDay).isSame(moment([year, month, 1]), 'month')}
+                        inCurrentMonth={isoWeek.isSame(moment([year, month, 1]), 'month')}
                         day={day}
                         month={month}
                         year={year}
                         isDisabled={disabled}
-                        isSelected={isDaySelected(value, date, weekDay )}
-                        isDayInRange={isDayInRange(value, date, weekDay)}
+                        isSelected={isDaySelected(value, isoWeek, weekDay )}
+                        isDayInRange={isDayInRange(value, isoWeek, weekDay)}
                     />);
                 })}
         </div>
@@ -189,20 +189,22 @@ interface Month {
 }
 
 const Month = styled(({className, month, year, value, onChange}: Month) => {
-    const firstDayOfMonth = moment([year, month]);
+    const firstDayOfMonth = moment([year, month]).startOf('month');
     const weeksInMonth = Math.ceil((firstDayOfMonth.isoWeekday() + firstDayOfMonth.daysInMonth()) / 7);
     const weeks = [];
 
     for (let i = 0; i < weeksInMonth; i++ ) {
         weeks.push(
             <Week
-                week={firstDayOfMonth.isoWeek() + i}
+                isoWeek={firstDayOfMonth.clone().startOf('isoWeek')}
                 value={value}
                 month={month}
                 year={year}
                 onChange={onChange}
             />
         );
+
+        firstDayOfMonth.add(7, 'days');
     }
 
     return (
