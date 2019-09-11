@@ -23,6 +23,7 @@ storiesOf('Calendar', module)
 
     return (
         <Calendar
+            width={280}
             onChange={action('Change')}
             startYear={number('Start year', 2018, options)}
             endYear={number('End year', 2028, options)}
@@ -40,6 +41,7 @@ storiesOf('Calendar', module)
 
     return (
         <Calendar
+            width={280}
             onChange={action('Change')}
             startYear={number('Start year', 2018, options)}
             endYear={number('End year', 2028, options)}

@@ -148,6 +148,7 @@ interface MonthSelect {
     endYear: number;
     selectedMonth: number;
     selectedYear: number;
+    width: number;
     selectedDate: moment.Moment | DateRange;
     onChange(year: number, month: number): void;
 }
@@ -178,7 +179,7 @@ const Row = ({ data, index, style }: Row) => (
   );
 
 export const MonthSelect = styled(({className, onChange, selectedMonth,
-    selectedYear, selectedDate, startYear, endYear}: MonthSelect) => {
+    selectedYear, selectedDate, startYear, endYear, width}: MonthSelect) => {
 
     const onChangeHandler = (year: number, month: number) => {
         onChange(year, month);
@@ -210,7 +211,7 @@ export const MonthSelect = styled(({className, onChange, selectedMonth,
                 height={350}
                 itemCount={endYear - startYear + 1}
                 itemSize={100}
-                width={300}
+                width={width}
             >
                 {Row}
             </List>

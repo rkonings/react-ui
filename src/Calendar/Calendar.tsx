@@ -226,6 +226,7 @@ interface Calendar {
     value: DateRange | moment.Moment;
     startYear: number;
     endYear: number;
+    width: number;
     onChange(value: moment.Moment | DateRange): void;
 }
 interface DaySelect {
@@ -262,7 +263,7 @@ const DaySelect = styled(({className, value, onChange, month, year, amountMonths
 
 `;
 
-const Calendar = ({className, value: _value, onChange, startYear, endYear}: Calendar) => {
+const Calendar = ({className, value: _value, onChange, startYear, endYear, width}: Calendar) => {
     const [value, setValue] = React.useState<DateRange | moment.Moment>(_value);
     const [month, setMonth] = React.useState<number>(moment().month());
     const [year, setYear] = React.useState<number>(moment().year());
@@ -356,6 +357,7 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear}: Cale
                     selectedYear={year}
                     selectedMonth={month}
                     onChange={onChangeMonthHandler}
+                    width={width}
                 />
             )}
             {!isOpen && (
@@ -373,7 +375,7 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear}: Cale
 };
 
 const StyledCalendar = styled(Calendar)`
-    width: 280px;
+    width: ${({width}) => width}px;
 
     ${TextButton} {
         margin-bottom: 25px;
