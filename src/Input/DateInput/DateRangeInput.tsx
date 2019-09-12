@@ -6,7 +6,7 @@ import TextField from '../TextField/TextField';
 const DATE_FORMAT = 'D-M-YYYY';
 
 interface DateRangeInput {
-    className: string;
+    className?: string;
     startDate: moment.Moment | null;
     endDate: moment.Moment | null;
     dateFormat?: string;
