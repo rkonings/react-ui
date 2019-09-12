@@ -7,6 +7,8 @@ import StyledButtonGroup from '../ButtonGroup/ButtonGroup';
 import { Grid, Item } from '../Grid';
 import isDateRange from '../Helpers/isDateRange';
 import { ArrowLeft, ArrowRight, CaretDown } from '../Icon/index';
+import DateInput from '../Input/DateInput/DateInput';
+import DateRangeInput from '../Input/DateInput/DateRangeInput';
 import { DateRange } from '../interfaces/Date';
 import { MonthSelect } from './MonthSelect';
 
@@ -308,8 +310,41 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear, width
         setIsOpen(false);
     };
 
+    const onChangeDateInputHandler = (date: moment.Moment) => {
+        setValue(date);
+        setMonth(date.month());
+        setYear(date.year());
+    };
+
+    const onChangeStartDateInputHandler = (date: moment.Moment) => {
+        setMonth(date.month());
+        setYear(date.year());
+        setValue({...value, start: date});
+    };
+
+    const onChangeEndDateInputHandler = (date: moment.Moment) => {
+        setMonth(date.month());
+        setYear(date.year());
+        setValue({...value, end: date});
+    };
+
+    const getInputField = () => {
+        if (isDateRange(value)) {
+            return (
+                <DateRangeInput
+                    startDate={value.start}
+                    endDate={value.end}
+                    onChangeStartDate={onChangeStartDateInputHandler}
+                    onChangeEndDate={onChangeEndDateInputHandler}
+                />
+            );
+        }
+        return <DateInput value={value} onChange={onChangeDateInputHandler}/>;
+    };
+
     return (
         <div className={className}>
+            {getInputField()}
             <Grid width="100%">
                 <Item width="50%">
                     <TextButton
