@@ -10,12 +10,13 @@ interface DateRangeInput {
     startDate: moment.Moment | null;
     endDate: moment.Moment | null;
     dateFormat?: string;
+    onFocus?(selectingMode: 'START_DATE' | 'END_DATE'): void;
     onChangeStartDate(date: moment.Moment): void;
     onChangeEndDate(date: moment.Moment): void;
 }
 
 export default styled(({className, startDate, endDate, onChangeStartDate,
-    onChangeEndDate, dateFormat = DATE_FORMAT}: DateRangeInput) => {
+    onChangeEndDate, onFocus, dateFormat = DATE_FORMAT}: DateRangeInput) => {
 
     const formattedStartDate = startDate ? startDate.format(dateFormat) : '';
     const formattedEndDate = endDate ? endDate.format(dateFormat) : '';
@@ -53,9 +54,17 @@ export default styled(({className, startDate, endDate, onChangeStartDate,
 
     return (
         <div className={className}>
-            <TextField value={startValue} onChange={onChangeStartDateHandler} />
+            <TextField
+                value={startValue}
+                onChange={onChangeStartDateHandler}
+                onFocus={() => onFocus && onFocus('START_DATE')}
+            />
             <span>-</span>
-            <TextField value={endValue} onChange={onChangeEndDateHandler} />
+            <TextField
+                value={endValue}
+                onChange={onChangeEndDateHandler}
+                onFocus={() => onFocus && onFocus('END_DATE')}
+            />
         </div>
     );
 })`
