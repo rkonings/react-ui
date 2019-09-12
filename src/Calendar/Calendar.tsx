@@ -270,7 +270,7 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear, width
     const [month, setMonth] = React.useState<number>(moment().month());
     const [year, setYear] = React.useState<number>(moment().year());
 
-    const [selectingFor, setSelectingFor] = React.useState<'START_DATE' | 'END_DATE'>('START_DATE');
+    const [selectingMode, setSelectingMode] = React.useState<'START_DATE' | 'END_DATE'>('START_DATE');
 
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
@@ -291,7 +291,7 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear, width
     const onChangeHandler = (year: number, month: number, day: number) => {
         const selectedDate = moment([year, month, day]);
         if (isDateRange(value)) {
-            if (selectingFor === 'START_DATE') {
+            if (selectingMode === 'START_DATE') {
 
                 if ((value.end && selectedDate.isBefore(value.end, 'day')) || !value.end) {
                     setValue({...value, start: selectedDate});
@@ -299,13 +299,13 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear, width
                 } else {
                     setValue({end: null, start: selectedDate});
                 }
-                setSelectingFor('END_DATE');
+                setSelectingMode('END_DATE');
 
             } else {
 
                 if (value.start && selectedDate.isAfter(value.start, 'day')) {
                     setValue({...value, end: selectedDate});
-                    setSelectingFor('START_DATE');
+                    setSelectingMode('START_DATE');
                 }
 
             }
@@ -345,7 +345,7 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear, width
     };
 
     const onDateRangeInputFocus = (type: 'START_DATE' | 'END_DATE') => {
-        setSelectingDate(type);
+        setSelectingMode(type);
     };
 
     const getInputField = () => {
