@@ -177,6 +177,19 @@ storiesOf('Input/TextField', module)
     <TextField value={value} inputType={inputType} onChange={action('onChange')} />
   );
 })
+.add('with onFocus & onBlur', () => {
+  const value = text('Value', 'react@development.nl');
+  const inputType = select(inputTypeLabel, inputTypeOptions, inputTypeDefault);
+  return (
+    <TextField
+      value={value}
+      inputType={inputType}
+      onFocus={action('onFocus')}
+      onBlur={action('onBlur')}
+      onChange={action('onChange')}
+    />
+  );
+})
 .add('with placeholder', () => {
   const placeholder = text('Placeholder', 'e-mail');
   return (
