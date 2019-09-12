@@ -18,9 +18,10 @@ interface TextFieldProps extends HelperText, ErrorText {
     name?: string;
     onChange?(e: React.FormEvent<HTMLInputElement>): void;
     onBlur?(e: React.FormEvent<HTMLInputElement>): void;
+    onFocus?(e: React.FormEvent<HTMLInputElement>): void;
 }
 
-const TextField = ({className, value, placeHolder, onChange, onBlur, name,
+const TextField = ({className, value, placeHolder, onChange, onBlur, onFocus, name,
     helperText, errorText, autoFocus, disabled, inputType = DEFAULT_TYPE}: TextFieldProps) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -41,6 +42,7 @@ const TextField = ({className, value, placeHolder, onChange, onBlur, name,
                     value={value}
                     onChange={onChange}
                     onBlur={onBlur}
+                    onFocus={onFocus}
                     disabled={disabled}
                 />
             </label>
