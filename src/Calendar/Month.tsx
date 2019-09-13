@@ -29,6 +29,7 @@ export default styled(({className, month, year, value,
     for (let i = 0; i < weeksInMonth; i++ ) {
         weeks.push(
             <Week
+                key={i}
                 isoWeek={firstDayOfMonth.clone().startOf('isoWeek')}
                 value={value}
                 month={month}

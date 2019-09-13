@@ -41,6 +41,7 @@ const DaySelect = styled(({className, value, onChange, month, year,
     for (let i = 0; i < amountMonths; i++) {
         months.push(
             <Month
+                key={i}
                 value={value}
                 onChange={onChange}
                 month={monthYear.month()}
