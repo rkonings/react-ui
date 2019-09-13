@@ -55,13 +55,13 @@ const isDayInRange = (selectedDate: moment.Moment | DateRange, startOfIsoWeek: m
     return false;
 };
 
-const isDisabled = (selected: moment.Moment | DateRange, day: number, month: number, year: number) => {
-    if (isDateRange(selected) && selected.start && selected.end === null) {
-        return moment([year, month, day]).isBefore(selected.start, 'day');
-    }
+// const isDisabled = (selected: moment.Moment | DateRange, day: number, month: number, year: number) => {
+//     if (isDateRange(selected) && selected.start && selected.end === null) {
+//         return moment([year, month, day]).isBefore(selected.start, 'day');
+//     }
 
-    return false;
-};
+//     return false;
+// };
 
 const IsInPotentialRange = (potentialRange: DateRange, startOfIsoWeek: moment.Moment, weekDay: number) => {
     if (potentialRange.start && potentialRange.end &&
@@ -83,7 +83,7 @@ export default styled(({className, isoWeek, month, year, onChange, value,
             {days.map((weekDay) => {
                 isoWeek.isoWeekday(weekDay);
                 const day = isoWeek.date();
-                const disabled = isDisabled(value, day, month, year);
+                // const disabled = isDisabled(value, day, month, year);
                 const inPotentialRange = potentialRange ?
                     IsInPotentialRange(potentialRange, isoWeek, weekDay) : false;
 
@@ -96,7 +96,8 @@ export default styled(({className, isoWeek, month, year, onChange, value,
                         month={month}
                         year={year}
                         inPotentialRange={inPotentialRange}
-                        isDisabled={disabled}
+                        // isDisabled={disabled}
+                        isDisabled={false}
                         isSelected={isDaySelected(value, isoWeek, weekDay )}
                         isDayInRange={isDayInRange(value, isoWeek, weekDay)}
                         potentialRange={potentialRange}

@@ -111,6 +111,8 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear, width
                 if (value.start && selectedDate.isAfter(value.start, 'day')) {
                     setValue({...value, end: selectedDate});
                     setSelectingMode('START_DATE');
+                } else {
+                    setValue({...value, start: selectedDate});
                 }
 
             }
