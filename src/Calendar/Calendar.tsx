@@ -19,17 +19,26 @@ interface Day {
     year: number;
     inCurrentMonth: boolean;
     isSelected: boolean;
+    inPotentialRange: boolean;
     isDisabled: boolean;
     isDayInRange: boolean;
+    potentialRange?: DateRange | null;
+    onChangePotentialRange?(date: moment.Moment): void;
     onClick(year: number, month: number, day: number): void;
 }
 
-const Day = styled(({className, day, month, year, inCurrentMonth, isDisabled, onClick}: Day) => {
+const Day = styled(({className, day, month, year, inCurrentMonth,
+    isDisabled, onClick, onChangePotentialRange}: Day) => {
     return (
         <div
             onClick={() => {
                 if (inCurrentMonth && !isDisabled) {
                     onClick(year, month, day);
+                }
+            }}
+            onMouseOver={() => {
+                if (inCurrentMonth && !isDisabled && onChangePotentialRange) {
+                    onChangePotentialRange(moment([year, month, day]));
                 }
             }}
             className={className}
@@ -45,9 +54,14 @@ const Day = styled(({className, day, month, year, inCurrentMonth, isDisabled, on
     height: 40px;
     font-size: 12px;
 
-    ${({isSelected, isDisabled, inCurrentMonth, isDayInRange, theme: { color }}) => {
+    ${({isSelected, isDisabled, inPotentialRange, inCurrentMonth, isDayInRange, theme: { color }}) => {
+        if (inPotentialRange && inCurrentMonth) {
+            return `
+                background: ${color.blue20};
+                color: ${color.black};
+            `;
 
-        if (isSelected && inCurrentMonth) {
+        } else if (isSelected && inCurrentMonth) {
             return `
                 background: ${color.primary};
                 color: ${color.white};
@@ -110,6 +124,8 @@ interface Week {
     year: number;
     isoWeek: moment.Moment;
     value: moment.Moment | DateRange;
+    potentialRange?: DateRange | null;
+    onChangePotentialRange?(date: moment.Moment): void;
     onChange(year: number, month: number, day: number): void;
 }
 
@@ -149,7 +165,18 @@ const isDisabled = (selected: moment.Moment | DateRange, day: number, month: num
     return false;
 };
 
-const Week = styled(({className, isoWeek, month, year, onChange, value}: Week) => {
+const IsInPotentialRange = (potentialRange: DateRange, startOfIsoWeek: moment.Moment, weekDay: number) => {
+    if (potentialRange.start && potentialRange.end &&
+        startOfIsoWeek.isoWeekday(weekDay).isBetween(potentialRange.start, potentialRange.end, 'day')) {
+
+            return true;
+        }
+
+    return false;
+};
+
+const Week = styled(({className, isoWeek, month, year, onChange, value,
+    potentialRange, onChangePotentialRange, }: Week) => {
     const days = [1, 2, 3, 4, 5, 6, 7];
 
     return (
@@ -159,6 +186,8 @@ const Week = styled(({className, isoWeek, month, year, onChange, value}: Week) =
                 isoWeek.isoWeekday(weekDay);
                 const day = isoWeek.date();
                 const disabled = isDisabled(value, day, month, year);
+                const inPotentialRange = potentialRange ?
+                    IsInPotentialRange(potentialRange, isoWeek, weekDay) : false;
 
                 return (
                     <Day
@@ -168,9 +197,12 @@ const Week = styled(({className, isoWeek, month, year, onChange, value}: Week) =
                         day={day}
                         month={month}
                         year={year}
+                        inPotentialRange={inPotentialRange}
                         isDisabled={disabled}
                         isSelected={isDaySelected(value, isoWeek, weekDay )}
                         isDayInRange={isDayInRange(value, isoWeek, weekDay)}
+                        potentialRange={potentialRange}
+                        onChangePotentialRange={onChangePotentialRange}
                     />);
                 })}
         </div>
@@ -187,10 +219,13 @@ interface Month {
     month: number;
     year: number;
     value: moment.Moment | DateRange;
+    potentialRange?: DateRange | null;
+    onChangePotentialRange?(date: moment.Moment): void;
     onChange(year: number, month: number, day: number): void;
 }
 
-const Month = styled(({className, month, year, value, onChange}: Month) => {
+const Month = styled(({className, month, year, value,
+    potentialRange, onChangePotentialRange, onChange}: Month) => {
     const firstDayOfMonth = moment([year, month]).startOf('month');
     const weeksInMonth = Math.ceil((firstDayOfMonth.isoWeekday() + firstDayOfMonth.daysInMonth()) / 7);
     const weeks = [];
@@ -203,6 +238,8 @@ const Month = styled(({className, month, year, value, onChange}: Month) => {
                 month={month}
                 year={year}
                 onChange={onChange}
+                potentialRange={potentialRange}
+                onChangePotentialRange={onChangePotentialRange}
             />
         );
 
@@ -231,15 +268,19 @@ interface Calendar {
     width: number;
     onChange(value: moment.Moment | DateRange): void;
 }
+
 interface DaySelect {
     className?: string;
     month: number;
     year: number;
     value: moment.Moment | DateRange;
     amountMonths: number;
+    potentialRange?: DateRange | null;
+    onChangePotentialRange?(date: moment.Moment): void;
     onChange(year: number, month: number, day: number): void;
 }
-const DaySelect = styled(({className, value, onChange, month, year, amountMonths = 3}: DaySelect) => {
+const DaySelect = styled(({className, value, onChange, month, year,
+    potentialRange, onChangePotentialRange, amountMonths = 3}: DaySelect) => {
 
     const months = [];
     const monthYear = moment([year, month]);
@@ -251,6 +292,8 @@ const DaySelect = styled(({className, value, onChange, month, year, amountMonths
                 onChange={onChange}
                 month={monthYear.month()}
                 year={monthYear.year()}
+                potentialRange={potentialRange}
+                onChangePotentialRange={onChangePotentialRange}
             />
         );
         monthYear.add(1, 'month');
@@ -271,7 +314,7 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear, width
     const [year, setYear] = React.useState<number>(moment().year());
 
     const [selectingMode, setSelectingMode] = React.useState<'START_DATE' | 'END_DATE'>('START_DATE');
-
+    const [potentialRange, setPotentialRange] = React.useState<DateRange | null>(null);
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
     React.useEffect(() => {
@@ -287,6 +330,14 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear, width
         }
 
     }, [_value]);
+
+    const changePotentialRange = (date: moment.Moment) => {
+        if (selectingMode === 'END_DATE' && isDateRange(value) && value.start) {
+            setPotentialRange({start: value.start, end: date});
+        } else {
+            setPotentialRange(null);
+        }
+    };
 
     const onChangeHandler = (year: number, month: number, day: number) => {
         const selectedDate = moment([year, month, day]);
@@ -423,6 +474,8 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear, width
                     onChange={onChangeHandler}
                     month={month}
                     year={year}
+                    potentialRange={potentialRange}
+                    onChangePotentialRange={changePotentialRange}
                 />
             )}
 
