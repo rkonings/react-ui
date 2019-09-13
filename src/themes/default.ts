@@ -6,6 +6,37 @@ import icon from './icon';
 import input from './input';
 import table from './table';
 
+const calendar = {
+    day: {
+        default: {
+            color: color.black,
+            hover: {
+                backgroundColor: color.primary,
+                color: color.white,
+            }
+        },
+        selected: {
+            backgroundColor: color.primary,
+            color: color.white,
+        },
+        disabled: {
+            backgroundColor: color.gray20,
+            color: color.gray70,
+        },
+        inRange: {
+            backgroundColor: color.blue10,
+            color: color.black,
+        },
+        inPotentialRange: {
+            backgroundColor: color.blue20,
+            color: color.black,
+        },
+        notInMonth: {
+            color: color.gray40,
+        }
+    }
+};
+
 const menu = {
     backgroundColor: color.white,
     boxShadow: '0px 4px 9px rgba(0, 0, 0, 0.05);',
@@ -42,6 +73,7 @@ const theme: Theme = {
     buttonGroup,
     menu,
     table,
+    calendar,
     loader: {
         default: {
             color: color.gray110
