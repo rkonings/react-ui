@@ -1,16 +1,18 @@
 import moment from 'moment';
 import * as React from 'react';
+import styled from 'styled-components';
 import TextField from '../TextField/TextField';
 
 const DATE_FORMAT = 'D-M-YYYY';
 
 interface DateInput {
+    className?: string;
     value: moment.Moment;
     dateFormat?: string;
     onChange(date: moment.Moment): void;
 }
 
-export default ({value, onChange, dateFormat = DATE_FORMAT}: DateInput) => {
+export default styled(({value, onChange, className, dateFormat = DATE_FORMAT}: DateInput) => {
 
     const [date, setDate] = React.useState<string>(value.format(dateFormat));
 
@@ -27,5 +29,11 @@ export default ({value, onChange, dateFormat = DATE_FORMAT}: DateInput) => {
         }
     };
 
-    return (<TextField value={date} onChange={onChangeHandler} />);
-};
+    return (<TextField className={className} value={date} onChange={onChangeHandler} />);
+})`
+    input {
+        font-size: 12px;
+        padding: 8px 10px;
+        width: 40%;
+    }
+`;
