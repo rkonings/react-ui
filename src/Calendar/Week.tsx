@@ -24,7 +24,7 @@ interface Week {
     value: moment.Moment | DateRange;
     potentialRange?: DateRange | null;
     onChangePotentialRange?(date: moment.Moment): void;
-    onChange(year: number, month: number, day: number): void;
+    onChange(selectedDate: moment.Moment | null): void;
 }
 
 const isDaySelected = (selectedDate: moment.Moment | DateRange, startOfIsoWeek: moment.Moment, weekDay: number) => {

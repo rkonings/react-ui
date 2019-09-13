@@ -30,7 +30,7 @@ interface DaySelect {
     amountMonths: number;
     potentialRange?: DateRange | null;
     onChangePotentialRange?(date: moment.Moment): void;
-    onChange(year: number, month: number, day: number): void;
+    onChange(selectedDate: moment.Moment): void;
 }
 const DaySelect = styled(({className, value, onChange, month, year,
     potentialRange, onChangePotentialRange, amountMonths = 3}: DaySelect) => {
@@ -93,8 +93,7 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear, width
         }
     };
 
-    const onChangeHandler = (year: number, month: number, day: number) => {
-        const selectedDate = moment([year, month, day]);
+    const onChangeHandler = (selectedDate: moment.Moment) => {
         if (isDateRange(value)) {
             if (selectingMode === 'START_DATE') {
 
@@ -118,7 +117,7 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear, width
             }
 
         } else {
-            setValue(moment([year, month, day]));
+            setValue(selectedDate);
         }
 
     };

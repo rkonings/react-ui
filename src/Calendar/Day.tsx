@@ -15,7 +15,7 @@ interface Day {
     isDayInRange: boolean;
     potentialRange?: DateRange | null;
     onChangePotentialRange?(date: moment.Moment): void;
-    onClick(year: number, month: number, day: number): void;
+    onClick(selectedDate: moment.Moment): void;
 }
 
 export default styled(({className, day, month, year, inCurrentMonth,
@@ -24,7 +24,7 @@ export default styled(({className, day, month, year, inCurrentMonth,
         <div
             onClick={() => {
                 if (inCurrentMonth && !isDisabled) {
-                    onClick(year, month, day);
+                    onClick(moment([year, month, day]));
                 }
             }}
             onMouseOver={() => {

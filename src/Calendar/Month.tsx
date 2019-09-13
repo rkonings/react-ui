@@ -17,7 +17,7 @@ interface Month {
     value: moment.Moment | DateRange;
     potentialRange?: DateRange | null;
     onChangePotentialRange?(date: moment.Moment): void;
-    onChange(year: number, month: number, day: number): void;
+    onChange(selectedDate: moment.Moment | null): void;
 }
 
 export default styled(({className, month, year, value,
