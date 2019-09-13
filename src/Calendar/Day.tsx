@@ -45,46 +45,48 @@ export default styled(({className, day, month, year, inCurrentMonth,
     height: 40px;
     font-size: 12px;
 
-    ${({isSelected, isDisabled, inPotentialRange, inCurrentMonth, isDayInRange, theme: { color }}) => {
+    ${({isSelected, isDisabled, inPotentialRange, inCurrentMonth,
+        isDayInRange, theme: { color, calendar: { day } }}) => {
         if (inPotentialRange && inCurrentMonth) {
             return `
-                background: ${color.blue20};
-                color: ${color.black};
+                background: ${day.inPotentialRange.backgroundColor};
+                color: ${day.inPotentialRange.color};
             `;
 
         } else if (isSelected && inCurrentMonth) {
             return `
-                background: ${color.primary};
-                color: ${color.white};
+                background: ${day.selected.backgroundColor};
+                color: ${day.selected.color};
             `;
 
         } else if (isDisabled && inCurrentMonth) {
             return `
-                background: ${color.gray20};
-                color: ${color.gray70};
+                background: ${day.disabled.backgroundColor};
+                color: ${day.disabled.color};
                 cursor: default;
             `;
         } else if (isDayInRange && inCurrentMonth) {
             return `
-                background: ${color.blue10};
+                background: ${day.inRange.backgroundColor};
+                color: ${day.inRange.color};
             }
         `;
         } else if (!inCurrentMonth) {
             return `
-                color: ${color.gray40};
+                color: ${day.notInMonth.color};
             `;
         }
 
         return;
     }}
 
-    ${({isDisabled, inCurrentMonth, theme: { color }}) => {
+    ${({isDisabled, inCurrentMonth, theme: { color, calendar: { day} }}) => {
         if (!isDisabled && inCurrentMonth) {
             return `
                 cursor: pointer;
                 &:hover {
-                    background: ${color.primary};
-                    color: ${color.white};
+                    background: ${day.default.hover.backgroundColor};
+                    color: ${day.default.hover.color};
                 }
             `;
         }
