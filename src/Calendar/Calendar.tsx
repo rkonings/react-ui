@@ -7,7 +7,6 @@ import StyledButtonGroup from '../ButtonGroup/ButtonGroup';
 import { Grid, Item } from '../Grid';
 import isDateRange from '../Helpers/isDateRange';
 import { ArrowLeft, ArrowRight, CaretDown } from '../Icon/index';
-import DateInput from '../Input/DateInput/DateInput';
 import DateRangeInput from '../Input/DateInput/DateRangeInput';
 import { DateRange } from '../interfaces/Date';
 import Month from './Month';
@@ -15,18 +14,20 @@ import { MonthSelect } from './MonthSelect';
 
 interface Calendar {
     className?: string;
-    value: DateRange | moment.Moment;
+    value: DateRange | null;
     startYear: number;
     endYear: number;
     width: number;
-    onChange(value: moment.Moment | DateRange): void;
+    onChange?(value: DateRange): void;
+    onFocus?(): void;
+    onBlur?(): void;
 }
 
 interface DaySelect {
     className?: string;
     month: number;
     year: number;
-    value: moment.Moment | DateRange;
+    value: DateRange | null;
     amountMonths: number;
     potentialRange?: DateRange | null;
     onChangePotentialRange?(date: moment.Moment): void;
@@ -62,8 +63,10 @@ const DaySelect = styled(({className, value, onChange, month, year,
 
 `;
 
-const Calendar = ({className, value: _value, onChange, startYear, endYear, width}: Calendar) => {
-    const [value, setValue] = React.useState<DateRange | moment.Moment>(_value);
+const Calendar = ({className, value: _value, onChange,
+    startYear, endYear, width, onBlur, onFocus}: Calendar) => {
+
+    const [value, _setValue] = React.useState<DateRange | null>(null);
     const [month, setMonth] = React.useState<number>(moment().month());
     const [year, setYear] = React.useState<number>(moment().year());
 
@@ -73,58 +76,65 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear, width
 
     React.useEffect(() => {
 
-        if (isDateRange(_value)) {
+        if (_value) {
             if (_value.start) {
                 setMonth(_value.start.month());
                 setYear(_value.start.year());
+            } else {
+                const now = moment();
+                setMonth(now.month());
+                setYear(now.year());
             }
-        } else {
-            setMonth(_value.month());
-            setYear(_value.year());
         }
 
     }, [_value]);
 
     const changePotentialRange = (date: moment.Moment) => {
-        if (selectingMode === 'END_DATE' && isDateRange(value) && value.start) {
+        if (value && selectingMode === 'END_DATE' && value.start) {
             setPotentialRange({start: value.start, end: date});
         } else {
             setPotentialRange(null);
         }
     };
 
-    const onChangeHandler = (selectedDate: moment.Moment) => {
-        if (isDateRange(value)) {
-            if (selectingMode === 'START_DATE') {
+    const setValue = (value: DateRange) => {
+        _setValue(value);
+        if (onChange) {
+            onChange(value);
+        }
+    };
 
-                if ((value.end && selectedDate.isBefore(value.end, 'day')) || !value.end) {
+    const onChangeHandler = (selectedDate: moment.Moment) => {
+        if (selectingMode === 'START_DATE') {
+            if (value) {
+                if ((value.end && selectedDate.isBefore(value.end, 'day')) || value && !value.end) {
                     setValue({...value, start: selectedDate});
 
                 } else {
                     setValue({end: null, start: selectedDate});
                 }
-                setSelectingMode('END_DATE');
-
             } else {
+                setValue({start: selectedDate, end: null});
+            }
+            setSelectingMode('END_DATE');
 
-                if (value.start && selectedDate.isAfter(value.start, 'day')) {
+        } else {
+
+            if (value) {
+
+                if (value && value.start && selectedDate.isAfter(value.start, 'day')) {
                     setValue({...value, end: selectedDate});
                     setSelectingMode('START_DATE');
                 } else {
                     setValue({...value, start: selectedDate});
                 }
-
+            } else {
+                setValue({start: null, end: selectedDate});
             }
 
-        } else {
-            setValue(selectedDate);
         }
 
     };
-
-    React.useEffect(() => {
-        onChange(value);
-    }, [value]);
 
     const onChangeMonthHandler = (year: number, month: number) => {
         setMonth(month);
@@ -132,22 +142,21 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear, width
         setIsOpen(false);
     };
 
-    const onChangeDateInputHandler = (date: moment.Moment) => {
-        setValue(date);
-        setMonth(date.month());
-        setYear(date.year());
-    };
-
     const onChangeStartDateInputHandler = (date: moment.Moment) => {
         setMonth(date.month());
         setYear(date.year());
-        setValue({...value, start: date});
+        if (value && isDateRange(value)) {
+            setValue({...value, start: date});
+        }
+
     };
 
     const onChangeEndDateInputHandler = (date: moment.Moment) => {
         setMonth(date.month());
         setYear(date.year());
-        setValue({...value, end: date});
+        if (value && isDateRange(value)) {
+            setValue({...value, end: date});
+        }
     };
 
     const onDateRangeInputFocus = (type: 'START_DATE' | 'END_DATE') => {
@@ -155,22 +164,27 @@ const Calendar = ({className, value: _value, onChange, startYear, endYear, width
     };
 
     const getInputField = () => {
-        if (isDateRange(value)) {
-            return (
-                <DateRangeInput
-                    onFocus={onDateRangeInputFocus}
-                    startDate={value.start}
-                    endDate={value.end}
-                    onChangeStartDate={onChangeStartDateInputHandler}
-                    onChangeEndDate={onChangeEndDateInputHandler}
-                />
-            );
-        }
-        return <DateInput value={value} onChange={onChangeDateInputHandler}/>;
+        const startDate = (value && isDateRange(value) && value.start) ? value.start : moment();
+        const endDate = (value && isDateRange(value) && value.end) ? value.end : moment();
+        return (
+            <DateRangeInput
+                onFocus={onDateRangeInputFocus}
+                startDate={startDate}
+                endDate={endDate}
+                onChangeStartDate={onChangeStartDateInputHandler}
+                onChangeEndDate={onChangeEndDateInputHandler}
+            />
+        );
+
     };
 
     return (
-        <div className={className}>
+        <div
+            onFocus={() => onFocus && onFocus()}
+            onBlur={() => onBlur && onBlur()}
+            className={className}
+            tabIndex={0}
+        >
             {getInputField()}
             <Grid width="100%">
                 <Item width="50%">
@@ -243,6 +257,10 @@ const StyledCalendar = styled(Calendar)`
 
     ${TextButton} {
         margin-bottom: 25px;
+    }
+
+    &:focus {
+        outline: none;
     }
 `;
 

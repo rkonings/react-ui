@@ -149,7 +149,7 @@ interface MonthSelect {
     selectedMonth: number;
     selectedYear: number;
     width: number;
-    selectedDate: moment.Moment | DateRange;
+    selectedDate: moment.Moment | DateRange | null;
     onChange(year: number, month: number): void;
 }
 

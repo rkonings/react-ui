@@ -7,17 +7,18 @@ const DATE_FORMAT = 'D-M-YYYY';
 
 interface DateInput {
     className?: string;
-    value: moment.Moment;
+    value: moment.Moment | null;
     dateFormat?: string;
     onChange(date: moment.Moment): void;
 }
 
 export default styled(({value, onChange, className, dateFormat = DATE_FORMAT}: DateInput) => {
-
-    const [date, setDate] = React.useState<string>(value.format(dateFormat));
+    const defaultDate = value ? value.format(dateFormat) : '';
+    const [date, setDate] = React.useState<string>(defaultDate);
 
     React.useEffect(() => {
-        setDate(value.format(dateFormat));
+        const formattedDate = value ? value.format(dateFormat) : '';
+        setDate(formattedDate);
     }, [value]);
 
     const onChangeHandler = (event: React.FormEvent<HTMLInputElement>) => {

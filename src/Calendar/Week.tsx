@@ -21,13 +21,17 @@ interface Week {
     month: number;
     year: number;
     isoWeek: moment.Moment;
-    value: moment.Moment | DateRange;
+    value: moment.Moment | DateRange | null;
     potentialRange?: DateRange | null;
     onChangePotentialRange?(date: moment.Moment): void;
     onChange(selectedDate: moment.Moment | null): void;
 }
 
-const isDaySelected = (selectedDate: moment.Moment | DateRange, startOfIsoWeek: moment.Moment, weekDay: number) => {
+const isDaySelected = (selectedDate: moment.Moment | DateRange | null,
+    startOfIsoWeek: moment.Moment, weekDay: number) => {
+    if (!selectedDate) {
+        return false;
+    }
     let isSelected = false;
     if (isMoment(selectedDate)) {
         isSelected = selectedDate.isSame(startOfIsoWeek.isoWeekday(weekDay), 'day');
@@ -48,7 +52,11 @@ const isDaySelected = (selectedDate: moment.Moment | DateRange, startOfIsoWeek: 
     return isSelected;
 };
 
-const isDayInRange = (selectedDate: moment.Moment | DateRange, startOfIsoWeek: moment.Moment, weekDay: number) => {
+const isDayInRange = (selectedDate: moment.Moment | DateRange | null,
+    startOfIsoWeek: moment.Moment, weekDay: number) => {
+    if (!selectedDate) {
+        return false;
+    }
     if (isDateRange(selectedDate) && selectedDate.start && selectedDate.end) {
         return startOfIsoWeek.isoWeekday(weekDay).isBetween(selectedDate.start, selectedDate.end, 'day');
     }
