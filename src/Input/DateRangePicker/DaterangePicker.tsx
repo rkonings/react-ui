@@ -215,11 +215,13 @@ export default styled(({className}: DateRangePicker) => {
         setIsOpen(false);
     };
 
+    const displayDate = preset.action === 'CUSTOM' ? customDate : value;
+
     return (
         <div className={className}>
             <DateDisplay
                 onClick={() => setIsOpen(!isOpen)}
-                date={value}
+                date={displayDate}
                 title={preset.name}
             />
             {isOpen && (
