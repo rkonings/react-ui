@@ -106,7 +106,6 @@ const Calendar = ({className, value: _value, onChange,
     };
 
     const onChangeHandler = (selectedDate: moment.Moment) => {
-        console.log;
         if (selectingMode === 'START_DATE') {
             if (value) {
                 if ((value.end && selectedDate.isBefore(value.end, 'day')) || value && !value.end) {
