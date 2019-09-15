@@ -176,8 +176,9 @@ const DatePickerMenu = styled.div`
     position: absolute;
     display: flex;
     flex-wrap: wrap;
-    width: 500px;
+    width: 520px;
     top:0;
+    justify-content: space-between;
 
 `;
 

@@ -255,9 +255,14 @@ const Calendar = ({className, value: _value, onChange,
 
 const StyledCalendar = styled(Calendar)`
     width: ${({width}) => width}px;
+    padding: 20px 20px 0px 20px;
 
     ${TextButton} {
         margin-bottom: 25px;
+    }
+
+    ${DateRangeInput} {
+        padding: 8px 0px 20px 0px;
     }
 
     &:focus {
