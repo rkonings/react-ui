@@ -75,7 +75,6 @@ const Calendar = ({className, value: _value, onChange,
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
     React.useEffect(() => {
-
         if (_value) {
             if (_value.start) {
                 setMonth(_value.start.month());
@@ -86,6 +85,8 @@ const Calendar = ({className, value: _value, onChange,
                 setYear(now.year());
             }
         }
+
+        _setValue(_value);
 
     }, [_value]);
 
@@ -164,8 +165,8 @@ const Calendar = ({className, value: _value, onChange,
     };
 
     const getInputField = () => {
-        const startDate = (value && isDateRange(value) && value.start) ? value.start : moment();
-        const endDate = (value && isDateRange(value) && value.end) ? value.end : moment();
+        const startDate = (value) ? value.start : null;
+        const endDate = (value) ? value.end : null;
         return (
             <DateRangeInput
                 onFocus={onDateRangeInputFocus}
