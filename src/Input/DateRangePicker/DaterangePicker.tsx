@@ -152,8 +152,8 @@ const getDateRange = (item: Preset): DateRange | null => {
         };
     } else if (isPrevious(item)) {
         return {
-            start: moment().subtract(item.value, item.type).startOf(item.type),
-            end: moment().endOf(item.type)
+            start: moment().subtract(item.value + 1, item.type).startOf(item.type),
+            end: moment().subtract(1, item.type).endOf(item.type)
         };
     } else if (isLast(item)) {
         return {
