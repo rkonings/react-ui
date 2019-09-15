@@ -141,7 +141,7 @@ const DATE_PRESET_ITEMS: PresetItem[] = [
 
 interface DateRangePicker {
     className?: string;
-    onChange(date: DateRange | moment.Moment): void;
+    onChange(date: DateRange | null): void;
 }
 
 const getDateRange = (item: Preset): DateRange | null => {
@@ -177,6 +177,7 @@ const DatePickerMenu = styled.div`
     display: flex;
     flex-wrap: wrap;
     width: 500px;
+    top:0;
 
 `;
 
@@ -186,7 +187,7 @@ const MenuFooter = styled.div`
     justify-content: flex-end;
 `;
 
-export default styled(({className}: DateRangePicker) => {
+export default styled(({className, onChange}: DateRangePicker) => {
     const dateRange = {
         start: moment().startOf('day'),
         end: moment().endOf('day')
@@ -202,6 +203,7 @@ export default styled(({className}: DateRangePicker) => {
             setValue(date);
             setPreset(item);
             setIsOpen(false);
+            onChange(date);
         }
     };
 
@@ -210,18 +212,16 @@ export default styled(({className}: DateRangePicker) => {
     };
 
     const onApplyCustomPreset = () => {
-        setPreset({action: 'CUSTOM', name: 'Custom'});
         setValue(customDate);
+        onChange(value);
         setIsOpen(false);
     };
-
-    const displayDate = preset.action === 'CUSTOM' ? customDate : value;
 
     return (
         <div className={className}>
             <DateDisplay
                 onClick={() => setIsOpen(!isOpen)}
-                date={displayDate}
+                date={value}
                 title={preset.name}
             />
             {isOpen && (
@@ -237,7 +237,6 @@ export default styled(({className}: DateRangePicker) => {
                             onFocus={() => setPreset({action: 'CUSTOM', name: 'Custom'})}
                             width={280}
                             onChange={(date) => onChangeCustom(date)}
-                            // onSubmit={(date) => onChangeCustom(date)}
                             startYear={2018}
                             endYear={2019}
                             value={value}
@@ -247,6 +246,7 @@ export default styled(({className}: DateRangePicker) => {
                                 <TextButton onClick={() => onApplyCustomPreset()}>Apply</TextButton>
                             </MenuFooter>
                         )}
+
                     </DatePickerMenu>
                 </React.Fragment>
 
