@@ -213,14 +213,15 @@ export default styled(({className, onChange}: DateRangePicker) => {
     };
     const [value, setValue] = React.useState<DateRange | null>(dateRange);
     const [customDate, setCustomDate] = React.useState<DateRange | null>(null);
-    const [preset, setPreset] = React.useState<PresetItem>(DATE_PRESET_ITEMS[0]);
+    const [activePreset, setActivePreset] = React.useState<PresetItem>(DATE_PRESET_ITEMS[0]);
+    const [selectedPreset, setSelectedPreset] = React.useState<PresetItem>(DATE_PRESET_ITEMS[0]);
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
     const onChangePreset = (item: PresetItem) => {
         const date = getDateRange(item as Preset);
         if (date) {
             setValue(date);
-            setPreset(item);
+            setActivePreset(item);
             setIsOpen(false);
             onChange(date);
         }
@@ -232,6 +233,7 @@ export default styled(({className, onChange}: DateRangePicker) => {
 
     const onApplyCustomPreset = () => {
         setValue(customDate);
+        setActivePreset({action: 'CUSTOM', name: 'Custom'});
         onChange(value);
         setIsOpen(false);
     };
@@ -241,27 +243,32 @@ export default styled(({className, onChange}: DateRangePicker) => {
             <DateDisplay
                 onClick={() => setIsOpen(!isOpen)}
                 date={value}
-                title={preset.name}
+                title={activePreset.name}
             />
                 <React.Fragment>
                     {isOpen && (
-                        <StyledClickAway onClick={() => setIsOpen(false)} />
+                        <StyledClickAway
+                            onClick={() => {
+                                setIsOpen(false);
+                                setSelectedPreset(activePreset);
+                            }}
+                        />
                     )}
                     <DatePickerMenu isOpen={isOpen}>
                         <DateRangePresetsMenu
                             items={DATE_PRESET_ITEMS}
                             onChange={(item) => onChangePreset(item)}
-                            activePreset={preset}
+                            activePreset={selectedPreset}
                         />
                         <Calendar
-                            onFocus={() => setPreset({action: 'CUSTOM', name: 'Custom'})}
+                            onFocus={() => setSelectedPreset({action: 'CUSTOM', name: 'Custom'})}
                             width={280}
                             onChange={(date) => onChangeCustom(date)}
                             startYear={2018}
                             endYear={2019}
                             value={value}
                         />
-                        {preset.action === 'CUSTOM' && (
+                        {selectedPreset.action === 'CUSTOM' && (
                             <MenuFooter>
                                 <TextButton onClick={() => onApplyCustomPreset()}>Apply</TextButton>
                             </MenuFooter>

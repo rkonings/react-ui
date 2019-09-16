@@ -66,7 +66,7 @@ const DaySelect = styled(({className, value, onChange, month, year,
 const Calendar = ({className, value: _value, onChange,
     startYear, endYear, width, onBlur, onFocus}: Calendar) => {
 
-    const [value, _setValue] = React.useState<DateRange | null>(null);
+    const [value, _setValue] = React.useState<DateRange | null>(_value);
     const [month, setMonth] = React.useState<number>(moment().month());
     const [year, setYear] = React.useState<number>(moment().year());
 
