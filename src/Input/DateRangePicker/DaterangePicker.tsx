@@ -243,7 +243,6 @@ export default styled(({className, onChange}: DateRangePicker) => {
                             activePreset={preset}
                         />
                         <Calendar
-                            // onBlur={() => console.log('Blur')}
                             onFocus={() => setPreset({action: 'CUSTOM', name: 'Custom'})}
                             width={280}
                             onChange={(date) => onChangeCustom(date)}
