@@ -165,7 +165,11 @@ const getDateRange = (item: Preset): DateRange | null => {
     }
 };
 
-const DatePickerMenu = styled.div`
+interface DatePickerMenu {
+    isOpen?: boolean;
+}
+
+const DatePickerMenu = styled.div<DatePickerMenu>`
      ${({theme: { menu}}) => {
         return `
             background: ${menu.backgroundColor};
@@ -173,8 +177,14 @@ const DatePickerMenu = styled.div`
         `;
     }}
 
+    ${({isOpen = false}) => {
+        return `
+            display: ${isOpen ? 'flex' : 'none'};
+        `;
+    }};
+
+
     position: absolute;
-    display: flex;
     flex-wrap: wrap;
     width: 520px;
     top:0;
@@ -225,9 +235,8 @@ export default styled(({className, onChange}: DateRangePicker) => {
                 date={value}
                 title={preset.name}
             />
-            {isOpen && (
                 <React.Fragment>
-                    <DatePickerMenu>
+                    <DatePickerMenu isOpen={isOpen}>
                         <DateRangePresetsMenu
                             items={DATE_PRESET_ITEMS}
                             onChange={(item) => onChangePreset(item)}
@@ -250,8 +259,6 @@ export default styled(({className, onChange}: DateRangePicker) => {
 
                     </DatePickerMenu>
                 </React.Fragment>
-
-            )}
 
         </div>
     );
