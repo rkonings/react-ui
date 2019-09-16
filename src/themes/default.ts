@@ -44,6 +44,10 @@ const menu = {
         default: {
             color: color.black
         },
+        active: {
+            color: color.white,
+            backgroundColor: color.primary
+        },
         hover: {
             color: color.white,
             backgroundColor: color.primary

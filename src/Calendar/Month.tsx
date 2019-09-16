@@ -14,7 +14,7 @@ interface Month {
     className?: string;
     month: number;
     year: number;
-    value: moment.Moment | DateRange;
+    value: moment.Moment | DateRange | null;
     potentialRange?: DateRange | null;
     onChangePotentialRange?(date: moment.Moment): void;
     onChange(selectedDate: moment.Moment | null): void;

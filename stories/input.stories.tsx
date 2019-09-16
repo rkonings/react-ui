@@ -1,10 +1,12 @@
 import { action } from '@storybook/addon-actions';
 import { array, boolean, select, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
+import moment from 'moment';
 import React from 'react';
 
 import { Grid, Item } from '../src/Grid';
 import CheckBox from '../src/Input/Checkbox/Checkbox';
+import DateRangePicker from '../src/Input/DateRangePicker/DaterangePicker';
 import Select from '../src/Input/Select/Select';
 import Switch from '../src/Input/Switch/Switch';
 import TextField from '../src/Input/TextField/TextField';
@@ -26,6 +28,28 @@ const sizeDefaultValue = 'm';
 const inputTypeLabel = 'Input Type';
 const inputTypeOptions = ['text', 'password', 'email'];
 const inputTypeDefault = 'text';
+
+storiesOf('Input/DateRangePicker', module)
+.add('advanced', () => {
+
+  const options = {
+      range: true,
+      min: 2000,
+      max: 2028,
+      step: 1,
+  };
+
+  const range = {
+      start: moment([2019, 0, 1]),
+      end: moment([2019, 0, 14])
+  };
+
+  return (
+    <DateRangePicker
+      onChange={action('onChange')}
+    />
+  );
+});
 
 storiesOf('Input/Select', module)
   .add('default', () => {
