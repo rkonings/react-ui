@@ -198,6 +198,14 @@ const MenuFooter = styled.div`
     justify-content: flex-end;
 `;
 
+const StyledClickAway = styled.div`
+    position: fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+`;
+
 export default styled(({className, onChange}: DateRangePicker) => {
     const dateRange = {
         start: moment().startOf('day'),
@@ -236,6 +244,9 @@ export default styled(({className, onChange}: DateRangePicker) => {
                 title={preset.name}
             />
                 <React.Fragment>
+                    {isOpen && (
+                        <StyledClickAway onClick={() => setIsOpen(false)} />
+                    )}
                     <DatePickerMenu isOpen={isOpen}>
                         <DateRangePresetsMenu
                             items={DATE_PRESET_ITEMS}
