@@ -9,18 +9,18 @@ import { Menu, MenuItem } from '../../Menu/Menu';
 type CurrentTypes = 'day' | 'month' | 'year' | 'isoWeek';
 type PreviousTypes = 'day' | 'month' | 'week';
 
-interface Current {
+interface ActionCurrent {
     action: 'CURRENT';
     type: CurrentTypes;
 }
 
-interface Previous {
+interface ActionPrevious {
     action: 'PREVIOUS';
     type: PreviousTypes;
     value: number;
 }
 
-interface Last {
+interface ActionLast {
     action: 'LAST';
     type: 'day' | 'month' | 'year';
 }
@@ -39,23 +39,23 @@ interface DateRangePresetsMenu {
     onChange(item: PresetItem): void;
 }
 
-type Preset =  Previous | Current | Last;
+type Preset =  ActionPrevious | ActionCurrent | ActionLast;
 
-const isPrevious = (item: Preset ): item is Previous => {
+const isPrevious = (item: Preset ): item is ActionPrevious => {
     if (item.action === 'PREVIOUS') {
         return true;
     }
     return false;
 };
 
-const isCurrent = (item: Preset): item is Current => {
+const isCurrent = (item: Preset): item is ActionCurrent => {
     if (item.action === 'CURRENT') {
         return true;
     }
     return false;
 };
 
-const isLast = (item: Preset): item is Last => {
+const isLast = (item: Preset): item is ActionLast => {
     if (item.action === 'LAST') {
         return true;
     }
