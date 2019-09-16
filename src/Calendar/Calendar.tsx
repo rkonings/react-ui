@@ -12,6 +12,10 @@ import { DateRange } from '../interfaces/Date';
 import Month from './Month';
 import { MonthSelect } from './MonthSelect';
 
+const MonthSelectButton = styled(TextButton)`
+    margin-left: -18px;
+`;
+
 interface Calendar {
     className?: string;
     value: DateRange | null;
@@ -190,12 +194,12 @@ const Calendar = ({className, value: _value, onChange,
             {getInputField()}
             <Grid width="100%">
                 <Item width="50%">
-                    <TextButton
+                    <MonthSelectButton
                         onClick={() => setIsOpen(!isOpen)}
                     >
                         {moment([year, month]).format('MMM YYYY')}
                         <CaretDown spacing="left" />
-                    </TextButton>
+                    </MonthSelectButton>
                 </Item>
                 <Item width="50%" horizontalAlignment="flex-end">
                     <StyledButtonGroup>
