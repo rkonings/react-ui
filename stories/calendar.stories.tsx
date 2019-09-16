@@ -5,7 +5,7 @@ import { storiesOf } from '@storybook/react';
 import moment from 'moment';
 import React from 'react';
 
-import Calendar from '../src/Calendar/Calendar';
+import CalendarDateRange from '../src/Calendar/CalendarDateRange';
 
 storiesOf('Calendar', module)
 .add('with daterange', () => {
@@ -22,7 +22,7 @@ storiesOf('Calendar', module)
     };
 
     return (
-        <Calendar
+        <CalendarDateRange
             width={280}
             onChange={action('Change')}
             startYear={number('Start year', 2018, options)}
@@ -40,7 +40,7 @@ storiesOf('Calendar', module)
     };
 
     return (
-        <Calendar
+        <CalendarDateRange
             width={280}
             onChange={action('Change')}
             startYear={number('Start year', 2018, options)}

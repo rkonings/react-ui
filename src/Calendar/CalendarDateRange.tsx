@@ -16,7 +16,7 @@ const MonthSelectButton = styled(TextButton)`
     margin-left: -18px;
 `;
 
-interface Calendar {
+interface CalendarDateRange {
     className?: string;
     value: DateRange | null;
     startYear: number;
@@ -67,8 +67,8 @@ const DaySelect = styled(({className, value, onChange, month, year,
 
 `;
 
-const Calendar = ({className, value: _value, onChange,
-    startYear, endYear, width, onBlur, onFocus}: Calendar) => {
+const CalendarDateRange = ({className, value: _value, onChange,
+    startYear, endYear, width, onBlur, onFocus}: CalendarDateRange) => {
 
     const [value, _setValue] = React.useState<DateRange | null>(_value);
     const [month, setMonth] = React.useState<number>(moment().month());
@@ -258,7 +258,7 @@ const Calendar = ({className, value: _value, onChange,
     );
 };
 
-const StyledCalendar = styled(Calendar)`
+const StyledCalendarDateRange = styled(CalendarDateRange)`
     width: ${({width}) => width}px;
     padding: 20px 20px 0px 20px;
 
@@ -275,4 +275,4 @@ const StyledCalendar = styled(Calendar)`
     }
 `;
 
-export default StyledCalendar;
+export default StyledCalendarDateRange;

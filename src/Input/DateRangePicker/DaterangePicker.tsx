@@ -2,7 +2,7 @@ import moment from 'moment';
 import * as React from 'react';
 import styled from 'styled-components';
 import TextButton from '../../Button/TextButton';
-import Calendar from '../../Calendar/Calendar';
+import CalendarDateRange from '../../Calendar/CalendarDateRange';
 import { DateRange } from '../../interfaces/Date';
 import { Menu, MenuItem } from '../../Menu/Menu';
 
@@ -261,7 +261,7 @@ export default styled(({className, onChange}: DateRangePicker) => {
                             onChange={(item) => onChangePreset(item)}
                             activePreset={selectedPreset}
                         />
-                        <Calendar
+                        <CalendarDateRange
                             onFocus={() => setSelectedPreset({action: 'CUSTOM', name: 'Custom'})}
                             width={280}
                             onChange={(date) => onChangeCustom(date)}
