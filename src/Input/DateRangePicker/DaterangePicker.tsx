@@ -222,6 +222,7 @@ export default styled(({className, onChange}: DateRangePicker) => {
         if (date) {
             setValue(date);
             setActivePreset(item);
+            setSelectedPreset(item);
             setIsOpen(false);
             onChange(date);
         }
