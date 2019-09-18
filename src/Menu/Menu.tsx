@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 interface MenuItem {
-    isActive: boolean;
+    isActive?: boolean;
 }
 
 export const MenuItem = styled.a<MenuItem>`
