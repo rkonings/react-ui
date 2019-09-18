@@ -62,6 +62,24 @@ const Button = {
             outlined: color.orange100,
         }
 
+    },
+    light: {
+        default: {
+            main: color.white,
+            text: color.black,
+            outlined: color.white,
+        },
+        active: {
+            main: color.white,
+            text: color.black,
+            outlined: color.white,
+        },
+        hover: {
+            main: color.white,
+            text: color.black,
+            outlined: color.white,
+        }
+
     }
 };
 
