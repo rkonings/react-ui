@@ -6,6 +6,7 @@ import Loader from '../Loader/Loader';
 
 export type ButtonType = 'default' | 'primary' | 'secondairy' | 'light';
 export type ButtonShape = 'DEFAULT' | 'ROUNDED' | 'CIRCLE';
+export type ButtonVariant = 'outlined' | 'text' | 'default';
 export interface BaseButton {
   children: string | JSX.Element | Array<string | JSX.Element>;
   inputType?: 'button' | 'reset' | 'submit';

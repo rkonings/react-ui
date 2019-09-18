@@ -33,13 +33,19 @@ export const MenuItem = styled.a<MenuItem>`
     }
 `;
 
-export const Menu = styled.div`
-    /* ${({theme: { menu}}) => {
+interface Menu {
+    dropShadow?: boolean;
+}
+
+export const Menu = styled.div<Menu>`
+    ${({theme: { menu}, dropShadow}) => {
+        const shadowCSS = dropShadow ? `box-shadow: ${menu.boxShadow};` : null;
         return `
             background: ${menu.backgroundColor};
-            box-shadow: ${menu.boxShadow};
+            ${shadowCSS}
         `;
-    }} */
+    }}
+
     width: 100%;
     display:flex;
     flex-direction: column;
