@@ -22,7 +22,7 @@ interface ActionPrevious {
 
 interface ActionLast {
     action: 'LAST';
-    type: 'day' | 'month' | 'year' | 'isoWeek';
+    type: 'day' | 'month' | 'year' | 'week';
 }
 
 interface PresetItem {
@@ -132,7 +132,7 @@ const DATE_PRESET_ITEMS: PresetItem[] = [
     { name: 'Today', action: 'CURRENT', type: 'day' },
     { name: 'This week (Sun - Today)', action: 'CURRENT', type: 'isoWeek' },
     { name: 'Last 7 days', action: 'PREVIOUS', type: 'day', value: 7  },
-    { name: 'Last week', action: 'LAST', type: 'isoWeek'  },
+    { name: 'Last week', action: 'LAST', type: 'week'  },
     { name: 'Last 14 days', action: 'PREVIOUS', type: 'day', value: 14  },
     { name: 'This month', action: 'CURRENT', type: 'month' },
     { name: 'Last 30 days', action: 'PREVIOUS', type: 'day', value: 30 },
