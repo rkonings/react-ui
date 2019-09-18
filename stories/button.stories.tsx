@@ -7,7 +7,7 @@ import React from 'react';
 import Button from '../src/Button/Button';
 import OutlinedButton from '../src/Button/OutlinedButton';
 import TextButton from '../src/Button/TextButton';
-import { CaretDown } from '../src/Icon';
+import { Bars, CaretDown } from '../src/Icon';
 
 const sizeLabel = 'Size';
 const sizeOptions = {
@@ -119,6 +119,7 @@ storiesOf('TextButton', module)
   const type = select(typeLabel, typeOptions, typeDefaultValue);
   const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
   const active = boolean('Active', false);
+  const shape = select('Shape', ['DEFAULT', 'CIRCLE'], 'DEFAULT');
 
   return (
     <TextButton
@@ -126,8 +127,28 @@ storiesOf('TextButton', module)
       type={type}
       size={size}
       onClick={action('Click')}
+      shape={shape}
     >
       {buttonText}
+    </TextButton>
+  );
+})
+.add('with icon', () => {
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  const type = select(typeLabel, typeOptions, typeDefaultValue);
+  const active = boolean('Active', false);
+  const shape = select('Shape', ['DEFAULT', 'CIRCLE'], 'DEFAULT');
+
+  return (
+    <TextButton
+      active={active}
+      type={type}
+      size={size}
+      onClick={action('Click')}
+      isIcon={true}
+      shape={shape}
+    >
+      <Bars />
     </TextButton>
   );
 })
@@ -192,9 +213,38 @@ storiesOf('Button', module)
     const type = select(typeLabel, typeOptions, typeDefaultValue);
     const buttonText = text(buttonTextLabel, buttonTextDefaultValue);
     const active = boolean('Active', false);
+    const shape = select('Shape', ['DEFAULT', 'CIRCLE'], 'DEFAULT');
+    return (
+      <Button
+        active={active}
+        type={type}
+        size={size}
+        onClick={action('Click')}
+        shape={shape}
+      >
+        {buttonText}
+      </Button>
+    );
+  })
+  .add('with icon', () => {
+    const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+    const type = select(typeLabel, typeOptions, typeDefaultValue);
+    const active = boolean('Active', false);
+    const shape = select('Shape', ['DEFAULT', 'CIRCLE'], 'DEFAULT');
 
     return (
-      <Button active={active} type={type} size={size} onClick={action('Click')}>{buttonText}</Button>
+      <React.Fragment>
+        <Button
+          active={active}
+          type={type}
+          size={size}
+          onClick={action('Click')}
+          isIcon={true}
+          shape={shape}
+        >
+            <Bars />
+        </Button>
+      </React.Fragment>
     );
   })
   .add('with loader', () => {
