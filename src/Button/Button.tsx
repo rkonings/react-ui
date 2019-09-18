@@ -1,12 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Loader from '../Loader/Loader';
 import { BaseButton } from './BaseButton';
-
-const ButtonText = styled.span`
-  position: relative;
-  z-index: 1;
-`;
 
 export const Button = (props: BaseButton): JSX.Element => {
     return (
