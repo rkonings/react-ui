@@ -13,6 +13,8 @@ export { default as AngleUp } from './AngleUp';
 export { default as AngleLeft } from './AngleLeft';
 export { default as AngleRight } from './AngleRight';
 
+export { default as Bars } from './Bars';
+
 export { default as ChevronUp } from './ChevronUp';
 export { default as ChevronDown } from './ChevronDown';
 export { default as ChevronLeft } from './ChevronLeft';
