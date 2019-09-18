@@ -13,6 +13,7 @@ storiesOf('Menu', module)
     const typeOptions = ['default', 'primary', 'secondairy'];
     const typeDefaultValue = 'default';
     const sizeLabel = 'Size';
+    const variant = select('Variant', ['default', 'outlined', 'text'], 'default');
     const sizeOptions = {
         xs: 'xs',
         s: 's',
@@ -28,6 +29,7 @@ storiesOf('Menu', module)
         <ButtonMenu
             size={size}
             type={type}
+            variant={variant}
             menuAlign={menuAlign}
             items={ (close) => (
                 <React.Fragment>

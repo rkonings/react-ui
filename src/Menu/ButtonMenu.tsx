@@ -2,7 +2,7 @@ import useFocusTrap from '@charlietango/use-focus-trap';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import Button, { ButtonType } from '../Button/Button';
+import { Button , ButtonType, ButtonVariant, OutlinedButton, TextButton } from '../Button';
 import { Size } from '../interfaces/Theme';
 import { Menu, MenuItem } from './Menu';
 
@@ -20,28 +20,45 @@ interface ButtonMenu {
     type?: ButtonType;
     children: string | JSX.Element | Array<string | JSX.Element>;
     size?: Size;
+    variant?: ButtonVariant;
     active?: boolean;
     items(close: () => void): JSX.Element;
 }
 
-const ButtonMenu = ({className, items, children, size = 'm', type = 'default'}: ButtonMenu) => {
+const getComponent = (variant: ButtonVariant = 'default') => {
+    switch (variant) {
+        case 'outlined':
+            return OutlinedButton;
+            break;
+        case 'text':
+            return TextButton;
+            break;
+        case 'default':
+        default:
+            return Button;
+            break;
+    }
+};
+
+const ButtonMenu = ({className, items, children, size = 'm', type = 'default', variant}: ButtonMenu) => {
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
     const focusTrap = useFocusTrap();
+    const Component = getComponent(variant);
 
     return (
         <div className={className}>
-            <Button
+            <Component
                 active={isOpen}
                 onClick={() => setIsOpen(!isOpen)}
                 type={type}
                 size={size}
             >{
                 children}
-            </Button>
+            </Component>
             {isOpen && (
                 <React.Fragment>
                     <StyledClickAway onClick={() => setIsOpen(false)} />
-                    <Menu ref={isOpen ? focusTrap : null}>
+                    <Menu dropShadow={true} ref={isOpen ? focusTrap : null}>
                         {items(() => setIsOpen(false))}
                     </Menu>
                 </React.Fragment>
