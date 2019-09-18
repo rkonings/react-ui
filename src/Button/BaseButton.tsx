@@ -4,7 +4,7 @@ import useTheme from '../hooks/useTheme';
 import Theme, { Size as ButtonSize } from '../interfaces/Theme';
 import Loader from '../Loader/Loader';
 
-export type ButtonType = 'default' | 'primary' | 'secondairy';
+export type ButtonType = 'default' | 'primary' | 'secondairy' | 'light';
 export type ButtonShape = 'DEFAULT' | 'ROUNDED' | 'CIRCLE';
 export interface BaseButton {
   children: string | JSX.Element | Array<string | JSX.Element>;
