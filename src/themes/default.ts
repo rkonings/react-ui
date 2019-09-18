@@ -67,9 +67,14 @@ const align = (contentAlignment = 'center') => {
     return `justify-content: ${align};`;
 };
 
+const fontSize = {
+
+};
+
 const theme: Theme = {
     align,
     fontFamily: 'Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+    fontSize,
     color,
     icon,
     input,
