@@ -1,8 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Button, ButtonBaseStyle, ButtonProps, ButtonStyleHover, ButtonStyleLoading } from './Button';
+import { BaseButton } from './BaseButton';
+import { Button, ButtonStyleHover } from './Button';
 
-const ButtonColorStyle = ({active, theme, type = 'default'}: ButtonProps) => {
+const ButtonColorStyle = ({active, theme, type = 'default'}: BaseButton) => {
     const style = theme.button[type];
     const state = active ? 'active' : 'default';
     const color = style[state].outlined;
@@ -13,7 +14,7 @@ const ButtonColorStyle = ({active, theme, type = 'default'}: ButtonProps) => {
     `;
 };
 
-const ButtonStyleIcon = ({ theme, type = 'default' }: ButtonProps) => {
+const ButtonStyleIcon = ({ theme, type = 'default' }: BaseButton) => {
     const style = theme.button[type];
     const color = style.default.outlined;
 
@@ -29,14 +30,12 @@ const ButtonStyleIcon = ({ theme, type = 'default' }: ButtonProps) => {
 
 };
 
-const OutlinedButton = (props: ButtonProps) => (
+const OutlinedButton = (props: BaseButton) => (
     <Button {...props} variant="Outlined" />
 );
 
 export default styled(OutlinedButton)`
-    ${ButtonBaseStyle};
     ${ButtonColorStyle};
     ${ButtonStyleHover};
     ${ButtonStyleIcon};
-    ${ButtonStyleLoading};
 `;
