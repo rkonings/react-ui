@@ -1,49 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import useTheme from '../hooks/useTheme';
-import Theme, { Size as ButtonSize } from '../interfaces/Theme';
-import Loader from '../Loader/Loader';
+import { BaseButton } from './BaseButton';
 
-const ButtonText = styled.span`
-  position: relative;
-  z-index: 1;
-`;
-
-export type ButtonType = 'default' | 'primary' | 'secondairy';
-
-export interface ButtonProps {
-  children: string | JSX.Element | Array<string | JSX.Element>;
-  inputType?: 'button' | 'reset' | 'submit';
-  type?: ButtonType;
-  variant?: 'Text' | 'Outlined';
-  className?: string;
-  theme: Theme;
-  size?: ButtonSize;
-  active?: boolean;
-  width?: number | string;
-  contentAlignment?: string;
-  isLoading?: boolean;
-  onClick?(event: React.MouseEvent): void;
-}
-
-export const Button = ({children, className, onClick, variant,
-    inputType = 'button', isLoading, type = 'default' }: ButtonProps): JSX.Element => {
-
-    const theme = useTheme();
-    const style = theme.button[type];
-    let color = style.default.text;
-    if (variant === 'Outlined') {
-        color = style.default.outlined;
-    }
+export const Button = (props: BaseButton): JSX.Element => {
     return (
-        <button className={className} type={inputType} onClick={onClick}>
-            <ButtonText>{children}</ButtonText>
-            {isLoading && <Loader color={color} size={15} />}
-        </button>
+        <BaseButton {...props} />
     );
 };
 
-const ButtonColorStyle = ({active, theme, type = 'default'}: ButtonProps) => {
+const ButtonColorStyle = ({active, theme, type = 'default'}: BaseButton) => {
     const style = theme.button[type];
     const state = active ? 'active' : 'default';
     const color = style[state].text;
@@ -55,55 +20,7 @@ const ButtonColorStyle = ({active, theme, type = 'default'}: ButtonProps) => {
     `;
 };
 
-export const ButtonBaseStyle = ({theme, size = 'm', contentAlignment = 'center', width}: ButtonProps) => {
-    const fontSize = theme.button.size[size];
-    const height = fontSize * 3;
-
-    let buttonWidth = 'width: auto;';
-    if (typeof width === 'number') {
-        buttonWidth = `width: ${width}px`;
-    } else if (typeof width === 'string') {
-        buttonWidth = `width: ${width}`;
-    }
-
-    return `
-        ${theme.align(contentAlignment)}
-        font-family: ${theme.fontFamily};
-        font-weight: ${theme.button.fontWeight};
-        ${buttonWidth}
-        display: flex;
-        font-size: ${fontSize}px;
-        overflow: hidden;
-        align-items: center;
-        border-radius: 0;
-        cursor: pointer;
-        position: relative;
-        transition: color 0.1s linear 0.1s;
-        text-transform: uppercase;
-        height: ${height}px;
-        position: relative;
-
-
-        ${ButtonText} {
-            margin-left: 1em;
-            margin-right: 1em;
-            display: flex;
-            align-items: center;
-
-        }
-
-        ${Loader} {
-            position: absolute;
-
-        }
-
-        &:focus{
-            outline: none;
-        }
-    `;
-};
-
-export const ButtonStyleHover = ({ theme, type = 'default', isLoading }: ButtonProps) => {
+export const ButtonStyleHover = ({ theme, type = 'default', isLoading }: BaseButton) => {
     if (isLoading) { return; }
     const style = theme.button[type];
     const color = style.hover.text;
@@ -143,7 +60,7 @@ export const ButtonStyleHover = ({ theme, type = 'default', isLoading }: ButtonP
     `;
 };
 
-const ButtonStyleIcon = ({ theme, type = 'default' }: ButtonProps) => {
+const ButtonStyleIcon = ({ theme, type = 'default' }: BaseButton) => {
     const style = theme.button[type];
     const color = style.default.text;
 
@@ -159,25 +76,11 @@ const ButtonStyleIcon = ({ theme, type = 'default' }: ButtonProps) => {
 
 };
 
-export const ButtonStyleLoading = ({isLoading}: ButtonProps) => {
-    if (isLoading) {
-        return `
-            ${ButtonText} {
-                opacity: 0;
-            }
-        `;
-    }
-    return null;
-};
-
 /* Button hover effects: https://codepen.io/ritchiejacobs/pen/qEJjBM */
 const StyledButton = styled(Button)`
-    ${ButtonBaseStyle}
     ${ButtonColorStyle};
     ${ButtonStyleHover};
-    ${ButtonStyleIcon}}
-
-    ${ButtonStyleLoading};
+    ${ButtonStyleIcon};
 `;
 
 export default StyledButton;
