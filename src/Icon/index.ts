@@ -25,6 +25,8 @@ export { default as CaretDown } from './CaretDown';
 export { default as CaretLeft } from './CaretLeft';
 export { default as CaretRight } from './CaretRight';
 
+export { default as GripHorizontal } from './GripHorizontal';
+
 export { default as Pen } from './Pen';
 export { default as Plus } from './Plus';
 export { default as Minus } from './Minus';
