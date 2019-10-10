@@ -3,6 +3,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { ArrowDown, ArrowUp } from '../../Icon/index';
+import { Size  } from '../../interfaces/Theme';
 import { ErrorText, HelperText } from '../Core/';
 
 interface Select extends HelperText, ErrorText {
@@ -12,6 +13,7 @@ interface Select extends HelperText, ErrorText {
     isOpen?: boolean;
     options: string[];
     width?: string;
+    size?: Size;
     onChange?(value: string): void;
     onBlur?(e: React.FormEvent<HTMLInputElement>): void;
 }
@@ -261,13 +263,21 @@ const Select  = ({className, options, value: _value, isOpen: _open = false,
     );
 };
 
-const StyledSelect = styled(Select)`
+const StyledSelect = styled(Select)<Select>`
     position: relative;
     width: ${({width = '100%'}) => width};
 
+    input {
+        font-size: ${({theme: { input: {select} }, size = 'm'}) => select.size[size]}px;
+    }
+
+    ${StyledMenuItem} {
+        font-size: ${({theme: { input: {select} }, size = 'm'}) => select.size[size]}px;
+    }
+
     ${StyledMenu} {
         border-top: 0;
-        top:47px;
+        top:${({theme: { input: {select} }, size = 'm'}) => select.size[size] * 3}px;
         z-index: 1600;
         background: #ffffff;
         left:0;
