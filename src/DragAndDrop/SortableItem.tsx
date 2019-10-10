@@ -5,6 +5,7 @@ import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
 import { XYCoord } from 'dnd-core';
 import styled from 'styled-components';
 import { GripHorizontal } from '../Icon/' ;
+import StyledSelect from '../Input/Select/Select';
 import { ItemTypes } from './GroupExample';
 import { DESTINATION } from './helpers';
 import { GroupData } from './SortableGroup';
@@ -50,6 +51,10 @@ const Handle = styled.div`
     svg {
         fill: ${({theme: { color }}) => color.gray80 }
     }
+`;
+
+const Column = styled.div`
+    padding-right: 10px;
 `;
 
 export default ({name, id, sortItems}: Item) => {
@@ -107,7 +112,12 @@ export default ({name, id, sortItems}: Item) => {
                     <Handle ref={drag}>
                         <GripHorizontal />
                     </Handle>
-                    {name}
+                    <Column>
+                        <StyledSelect options={['Pagetitle', 'URL']} size={'xs'} width="250px" />
+                    </Column>
+                    <Column>
+                        <StyledSelect options={['=', '>']} size={'xs'} width="75px" />
+                    </Column>
                 </React.Fragment>
             )}
         </Item>
