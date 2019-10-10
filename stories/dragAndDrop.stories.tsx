@@ -1,9 +1,11 @@
 import { storiesOf } from '@storybook/react';
+import faker from 'faker';
 import * as React from 'react';
 import Drag from '../src/DragAndDrop/Drag';
-import GroupExample from '../src/DragAndDrop/GroupExample';
+import GroupExample, { Data } from '../src/DragAndDrop/GroupExample';
 import { ItemTypes } from '../src/DragAndDrop/GroupExample';
 import Simple from '../src/DragAndDrop/Simple';
+import { GroupData } from '../src/DragAndDrop/SortableGroup';
 
 storiesOf('Drag and Drop', module)
 .add('Only Items', () => {
@@ -30,6 +32,45 @@ storiesOf('Drag and Drop', module)
         <GroupExample data={data} />
     );
 })
+.add('stress test', () => {
+
+    const createItem = () => {
+        return {
+            id: faker.random.uuid(),
+            type: ItemTypes.ITEM,
+            name: faker.random.uuid()
+        };
+    };
+
+    const createItems = (amount): Data  => {
+        const items = [];
+
+        for (let i = 0; i < amount; i++) {
+            items.push(createItem());
+        }
+
+        return items;
+
+    };
+
+    const createGroup = (): GroupData => {
+        return {
+            id: faker.random.uuid(),
+            type: ItemTypes.GROUP,
+            items: createItems(20)
+        };
+    };
+
+    const data = [
+        createGroup(),
+        createGroup(),
+    ];
+
+    return (
+        <GroupExample data={data} />
+    );
+})
+
 .add('with group', () => {
     const data = [
         {
