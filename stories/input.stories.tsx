@@ -199,8 +199,9 @@ storiesOf('Input/TextField', module)
 .add('with value', () => {
   const value = text('Value', 'react@development.nl');
   const inputType = select(inputTypeLabel, inputTypeOptions, inputTypeDefault);
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
   return (
-    <TextField value={value} inputType={inputType} onChange={action('onChange')} />
+    <TextField value={value} inputType={inputType} size={size} onChange={action('onChange')} />
   );
 })
 .add('with onFocus & onBlur', () => {
