@@ -14,6 +14,7 @@ export interface Group {
     id: string;
     items: Data;
     sortItems: (dragId: string, destinationId: string, mode: DESTINATION) => void;
+    addToGroup(groupId: string, type: string): void;
 }
 
 export interface GroupData {
@@ -89,17 +90,7 @@ const GroupHeader = styled(({className, dragRef}: GroupHeader) => {
     `};
 `;
 
-interface GroupFooter {
-    className?: string;
-}
-
-const GroupFooter = styled(({className}: GroupFooter) => {
-    return (
-        <div className={className}>
-            add a new rule or group
-        </div>
-    );
-})`
+const GroupFooter = styled.div`
     font-size: 12px;
     margin-left:20px;
     position: relative;
@@ -125,7 +116,7 @@ const InnerGroup = styled.div`
     margin-bottom: 20px;
 `;
 
-const SortableGroup = ({items, id, sortItems}: Group  ): JSX.Element => {
+const SortableGroup = ({items, id, sortItems, addToGroup}: Group  ): JSX.Element => {
     const ref = useRef<HTMLDivElement>(null);
     const [{isOver, isOverCurrent}, drop] = useDrop({
         collect: (monitor) => ({
@@ -197,6 +188,7 @@ const SortableGroup = ({items, id, sortItems}: Group  ): JSX.Element => {
                                 return (
                                     <SortableGroup
                                         id={item.id}
+                                        addToGroup={addToGroup}
                                         key={item.id}
                                         items={item.items}
                                         sortItems={sortItems}
@@ -215,7 +207,10 @@ const SortableGroup = ({items, id, sortItems}: Group  ): JSX.Element => {
 
                         })}
                     </ElementsWrapper>
-                    <GroupFooter />
+                    <GroupFooter>
+                        add a new&nbsp;<div onClick={() => addToGroup(id, ItemTypes.ITEM)}>rule</div>&nbsp;or&nbsp;
+                        <div onClick={() => addToGroup(id, ItemTypes.GROUP)}>group</div>
+                    </GroupFooter>
                 </InnerGroup>
             )}
         </Group>

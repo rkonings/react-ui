@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { DndProvider } from 'react-dnd';
+
+import faker from 'faker';
 import HTML5Backend from 'react-dnd-html5-backend';
 import styled from 'styled-components';
-import { DESTINATION, reorderItems } from './helpers';
+import { addItem, DESTINATION, reorderItems } from './helpers';
 import SortableGroup, { GroupData } from './SortableGroup';
 import SortableItem, { ItemData } from './SortableItem';
 export const ItemTypes = {
@@ -42,6 +44,29 @@ export default ({data}: GroupExample) => {
         [items],
     );
 
+    const addToGroup = (groupId: string, type: string) => {
+        const id = faker.random.uuid();
+
+        let item: GroupData | ItemData;
+
+        if (type === ItemTypes.ITEM) {
+            item = {
+                type: ItemTypes.ITEM,
+                id,
+                name: id
+            };
+        } else {
+            item = {
+                type: ItemTypes.GROUP,
+                id,
+                items: []
+            };
+        }
+
+        const result = addItem([...items], item, groupId);
+        setItems(result);
+    };
+
     return (
         <DndProvider backend={HTML5Backend}>
             <Wrapper>
@@ -50,6 +75,7 @@ export default ({data}: GroupExample) => {
                         return (
                             <SortableGroup
                                 key={item.id}
+                                addToGroup={addToGroup}
                                 id={item.id}
                                 items={item.items}
                                 sortItems={sortItems}
