@@ -90,6 +90,15 @@ const GroupHeader = styled(({className, dragRef}: GroupHeader) => {
     `};
 `;
 
+const Link = styled.div`
+    cursor: pointer;
+    font-weight: 800;
+
+    &:hover {
+        color: ${({theme: { color }}) => color.black };
+    }
+`;
+
 const GroupFooter = styled.div`
     font-size: 12px;
     margin-left:20px;
@@ -208,8 +217,8 @@ const SortableGroup = ({items, id, sortItems, addToGroup}: Group  ): JSX.Element
                         })}
                     </ElementsWrapper>
                     <GroupFooter>
-                        add a new&nbsp;<div onClick={() => addToGroup(id, ItemTypes.ITEM)}>rule</div>&nbsp;or&nbsp;
-                        <div onClick={() => addToGroup(id, ItemTypes.GROUP)}>group</div>
+                        add a new&nbsp;<Link onClick={() => addToGroup(id, ItemTypes.ITEM)}>rule</Link>&nbsp;or&nbsp;
+                        <Link onClick={() => addToGroup(id, ItemTypes.GROUP)}>group</Link>
                     </GroupFooter>
                 </InnerGroup>
             )}
