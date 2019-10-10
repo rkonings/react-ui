@@ -6,6 +6,7 @@ import { XYCoord } from 'dnd-core';
 import styled from 'styled-components';
 import { GripHorizontal } from '../Icon/' ;
 import StyledSelect from '../Input/Select/Select';
+import StyledTextField from '../Input/TextField/TextField';
 import { ItemTypes } from './GroupExample';
 import { DESTINATION } from './helpers';
 import { GroupData } from './SortableGroup';
@@ -117,6 +118,9 @@ export default ({name, id, sortItems}: Item) => {
                     </Column>
                     <Column>
                         <StyledSelect options={['=', '>']} size={'xs'} width="75px" />
+                    </Column>
+                    <Column>
+                        <StyledTextField placeHolder={'enter a page title'} size={'xs'} />
                     </Column>
                 </React.Fragment>
             )}
