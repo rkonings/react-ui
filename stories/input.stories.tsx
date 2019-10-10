@@ -63,10 +63,12 @@ storiesOf('Input/Select', module)
       'Brink, Brink and Dijkstra',
       'Smits, Boer and Brouwer'
     ];
+    const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
     return (
       <Grid width="600px" horizontalAlignment="flex-start">
         <Item width="100%" horizontalAlignment="flex-start" verticalAlignment="center">
           <Select
+            size={size}
             onChange={action('onChange')}
             options={array('Options', options, ':')}
             name={'companies'}
