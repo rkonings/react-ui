@@ -199,7 +199,7 @@ export const findByPath = (data: Data, path: number[]) => {
   /* console.log(findItemByPath(data, [2,1])); */
   /* console.log(findItemByPath(data, [2,2])); */
 
-export const findById = (data: Data, id: string) => {
+export const findById = (data: Data, id: string): null | ItemData | GroupData => {
   let result = null;
 
   data.some( (item) => {
@@ -216,6 +216,22 @@ export const findById = (data: Data, id: string) => {
   } );
 
   return result;
+
+};
+
+export const addItem = (data: Data, item: ItemData | GroupData, id: string | null = null): Data => {
+    if (!id) {
+        data.push(item);
+        return data;
+    }
+
+    const group = findById(data, id);
+
+    if (group && 'items' in group) {
+        group.items.push(item);
+    }
+
+    return data;
 
 };
 
