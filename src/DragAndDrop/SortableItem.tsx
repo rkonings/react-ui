@@ -25,7 +25,7 @@ export interface ItemData {
 const DragPlaceHolder = styled.div`
     height: 60px;
     width: 100%;
-    background: ${({theme: { color }}) => color.gray20 };
+    background: ${({theme: { color }}) => color.gray10 };
 `;
 
 interface ItemProps {
@@ -34,17 +34,22 @@ interface ItemProps {
 
 const Item = styled.div<ItemProps>`
     width: 100%;
-    background: ${({isDragging, theme: { color }}) => !isDragging ? color.gray30 : 'none'};
     display:flex;
     flex-direction: row;
     align-items: center;
     font-size: 12px;
     height: 60px;
+    background: ${({theme: { color }}) => color.white};
 `;
 
 const Handle = styled.div`
     margin-right: 10px;
     margin-left: 10px;
+    cursor: move;
+
+    svg {
+        fill: ${({theme: { color }}) => color.gray80 }
+    }
 `;
 
 export default ({name, id, sortItems}: Item) => {

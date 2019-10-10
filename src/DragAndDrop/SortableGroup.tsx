@@ -1,7 +1,7 @@
 import { XYCoord } from 'dnd-core';
 import * as React from 'react';
 import { useRef } from 'react';
-import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
+import { DragElementWrapper, DragSourceOptions, DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
 
 import styled from 'styled-components';
 
@@ -40,6 +40,11 @@ const Group = styled.div<GroupProps>`
 const Handle = styled.div`
     margin-right: 10px;
     margin-left: 10px;
+    cursor: move;
+
+    svg {
+        fill: ${({theme: { color }}) => color.gray80 }
+    }
 `;
 
 const DragPlaceHolder = styled.div`
@@ -51,6 +56,69 @@ const DragPlaceHolder = styled.div`
 const ElementsWrapper = styled.div`
     min-height: 60px;
     padding: 10px 0px 20px 30px;
+    margin-left:20px;
+    border-left: 1px solid ${({theme: { color }}) => color.gray20 };
+`;
+
+interface GroupHeader {
+    className?: string;
+    dragRef: DragElementWrapper<DragSourceOptions>;
+}
+
+const GroupHeader = styled(({className, dragRef}: GroupHeader) => {
+    return (
+        <div className={className}>
+            <Handle ref={dragRef}>
+                <GripHorizontal />
+            </Handle>
+            <div>All of the following rules</div>
+        </div>
+    );
+})`
+    ${({theme: { color }}) => `
+        background: ${color.gray10};
+        border: 1px solid ${color.gray20};
+        display: flex;
+        height: 40px;
+        align-items: center;
+        font-size: 12px;
+    `};
+`;
+
+interface GroupFooter {
+    className?: string;
+}
+
+const GroupFooter = styled(({className}: GroupFooter) => {
+    return (
+        <div className={className}>
+            add a new rule or group
+        </div>
+    );
+})`
+    font-size: 12px;
+    margin-left:20px;
+    position: relative;
+    padding-left: 30px;
+    height: 40px;
+    display:flex;
+    margin-top: -20px;
+    align-items: center;
+    color: ${({theme: { color }}) => color.gray60};
+
+    &::before {
+        content: " ";
+        display:block;
+        position: absolute;
+        width: 25px;
+        left: 0px;
+        height: 1px;
+        background: ${({theme: { color }}) => color.gray30};
+    }
+`;
+
+const InnerGroup = styled.div`
+    margin-bottom: 20px;
 `;
 
 const SortableGroup = ({items, id, sortItems}: Group  ): JSX.Element => {
@@ -116,10 +184,8 @@ const SortableGroup = ({items, id, sortItems}: Group  ): JSX.Element => {
         <Group isOver={isOver} isOverCurrent={isOverCurrent} ref={ref}>
             {isDragging && <DragPlaceHolder />}
             {!isDragging && (
-                <React.Fragment>
-                    <Handle ref={drag}>
-                        <GripHorizontal />
-                    </Handle>
+                <InnerGroup>
+                   <GroupHeader dragRef={drag} />
                     <ElementsWrapper>
                         {items.length > 0 && items.map((item) => {
 
@@ -145,7 +211,8 @@ const SortableGroup = ({items, id, sortItems}: Group  ): JSX.Element => {
 
                         })}
                     </ElementsWrapper>
-                </React.Fragment>
+                    <GroupFooter />
+                </InnerGroup>
             )}
         </Group>
     );
