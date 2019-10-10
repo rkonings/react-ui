@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Theme from '../../interfaces/Theme';
+import { Size  } from '../../interfaces/Theme';
 import { ErrorText, HelperText } from '../Core';
 
 const DEFAULT_TYPE = 'text';
@@ -16,6 +17,7 @@ interface TextFieldProps extends HelperText, ErrorText {
     required?: boolean;
     theme: Theme;
     name?: string;
+    size?: Size;
     onChange?(e: React.FormEvent<HTMLInputElement>): void;
     onBlur?(e: React.FormEvent<HTMLInputElement>): void;
     onFocus?(e: React.FormEvent<HTMLInputElement>): void;
@@ -53,7 +55,7 @@ const TextField = ({className, value, placeHolder, onChange, onBlur, onFocus, na
 
 };
 
-const BaseStyle = ({theme: {input: { textField }}, width = '300px', disabled}: TextFieldProps) => {
+const BaseStyle = ({theme: {input: { textField }}, width = '300px', disabled, size = 'm'}: TextFieldProps) => {
     const type = 'default';
 
     return `
@@ -63,7 +65,7 @@ const BaseStyle = ({theme: {input: { textField }}, width = '300px', disabled}: T
         input {
             box-sizing: border-box;
             width: 100%;
-            font-size: 14px;
+            font-size: ${textField.size[size]}px;
             padding: 1em;
             transition : border 500ms ease-out;
 
