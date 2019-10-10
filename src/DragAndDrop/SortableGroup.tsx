@@ -6,6 +6,7 @@ import { DragElementWrapper, DragSourceOptions, DropTargetMonitor, useDrag, useD
 import styled from 'styled-components';
 
 import { GripHorizontal } from '../Icon/' ;
+import StyledSelect from '../Input/Select/Select';
 import { Data, ItemTypes } from './GroupExample';
 import { DESTINATION } from './helpers';
 import SortableItem, { ItemData } from './SortableItem';
@@ -68,10 +69,13 @@ interface GroupHeader {
 const GroupHeader = styled(({className, dragRef}: GroupHeader) => {
     return (
         <div className={className}>
+
             <Handle ref={dragRef}>
                 <GripHorizontal />
             </Handle>
-            <div>All of the following rules</div>
+            <div>Match&nbsp;</div>
+            <StyledSelect options={['any', '1 or more']} size={'xs'} width="120px" />
+            <div>&nbsp; of the following rules</div>
         </div>
     );
 })`
