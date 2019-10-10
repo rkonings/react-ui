@@ -62,6 +62,13 @@ const checkbox = {
 
 const select = {
     borderSize: '1px',
+    size: {
+        xs: 10,
+        s: 12,
+        m: 14,
+        l: 16,
+        xl: 18
+    },
     default: {
         borderColor: color.gray60,
         color: color.gray120,
