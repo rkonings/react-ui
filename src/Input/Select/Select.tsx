@@ -2,9 +2,9 @@ import useFocusTrap from '@charlietango/use-focus-trap';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { ArrowDown, ArrowUp } from '../../Icon/index';
+import { ArrowDown, ArrowUp } from '../../Icon';
 import { Size  } from '../../interfaces/Theme';
-import { ErrorText, HelperText } from '../Core/';
+import { ErrorText, HelperText } from '../Core';
 
 interface Select extends HelperText, ErrorText {
     className?: string;
