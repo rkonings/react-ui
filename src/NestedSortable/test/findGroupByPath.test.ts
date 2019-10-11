@@ -1,5 +1,5 @@
 import 'jest-styled-components';
-import { ItemTypes } from '../Sortable';
+import { ItemTypes } from '../NestedSortable';
 import { findGroupByPath } from './../helpers';
 // import * as React from 'react';
 

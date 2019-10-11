@@ -4,11 +4,11 @@ import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
 
 import { XYCoord } from 'dnd-core';
 import styled from 'styled-components';
-import { GripHorizontal } from '../Icon/' ;
+import { GripHorizontal } from '../Icon' ;
 import StyledSelect from '../Input/Select/Select';
 import StyledTextField from '../Input/TextField/TextField';
-import { ItemTypes } from './GroupExample';
 import { DESTINATION } from './helpers';
+import { ItemTypes } from './NestedSortable';
 import { GroupData } from './SortableGroup';
 
 export interface Item {

@@ -1,5 +1,5 @@
-import { ItemTypes } from './../GroupExample';
 import { findById } from './../helpers';
+import { ItemTypes } from './../NestedSortable';
 describe('findById', () => {
     test('find item FOO', () => {
         const data = [

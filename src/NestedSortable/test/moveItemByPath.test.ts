@@ -1,5 +1,5 @@
 import { moveItemByPath } from './../helpers';
-import { ItemTypes } from './../Sortable';
+import { ItemTypes } from './../NestedSortable';
 import { GroupData } from './../SortableGroup';
 
 const data = [

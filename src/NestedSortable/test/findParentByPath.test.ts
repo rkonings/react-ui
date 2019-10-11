@@ -1,4 +1,4 @@
-import { ItemTypes } from '../GroupExample';
+import { ItemTypes } from '../NestedSortable';
 import { findParentByPath } from './../helpers';
 
 describe('findParentByPath', () => {

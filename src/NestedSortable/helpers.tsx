@@ -1,4 +1,4 @@
-import { Data, ItemTypes } from './GroupExample';
+import { Data, ItemTypes } from './NestedSortable';
 import { GroupData } from './SortableGroup';
 import { ItemData } from './SortableItem';
 

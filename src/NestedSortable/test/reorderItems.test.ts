@@ -1,5 +1,5 @@
 import { reorderItems } from '../helpers';
-import { ItemTypes } from './../GroupExample';
+import { ItemTypes } from './../NestedSortable';
 describe('reorderItems', () => {
     test('item FOO to BAZZ', () => {
         const data = [

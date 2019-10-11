@@ -1,5 +1,5 @@
-import { Data, ItemTypes } from './../GroupExample';
 import { addItem } from './../helpers';
+import { Data, ItemTypes } from './../NestedSortable';
 import { GroupData } from './../SortableGroup';
 describe('addItem', () => {
     test('add item', () => {

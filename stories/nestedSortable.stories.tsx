@@ -1,9 +1,9 @@
 import { storiesOf } from '@storybook/react';
 import faker from 'faker';
 import * as React from 'react';
-import GroupExample, { Data } from '../src/DragAndDrop/GroupExample';
-import { ItemTypes } from '../src/DragAndDrop/GroupExample';
-import { GroupData } from '../src/DragAndDrop/SortableGroup';
+import GroupExample, { Data } from '../src/NestedSortable/NestedSortable';
+import { ItemTypes } from '../src/NestedSortable/NestedSortable';
+import { GroupData } from '../src/NestedSortable/SortableGroup';
 
 storiesOf('Nested sortable', module)
 .add('Only Items', () => {

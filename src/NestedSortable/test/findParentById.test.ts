@@ -1,5 +1,5 @@
-import { ItemTypes } from './../GroupExample';
 import { findParentById } from './../helpers';
+import { ItemTypes } from './../NestedSortable';
 import { GroupData } from './../SortableGroup';
 describe('findParentById', () => {
     test('find parent of item FOO', () => {

@@ -5,10 +5,10 @@ import { DragElementWrapper, DragSourceOptions, DropTargetMonitor, useDrag, useD
 
 import styled from 'styled-components';
 
-import { GripHorizontal } from '../Icon/' ;
+import { GripHorizontal } from '../Icon' ;
 import StyledSelect from '../Input/Select/Select';
-import { Data, ItemTypes } from './GroupExample';
 import { DESTINATION } from './helpers';
+import { Data, ItemTypes } from './NestedSortable';
 import SortableItem, { ItemData } from './SortableItem';
 export interface Group {
     id: string;
