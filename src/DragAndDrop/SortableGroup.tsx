@@ -84,7 +84,7 @@ const GroupHeader = styled(({className, dragRef}: GroupHeader) => {
         background: ${color.gray10};
         border: 1px solid ${color.gray20};
         display: flex;
-        height: 40px;
+        height: 50px;
         align-items: center;
         font-size: 12px;
     `};
