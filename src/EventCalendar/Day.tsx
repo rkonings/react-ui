@@ -1,6 +1,8 @@
-import * as React from 'react';
+import React, { useRef } from 'react';
+import { DropTargetMonitor, useDrop } from 'react-dnd';
 import styled from 'styled-components';
-import { useStateValue } from './EventCalendar';
+import { ItemTypes, useStateValue } from './EventCalendar';
+import EventRange, { getEventRangeType } from './EventRange';
 import { getEventsOnDay } from './helpers/getEventsOnDate';
 import { Event } from './interfaces';
 
@@ -39,20 +41,15 @@ const getOrderEvents = (events: Event[], amount: number = 5 ) => {
         if (eventOnIndex) {
             ordered[index] = eventOnIndex;
         }
+    }
+    return ordered;
 
-const getEventRangeType = (event: Event, date: string): EventRangeType => {
-    if (event.start === date) {
-        return 'START';
-    }
-    if (event.end === date) {
-        return 'END';
-    }
-    return 'MIDDLE';
 };
 
-export default styled(({className, day, events, date}: Day) => {
+export default styled(({className, day, date, isInMonth}: Day) => {
 
-    const [{ hoverEvent }, dispatch] = useStateValue();
+    const [{ hoverEvent, dragOver, events }, dispatch] = useStateValue();
+    const ref = useRef<HTMLDivElement>(null);
 
     const eventRangeMouseOverHandler = (event: Event) => {
         dispatch({
@@ -95,29 +92,31 @@ export default styled(({className, day, events, date}: Day) => {
     }
 
     return (
-        <div className={className}>
         <div ref={ref} className={className}>
             <Inner>
                 {day}
             </Inner>
-            <EventsWrapper>
-                {ordered.map( (event, key) => {
-                    if (event) {
-                        return (
-                            <EventRange
-                                hover={!!(hoverEvent && event.id === hoverEvent.id)}
-                                onMouseOver={() => eventRangeMouseOverHandler(event)}
-                                onMouseOut={() => eventRangeMouseOutHandler()}
-                                type={getEventRangeType(event, date)}
-                                key={key}
-                            />
-                        );
-                    } else {
-                        return <EventPlaceHolder key={key} />;
-                    }
+            {ordered && (
+                <EventsWrapper>
+                    {ordered.map( (event, key) => {
+                        if (event) {
+                            return (
+                                <EventRange
+                                    event={event}
+                                    hover={!!(hoverEvent && event.id === hoverEvent.id)}
+                                    onMouseOver={() => eventRangeMouseOverHandler(event)}
+                                    onMouseOut={() => eventRangeMouseOutHandler()}
+                                    type={getEventRangeType(event, date)}
+                                    key={key}
+                                />
+                            );
+                        } else {
+                            return <EventPlaceHolder key={key} />;
+                        }
 
-                })}
-            </EventsWrapper>
+                    })}
+                </EventsWrapper>
+            )}
         </div>
     );
 })`
