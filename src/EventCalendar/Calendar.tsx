@@ -11,8 +11,7 @@ interface Calendar {
 export const Calendar = ({className, events}: Calendar) => {
     return (
         <div className={className}>
-            <Month year={2019} month={0} events={events} />
-            <Month year={2019} month={1} events={events} />
+            <Month year={year} month={month}  />
         </div>
     );
 };
