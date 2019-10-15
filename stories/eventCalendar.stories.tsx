@@ -8,8 +8,8 @@ storiesOf('Event calendar', module)
     .add('default', () => {
         const events: Event[] = [
             {
-                start: '2019-01-15',
-                end: '2019-02-16',
+                start: '2019-02-15',
+                end: '2019-02-18',
                 title: 'Event 0',
                 id: '0'
             },
