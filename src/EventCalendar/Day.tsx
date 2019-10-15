@@ -7,7 +7,6 @@ import { Event } from './interfaces';
 interface Day {
     className?: string;
     day: number;
-    events: Event[];
     date: string;
     isInMonth?: boolean;
 }
@@ -75,8 +74,25 @@ export default styled(({className, day, events, date}: Day) => {
         });
     };
 
-    const eventsOnDay = getEventsOnDay(events, date);
-    const ordered = getOrderEvents(eventsOnDay);
+    const [, drop] = useDrop({
+        accept: [ItemTypes.Event],
+        hover(dragItem: { type: string; id: string }, monitor: DropTargetMonitor) {
+            if (!ref.current) {
+                return;
+            }
+
+            if (dragOver === date) {
+                return;
+            }
+
+            dispatch({
+                type: 'changeEventDate',
+                id: dragItem.id,
+                date
+            });
+        },
+    });
+
     let ordered;
     if (isInMonth) {
         drop(ref);
