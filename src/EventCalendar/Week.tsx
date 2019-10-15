@@ -33,6 +33,7 @@ export default styled(({className, isoWeek, year, month}: Week) => {
                 const day = isoWeek.date();
                 return (
                     <Day
+                        isInMonth={isoWeek.isSame(moment([year, month, 1]), 'month')}
                         date={isoWeek.format('YYYY-MM-DD')}
                         key={weekDay}
                         day={day}
