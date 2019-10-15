@@ -18,37 +18,6 @@ const Inner = styled.div`
     box-sizing: border-box;
     position: absolute;
 `;
-type EventRangeType = 'START' | 'MIDDLE' | 'END';
-interface EventRange {
-    type?: EventRangeType;
-    hover?: boolean;
-}
-
-const EventRange = styled.div<EventRange>`
-    background: ${({hover, theme: { color }}) => hover ? color.secondairy : color.primary};
-    color: ${({theme: { color }}) => color.white};
-    width: 100%;
-    padding-right:1px;
-    height: 10px;
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-    /* box-sizing: border-box; */
-
-    ${({type = 'MIDDLE'}) => {
-        if (type === 'START') {
-            return `
-                border-left: 3px solid #ccc;
-            `;
-        } else if (type === 'END') {
-            return `
-                border-right: 3px solid #ccc;
-            `;
-        }
-
-        return null;
-    }}
-`;
 
 const EventPlaceHolder = styled.div`
     width: 100%;
