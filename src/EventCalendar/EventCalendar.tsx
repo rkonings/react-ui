@@ -1,24 +1,98 @@
-import moment from 'moment';
+import * as moment from 'moment';
 import React, { createContext, useContext, useReducer } from 'react';
+import { DndProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import { Calendar } from './';
+import { getEventsOnDay } from './helpers/getEventsOnDate';
+import { moveEventToDate } from './helpers/moveEventToDate';
 import { Event } from './interfaces';
+
+export const ItemTypes = {
+    Event: 'event'
+};
 
 interface EventCalendarState {
     hoverEvent: Event | null;
+    events: Event[];
+    dragOver?: string;
+    year: number;
+    month: number;
 }
 
 type EventCalendarAction =
-  | { type: 'increment' }
-  | { type: 'events' }
+  | { type: 'dragOver', date: string; }
+  | { type: 'changeEventDate', id: string, date: string }
   | { type: 'hoverEvent'; event: Event | null };
+
+export const sortEvents = (events: Event[]) => {
+    events.sort((a, b) => {
+        const primarySort = moment(a.start).unix() - moment(b.start).unix();
+        if (primarySort !== 0) {
+           return primarySort;
+        }
+
+        const diffA = moment(a.end).diff(moment(a.start), 'days');
+        const diffB = moment(b.end).diff(moment(b.start), 'days');
+
+        return diffB - diffA;
+     });
+};
+
+export const getAvailableIndex = (events: Event[]) => {
+    for (let i = 0; i <= events.length; i++) {
+        if (events.findIndex((event) => event.index === i) === -1) {
+            return i;
+        }
+    }
+
+    return 0;
+};
+
+export const prepareEvents = (events: Event[]) => {
+    events.forEach((event) => event.index = 0);
+    sortEvents(events);
+
+    const queue = [...events];
+    const processed: Event[] = [];
+
+    while (queue.length > 0) {
+        const event = queue.shift() as Event;
+        const eventsOnStartDate = getEventsOnDay(processed, event.start);
+
+        const availableIndex = getAvailableIndex(eventsOnStartDate);
+        event.index = availableIndex;
+
+        processed.push(event);
+
+    }
+
+    return processed;
+
+};
 
 const reducer = (state: EventCalendarState, action: EventCalendarAction) => {
     switch (action.type) {
-      case 'hoverEvent':
-        return {
-          ...state,
-          hoverEvent: action.event
-        };
+        case 'hoverEvent':
+            return {
+                ...state,
+                hoverEvent: action.event
+            };
+
+        case 'dragOver':
+            return {
+                ...state,
+                dragOver: action.date
+            };
+
+        case 'changeEventDate':
+            const result = moveEventToDate([...state.events], action.id, action.date);
+            const events = prepareEvents(result);
+
+            return {
+                ...state,
+                dragOver: action.date,
+                events
+            };
 
       default:
         return state;
@@ -30,80 +104,30 @@ const reducer = (state: EventCalendarState, action: EventCalendarAction) => {
         (action: EventCalendarAction) => null ]);
 
 export const useStateValue = () => useContext(StateContext);
-
-const events: Event[] = [
-    {
-        start: '2019-01-15',
-        end: '2019-02-16',
-        title: 'Event 4',
-        id: '0'
-    },
-    {
-        start: '2019-01-15',
-        end: '2019-01-16',
-        title: 'Event 4',
-        id: '1'
-    },
-    {
-        start: '2019-01-01',
-        end: '2019-01-10',
-        title: 'Event 1',
-        id: '2'
-    },
-    {
-        start: '2019-01-02',
-        end: '2019-01-05',
-        title: 'Event 2',
-        id: '3'
-    },
-    {
-        start: '2019-01-12',
-        end: '2019-01-15',
-        title: 'Event 3',
-        id: '4'
-    },
-    {
-        start: '2019-01-01',
-        end: '2019-01-02',
-        title: 'Event 6',
-        id: '5'
-    },
-];
-
-const sortEvents = (events: Event[]) => {
-    events.sort((a, b) => moment(a.start).unix() - moment(b.start).unix());
-};
-
-const prepareEvents = (events: Event[]) => {
-    sortEvents(events);
-    events.forEach((event, index) => {
-        if (index > 0) {
-            const prevEvent = events[index - 1];
-            const start = moment(event.start);
-            if (start.isSameOrAfter(prevEvent.start) && start.isSameOrBefore(prevEvent.end) ) {
-                event.index = prevEvent.index ? prevEvent.index + 1 : 1;
-            }
-
-        } else {
-            event.index = 0;
-        }
-    });
-};
-
-const EventCalendar = () => {
+interface EventCalendar {
+    events: Event[];
+    year: number;
+    month: number;
+}
+const EventCalendar = ({events, year, month}: EventCalendar) => {
 
     prepareEvents(events);
 
     const initialState: EventCalendarState = {
-        hoverEvent: null
+        hoverEvent: null,
+        events,
+        year,
+        month
     };
 
     return (
-        <StateContext.Provider value={useReducer(reducer, initialState)}>
-            <div>
-                <Calendar events={events}  />
-            </div>
-        </StateContext.Provider>
+        <DndProvider backend={HTML5Backend}>
+            <StateContext.Provider value={useReducer(reducer, initialState)}>
+                <div>
+                    <Calendar year={year} month={month}  />
+                </div>
+            </StateContext.Provider>
+        </DndProvider>
     );
 };
 
