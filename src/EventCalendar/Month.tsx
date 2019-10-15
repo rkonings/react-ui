@@ -24,7 +24,6 @@ export default styled(({className, year, month}: Month) => {
         weeks.push(
             <Week
                 key={i}
-                events={events}
                 isoWeek={firstDayOfMonth.clone().startOf('isoWeek')}
             />
         );
