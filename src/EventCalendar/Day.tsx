@@ -33,18 +33,12 @@ const EventsWrapper = styled.div`
 `;
 
 const getOrderEvents = (events: Event[], amount: number = 5 ) => {
-    const oredered: Array<null|Event> = Array(amount).fill(null);
-    events.forEach((event, key) => {
-        if (key === 0 && !event.index) {
-            oredered[0] = event;
-        } else if (event.index) {
-            oredered[event.index] = event;
+    const ordered: Array<null|Event> = Array(amount).fill(null);
+    for (let index = 0; index < amount; index++) {
+        const eventOnIndex = events.find((event) => event.index === index);
+        if (eventOnIndex) {
+            ordered[index] = eventOnIndex;
         }
-    } );
-
-    return oredered;
-
-};
 
 const getEventRangeType = (event: Event, date: string): EventRangeType => {
     if (event.start === date) {
