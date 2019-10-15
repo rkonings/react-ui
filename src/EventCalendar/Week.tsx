@@ -3,7 +3,6 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import Day from './Day';
-import { Event } from './interfaces';
 
 const WeekNumber = styled.div`
     display: flex;
@@ -19,10 +18,11 @@ const WeekNumber = styled.div`
 interface Week {
     className?: string;
     isoWeek: moment.Moment;
-    events: Event[];
+    month: number;
+    year: number;
 }
 
-export default styled(({className, isoWeek, events}: Week) => {
+export default styled(({className, isoWeek, year, month}: Week) => {
     const days = [1, 2, 3, 4, 5, 6, 7];
 
     return (
@@ -36,7 +36,6 @@ export default styled(({className, isoWeek, events}: Week) => {
                         date={isoWeek.format('YYYY-MM-DD')}
                         key={weekDay}
                         day={day}
-                        events={events}
                     />
                 );
             })}
