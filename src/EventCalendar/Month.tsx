@@ -11,8 +11,8 @@ const MonthTitle = styled.div`
 
 interface Month {
     className?: string;
-    month: number;
     year: number;
+    month: number;
 }
 
 export default styled(({className, year, month}: Month) => {
@@ -23,6 +23,8 @@ export default styled(({className, year, month}: Month) => {
     for (let i = 0; i < weeksInMonth; i++ ) {
         weeks.push(
             <Week
+                month={month}
+                year={year}
                 key={i}
                 isoWeek={firstDayOfMonth.clone().startOf('isoWeek')}
             />
