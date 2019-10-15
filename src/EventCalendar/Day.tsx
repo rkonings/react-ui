@@ -9,6 +9,7 @@ interface Day {
     day: number;
     events: Event[];
     date: string;
+    isInMonth?: boolean;
 }
 
 const Inner = styled.div`
@@ -76,9 +77,16 @@ export default styled(({className, day, events, date}: Day) => {
 
     const eventsOnDay = getEventsOnDay(events, date);
     const ordered = getOrderEvents(eventsOnDay);
+    let ordered;
+    if (isInMonth) {
+        drop(ref);
+        const eventsOnDay = getEventsOnDay(events, date);
+        ordered = getOrderEvents(eventsOnDay);
+    }
 
     return (
         <div className={className}>
+        <div ref={ref} className={className}>
             <Inner>
                 {day}
             </Inner>
@@ -112,4 +120,5 @@ export default styled(({className, day, events, date}: Day) => {
     border: 1px solid ${({theme: { color }}) => color.gray20};
     border-left: none;
     border-top: none;
+    ${({isInMonth}) => isInMonth ? null : 'opacity: 0.3;'}
 `;
