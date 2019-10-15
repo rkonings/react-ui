@@ -64,11 +64,17 @@ const EventRange = styled(({className, children, onMouseOut, onMouseOver, event}
     ${({type = 'MIDDLE'}) => {
         if (type === 'START') {
             return `
-                border-left: 3px solid #ccc;
+                width: 80%;
+                margin-left: 20%;
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
             `;
         } else if (type === 'END') {
             return `
-                border-right: 3px solid #ccc;
+                width: 80%;
+                margin-right: 20%;
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
             `;
         }
 
