@@ -1,7 +1,6 @@
 import moment from 'moment';
 import * as React from 'react';
 import styled from 'styled-components';
-import { Event } from './interfaces';
 import Week from './Week';
 
 const MonthTitle = styled.div`
@@ -14,10 +13,9 @@ interface Month {
     className?: string;
     month: number;
     year: number;
-    events: Event[];
 }
 
-export default styled(({className, month, year, events}: Month) => {
+export default styled(({className, year, month}: Month) => {
     const firstDayOfMonth = moment([year, month]).startOf('month');
     const weeksInMonth = Math.ceil((firstDayOfMonth.isoWeekday() + firstDayOfMonth.daysInMonth()) / 7);
     const weeks = [];
