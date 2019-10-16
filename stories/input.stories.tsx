@@ -200,13 +200,22 @@ storiesOf('Input/TextField', module)
   const value = text('Value', 'react@development.nl');
   const inputType = select(inputTypeLabel, inputTypeOptions, inputTypeDefault);
   const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  const style = select('Style', ['default', 'outlined'], 'default');
+
   return (
-    <TextField value={value} inputType={inputType} size={size} onChange={action('onChange')} />
+    <TextField
+      value={value}
+      inputType={inputType}
+      size={size}
+      onChange={action('onChange')}
+      style={style}
+    />
   );
 })
 .add('with onFocus & onBlur', () => {
   const value = text('Value', 'react@development.nl');
   const inputType = select(inputTypeLabel, inputTypeOptions, inputTypeDefault);
+  const style = select('Style', ['default', 'outlined'], 'default');
   return (
     <TextField
       value={value}
@@ -214,6 +223,7 @@ storiesOf('Input/TextField', module)
       onFocus={action('onFocus')}
       onBlur={action('onBlur')}
       onChange={action('onChange')}
+      style={style}
     />
   );
 })
