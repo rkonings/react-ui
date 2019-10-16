@@ -5,6 +5,7 @@ import { Size  } from '../../interfaces/Theme';
 import { ErrorText, HelperText } from '../Core';
 
 const DEFAULT_TYPE = 'text';
+type TextFieldStyle = 'default' | 'outlined';
 
 interface TextFieldProps extends HelperText, ErrorText {
     inputType?: string;
@@ -18,6 +19,7 @@ interface TextFieldProps extends HelperText, ErrorText {
     theme: Theme;
     name?: string;
     size?: Size;
+    style?: TextFieldStyle;
     onChange?(e: React.FormEvent<HTMLInputElement>): void;
     onBlur?(e: React.FormEvent<HTMLInputElement>): void;
     onFocus?(e: React.FormEvent<HTMLInputElement>): void;
@@ -88,7 +90,7 @@ const StyledTextField = styled(TextField)`
 
     ${BaseStyle};
 
-    ${({theme: {input: { textField, error }}, errorText = false, disabled}) => {
+    ${({theme: {input: { textField, error }}, errorText = false, disabled, style = 'default'}) => {
 
         if (disabled) {
             return ``;
@@ -96,17 +98,24 @@ const StyledTextField = styled(TextField)`
 
         const type = 'default';
         const borderColor = errorText ? error.color : textField[type].default.borderColor;
+
+        let border = 'border-bottom';
+        if (style === 'outlined') {
+            border = 'border';
+        }
+
         return `
             input {
+                border: none;
                 color: ${textField[type].default.color};
-                border: ${textField.borderSize} solid ${borderColor};
+                ${border}: ${textField.borderSize} solid ${borderColor};
                 &:hover {
                     color: ${textField[type].hover.color};
-                    border: ${textField.borderSize} solid ${textField[type].hover.borderColor};
+                    ${border}: ${textField.borderSize} solid ${textField[type].hover.borderColor};
                 }
 
                 &:focus {
-                    border: ${textField.borderSize} solid ${textField[type].focus.borderColor};
+                    ${border}: ${textField.borderSize} solid ${textField[type].focus.borderColor};
                     color: ${textField[type].focus.color};
                     outline: none;
 
