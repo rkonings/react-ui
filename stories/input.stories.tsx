@@ -228,6 +228,14 @@ storiesOf('Input/TextField', module)
     />
   );
 })
+.add('with alignment', () => {
+  const alignment = select('Alignment', ['left', 'right'], 'left');
+  const placeholder = text('Placeholder', 'Alignment');
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  return (
+    <TextField size={size} placeHolder={placeholder} textAlign={alignment} onChange={action('onChange')} />
+  );
+})
 .add('with grow', () => {
   const prefix = text('Prefix', '€');
   const placeholder = text('Placeholder', '00,00');
