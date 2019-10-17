@@ -20,6 +20,7 @@ interface TextFieldProps extends HelperText, ErrorText {
     name?: string;
     size?: Size;
     prefix?: string | JSX.Element;
+    postfix?: string | JSX.Element;
     style?: TextFieldStyle;
     onChange?(e: React.FormEvent<HTMLInputElement>): void;
     onBlur?(e: React.FormEvent<HTMLInputElement>): void;
@@ -30,7 +31,12 @@ const Prefix = styled.span`
     display: flex;
     align-items: center;
     margin-right: 5px;
+`;
 
+const Postfix = styled.span`
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
 `;
 
 interface Label {
@@ -81,7 +87,7 @@ const Label = styled.label<Label>`
 `;
 
 const TextField = ({className, value, placeHolder, onChange, onBlur, onFocus, name, style,
-    helperText, errorText, autoFocus, disabled, inputType = DEFAULT_TYPE, prefix}: TextFieldProps) => {
+    helperText, errorText, autoFocus, disabled, inputType = DEFAULT_TYPE, prefix, postfix}: TextFieldProps) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [focus, setFocus] = React.useState<boolean>(false);
 
@@ -124,6 +130,11 @@ const TextField = ({className, value, placeHolder, onChange, onBlur, onFocus, na
                     onFocus={onFocusHandler}
                     disabled={disabled}
                 />
+                {postfix && (
+                    <Postfix>
+                        {postfix}
+                    </Postfix>
+                )}
             </Label>
             {helperText && !errorText && <HelperText>{helperText}</HelperText>}
             {errorText && <ErrorText>{errorText}</ErrorText>}
@@ -133,7 +144,7 @@ const TextField = ({className, value, placeHolder, onChange, onBlur, onFocus, na
 };
 
 const BaseStyle = ({theme: {input: { textField }}, width = '300px',
-prefix = false, size = 'm'}: TextFieldProps) => {
+prefix = false, postfix = false, size = 'm'}: TextFieldProps) => {
     const type = 'default';
 
     return `
@@ -146,7 +157,9 @@ prefix = false, size = 'm'}: TextFieldProps) => {
             flex: 1;
             box-sizing: border-box;
             font-size: ${textField.size[size]}px;
-            padding: ${prefix ? '1em 1em 1em 0' : '1em'};
+            padding: 1em;
+            ${postfix ? 'padding-right: 0' : null};
+            ${prefix ? 'padding-left: 0' : null};
 
             &::-webkit-input-placeholde { color: ${textField[type].default.placeholderColor}; }
             &::-moz-placeholder { color: ${textField[type].default.placeholderColor}; }
