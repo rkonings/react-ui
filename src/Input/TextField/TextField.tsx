@@ -149,9 +149,10 @@ const BaseStyle = ({theme: {input: { textField }}, width: width = '300px', grow:
 prefix = false, postfix = false, size = 'm'}: TextFieldProps) => {
     const type = 'default';
     const grow = _grow ? 'flex: 1;' : null;
+    const width = !_grow ? 'width: ' + _width + ';' : null;
     return `
         box-sizing: border-box;
-        width: ${width};
+        ${width}
         ${grow}
         font-size: ${textField.size[size]}px;
 
