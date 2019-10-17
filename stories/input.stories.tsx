@@ -5,6 +5,7 @@ import moment from 'moment';
 import React from 'react';
 
 import { Grid, Item } from '../src/Grid';
+import { ArrowLeft } from '../src/Icon';
 import CheckBox from '../src/Input/Checkbox/Checkbox';
 import DateRangePicker from '../src/Input/DateRangePicker/DaterangePicker';
 import Select from '../src/Input/Select/Select';
@@ -225,6 +226,22 @@ storiesOf('Input/TextField', module)
       onChange={action('onChange')}
       style={style}
     />
+  );
+})
+.add('with prefix', () => {
+  const prefix = text('Prefix', '€');
+  const placeholder = text('Placeholder', '00,00');
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  return (
+    <TextField size={size} placeHolder={placeholder} prefix={prefix} onChange={action('onChange')} />
+  );
+})
+.add('with icon prefix', () => {
+  const prefix = <ArrowLeft />;
+  const placeholder = text('Placeholder', '00,00');
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  return (
+    <TextField size={size} placeHolder={placeholder} prefix={prefix} onChange={action('onChange')} />
   );
 })
 .add('with placeholder', () => {
