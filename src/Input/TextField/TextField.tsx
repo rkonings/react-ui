@@ -19,6 +19,7 @@ interface TextFieldProps extends HelperText, ErrorText {
     theme: Theme;
     name?: string;
     size?: Size;
+    grow?: boolean;
     prefix?: string | JSX.Element;
     postfix?: string | JSX.Element;
     style?: TextFieldStyle;
@@ -143,13 +144,14 @@ const TextField = ({className, value, placeHolder, onChange, onBlur, onFocus, na
 
 };
 
-const BaseStyle = ({theme: {input: { textField }}, width = '300px',
+const BaseStyle = ({theme: {input: { textField }}, width: width = '300px', grow: _grow = false,
 prefix = false, postfix = false, size = 'm'}: TextFieldProps) => {
     const type = 'default';
-
+    const grow = _grow ? 'flex: 1;' : null;
     return `
         box-sizing: border-box;
         width: ${width};
+        ${grow}
         font-size: ${textField.size[size]}px;
 
         input {

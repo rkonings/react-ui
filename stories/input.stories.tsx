@@ -228,6 +228,14 @@ storiesOf('Input/TextField', module)
     />
   );
 })
+.add('with grow', () => {
+  const prefix = text('Prefix', '€');
+  const placeholder = text('Placeholder', '00,00');
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  return (
+    <TextField size={size} placeHolder={placeholder} prefix={prefix} grow={true} onChange={action('onChange')} />
+  );
+})
 .add('with prefix', () => {
   const prefix = text('Prefix', '€');
   const placeholder = text('Placeholder', '00,00');
