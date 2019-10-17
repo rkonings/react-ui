@@ -244,6 +244,22 @@ storiesOf('Input/TextField', module)
     <TextField size={size} placeHolder={placeholder} prefix={prefix} onChange={action('onChange')} />
   );
 })
+.add('with postfix', () => {
+  const postfix = text('Prefix', '€');
+  const placeholder = text('Placeholder', '00,00');
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  return (
+    <TextField size={size} placeHolder={placeholder} postfix={postfix} onChange={action('onChange')} />
+  );
+})
+.add('with icon postfix', () => {
+  const postfix = <ArrowLeft />;
+  const placeholder = text('Placeholder', '00,00');
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  return (
+    <TextField size={size} placeHolder={placeholder} postfix={postfix} onChange={action('onChange')} />
+  );
+})
 .add('with placeholder', () => {
   const placeholder = text('Placeholder', 'e-mail');
   return (
