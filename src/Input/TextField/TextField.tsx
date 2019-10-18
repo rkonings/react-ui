@@ -14,6 +14,7 @@ interface TextFieldProps extends HelperText, ErrorText {
     value?: string;
     width?: string;
     disabled?: boolean;
+    readOnly?: boolean;
     autoFocus?: boolean;
     required?: boolean;
     theme: Theme;
@@ -88,7 +89,7 @@ const Label = styled.label<Label>`
 
 `;
 
-const TextField = ({className, value, placeHolder, onChange, onBlur, onFocus, name, style,
+const TextField = ({className, value, placeHolder, onChange, onBlur, onFocus, name, style, readOnly,
     helperText, errorText, autoFocus, disabled, inputType = DEFAULT_TYPE, prefix, postfix}: TextFieldProps) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [focus, setFocus] = React.useState<boolean>(false);
@@ -122,6 +123,7 @@ const TextField = ({className, value, placeHolder, onChange, onBlur, onFocus, na
                     </Prefix>
                 )}
                 <input
+                    readOnly={readOnly}
                     name={name}
                     type={inputType}
                     ref={inputRef}
