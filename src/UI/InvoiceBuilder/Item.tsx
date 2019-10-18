@@ -1,6 +1,8 @@
+import { FormikErrors, FormikTouched } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
 import TextField from '../../Input/TextField/TextField';
+import { ItemData } from './interfaces';
 
 interface Item {
     className?: string;
@@ -8,6 +10,11 @@ interface Item {
     price?: number;
     quantity?: number;
     tax?: number;
+    inputNamePrefix: string;
+    errors?: FormikErrors<ItemData>;
+    touched?: FormikTouched<ItemData>;
+    onBlur(e: React.FormEvent<HTMLInputElement>): void;
+    onChange(e: React.FormEvent<HTMLInputElement>): void;
 }
 
 const Name = styled.div`
@@ -39,9 +46,7 @@ const calculateTotal = (price?: number, quantity?: number, tax?: number) => {
     return undefined;
 };
 
-const Item = ({className, name, price, quantity, tax}: Item) => {
-
-    const total = calculateTotal();
+const Item = ({className, name, price, quantity, tax, errors, onChange, onBlur, inputNamePrefix, touched}: Item) => {
     const total = calculateTotal(price, quantity, tax);
 
     return (
@@ -51,6 +56,11 @@ const Item = ({className, name, price, quantity, tax}: Item) => {
                     grow={true}
                     value={name}
                     placeHolder="Product name"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    name={inputNamePrefix + '.name'}
+                    errorText={touched && touched.name && errors ? errors.name : undefined}
+
                 />
             </Name>
             <Quantity>
@@ -59,6 +69,10 @@ const Item = ({className, name, price, quantity, tax}: Item) => {
                     value={quantity ? quantity.toString() : undefined}
                     textAlign="right"
                     postfix="x"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    name={inputNamePrefix + '.quantity'}
+                    errorText={touched && touched.quantity && errors ? errors.quantity : undefined}
                 />
             </Quantity>
             <Price>
@@ -68,6 +82,10 @@ const Item = ({className, name, price, quantity, tax}: Item) => {
                     textAlign="right"
                     placeHolder="00,00"
                     prefix="€"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    name={inputNamePrefix + '.price'}
+                    errorText={touched && touched.price && errors ? errors.price : undefined}
                 />
             </Price>
             <Tax>
@@ -76,6 +94,10 @@ const Item = ({className, name, price, quantity, tax}: Item) => {
                     value={tax ? tax.toString() : undefined}
                     textAlign="right"
                     postfix="%"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    name={inputNamePrefix + '.tax'}
+                    errorText={touched && touched.tax && errors ? errors.tax : undefined}
                 />
             </Tax>
             <Total>
