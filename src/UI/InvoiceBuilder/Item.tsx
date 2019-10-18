@@ -31,9 +31,9 @@ const Tax = styled.div`
     margin-right: 25px;
 `;
 
-const calculateTotal = (price?: number, quantity?: number) => {
-    if (price && quantity) {
-        return price * quantity * (100 + 21) / 10000;
+const calculateTotal = (price?: number, quantity?: number, tax?: number) => {
+    if (price && quantity && tax) {
+        return price * quantity * (100 + tax) / 10000;
     }
 
     return undefined;
@@ -42,6 +42,7 @@ const calculateTotal = (price?: number, quantity?: number) => {
 const Item = ({className, name, price, quantity, tax}: Item) => {
 
     const total = calculateTotal();
+    const total = calculateTotal(price, quantity, tax);
 
     return (
         <div className={className}>
