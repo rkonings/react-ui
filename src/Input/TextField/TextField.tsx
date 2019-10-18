@@ -38,7 +38,7 @@ const Prefix = styled.span`
 const Postfix = styled.span`
     display: flex;
     align-items: center;
-    margin-right: 5px;
+    margin-left: 5px;
 `;
 
 interface Label {
