@@ -193,6 +193,11 @@ const StyledTextField = styled(TextField)`
 
         return `
             input {
+
+                &:read-only {
+                    cursor: default;
+                }
+
                 border: none;
                 color: ${textField[type].default.color};
 
