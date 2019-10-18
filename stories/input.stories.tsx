@@ -228,6 +228,12 @@ storiesOf('Input/TextField', module)
     />
   );
 })
+.add('read only', () => {
+
+  return (
+    <TextField value={'Read only'} readOnly={true} onChange={action('onChange')} />
+  );
+})
 .add('with alignment', () => {
   const alignment = select('Alignment', ['left', 'right'], 'left');
   const placeholder = text('Placeholder', 'Alignment');
