@@ -147,10 +147,11 @@ const TextField = ({className, value, placeHolder, onChange, onBlur, onFocus, na
 
 };
 
+const BaseStyle = ({theme: {input: { textField }}, width: _width = '300px', grow: _grow = false, textAlign = 'left',
 prefix = false, postfix = false, size = 'm'}: TextFieldProps) => {
     const type = 'default';
-    const grow = _grow ? 'flex: 1;' : null;
-    const width = !_grow ? 'width: ' + _width + ';' : null;
+    const grow = _grow ? 'flex: 1;' : '';
+    const width = !_grow ? 'width: ' + _width + ';' : '';
     return `
         box-sizing: border-box;
         ${width}
@@ -161,11 +162,12 @@ prefix = false, postfix = false, size = 'm'}: TextFieldProps) => {
             text-align: ${textAlign};
             display: flex;
             flex: 1;
+            width: 100%;
             box-sizing: border-box;
             font-size: ${textField.size[size]}px;
             padding: 1em;
-            ${postfix ? 'padding-right: 0' : null};
-            ${prefix ? 'padding-left: 0' : null};
+            ${postfix ? 'padding-right: 0' : ''};
+            ${prefix ? 'padding-left: 0' : ''};
 
             &::-webkit-input-placeholde { color: ${textField[type].default.placeholderColor}; }
             &::-moz-placeholder { color: ${textField[type].default.placeholderColor}; }
