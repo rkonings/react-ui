@@ -213,6 +213,21 @@ storiesOf('Input/TextField', module)
     />
   );
 })
+.add('with currency mask', () => {
+  const inputType = select(inputTypeLabel, inputTypeOptions, inputTypeDefault);
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  const style = select('Style', ['default', 'outlined'], 'default');
+
+  return (
+    <TextField
+      mask="currency"
+      inputType={inputType}
+      size={size}
+      onChange={action('onChange')}
+      style={style}
+    />
+  );
+})
 .add('with onFocus & onBlur', () => {
   const value = text('Value', 'react@development.nl');
   const inputType = select(inputTypeLabel, inputTypeOptions, inputTypeDefault);
