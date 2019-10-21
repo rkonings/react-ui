@@ -72,6 +72,7 @@
     "memoize-one": "^5.1.1",
     "moment": "^2.24.0",
     "momentjs": "^2.0.0",
+    "numbro": "2.1.2",
     "polished": "^3.4.1",
     "react": "^16.9.0",
     "react-dnd": "^9.4.0",
