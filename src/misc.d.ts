@@ -1,0 +1,13 @@
+declare module 'numbro/languages/nl-NL';
+declare module 'numbro/languages/en-GB';
+declare module 'numbro/languages/da-DK';
+declare module 'numbro/languages/fi-FI';
+declare module 'numbro/languages/fr-FR';
+declare module 'numbro/languages/de-DE';
+declare module 'numbro/languages/it-IT';
+declare module 'numbro/languages/nb-NO';
+declare module 'numbro/languages/pl-PL';
+declare module 'numbro/languages/pt-PT';
+declare module 'numbro/languages/ro-RO';
+declare module 'numbro/languages/es-ES';
+declare module 'numbro/languages/sv-SE';
