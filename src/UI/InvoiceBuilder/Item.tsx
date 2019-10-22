@@ -22,12 +22,12 @@ const Name = styled.div`
     margin-right: 25px;
 `;
 const Price = styled.div`
-    width: 80px;
+    width: 120px;
     margin-right: 25px;
 `;
 
 const Total = styled.div`
-    width: 80px;
+    width: 120px;
 `;
 const Quantity = styled.div`
     width: 75px;
