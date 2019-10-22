@@ -1,6 +1,7 @@
 import { FormikErrors, FormikTouched } from 'formik';
 import React from 'react';
 import styled from 'styled-components';
+import CurrencyTextField from '../../Input/TextField/CurrencyTextField';
 import TextField from '../../Input/TextField/TextField';
 import { ItemData } from './interfaces';
 
@@ -15,6 +16,7 @@ interface Item {
     touched?: FormikTouched<ItemData>;
     onBlur(e: React.FormEvent<HTMLInputElement>): void;
     onChange(e: React.FormEvent<HTMLInputElement>): void;
+    setFieldValue(field: string, value: string | number): void;
 }
 
 const Name = styled.div`
@@ -46,7 +48,8 @@ const calculateTotal = (price?: number, quantity?: number, tax?: number) => {
     return undefined;
 };
 
-const Item = ({className, name, price, quantity, tax, errors, onChange, onBlur, inputNamePrefix, touched}: Item) => {
+const Item = ({className, name, price, quantity, tax, errors, onChange, onBlur,
+    inputNamePrefix, touched, setFieldValue}: Item) => {
     const total = calculateTotal(price, quantity, tax);
 
     return (
@@ -76,13 +79,13 @@ const Item = ({className, name, price, quantity, tax, errors, onChange, onBlur, 
                 />
             </Quantity>
             <Price>
-                <TextField
+                <CurrencyTextField
                     grow={true}
-                    value={price ? price.toString() : undefined}
+                    value={price || 0}
                     textAlign="right"
-                    placeHolder="00,00"
+                    placeHolder="0,00"
                     prefix="€"
-                    onChange={onChange}
+                    onChange={(e: number) => setFieldValue(inputNamePrefix + '.price', e)}
                     onBlur={onBlur}
                     name={inputNamePrefix + '.price'}
                     errorText={touched && touched.price && errors ? errors.price : undefined}
@@ -101,10 +104,10 @@ const Item = ({className, name, price, quantity, tax, errors, onChange, onBlur, 
                 />
             </Tax>
             <Total>
-                <TextField
+                <CurrencyTextField
                     grow={true}
-                    placeHolder="00,00"
-                    value={total ? total.toString() : undefined}
+                    placeHolder="0,00"
+                    value={total || 0}
                     textAlign="right"
                     prefix="€"
                     readOnly={true}
