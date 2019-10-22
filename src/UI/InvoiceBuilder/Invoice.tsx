@@ -48,7 +48,7 @@ const Invoice = ({className, items}: Invoice) => {
                     }, 100);
                 }}
             >
-                {({ handleSubmit, handleChange, values, errors, touched, handleBlur, isSubmitting }) => (
+                {({ handleSubmit, handleChange, values, errors, touched, handleBlur, isSubmitting, setFieldValue }) => (
                     <form onSubmit={handleSubmit}>
                         {values.items.map((item, index) => {
                             return (
@@ -56,6 +56,7 @@ const Invoice = ({className, items}: Invoice) => {
                                     inputNamePrefix={`items[${index}]`}
                                     errors={errors && errors.items && errors.items[index]}
                                     touched={touched && touched.items && touched.items[index]}
+                                    setFieldValue={setFieldValue}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     key={index}
