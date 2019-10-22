@@ -7,11 +7,11 @@ import { ErrorText, HelperText } from '../Core';
 const DEFAULT_TYPE = 'text';
 type TextFieldStyle = 'default' | 'outlined';
 
-interface TextFieldProps extends HelperText, ErrorText {
+export interface TextFieldProps extends HelperText, ErrorText {
     inputType?: string;
     className?: string;
     placeHolder?: string;
-    value?: string;
+    value?: string | number;
     width?: string;
     disabled?: boolean;
     readOnly?: boolean;
@@ -28,6 +28,7 @@ interface TextFieldProps extends HelperText, ErrorText {
     onChange?(e: React.FormEvent<HTMLInputElement>): void;
     onBlur?(e: React.FormEvent<HTMLInputElement>): void;
     onFocus?(e: React.FormEvent<HTMLInputElement>): void;
+    onKeyDown?(e: React.KeyboardEvent<HTMLInputElement>): void;
 }
 
 const Prefix = styled.span`
@@ -89,7 +90,7 @@ const Label = styled.label<Label>`
 
 `;
 
-const TextField = ({className, value, placeHolder, onChange, onBlur, onFocus, name, style, readOnly,
+const TextField = ({className, value, placeHolder, onChange, onKeyDown, onBlur, onFocus, name, style, readOnly,
     helperText, errorText, autoFocus, disabled, inputType = DEFAULT_TYPE, prefix, postfix}: TextFieldProps) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [focus, setFocus] = React.useState<boolean>(false);
@@ -133,6 +134,7 @@ const TextField = ({className, value, placeHolder, onChange, onBlur, onFocus, na
                     onBlur={onBlurHandler}
                     onFocus={onFocusHandler}
                     disabled={disabled}
+                    onKeyDown={onKeyDown}
                 />
                 {postfix && (
                     <Postfix>
