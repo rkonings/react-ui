@@ -25,7 +25,7 @@ export interface TextFieldProps extends HelperText, ErrorText {
     prefix?: string | JSX.Element;
     postfix?: string | JSX.Element;
     style?: TextFieldStyle;
-    onChange?(e: React.FormEvent<HTMLInputElement>): void;
+    onChange?(e: React.FormEvent<HTMLInputElement> | string | number): void;
     onBlur?(e: React.FormEvent<HTMLInputElement>): void;
     onFocus?(e: React.FormEvent<HTMLInputElement>): void;
     onKeyDown?(e: React.KeyboardEvent<HTMLInputElement>): void;
