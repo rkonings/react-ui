@@ -4,7 +4,11 @@ import { currencyToNumber } from '../../Formatter/currencyToNumber';
 import { numberFormatter } from '../../Formatter/index';
 import TextField, { TextFieldProps } from './TextField';
 
-const CurrencyTextField = (props: TextFieldProps) => {
+interface CurrencyTextField extends TextFieldProps {
+    value: number;
+}
+
+const CurrencyTextField = (props: CurrencyTextField) => {
     let value = '';
 
     const onKeyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -29,6 +33,9 @@ const CurrencyTextField = (props: TextFieldProps) => {
         const el = e.currentTarget;
 
         if (el.value === '') {
+            if (props.onChange) {
+                props.onChange(0);
+            }
             return;
         }
 
@@ -55,13 +62,19 @@ const CurrencyTextField = (props: TextFieldProps) => {
         } else {
             el.value = '';
         }
+        if (props.onChange) {
+            props.onChange(newValue);
+        }
         return true;
 
     };
 
+    const val = numberFormatter({value: props.value, type: 'currency'});
+
     return (
         <TextField
             {...props}
+            value={val}
             prefix="€"
             placeHolder={numberFormatter({type: 'currency', value: 0})}
             onKeyDown={onKeyDownHandler}
