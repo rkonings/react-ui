@@ -40,7 +40,7 @@ const Tax = styled.div`
 
 const calculateTotal = (price?: number, quantity?: number, tax?: number) => {
     if (price && quantity && tax) {
-        return price * quantity * (100 + tax) / 10000;
+        return price * quantity * (100 + tax) / 100;
     }
 
     return undefined;
