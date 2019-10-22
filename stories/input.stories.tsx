@@ -10,6 +10,7 @@ import CheckBox from '../src/Input/Checkbox/Checkbox';
 import DateRangePicker from '../src/Input/DateRangePicker/DaterangePicker';
 import Select from '../src/Input/Select/Select';
 import Switch from '../src/Input/Switch/Switch';
+import CurrencyTextField from '../src/Input/TextField/CurrencyTextField';
 import TextField from '../src/Input/TextField/TextField';
 
 const typeLabel = 'Type';
@@ -214,18 +215,9 @@ storiesOf('Input/TextField', module)
   );
 })
 .add('with currency mask', () => {
-  const inputType = select(inputTypeLabel, inputTypeOptions, inputTypeDefault);
-  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
-  const style = select('Style', ['default', 'outlined'], 'default');
 
   return (
-    <TextField
-      mask="currency"
-      inputType={inputType}
-      size={size}
-      onChange={action('onChange')}
-      style={style}
-    />
+    <CurrencyTextField />
   );
 })
 .add('with onFocus & onBlur', () => {
