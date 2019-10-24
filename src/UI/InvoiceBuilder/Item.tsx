@@ -97,9 +97,10 @@ const Item = ({className, name, price, quantity, tax, errors, onChange, onBlur,
                     value={tax ? tax.toString() : undefined}
                     textAlign="right"
                     postfix="%"
-                    onChange={onChange}
                     onBlur={onBlur}
                     name={inputNamePrefix + '.tax'}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                        setFieldValue(inputNamePrefix + '.tax', parseInt(e.currentTarget.value, 10))}
                     errorText={touched && touched.tax && errors ? errors.tax : undefined}
                 />
             </Tax>
