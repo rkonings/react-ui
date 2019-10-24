@@ -6,6 +6,7 @@ import Item from './Item';
 
 import { Formik, FormikActions } from 'formik';
 import * as Yup from 'yup';
+import Totals from './Totals';
 
 interface Invoice {
     className?: string;
@@ -44,6 +45,7 @@ const Invoice = ({className, items}: Invoice) => {
                 initialValues={{items}}
                 onSubmit={(values: InvoiceValues, { setSubmitting }: FormikActions<InvoiceValues>) => {
                     setTimeout(() => {
+                        console.log(values);
                       setSubmitting(false);
                     }, 100);
                 }}
@@ -64,6 +66,7 @@ const Invoice = ({className, items}: Invoice) => {
                                 />
                             );
                         })}
+                        <Totals items={values.items} />
                         <Button isLoading={isSubmitting} inputType={'submit'} type={'primary'}>Create</Button>
                     </form>
                 )}
