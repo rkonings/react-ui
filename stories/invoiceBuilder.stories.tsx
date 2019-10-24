@@ -8,20 +8,20 @@ storiesOf('Invoice builder', module)
     const items = [
         {
             name: 'Product BAZZ',
-            price: 2000,
+            price: 20.00,
             quantity: 1,
             tax: 21
         },
         {
             name: 'Prdocut FOO',
-            price: 13056,
+            price: 130.56,
             quantity: 5,
             tax: 21
         },
         {
             name: 'Prdocut FOOBAZZ',
             price: 23,
-            quantity: 1000,
+            quantity: 10.00,
             tax: 9
         }
     ];
