@@ -41,6 +41,7 @@ export default styled(Client)`
         list-style: none;
         margin-left:0;
         padding-left:0;
+        margin-bottom: 20px;
         font-size: 12px;
     }
 `;
