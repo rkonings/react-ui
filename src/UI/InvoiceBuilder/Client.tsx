@@ -17,8 +17,7 @@ const Client = ({className, data}: Client) => {
                 <li>{firstName} {lastName}</li>
                 <li>{companyName}</li>
                 <li>{address}</li>
-                <li>{zipcode}</li>
-                <li>{city}</li>
+                <li>{zipcode}, {city}</li>
             </ul>
         </div>
     );
