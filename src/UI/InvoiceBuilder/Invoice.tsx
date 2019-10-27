@@ -76,5 +76,5 @@ const Invoice = ({className, items}: Invoice) => {
 };
 
 export default styled(Invoice)`
-    width: 800px;
+    width: 100%;
 `;
