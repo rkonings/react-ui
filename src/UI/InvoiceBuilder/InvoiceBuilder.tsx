@@ -23,6 +23,13 @@ const CompanyLogo = styled.img`
     max-width: 100%;
 `;
 
+const PaymentInfo = styled.div`
+    font-size: 12px;
+    margin-top: auto;
+    margin-bottom: 50px;
+    align-self: center;
+`;
+
 const InvoiceBuilder = ({className, items, client, company, logo,
     dueDate, date, invoiceNumber}: InvoiceBuilder) => {
     return (
@@ -50,6 +57,11 @@ const InvoiceBuilder = ({className, items, client, company, logo,
             </Grid>
 
             <Invoice items={items} />
+
+            <PaymentInfo>
+                {`Gaarne betaling voor de vervaldatum ${dueDate}  o.v.v. Factuurnummer ${invoiceNumber} op ons rekeningnummer`}
+            </PaymentInfo>
+
         </div>
     );
 };
