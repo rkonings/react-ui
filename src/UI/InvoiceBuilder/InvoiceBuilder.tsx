@@ -68,8 +68,10 @@ const InvoiceBuilder = ({className, items, client, company, logo,
 
 export default styled(InvoiceBuilder)`
     display:flex;
-    width: 800px;
+    /* width: 800px; */
     flex-wrap: wrap;
+    width: 210mm;
+    height: 297mm;
 
     ${Invoice} {
         margin-top: 50px;
