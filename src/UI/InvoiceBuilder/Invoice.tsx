@@ -37,19 +37,7 @@ const InvoiceSchema = Yup.object().shape({
     items: Yup.array().of(ItemSchema)
 });
 
-const Invoice = ({className, items: _items}: Invoice) => {
-
-    const [items, setItems] = React.useState<ItemData[]>(_items);
-
-    const addNewItem = () => {
-        setItems([...items, {
-            name: '',
-            price: 0,
-            quantity: 1,
-            tax: 21
-        }]);
-
-    };
+const Invoice = ({className, items}: Invoice) => {
 
     return (
         <div className={className}>
@@ -64,7 +52,8 @@ const Invoice = ({className, items: _items}: Invoice) => {
                     }, 100);
                 }}
             >
-                {({ handleSubmit, handleChange, values, errors, touched, handleBlur, isSubmitting, setFieldValue }) => (
+                {({ handleSubmit, handleChange, values, errors, touched, handleBlur,
+                isSubmitting, setFieldValue, setValues }) => (
                     <form onSubmit={handleSubmit}>
                         {values.items.map((item, index) => {
                             return (
@@ -80,7 +69,20 @@ const Invoice = ({className, items: _items}: Invoice) => {
                                 />
                             );
                         })}
-                        <Button onClick={() => addNewItem()} type={'primary'}>Add</Button>
+                        <Button
+                            onClick={() => {
+                                const items = [...values.items, {
+                                    name: '',
+                                    price: 0,
+                                    quantity: 1,
+                                    tax: 21
+                                }];
+
+                                setValues({...values, items});
+                            }}
+                            type={'primary'}
+                        >Add
+                        </Button>
                         <Totals items={values.items} />
                         {/* <Button isLoading={isSubmitting} inputType={'submit'} type={'primary'}>Create</Button> */}
                     </form>
