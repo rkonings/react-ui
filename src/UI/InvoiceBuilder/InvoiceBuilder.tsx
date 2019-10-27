@@ -70,11 +70,15 @@ export default styled(InvoiceBuilder)`
     display:flex;
     /* width: 800px; */
     flex-wrap: wrap;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: ${({theme: { color }}) => color.gray90};
     width: 210mm;
     height: 297mm;
 
     ${Invoice} {
-        margin-top: 50px;
+        margin-top: auto;
     }
 
     ${InvoiceInfo} {
