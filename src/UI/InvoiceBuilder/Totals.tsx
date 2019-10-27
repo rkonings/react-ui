@@ -15,19 +15,26 @@ const Line = styled.div`
     justify-content: flex-end;
     color: ${({theme: { color }}) => color.black};
     font-size: 14px;
+    height: 48px;
+    display:flex;
+    align-items: center;
 `;
 const Label = styled.div`
     width: 120px;
     text-align: right;
-    padding: 1em 0;
     padding-right: 25px;
+    text-transform: uppercase;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(0,0,0,0);
 `;
 const Amount = styled.div`
     width: 120px;
     border-bottom: 1px solid ${({theme: { color }}) => color.gray60};
-    padding: 1em 1em 1em 0;
     display:flex;
     box-sizing: border-box;
+    height: 100%;
+    display:flex;
+    align-items: center;
 `;
 
 const CurrencySign = styled.div`
