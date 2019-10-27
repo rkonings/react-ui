@@ -37,6 +37,10 @@ const InvoiceSchema = Yup.object().shape({
     items: Yup.array().of(ItemSchema)
 });
 
+const ItemToolBar = styled.div`
+    margin-top: 15px;
+`;
+
 const Invoice = ({className, items}: Invoice) => {
 
     return (
@@ -69,20 +73,22 @@ const Invoice = ({className, items}: Invoice) => {
                                 />
                             );
                         })}
-                        <Button
-                            onClick={() => {
-                                const items = [...values.items, {
-                                    name: '',
-                                    price: 0,
-                                    quantity: 1,
-                                    tax: 21
-                                }];
+                        <ItemToolBar>
+                            <Button
+                                onClick={() => {
+                                    const items = [...values.items, {
+                                        name: '',
+                                        price: 0,
+                                        quantity: 1,
+                                        tax: 21
+                                    }];
 
-                                setValues({...values, items});
-                            }}
-                            type={'primary'}
-                        >Add
-                        </Button>
+                                    setValues({...values, items});
+                                }}
+                                type={'primary'}
+                            >Add line
+                            </Button>
+                        </ItemToolBar>
                         <Totals items={values.items} />
                         {/* <Button isLoading={isSubmitting} inputType={'submit'} type={'primary'}>Create</Button> */}
                     </form>
