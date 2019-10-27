@@ -37,10 +37,24 @@ const InvoiceSchema = Yup.object().shape({
     items: Yup.array().of(ItemSchema)
 });
 
-const Invoice = ({className, items}: Invoice) => {
+const Invoice = ({className, items: _items}: Invoice) => {
+
+    const [items, setItems] = React.useState<ItemData[]>(_items);
+
+    const addNewItem = () => {
+        setItems([...items, {
+            name: '',
+            price: 0,
+            quantity: 1,
+            tax: 21
+        }]);
+
+    };
+
     return (
         <div className={className}>
             <Formik
+                enableReinitialize={true}
                 validationSchema={InvoiceSchema}
                 initialValues={{items}}
                 onSubmit={(values: InvoiceValues, { setSubmitting }: FormikActions<InvoiceValues>) => {
@@ -66,8 +80,9 @@ const Invoice = ({className, items}: Invoice) => {
                                 />
                             );
                         })}
+                        <Button onClick={() => addNewItem()} type={'primary'}>Add</Button>
                         <Totals items={values.items} />
-                        <Button isLoading={isSubmitting} inputType={'submit'} type={'primary'}>Create</Button>
+                        {/* <Button isLoading={isSubmitting} inputType={'submit'} type={'primary'}>Create</Button> */}
                     </form>
                 )}
             </Formik>
