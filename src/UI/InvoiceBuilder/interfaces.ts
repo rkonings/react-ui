@@ -21,3 +21,13 @@ export interface ItemData {
     quantity: number;
     tax: number;
 }
+
+export interface ClientData {
+    firstName: string;
+    lastName: string;
+    companyName: string;
+    address: string;
+    zipcode: string;
+    city: string;
+}
+
