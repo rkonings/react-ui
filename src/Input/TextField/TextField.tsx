@@ -90,16 +90,21 @@ const Label = styled.label<Label>`
 
 `;
 
-const TextField = ({className, value, placeHolder, onChange, onKeyDown, onBlur, onFocus, name, style, readOnly,
-    helperText, errorText, autoFocus, disabled, inputType = DEFAULT_TYPE, prefix, postfix}: TextFieldProps) => {
-    const inputRef = React.useRef<HTMLInputElement>(null);
+const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>((props, ref) => {
+    let htmlInput: HTMLInputElement;
+
+    const {className, value, placeHolder,
+        onChange, onKeyDown, onBlur, onFocus, name, style, readOnly,
+        helperText, errorText, autoFocus, disabled, inputType = DEFAULT_TYPE,
+        prefix, postfix} = props;
+
     const [focus, setFocus] = React.useState<boolean>(false);
 
     React.useEffect(() => {
-        if (autoFocus && inputRef && inputRef.current) {
-          inputRef.current.focus();
+        if (autoFocus && htmlInput) {
+            htmlInput.focus();
         }
-      }, [autoFocus]);
+    }, [autoFocus]);
 
     const onFocusHandler = (e: React.FormEvent<HTMLInputElement>) => {
         setFocus(true);
@@ -127,7 +132,12 @@ const TextField = ({className, value, placeHolder, onChange, onKeyDown, onBlur, 
                     readOnly={readOnly}
                     name={name}
                     type={inputType}
-                    ref={inputRef}
+                    ref={(el: HTMLInputElement) => {
+                        htmlInput = el;
+                        if (typeof ref === 'function') {
+                            ref(el);
+                        }
+                    }}
                     placeholder={placeHolder}
                     value={value}
                     onChange={onChange}
@@ -147,7 +157,7 @@ const TextField = ({className, value, placeHolder, onChange, onKeyDown, onBlur, 
         </div>
     );
 
-};
+});
 
 const BaseStyle = ({theme: {input: { textField }}, width: _width = '300px', grow: _grow = false, textAlign = 'left',
 prefix = false, postfix = false, size = 'm'}: TextFieldProps) => {
