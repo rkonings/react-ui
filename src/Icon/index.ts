@@ -43,3 +43,11 @@ export { default as Search } from './Search';
 export { default as Options } from './EllipsisV';
 
 export { default as Phone } from './Phone';
+
+export { default as Home } from './Home';
+export { default as Inbox } from './Inbox';
+export { default as ProjectManagement } from './ProjectManagement';
+export { default as TimeManagement } from './TimeManagement';
+export { default as Agenda } from './Agenda';
+export { default as Clients } from './Clients';
+export { default as Invoices } from './Invoices';
