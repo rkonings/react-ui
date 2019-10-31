@@ -23,7 +23,7 @@ storiesOf('Navigation', module)
 .add('with icons', () => {
     return (
         <Navigation>
-            <NavigationItem icon={<Home width={10} height={10} />}>Dashboard</NavigationItem>
+            <NavigationItem icon={<Home />}>Dashboard</NavigationItem>
             <NavigationItem icon={<Inbox />}>Inbox</NavigationItem>
             <NavigationItem icon={<Clients />}>Clients</NavigationItem>
             <NavigationItem isActive={true} icon={<Agenda />}>Agenda</NavigationItem>
