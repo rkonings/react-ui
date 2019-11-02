@@ -11,6 +11,7 @@ export const AppBarTitle = styled.h6`
 interface AppBar {
     className?: string;
     children: JSX.Element | JSX.Element[];
+    fixed?: boolean;
 }
 
 const AppBar = styled(({className, children}: AppBar) => {
@@ -26,10 +27,18 @@ const AppBar = styled(({className, children}: AppBar) => {
     height: 50px;
     align-items: center;
     padding: 0 20px;
-    position: fixed;
-    top: 0;
-    left:0;
     box-sizing: border-box;
+
+    ${({fixed}) => {
+        if (fixed) {
+            return `
+                position: fixed;
+                top: 0;
+                left:0;
+            `;
+        }
+        return '';
+    }}
 
     ${({theme: { color }}) => {
         return `
