@@ -39,7 +39,7 @@ const Basic = styled(({className, children}: Basic) => {
             <AppBar>
                 <AppBarTitle>ZZP Online</AppBarTitle>
             </AppBar>
-            <Grid height="500px" width="100%">
+            <Grid height="100%" width="100%">
                 <Left height="100%" width="200px">
                     <Navigation>
                         <NavigationItem icon={<Home />}>Dashboard</NavigationItem>
