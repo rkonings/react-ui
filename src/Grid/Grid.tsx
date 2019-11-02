@@ -73,6 +73,7 @@ export const StyledGrid = styled(Grid)<Grid>`
 
 interface Item extends Grid {
     spacing?: number;
+    grow?: boolean;
 }
 
 const Item = ({className, children}: Item) => (
@@ -83,7 +84,18 @@ export const StyledItem = styled(Item)<Item>`
     display: flex;
     flex-flow: row wrap;
 
-    width: ${({width, spacing}) => getWidth(width, spacing)};
+
+    ${({grow, width, spacing}) => {
+        if (grow) {
+            return `
+                flex-grow: 1;
+            `;
+        }
+        return `
+            width: ${getWidth(width, spacing)};
+        `;
+    }}
+
     height: ${({height}) => height};
     box-sizing: border-box;
 
