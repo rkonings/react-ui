@@ -2,6 +2,7 @@ import { storiesOf } from '@storybook/react';
 import arraySort from 'array-sort';
 import faker from 'faker/locale/nl';
 import React from 'react';
+import useDimensions from 'react-use-dimensions';
 
 import ButtonGroup from '../src/ButtonGroup/ButtonGroup';
 import { DataTable } from '../src/DataTable';
@@ -10,6 +11,8 @@ import { Edit, Options, Trash } from '../src/Icon';
 
 import { getDefaultSort, Sort } from '../src/DataTable/DataTable';
 import { DataField, DataRow } from '../src/interfaces/Data';
+
+import styled from 'styled-components';
 
 const defaultData: DataRow[] = [];
 for (let i = 0; i < 100; i++) {
@@ -57,7 +60,6 @@ const columns = [
     {
         type: 'DATA',
         fieldName: 'company',
-        width: 300,
         sortable: true,
         defaultSort: true,
         defaultSortDirection: 'ASC'
@@ -94,7 +96,12 @@ const sortData = (data: DataRow[], sort: Sort) => {
     return arraySort(data, `data.${sort.field.name}`, reverse);
 };
 
-const DataTableWithSort = () => {
+interface DatatableWithSort {
+    width?: number;
+    height?: number;
+}
+
+const DataTableWithSort = ({width, height}: DatatableWithSort) => {
     const defaultSort = getDefaultSort(columns, fields);
     const sortedData = sortData(defaultData, defaultSort);
 
@@ -106,11 +113,34 @@ const DataTableWithSort = () => {
     };
 
     return (
-        <DataTable columns={columns} data={data} sortHandler={sortHandler} fields={fields}  />
+        <DataTable
+            columns={columns}
+            data={data}
+            sortHandler={sortHandler}
+            fields={fields}
+            width={width}
+            height={height}
+        />
     );
 };
 
+const Wrapper = styled.div`
+    width: 900px;
+    height: 300px;
+`;
+
 storiesOf('DataTable', module)
     .add('DataTable with sort', () => (
-        <DataTableWithSort   />
-    ));
+        <DataTableWithSort width={800} />
+    ))
+    .add('adaptable table', () => {
+
+        const [ref, { width, height }] = useDimensions();
+
+        return (
+            <Wrapper ref={ref}>
+                {width > 300 && <DataTableWithSort width={width} height={height} />}
+            </Wrapper>
+        );
+    }
+    );
