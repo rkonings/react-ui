@@ -2,6 +2,7 @@ import { storiesOf } from '@storybook/react';
 import arraySort from 'array-sort';
 import faker from 'faker/locale/nl';
 import React from 'react';
+import useDimensions from 'react-use-dimensions';
 import styled from 'styled-components';
 import { Basic } from '../src/Layout';
 
@@ -59,7 +60,6 @@ const columns = [
     {
         type: 'DATA',
         fieldName: 'company',
-        width: 475,
         sortable: true,
         defaultSort: true,
         defaultSortDirection: 'ASC'
@@ -107,15 +107,27 @@ const DataTableWithSort = () => {
         setData(sortedData);
     };
 
+    const [ref, { width, height }] = useDimensions();
+
     return (
-        <DataTable columns={columns} data={data} sortHandler={sortHandler} fields={fields}  />
+        <Card ref={ref}>
+           {width > 300 && (
+                <DataTable
+                    columns={columns}
+                    data={data}
+                    sortHandler={sortHandler}
+                    fields={fields}
+                    width={width}
+                    height={height}
+                />
+           ) }
+        </Card>
     );
 };
 
 const Card = styled.div`
     width: 100%;
     height: 100%;
-    box-sizing: border-box;
     margin: 0 auto;
     background: #ffffff;
     box-shadow: 0px 4px 9px rgba(0,0,0,0.02);
@@ -125,9 +137,7 @@ storiesOf('Layout', module)
 .add('Basic', () => {
     return (
         <Basic>
-            <Card>
-                <DataTableWithSort />
-            </Card>
+            <DataTableWithSort />
         </Basic>
     );
 });

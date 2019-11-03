@@ -51,7 +51,7 @@ const Basic = styled(({className, children}: Basic) => {
                         <NavigationItem icon={<TimeManagement />}>Time management</NavigationItem>
                     </Navigation>
                 </Left>
-                <Item grow={true}>
+                <Item height="100%" grow={true}>
                    <Main>
                        <Back>Back to dashboard</Back>
                        <Title>Clients management</Title>
