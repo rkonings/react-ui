@@ -40,6 +40,8 @@ interface DataTableProps {
     data: DataRow[];
     fields: DataField[];
     columns: Column[];
+    width: number;
+    height?: number;
     sortHandler?(sort: Sort): void;
 }
 
@@ -284,15 +286,19 @@ const Header = ({fields, sort, setSort, className, columnWidth, toggleSelectAll,
 
 const StyledHeader = styled(Header)`
     display: flex;
+    width: 100%;
 `;
 
-const getColumnWidthByType = (column: Column): number => {
+const getColumnWidthByType = (column: Column, remainingwidth?: number): number => {
     if (column.type === 'SELECT') {
         return 50;
     }
 
     const width = column.width;
     if (typeof width === 'undefined') {
+        if (remainingwidth) {
+            return remainingwidth;
+        }
         return 100;
     } else if (typeof width === 'string') {
         return Number(width);
@@ -319,7 +325,16 @@ export const getDefaultSort = (columns: Column[], fields: DataField[]): Sort => 
     return DEFAULT_SORT;
 };
 
-const DataTable = ({data, sortHandler, fields, className, columns}: DataTableProps) => {
+const getRemainingColumnWidth = (columns: Column[], width: number) => {
+    return columns.reduce((w, col) => {
+        if (col.width) {
+            w = w - getColumnWidthByType(col);
+        }
+        return w;
+    }, width);
+};
+
+const DataTable = ({data, sortHandler, fields, className, columns, width, height = 600}: DataTableProps) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selected, setSelected] = useState<Set<Data>>(new Set());
@@ -357,16 +372,9 @@ const DataTable = ({data, sortHandler, fields, className, columns}: DataTablePro
     };
 
     const getColumnWidth = memoize((index: number): number => {
+        const w = getRemainingColumnWidth(columns, width);
         const column = columns[index];
-        return getColumnWidthByType(column);
-    });
-
-    const getTableWidth = memoize((columns: Column[]) => {
-        let width = 0;
-        columns.forEach((column) => {
-            width = width + getColumnWidthByType(column);
-        });
-        return width;
+        return getColumnWidthByType(column, w);
     });
 
     const itemData = {
@@ -396,8 +404,8 @@ const DataTable = ({data, sortHandler, fields, className, columns}: DataTablePro
                 rowHeight={() => theme.table.row.height}
                 rowCount={data.length}
                 itemData={itemData}
-                width={getTableWidth(columns)}
-                height={600}
+                width={width}
+                height={height}
                 overscanCount={10}
             >
             {StyledCell}
