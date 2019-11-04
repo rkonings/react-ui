@@ -1,7 +1,7 @@
 import memoize from 'memoize-one';
 import * as React from 'react';
 import { memo, useState } from 'react';
-import { areEqual, VariableSizeGrid as Grid } from 'react-window';
+import { areEqual, VariableSizeGrid, VariableSizeGrid as Grid } from 'react-window';
 import styled from 'styled-components';
 import useTheme from '../hooks/useTheme';
 import { ArrowDown, ArrowLeft, ArrowUp } from '../Icon/index';
@@ -340,6 +340,7 @@ const DataTable = ({data, sortHandler, fields, className, columns, width, height
     const [selected, setSelected] = useState<Set<Data>>(new Set());
     const defaultSort = getDefaultSort(columns, fields);
     const [sort, _setSort] = useState<Sort>(defaultSort);
+    const ref = React.useRef<VariableSizeGrid | null | undefined>();
 
     const theme = useTheme();
 
@@ -349,6 +350,15 @@ const DataTable = ({data, sortHandler, fields, className, columns, width, height
             sortHandler(sort);
         }
     };
+
+    React.useEffect(() => {
+        if (ref && ref.current) {
+            const index = columns.findIndex((item) => !item.width );
+            if (index > 0) {
+                ref.current.resetAfterColumnIndex(index);
+            }
+        }
+    }, [width]);
 
     const setSelectedItems = (item: Data) => {
         const newSelected = new Set(selected);
@@ -371,11 +381,11 @@ const DataTable = ({data, sortHandler, fields, className, columns, width, height
         }
     };
 
-    const getColumnWidth = memoize((index: number): number => {
+    const getColumnWidth = (index: number): number => {
         const w = getRemainingColumnWidth(columns, width);
         const column = columns[index];
         return getColumnWidthByType(column, w);
-    });
+    };
 
     const itemData = {
         rows: data,
@@ -398,6 +408,7 @@ const DataTable = ({data, sortHandler, fields, className, columns, width, height
                 setSort={setSort}
             />
             <Grid
+                ref={ref}
                 columnWidth={(index) => getColumnWidth(index)}
                 overscanRowCount={20}
                 columnCount={columns.length}

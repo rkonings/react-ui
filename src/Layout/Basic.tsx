@@ -17,8 +17,10 @@ const Left = styled(Item)`
 const Main = styled.div`
     width: 100%;
     height: 100%;
-    box-sizing: border-bos;
+    box-sizing: border-box;
     padding: 2em;
+    display: flex;
+    flex-direction: column;
 `;
 
 const Back = styled.div`
@@ -33,13 +35,19 @@ const Title = styled.h1`
     font-weight: 400;
 `;
 
+const MeasureWrapper = styled.div`
+    width: 100%;
+    height: 100%;
+`;
+
 const Basic = styled(({className, children}: Basic) => {
+
     return (
         <div className={className}>
             <AppBar>
                 <AppBarTitle>ZZP Online</AppBarTitle>
             </AppBar>
-            <Grid height="100%" width="100%">
+            <Grid height="calc(100% - 50px)" width="100%">
                 <Left height="100%" width="200px">
                     <Navigation>
                         <NavigationItem icon={<Home />}>Dashboard</NavigationItem>
@@ -51,12 +59,12 @@ const Basic = styled(({className, children}: Basic) => {
                         <NavigationItem icon={<TimeManagement />}>Time management</NavigationItem>
                     </Navigation>
                 </Left>
-                <Item height="100%" grow={true}>
-                   <Main>
-                       <Back>Back to dashboard</Back>
-                       <Title>Clients management</Title>
-                       {children}
-                   </Main>
+                <Item height="100%" width="calc(100% - 200px)">
+                    <Main>
+                        <Back>Back to dashboard</Back>
+                        <Title>Clients management</Title>
+                        {children}
+                    </Main>
                 </Item>
             </Grid>
         </div>

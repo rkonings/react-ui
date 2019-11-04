@@ -96,6 +96,15 @@ const sortData = (data: DataRow[], sort: Sort) => {
     return arraySort(data, `data.${sort.field.name}`, reverse);
 };
 
+const Card = styled.div`
+    display:block;
+    background: #ffffff;
+    width: 98%;
+    height: 100%;
+    overflow: hidden;
+    box-shadow: 0px 4px 9px rgba(0,0,0,0.02);
+`;
+
 const DataTableWithSort = () => {
     const defaultSort = getDefaultSort(columns, fields);
     const sortedData = sortData(defaultData, defaultSort);
@@ -107,33 +116,32 @@ const DataTableWithSort = () => {
         setData(sortedData);
     };
 
-    const [ref, { width, height }] = useDimensions();
+    const [ref, props] = useDimensions();
 
     return (
         <Card ref={ref}>
-           {width > 300 && (
+           {props.width > 200 && (
                 <DataTable
                     columns={columns}
                     data={data}
                     sortHandler={sortHandler}
                     fields={fields}
-                    width={width}
-                    height={height}
+                    width={props.width}
+                    height={props.height - 48}
                 />
            ) }
         </Card>
     );
 };
 
-const Card = styled.div`
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    background: #ffffff;
-    box-shadow: 0px 4px 9px rgba(0,0,0,0.02);
-`;
-
 storiesOf('Layout', module)
+.add('react-use-dimension', () => {
+    return (
+        <Basic>
+            <DataTableWithSort />
+        </Basic>
+    );
+})
 .add('Basic', () => {
     return (
         <Basic>

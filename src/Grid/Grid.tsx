@@ -61,7 +61,7 @@ const verticalAlignment = ({verticalAlignment = 'flex-start'}: Alignment) => `
 
 export const StyledGrid = styled(Grid)<Grid>`
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row;
 
     width: ${({width}) => getWidth(width)};
     height: ${({height}) => height};
@@ -76,11 +76,7 @@ interface Item extends Grid {
     grow?: boolean;
 }
 
-const Item = ({className, children}: Item) => (
-    <div className={className}>{children}</div>
-);
-
-export const StyledItem = styled(Item)<Item>`
+export const StyledItem = styled.div<Item>`
     display: flex;
     flex-flow: row wrap;
 
