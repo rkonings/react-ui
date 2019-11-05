@@ -135,13 +135,6 @@ const DataTableWithSort = () => {
 };
 
 storiesOf('Layout', module)
-.add('react-use-dimension', () => {
-    return (
-        <Basic>
-            <DataTableWithSort />
-        </Basic>
-    );
-})
 .add('Basic', () => {
     return (
         <Basic>
