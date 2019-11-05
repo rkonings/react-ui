@@ -340,7 +340,7 @@ const DataTable = ({data, sortHandler, fields, className, columns, width, height
     const [selected, setSelected] = useState<Set<Data>>(new Set());
     const defaultSort = getDefaultSort(columns, fields);
     const [sort, _setSort] = useState<Sort>(defaultSort);
-    const ref = React.useRef<VariableSizeGrid | null | undefined>();
+    let ref: VariableSizeGrid;
 
     const theme = useTheme();
 
@@ -352,10 +352,10 @@ const DataTable = ({data, sortHandler, fields, className, columns, width, height
     };
 
     React.useEffect(() => {
-        if (ref && ref.current) {
+        if (ref ) {
             const index = columns.findIndex((item) => !item.width );
             if (index > 0) {
-                ref.current.resetAfterColumnIndex(index);
+                ref.resetAfterColumnIndex(index);
             }
         }
     }, [width]);
@@ -408,7 +408,11 @@ const DataTable = ({data, sortHandler, fields, className, columns, width, height
                 setSort={setSort}
             />
             <Grid
-                ref={ref}
+                ref={(el) => {
+                    if (el) {
+                        ref = el;
+                    }
+                }}
                 columnWidth={(index) => getColumnWidth(index)}
                 overscanRowCount={20}
                 columnCount={columns.length}
