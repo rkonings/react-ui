@@ -41,12 +41,19 @@ interface SearchField {
 
 const SearchField = ({className, result, onChange}: SearchField) => {
 
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
     return (
         <div className={className}>
             <TextField
                 prefix={<Search/>}
                 onChange={(e) => {
-                    onChange(e.currentTarget.value);
+                    const value = e.currentTarget.value;
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                    }
+                    timeoutId = setTimeout(() => onChange(value), 500);
+
                 }}
             />
             {result && result.length > 0 && (
