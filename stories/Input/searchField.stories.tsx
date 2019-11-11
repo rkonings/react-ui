@@ -1,11 +1,12 @@
 import { storiesOf } from '@storybook/react';
+import faker from 'faker';
 import Fuse from 'fuse.js';
 import React from 'react';
 import Search from '../../src/Input/SearchField/SearchField';
 import data from './data.json';
 
 storiesOf('Input/SearchField', module)
-.add('default', () => {
+.add('football data', () => {
 
   interface Item {
       name: string;
@@ -22,6 +23,40 @@ storiesOf('Input/SearchField', module)
         keys: ['name', 'code'],
       };
     const fuse = new Fuse(data.clubs, options);
+
+    const searchHandler = (value: string) => {
+        const results = fuse.search(value);
+        setResult(results.map((item) => item.name));
+
+    };
+    return (<Search result={result} onChange={searchHandler} />);
+  };
+
+  return (
+    <BookSearchField />
+  );
+})
+.add('faker data', () => {
+
+  interface PersonData {
+      name: string;
+  }
+
+  const persons: PersonData[] = [];
+
+  for (let i = 0; i < 1000; i++) {
+    persons.push({
+      name: faker.name.firstName() +  ' ' + faker.name.lastName()
+    });
+  }
+  const BookSearchField = () => {
+    const [result, setResult] = React.useState<string[]>([]);
+
+    const options: Fuse.FuseOptions<PersonData> = {
+        threshold: 0.1,
+        keys: ['name'],
+      };
+    const fuse = new Fuse(persons, options);
 
     const searchHandler = (value: string) => {
         const results = fuse.search(value);
