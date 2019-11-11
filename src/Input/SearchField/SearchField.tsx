@@ -56,6 +56,7 @@ const SearchField = ({className, result, onChange}: SearchField) => {
     return (
         <div className={className}>
             <TextField
+                onFocus={() => setIsOpen(true)}
                 prefix={<Search/>}
                 onChange={(e) => {
                     const value = e.currentTarget.value;
