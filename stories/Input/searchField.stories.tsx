@@ -49,7 +49,7 @@ storiesOf('Input/SearchField', module)
       name: faker.name.firstName() +  ' ' + faker.name.lastName()
     });
   }
-  const BookSearchField = () => {
+  const PersonSearchField = () => {
     const [result, setResult] = React.useState<string[]>([]);
 
     const options: Fuse.FuseOptions<PersonData> = {
@@ -71,6 +71,8 @@ storiesOf('Input/SearchField', module)
   };
 
   return (
-    <BookSearchField />
+    <div>
+      <PersonSearchField />
+    </div>
   );
 });
