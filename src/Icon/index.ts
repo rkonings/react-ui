@@ -43,7 +43,7 @@ export { default as Search } from './Search';
 export { default as Options } from './EllipsisV';
 
 export { default as Phone } from './Phone';
-
+export { default as Close } from './Close';
 export { default as Home } from './Home';
 export { default as Inbox } from './Inbox';
 export { default as ProjectManagement } from './ProjectManagement';
