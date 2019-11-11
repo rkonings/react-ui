@@ -57,7 +57,7 @@ const SearchField = ({className, result, onChange}: SearchField) => {
         <div className={className}>
             <TextField
                 onFocus={() => setIsOpen(true)}
-                onBlur={() => setTimeout(() => setIsOpen(false), 100)}
+                onBlur={() => setTimeout(() => setIsOpen(false), 200)}
                 prefix={<Search/>}
                 onChange={(e) => {
                     const value = e.currentTarget.value;
