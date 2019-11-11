@@ -90,6 +90,10 @@ const SearchField = ({className, result, onChange}: SearchField) => {
 
 export default styled(SearchField)`
     position: relative;
+    ${TextField} {
+        position: relative;
+        z-index: 1;
+    }
     ${Menu} {
         position: absolute;
         max-height: 185px;
