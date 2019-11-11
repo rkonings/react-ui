@@ -70,6 +70,11 @@ const SearchField = ({className, result, onChange}: SearchField) => {
             <TextField
                 onFocus={() => setIsOpen(true)}
                 prefix={<Search/>}
+                onKeyDown={(e) => {
+                    if (e.key === 'Tab') {
+                        setIsOpen(false);
+                    }
+                }}
                 postfix={showClear ? (
                     <Clear
                         onClick={() => {
