@@ -58,15 +58,13 @@ const SearchField = ({className, result, onChange}: SearchField) => {
 
     React.useEffect(() => {
         setShowClear(value.length > 0 ? true : false);
-        if (timeoutId) {
-            clearTimeout(timeoutId);
-        }
-        if (value.length > 0) {
-            setTimeoutId(setTimeout(() => onChange(value), 500));
-        } else {
-            onChange(value, false);
-        }
     }, [value]);
+
+    const clear = () => {
+        setIsOpen(false);
+        setValue('');
+        onChange('', false);
+    }
 
     return (
         <div className={className}>
@@ -79,18 +77,22 @@ const SearchField = ({className, result, onChange}: SearchField) => {
                     }
                 }}
                 postfix={showClear ? (
-                    <Clear
-                        onClick={() => {
-                            setIsOpen(false);
-                            setValue('');
-                        }}
-                    >
+                    <Clear onClick={() => clear()}>
                         <Close />
                     </Clear>
                 ) : undefined}
                 value={value}
                 onChange={(e) => {
-                    setValue(e.currentTarget.value);
+                    const newValue = e.currentTarget.value;
+                    setValue(newValue);
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                    }
+                    if (newValue.length > 0) {
+                        setTimeoutId(setTimeout(() => onChange(newValue), 500));
+                    } else {
+                        onChange(newValue, false);
+                    }
                 }}
             />
             {result && result.length > 0 && isOpen && (
@@ -101,9 +103,9 @@ const SearchField = ({className, result, onChange}: SearchField) => {
                             <MenuItem
                                 key={item}
                                 onClick={() => {
-                                    console.log(item);
                                     setIsOpen(false);
                                     setValue(item);
+                                    onChange(item, false);
                                 }}
                             >
                                 {item}
