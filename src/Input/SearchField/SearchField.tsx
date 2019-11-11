@@ -51,18 +51,13 @@ const Clear = styled.div``;
 
 const SearchField = ({className, result, onChange}: SearchField) => {
 
-    let timeoutId: ReturnType<typeof setTimeout> | undefined;
     const [isOpen, setIsOpen] = React.useState<boolean>(true);
     const [showClear, setShowClear] = React.useState<boolean>(false);
     const [value, setValue] = React.useState<string>('');
+    const [timeoutId, setTimeoutId] = React.useState<ReturnType<typeof setTimeout> | undefined>();
 
     React.useEffect(() => {
         setShowClear(value.length > 0 ? true : false);
-        if (timeoutId) {
-            clearTimeout(timeoutId);
-        }
-
-        timeoutId = setTimeout(() => onChange(value), 500);
     }, [value]);
 
     return (
@@ -88,6 +83,10 @@ const SearchField = ({className, result, onChange}: SearchField) => {
                 value={value}
                 onChange={(e) => {
                     setValue(e.currentTarget.value);
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                    }
+                    setTimeoutId(setTimeout(() => onChange(value), 500));
                 }}
             />
             {result && result.length > 0 && isOpen && (
@@ -100,6 +99,7 @@ const SearchField = ({className, result, onChange}: SearchField) => {
                                 onClick={() => {
                                     console.log(item);
                                     setIsOpen(false);
+                                    setValue(item);
                                 }}
                             >
                                 {item}
