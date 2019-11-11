@@ -36,7 +36,7 @@ export const Menu = styled.div`
 interface SearchField {
     className?: string;
     result?: string[];
-    onChange(searchValue: string): void;
+    onChange(searchValue: string, search?: boolean): void;
 }
 
 const StyledClickAway = styled.div`
@@ -58,6 +58,14 @@ const SearchField = ({className, result, onChange}: SearchField) => {
 
     React.useEffect(() => {
         setShowClear(value.length > 0 ? true : false);
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        if (value.length > 0) {
+            setTimeoutId(setTimeout(() => onChange(value), 500));
+        } else {
+            onChange(value, false);
+        }
     }, [value]);
 
     return (
@@ -83,10 +91,6 @@ const SearchField = ({className, result, onChange}: SearchField) => {
                 value={value}
                 onChange={(e) => {
                     setValue(e.currentTarget.value);
-                    if (timeoutId) {
-                        clearTimeout(timeoutId);
-                    }
-                    setTimeoutId(setTimeout(() => onChange(value), 500));
                 }}
             />
             {result && result.length > 0 && isOpen && (

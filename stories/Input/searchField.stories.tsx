@@ -58,8 +58,8 @@ storiesOf('Input/SearchField', module)
       };
     const fuse = new Fuse(persons, options);
 
-    const searchHandler = (value: string) => {
-        if (value.length > 2) {
+    const searchHandler = (value: string, search: boolean = true) => {
+        if (value.length > 2 && search) {
           const results = fuse.search(value);
           setResult(results.map((item) => item.name));
         } else {
