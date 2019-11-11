@@ -57,7 +57,7 @@ const SearchField = ({className, result, onChange}: SearchField) => {
         <div className={className}>
             <TextField
                 onFocus={() => setIsOpen(true)}
-                onBlur={() => setIsOpen(false)}
+                onBlur={() => setTimeout(() => setIsOpen(false), 100)}
                 prefix={<Search/>}
                 onChange={(e) => {
                     const value = e.currentTarget.value;
@@ -72,7 +72,14 @@ const SearchField = ({className, result, onChange}: SearchField) => {
                 <React.Fragment>
                     <StyledClickAway onClick={() => setIsOpen(false)} />
                     <Menu>
-                        {result.map((item) => (<MenuItem key={item}>{item}</MenuItem>))}
+                        {result.map((item) => (
+                            <MenuItem
+                                key={item}
+                                onClick={() => console.log(item)}
+                            >
+                                {item}
+                            </MenuItem>
+                        ))}
                     </Menu>
                 </React.Fragment>
             )}
