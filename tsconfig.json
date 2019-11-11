@@ -5,6 +5,7 @@
       "target": "es5",
       "lib": ["es5", "es6", "es7", "es2017", "dom"],
       "esModuleInterop": true,
+      "resolveJsonModule": true,
       "sourceMap": true,
       "allowJs": false,
       "plugins": [
@@ -40,6 +41,7 @@
       "src/setupTests.ts"
     ],
     "include": [
-      "src"
+      "src",
+      "stories"
     ]
   }  
