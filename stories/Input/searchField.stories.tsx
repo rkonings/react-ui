@@ -59,8 +59,12 @@ storiesOf('Input/SearchField', module)
     const fuse = new Fuse(persons, options);
 
     const searchHandler = (value: string) => {
-        const results = fuse.search(value);
-        setResult(results.map((item) => item.name));
+        if (value.length > 2) {
+          const results = fuse.search(value);
+          setResult(results.map((item) => item.name));
+        } else {
+          setResult([]);
+        }
 
     };
     return (<Search result={result} onChange={searchHandler} />);
