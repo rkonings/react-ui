@@ -39,9 +39,19 @@ interface SearchField {
     onChange(searchValue: string): void;
 }
 
+const StyledClickAway = styled.div`
+    position: fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+`;
+
 const SearchField = ({className, result, onChange}: SearchField) => {
 
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    const [isOpen, setIsOpen] = React.useState<boolean>(true);
+
 
     return (
         <div className={className}>
@@ -56,10 +66,13 @@ const SearchField = ({className, result, onChange}: SearchField) => {
 
                 }}
             />
-            {result && result.length > 0 && (
-                <Menu>
-                    {result.map((item) => (<MenuItem key={item}>{item}</MenuItem>))}
-                </Menu>
+            {result && result.length > 0 && isOpen && (
+                <React.Fragment>
+                    <StyledClickAway onClick={() => setIsOpen(false)} />
+                    <Menu>
+                        {result.map((item) => (<MenuItem key={item}>{item}</MenuItem>))}
+                    </Menu>
+                </React.Fragment>
             )}
 
         </div>
@@ -70,5 +83,7 @@ export default styled(SearchField)`
     position: relative;
     ${Menu} {
         position: absolute;
+        max-height: 185px;
+        overflow-y: scroll;
     }
 `;
