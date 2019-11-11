@@ -36,6 +36,7 @@ export const Menu = styled.div`
 interface SearchField {
     className?: string;
     result?: string[];
+    placeHolder?: string;
     onChange(searchValue: string, search?: boolean): void;
 }
 
@@ -49,7 +50,7 @@ const StyledClickAway = styled.div`
 
 const Clear = styled.div``;
 
-const SearchField = ({className, result, onChange}: SearchField) => {
+const SearchField = ({className, result, onChange, placeHolder}: SearchField) => {
 
     const [isOpen, setIsOpen] = React.useState<boolean>(true);
     const [showClear, setShowClear] = React.useState<boolean>(false);
@@ -82,6 +83,7 @@ const SearchField = ({className, result, onChange}: SearchField) => {
                     </Clear>
                 ) : undefined}
                 value={value}
+                placeHolder={placeHolder}
                 onChange={(e) => {
                     const newValue = e.currentTarget.value;
                     setValue(newValue);

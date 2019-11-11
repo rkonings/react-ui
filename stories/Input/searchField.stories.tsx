@@ -29,7 +29,7 @@ storiesOf('Input/SearchField', module)
         setResult(results.map((item) => item.name));
 
     };
-    return (<Search result={result} onChange={searchHandler} />);
+    return (<Search placeHolder="Search football club" result={result} onChange={searchHandler} />);
   };
 
   return (
@@ -67,7 +67,7 @@ storiesOf('Input/SearchField', module)
         }
 
     };
-    return (<Search result={result} onChange={searchHandler} />);
+    return (<Search placeHolder="Search person" result={result} onChange={searchHandler} />);
   };
 
   return (
