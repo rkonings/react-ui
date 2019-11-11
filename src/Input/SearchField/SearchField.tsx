@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Search } from '../../Icon';
+import { Close, Search } from '../../Icon';
 import TextField from '../TextField/TextField';
 
 export const MenuItem = styled.a`
@@ -47,25 +47,42 @@ const StyledClickAway = styled.div`
     right:0;
 `;
 
+const Clear = styled.div``;
+
 const SearchField = ({className, result, onChange}: SearchField) => {
 
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
     const [isOpen, setIsOpen] = React.useState<boolean>(true);
+    const [showClear, setShowClear] = React.useState<boolean>(false);
+    const [value, setValue] = React.useState<string>('');
 
+    React.useEffect(() => {
+        setShowClear(value.length > 0 ? true : false);
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+
+        timeoutId = setTimeout(() => onChange(value), 500);
+    }, [value]);
 
     return (
         <div className={className}>
             <TextField
                 onFocus={() => setIsOpen(true)}
-                onBlur={() => setTimeout(() => setIsOpen(false), 200)}
                 prefix={<Search/>}
+                postfix={showClear ? (
+                    <Clear
+                        onClick={() => {
+                            setIsOpen(false);
+                            setValue('');
+                        }}
+                    >
+                        <Close />
+                    </Clear>
+                ) : undefined}
+                value={value}
                 onChange={(e) => {
-                    const value = e.currentTarget.value;
-                    if (timeoutId) {
-                        clearTimeout(timeoutId);
-                    }
-                    timeoutId = setTimeout(() => onChange(value), 500);
-
+                    setValue(e.currentTarget.value);
                 }}
             />
             {result && result.length > 0 && isOpen && (
@@ -75,7 +92,10 @@ const SearchField = ({className, result, onChange}: SearchField) => {
                         {result.map((item) => (
                             <MenuItem
                                 key={item}
-                                onClick={() => console.log(item)}
+                                onClick={() => {
+                                    console.log(item);
+                                    setIsOpen(false);
+                                }}
                             >
                                 {item}
                             </MenuItem>
@@ -96,7 +116,12 @@ export default styled(SearchField)`
     }
     ${Menu} {
         position: absolute;
+        z-index: 999;
         max-height: 185px;
         overflow-y: scroll;
+    }
+
+    ${Close} {
+        cursor: pointer;
     }
 `;
