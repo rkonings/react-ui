@@ -37,7 +37,7 @@ export const MenuItem = styled(({className, children, selected, onClick, onKeyDo
         </div>
     );
 })`
-    padding: 15px 25px;
+    padding: 10px 18px;
     color: ${({theme: { menu: { item } }}) => item.default.color };
     display: flex;
     cursor: pointer;
@@ -48,7 +48,6 @@ export const MenuItem = styled(({className, children, selected, onClick, onKeyDo
     }
 
     &:focus {
-        font-weight: 500;
         outline: none;
     }
 `;
@@ -65,6 +64,7 @@ export const Menu = styled.div`
     display:flex;
     flex-direction: column;
     min-width: 200px;
+    padding: 10px 0;
 
     position: absolute;
 `;
@@ -136,13 +136,12 @@ const Filter = ({className, options, onChange, open = false, value, onClick, lab
 
 export default styled(Filter)`
     position: relative;
-
     ${FilterName} {
-        ${({open}) => open ? 'font-weight: 500;' : '' }
+        color: ${({open, theme: { color }}) => open ? color.primary : color.black };
 
         &:focus {
             outline: none;
-            font-weight: 500;
+            color: ${({theme: { color }}) => color.primary};
         }
     }
 `;
