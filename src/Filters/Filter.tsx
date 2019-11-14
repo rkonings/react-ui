@@ -63,8 +63,10 @@ export const Menu = styled.div`
     width: 100%;
     display:flex;
     flex-direction: column;
-    min-width: 200px;
+    min-width: 300px;
     padding: 10px 0;
+    max-height: 200px;
+    overflow-y: scroll;
 
     position: absolute;
 `;
