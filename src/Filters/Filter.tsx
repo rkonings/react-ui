@@ -47,13 +47,9 @@ export const MenuItem = styled(({className, children, selected, onClick, onKeyDo
         margin-right: 10px;
     }
 
-    &:hover1 {
-        ${({theme: { menu: {item: { hover}} }}) => {
-            return `
-                background: ${hover.backgroundColor};
-                color: ${hover.color};
-            `;
-        } }
+    &:focus {
+        font-weight: 500;
+        outline: none;
     }
 `;
 
