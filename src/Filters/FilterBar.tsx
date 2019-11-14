@@ -40,7 +40,7 @@ const FilterBar = ({className, data, onChange}: FilterBar) => {
     };
 
     const keyDownHandler = (e: React.KeyboardEvent, id: string) => {
-        if (e.keyCode === 32) { // Space
+        if (e.keyCode === 32 || e.key === 'Enter') { // Space
             if (open === id) {
                 setOpen(null);
             } else {
