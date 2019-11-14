@@ -39,11 +39,22 @@ const FilterBar = ({className, data, onChange}: FilterBar) => {
 
     };
 
+    const keyDownHandler = (e: React.KeyboardEvent, id: string) => {
+        if (e.keyCode === 32) { // Space
+            if (open === id) {
+                setOpen(null);
+            } else {
+                setOpen(id);
+            }
+        }
+    };
+
     return (
         <div className={className}>
             {filters.map((filter) => {
                 return (
                     <Filter
+                        onKeyDown={(e) => keyDownHandler(e, filter.id)}
                         label={filter.label}
                         key={filter.id}
                         onClick={() => clickHandler(filter.id)}
