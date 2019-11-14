@@ -2,6 +2,7 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { FilterBar } from '../src/Filters';
+import Countries from './Data/countries.json';
 
 storiesOf('Filters', module)
 .add('default', () => {
@@ -20,11 +21,7 @@ storiesOf('Filters', module)
         {
             id: 'Country',
             label: 'Country',
-            options: [
-                'Netherlands',
-                'France',
-                'USA'
-            ],
+            options: Countries.map((item) => item.name),
             value: []
         },
         {
