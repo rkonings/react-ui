@@ -140,4 +140,13 @@ const Filter = ({className, options, onChange, open = false, value, onClick, lab
 
 export default styled(Filter)`
     position: relative;
+
+    ${FilterName} {
+        ${({open}) => open ? 'font-weight: 500;' : '' }
+
+        &:focus {
+            outline: none;
+            font-weight: 500;
+        }
+    }
 `;
