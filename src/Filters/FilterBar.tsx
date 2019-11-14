@@ -2,10 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import Filter from './Filter';
 
+export interface FilterOption {
+    value: string;
+    label: string;
+};
+
 interface Filter {
     id: string;
     label: string;
-    options: string[];
+    options: FilterOption[];
     value: string[];
 }
 
