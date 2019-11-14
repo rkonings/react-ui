@@ -11,6 +11,7 @@ interface Filter {
     label: string | JSX.Element;
     onChange(value: string[]): void;
     onClick(): void;
+    onKeyDown(e: React.KeyboardEvent): void;
 }
 
 interface MenuItem {
@@ -18,13 +19,16 @@ interface MenuItem {
     children: string;
     selected: boolean;
     onClick(e: React.MouseEvent): void;
+    onKeyDown(e: React.KeyboardEvent): void;
 }
 
-export const MenuItem = styled(({className, children, selected, onClick}: MenuItem) => {
+export const MenuItem = styled(({className, children, selected, onClick, onKeyDown}: MenuItem) => {
     return (
         <div
             className={className}
             onClick={onClick}
+            onKeyDown={onKeyDown}
+            tabIndex={0}
         >
             <CustomCheckBox>
                 {selected && <Check />}
@@ -84,11 +88,25 @@ const FilterName = styled.div`
     cursor: pointer;
 
 `;
-const Filter = ({className, options, onChange, open = false, value, onClick, label}: Filter) => {
+const Filter = ({className, options, onChange, open = false, value, onClick, label, onKeyDown}: Filter) => {
     const [selected, setSelected] = React.useState<Set<string>>(new Set(value));
+
+    const selectHandler = (item: string) => {
+        const s = new Set(selected);
+        if (s.has(item)) {
+            s.delete(item);
+        } else {
+            s.add(item);
+        }
+        setSelected(s);
+        onChange(Array.from(s));
+    };
+
     return (
         <div className={className}>
             <FilterName
+                onKeyDown={onKeyDown}
+                tabIndex={0}
                 onClick={() => onClick()}
             >
                 {label} <AngleDown />
@@ -102,14 +120,12 @@ const Filter = ({className, options, onChange, open = false, value, onClick, lab
                                 key={item}
                                 selected={selected.has(item)}
                                 onClick={() => {
-                                    const s = new Set(selected);
-                                    if (s.has(item)) {
-                                        s.delete(item);
-                                    } else {
-                                        s.add(item);
+                                    selectHandler(item);
+                                }}
+                                onKeyDown={(e) => {
+                                    if (e.keyCode === 32) { //Space
+                                        selectHandler(item);
                                     }
-                                    setSelected(s);
-                                    onChange(Array.from(s));
                                 }}
                             >
                                 {item}
