@@ -1,12 +1,15 @@
+import Fuse from 'fuse.js';
 import React from 'react';
 import styled from 'styled-components';
-import { AngleDown, Check } from '../Icon';
+import { AngleDown, Check, Search } from '../Icon';
 import { CustomCheckBox } from '../Input/Checkbox/Checkbox';
+import TextField from '../Input/TextField/TextField';
+import { FilterOption } from './FilterBar';
 
 interface Filter {
     value: string[];
     className?: string;
-    options: string[];
+    options: FilterOption[];
     open?: boolean;
     label: string | JSX.Element;
     onChange(value: string[]): void;
@@ -97,6 +100,8 @@ const ItemCount = styled.div`
 
 const Filter = ({className, options, onChange, open = false, value, onClick, label, onKeyDown}: Filter) => {
     const [selected, setSelected] = React.useState<Set<string>>(new Set(value));
+    const [searchValue, setSearchValue] = React.useState<string>('');
+    const [result, setResult] = React.useState<FilterOption[]>(options);
 
     const selectHandler = (item: string) => {
         const s = new Set(selected);
@@ -107,6 +112,24 @@ const Filter = ({className, options, onChange, open = false, value, onClick, lab
         }
         setSelected(s);
         onChange(Array.from(s));
+    };
+
+    const fuseOptions: Fuse.FuseOptions<FilterOption> = {
+        maxPatternLength: 32,
+        minMatchCharLength: 3,
+        threshold: 0.2,
+        keys: ['label']
+    };
+    const fuse = new Fuse(options, fuseOptions);
+
+    const searchHandler = (value: string) => {
+        setSearchValue(value);
+        if (value.length === 0) {
+            setResult(options);
+        } else {
+            const results = fuse.search(value);
+            setResult(results);
+        }
     };
 
     return (
@@ -122,20 +145,25 @@ const Filter = ({className, options, onChange, open = false, value, onClick, lab
                 <React.Fragment>
                     <StyledClickAway onClick={() => onClick()} />
                     <Menu>
-                        {options.map((item) => (
+                        <TextField
+                            value={searchValue}
+                            prefix={<Search />}
+                            onChange={(e) => searchHandler(e.currentTarget.value)}
+                        />
+                        {result.map((item) => (
                             <MenuItem
-                                key={item}
-                                selected={selected.has(item)}
+                                key={item.value}
+                                selected={selected.has(item.value)}
                                 onClick={() => {
-                                    selectHandler(item);
+                                    selectHandler(item.value);
                                 }}
                                 onKeyDown={(e) => {
                                     if (e.keyCode === 32) { //Space
-                                        selectHandler(item);
+                                        selectHandler(item.value);
                                     }
                                 }}
                             >
-                                {item}
+                                {item.label}
                             </MenuItem>
                         ))}
                     </Menu>
@@ -146,6 +174,12 @@ const Filter = ({className, options, onChange, open = false, value, onClick, lab
 };
 
 export default styled(Filter)`
+
+    ${TextField} {
+        padding: 0 20px 20px;
+        box-sizing: border-box;
+    }
+
     position: relative;
     ${FilterName} {
         color: ${({open, theme: { color }}) => open ? color.primary : color.black };
