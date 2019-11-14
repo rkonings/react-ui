@@ -82,8 +82,17 @@ const FilterName = styled.div`
     position: relative;
     z-index: 1;
     cursor: pointer;
-
+    display: flex;
+    align-items: center;
 `;
+
+const ItemCount = styled.div`
+    font-size: 10px;
+    margin-top: -10px;
+    width: 10px;
+    text-align: center;
+`;
+
 const Filter = ({className, options, onChange, open = false, value, onClick, label, onKeyDown}: Filter) => {
     const [selected, setSelected] = React.useState<Set<string>>(new Set(value));
 
@@ -105,7 +114,7 @@ const Filter = ({className, options, onChange, open = false, value, onClick, lab
                 tabIndex={0}
                 onClick={() => onClick()}
             >
-                {label} <AngleDown />
+                {label} <ItemCount>{selected.size > 0 ? selected.size : ''}</ItemCount> <AngleDown />
             </FilterName>
             {open && (
                 <React.Fragment>
