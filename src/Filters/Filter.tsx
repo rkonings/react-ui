@@ -98,6 +98,89 @@ const ItemCount = styled.div`
     text-align: center;
 `;
 
+interface OptionItem {
+    className?: string;
+    option: FilterOption;
+    selected: boolean;
+    onSelect(value: string): void;
+}
+
+const OptionItem = styled(({className, option, selected, onSelect}: OptionItem) => {
+    return (
+        <div className={className}>
+            <MenuItem
+                selected={selected}
+                onClick={() => {
+                    onSelect(option.value);
+                }}
+                onKeyDown={(e) => {
+                    if (e.keyCode === 32) { // Space
+                        onSelect(option.value);
+                    }
+                }}
+            >
+                {option.label}
+            </MenuItem>
+        </div>
+    );
+})``;
+
+interface Options {
+    className?: string;
+    options: FilterOption[];
+    selected: Set<string>;
+    onSelect(item: string): void;
+}
+const Options = styled(({className, onSelect, options, selected}: Options) => {
+    return (
+        <div className={className}>
+            {options.map((option) => {
+                if (selected.has(option.value)){
+                    return null;
+                }
+                return (
+                    <OptionItem
+                        key={option.value}
+                        option={option}
+                        onSelect={onSelect}
+                        selected={false}
+                    />
+                );
+            })}
+        </div>
+    );
+})``;
+
+interface Options {
+    className?: string;
+    options: FilterOption[];
+    selected: Set<string>;
+    onSelect(item: string): void;
+}
+
+const SelectedOptionsTitle = styled.div`
+    font-size: 10px;
+`;
+
+const SelectedOptions = styled(({className, options, onSelect, selected}: Options) => {
+    const selectedOptions = options.filter((item) => selected.has(item.value));
+    return (
+        <div className={className}>
+            <SelectedOptionsTitle>Selected</SelectedOptionsTitle>
+            {selectedOptions.map((option) => (
+                <OptionItem
+                    key={option.value}
+                    option={option}
+                    onSelect={onSelect}
+                    selected={true}
+                />
+            ))}
+        </div>
+    );
+})`
+    padding-bottom: 20px;
+`;
+
 const Filter = ({className, options, onChange, open = false, value, onClick, label, onKeyDown}: Filter) => {
     const [selected, setSelected] = React.useState<Set<string>>(new Set(value));
     const [searchValue, setSearchValue] = React.useState<string>('');
@@ -150,22 +233,8 @@ const Filter = ({className, options, onChange, open = false, value, onClick, lab
                             prefix={<Search />}
                             onChange={(e) => searchHandler(e.currentTarget.value)}
                         />
-                        {result.map((item) => (
-                            <MenuItem
-                                key={item.value}
-                                selected={selected.has(item.value)}
-                                onClick={() => {
-                                    selectHandler(item.value);
-                                }}
-                                onKeyDown={(e) => {
-                                    if (e.keyCode === 32) { //Space
-                                        selectHandler(item.value);
-                                    }
-                                }}
-                            >
-                                {item.label}
-                            </MenuItem>
-                        ))}
+                        <SelectedOptions options={options} onSelect={selectHandler} selected={selected} />
+                        <Options options={result} onSelect={selectHandler} selected={selected} />
                     </Menu>
                 </React.Fragment>
             )}
