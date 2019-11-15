@@ -68,9 +68,8 @@ export const Menu = styled.div`
     flex-direction: column;
     min-width: 300px;
     padding: 10px 0;
-    max-height: 200px;
+    max-height: 500px;
     overflow-y: scroll;
-
     position: absolute;
 `;
 
@@ -149,7 +148,10 @@ const Options = styled(({className, onSelect, options, selected}: Options) => {
             })}
         </div>
     );
-})``;
+})`
+    max-height: 200px;
+    overflow-y: scroll;
+`;
 
 interface Options {
     className?: string;
@@ -158,27 +160,49 @@ interface Options {
     onSelect(item: string): void;
 }
 
-const SelectedOptionsTitle = styled.div`
-    font-size: 10px;
+interface SelectedOptionItem {
+    className?: string;
+    option: FilterOption;
+    onSelect(option: string): void;
+}
+const SelectedOptionItem = styled(({className, option, onSelect}: SelectedOptionItem) => {
+    return (
+        <div onClick={() => onSelect(option.value)} className={className}>{option.label}</div>
+    );
+})`
+    font-size: 12px;
+    padding: 0.5em;
+    margin-right: 2px;
+    margin-top: 2px;
+    cursor: pointer;
+    background: ${({theme: { color }}) => color.gray30};
+`;
+
+const SelectedOptionList = styled.div`
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 5px 20px;
+    min-height: 20px;
 `;
 
 const SelectedOptions = styled(({className, options, onSelect, selected}: Options) => {
     const selectedOptions = options.filter((item) => selected.has(item.value));
     return (
         <div className={className}>
-            <SelectedOptionsTitle>Selected</SelectedOptionsTitle>
-            {selectedOptions.map((option) => (
-                <OptionItem
-                    key={option.value}
-                    option={option}
-                    onSelect={onSelect}
-                    selected={true}
-                />
-            ))}
+            <SelectedOptionList>
+                {selectedOptions.map((option) => (
+                    <SelectedOptionItem
+                        key={option.value}
+                        option={option}
+                        onSelect={onSelect}
+                    />
+                ))}
+            </SelectedOptionList>
         </div>
     );
 })`
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 `;
 
 const Filter = ({className, options, onChange, open = false, value, onClick, label, onKeyDown}: Filter) => {
@@ -233,7 +257,10 @@ const Filter = ({className, options, onChange, open = false, value, onClick, lab
                             prefix={<Search />}
                             onChange={(e) => searchHandler(e.currentTarget.value)}
                         />
-                        <SelectedOptions options={options} onSelect={selectHandler} selected={selected} />
+
+                        {selected.size > 0 && (
+                            <SelectedOptions options={options} onSelect={selectHandler} selected={selected} />
+                        )}
                         <Options options={result} onSelect={selectHandler} selected={selected} />
                     </Menu>
                 </React.Fragment>
