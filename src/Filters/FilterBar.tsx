@@ -12,6 +12,7 @@ interface Filter {
     label: string;
     options: FilterOption[];
     value: string[];
+    search?: boolean;
 }
 
 interface FilterBar {
@@ -61,6 +62,7 @@ const FilterBar = ({className, data, onChange}: FilterBar) => {
                     <Filter
                         onKeyDown={(e) => keyDownHandler(e, filter.id)}
                         label={filter.label}
+                        search={filter.search}
                         key={filter.id}
                         onClick={() => clickHandler(filter.id)}
                         value={filter.value}

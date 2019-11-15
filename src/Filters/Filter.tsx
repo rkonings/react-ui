@@ -10,6 +10,7 @@ interface Filter {
     value: string[];
     className?: string;
     options: FilterOption[];
+    search?: boolean;
     open?: boolean;
     label: string | JSX.Element;
     onChange(value: string[]): void;
@@ -128,13 +129,14 @@ interface Options {
     className?: string;
     options: FilterOption[];
     selected: Set<string>;
+    removeSelected?: boolean;
     onSelect(item: string): void;
 }
-const Options = styled(({className, onSelect, options, selected}: Options) => {
+const Options = styled(({className, onSelect, options, selected, removeSelected = false}: Options) => {
     return (
         <div className={className}>
             {options.map((option) => {
-                if (selected.has(option.value)){
+                if (removeSelected === true && selected.has(option.value)){
                     return null;
                 }
                 return (
@@ -142,7 +144,7 @@ const Options = styled(({className, onSelect, options, selected}: Options) => {
                         key={option.value}
                         option={option}
                         onSelect={onSelect}
-                        selected={false}
+                        selected={selected.has(option.value)}
                     />
                 );
             })}
@@ -205,7 +207,8 @@ const SelectedOptions = styled(({className, options, onSelect, selected}: Option
     padding-bottom: 10px;
 `;
 
-const Filter = ({className, options, onChange, open = false, value, onClick, label, onKeyDown}: Filter) => {
+const Filter = ({className, options, onChange, open = false, value,
+    onClick, label, onKeyDown, search = false}: Filter) => {
     const [selected, setSelected] = React.useState<Set<string>>(new Set(value));
     const [searchValue, setSearchValue] = React.useState<string>('');
     const [result, setResult] = React.useState<FilterOption[]>(options);
@@ -252,16 +255,32 @@ const Filter = ({className, options, onChange, open = false, value, onClick, lab
                 <React.Fragment>
                     <StyledClickAway onClick={() => onClick()} />
                     <Menu>
-                        <TextField
-                            value={searchValue}
-                            prefix={<Search />}
-                            onChange={(e) => searchHandler(e.currentTarget.value)}
-                        />
+                        {search && (
+                            <React.Fragment>
+                                <TextField
+                                    value={searchValue}
+                                    prefix={<Search />}
+                                    onChange={(e) => searchHandler(e.currentTarget.value)}
+                                />
 
-                        {selected.size > 0 && (
-                            <SelectedOptions options={options} onSelect={selectHandler} selected={selected} />
+                                {selected.size > 0 && (
+                                    <SelectedOptions options={options} onSelect={selectHandler} selected={selected} />
+                                )}
+                                <Options
+                                    options={result}
+                                    onSelect={selectHandler}
+                                    selected={selected}
+                                    removeSelected={true}
+                                />
+                            </React.Fragment>
                         )}
-                        <Options options={result} onSelect={selectHandler} selected={selected} />
+                        {search === false && (
+                            <Options
+                                options={result}
+                                onSelect={selectHandler}
+                                selected={selected}
+                            />
+                        )}
                     </Menu>
                 </React.Fragment>
             )}
