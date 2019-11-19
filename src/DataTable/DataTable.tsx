@@ -1,4 +1,3 @@
-import memoize from 'memoize-one';
 import * as React from 'react';
 import { memo, useState } from 'react';
 import { areEqual, VariableSizeGrid, VariableSizeGrid as Grid } from 'react-window';
