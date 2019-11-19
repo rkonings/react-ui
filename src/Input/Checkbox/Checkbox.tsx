@@ -14,7 +14,7 @@ interface CustomCheckBoxProps {
     size?: CheckBoxSize;
 }
 
-const CustomCheckBox = styled.div<CustomCheckBoxProps & ErrorText>`
+export const CustomCheckBox = styled.div<CustomCheckBoxProps & ErrorText>`
     ${({theme: {type = 'default', input : { checkbox, error }, icon}, size = 'm', errorText}) => {
         const borderColor = errorText ? error.color : checkbox[type].default.borderColor;
 
