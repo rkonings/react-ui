@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import React, { createContext, useContext, useReducer } from 'react';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';

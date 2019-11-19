@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import { Event } from '../interfaces';
 
 export const moveEventToDate = (events: Event[], id: string, date: string) => {
