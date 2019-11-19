@@ -3,9 +3,12 @@ import styled from 'styled-components';
 
 // https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 
+
+export type HorizontalAlignment = 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
+export type VerticalAlignment = 'flex-start' | 'center' | 'flex-end' | 'stretch' | 'baseline';
 interface Alignment {
-    horizontalAlignment?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
-    verticalAlignment?: 'flex-start' | 'center' | 'flex-end' | 'stretch' | 'baseline';
+    horizontalAlignment?: HorizontalAlignment;
+    verticalAlignment?: VerticalAlignment;
 }
 
 interface Grid extends Alignment {

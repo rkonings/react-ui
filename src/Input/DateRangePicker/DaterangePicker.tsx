@@ -63,11 +63,13 @@ const isLast = (item: Preset): item is ActionLast => {
 };
 
 export const DateRangePresetsMenu = styled(({className,
-    items, activePreset = null, onChange}: DateRangePresetsMenu) => {
+    items, activePreset, onChange}: DateRangePresetsMenu) => {
     const [activeItem, setActiveItem] = React.useState<PresetItem | null>(null);
 
     React.useEffect(() => {
-        setActiveItem(activePreset);
+        if(activePreset) {
+            setActiveItem(activePreset);
+        }
     }, [activePreset]);
 
     return (

@@ -1,10 +1,11 @@
-import { action } from '@storybook/addon-actions';
-import { boolean, number, select, text } from '@storybook/addon-knobs';
+import { select } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import ButtonMenu from '../src/Menu/ButtonMenu';
 import { MenuItem } from '../src/Menu/Menu';
+import { Size } from 'interfaces/Theme';
+import { ButtonType } from 'Button';
 
 storiesOf('Menu', module)
 .add('Button menu', () => {
@@ -27,8 +28,8 @@ storiesOf('Menu', module)
     const type = select(typeLabel, typeOptions, typeDefaultValue);
     return (
         <ButtonMenu
-            size={size}
-            type={type}
+            size={size as Size}
+            type={type as ButtonType}
             variant={variant}
             menuAlign={menuAlign}
             items={ (close) => (

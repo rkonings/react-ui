@@ -92,7 +92,7 @@ const columns = [
 ];
 
 const sortData = (data: DataRow[], sort: Sort) => {
-    const reverse = (sort.direction === 'DESC') ? {reverse: true} : null;
+    const reverse = (sort.direction === 'DESC') ? {reverse: true} : undefined;
     return arraySort(data, `data.${sort.field.name}`, reverse);
 };
 

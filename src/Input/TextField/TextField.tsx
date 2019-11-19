@@ -150,7 +150,7 @@ const TextField = ({className, value, placeHolder, onChange, onKeyDown, onBlur, 
 };
 
 const BaseStyle = ({theme: {input: { textField }}, width: _width = '300px', grow: _grow = false, textAlign = 'left',
-prefix = false, postfix = false, size = 'm'}: TextFieldProps) => {
+prefix, postfix, size = 'm'}: TextFieldProps) => {
     const type = 'default';
     const grow = _grow ? 'flex: 1;' : '';
     const width = !_grow ? 'width: ' + _width + ';' : '';
