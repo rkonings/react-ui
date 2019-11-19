@@ -35,11 +35,6 @@ const Title = styled.h1`
     font-weight: 400;
 `;
 
-const MeasureWrapper = styled.div`
-    width: 100%;
-    height: 100%;
-`;
-
 const Basic = styled(({className, children}: Basic) => {
 
     return (
