@@ -11,3 +11,4 @@ declare module 'numbro/languages/pt-PT';
 declare module 'numbro/languages/ro-RO';
 declare module 'numbro/languages/es-ES';
 declare module 'numbro/languages/sv-SE';
+declare module 'react-use-dimensions';

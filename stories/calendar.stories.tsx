@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import { boolean, date, number, select, text } from '@storybook/addon-knobs';
+import { number } from '@storybook/addon-knobs';
 
 import { storiesOf } from '@storybook/react';
 import moment from 'moment';

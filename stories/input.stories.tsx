@@ -1,7 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import { array, boolean, select, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
-import moment from 'moment';
 import React from 'react';
 
 import { Grid, Item } from '../src/Grid';
@@ -12,6 +11,7 @@ import Select from '../src/Input/Select/Select';
 import Switch from '../src/Input/Switch/Switch';
 import CurrencyTextField from '../src/Input/TextField/CurrencyTextField';
 import TextField from '../src/Input/TextField/TextField';
+import { Size, Type } from 'interfaces/Theme';
 
 const typeLabel = 'Type';
 const typeOptions = ['default', 'primary', 'secondairy'];
@@ -33,19 +33,6 @@ const inputTypeDefault = 'text';
 
 storiesOf('Input/DateRangePicker', module)
 .add('advanced', () => {
-
-  const options = {
-      range: true,
-      min: 2000,
-      max: 2028,
-      step: 1,
-  };
-
-  const range = {
-      start: moment([2019, 0, 1]),
-      end: moment([2019, 0, 14])
-  };
-
   return (
     <DateRangePicker
       onChange={action('onChange')}
@@ -70,7 +57,7 @@ storiesOf('Input/Select', module)
       <Grid width="600px" horizontalAlignment="flex-start">
         <Item width="100%" horizontalAlignment="flex-start" verticalAlignment="center">
           <Select
-            size={size}
+            size={size as Size}
             onChange={action('onChange')}
             options={array('Options', options, ':')}
             name={'companies'}
@@ -134,8 +121,8 @@ storiesOf('Input/Checkbox', module)
     const label = text('Label', 'label');
     return (
         <CheckBox
-          type={type}
-          size={size}
+          type={type as Type}
+          size={size as Size}
           label={label}
           onChange={action('onChange')}
           checked={boolean('Checked', false)}
@@ -148,8 +135,8 @@ storiesOf('Input/Checkbox', module)
   const label = text('Label', 'label');
   return (
       <CheckBox
-        type={type}
-        size={size}
+        type={type as Type}
+        size={size as Size}
         label={label}
         onChange={action('onChange')}
         errorText={'Error'}
@@ -164,8 +151,8 @@ storiesOf('Input/Checkbox', module)
   const label = text('Label', 'label');
   return (
       <CheckBox
-        type={type}
-        size={size}
+        type={type as Type}
+        size={size as Size}
         label={label}
         onChange={action('onChange')}
         helperText={'This is a helper'}
@@ -208,7 +195,7 @@ storiesOf('Input/TextField', module)
     <TextField
       value={value}
       inputType={inputType}
-      size={size}
+      size={size as Size}
       onChange={action('onChange')}
       style={style}
     />
@@ -246,7 +233,7 @@ storiesOf('Input/TextField', module)
   const placeholder = text('Placeholder', 'Alignment');
   const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
   return (
-    <TextField size={size} placeHolder={placeholder} textAlign={alignment} onChange={action('onChange')} />
+    <TextField size={size as Size} placeHolder={placeholder} textAlign={alignment} onChange={action('onChange')} />
   );
 })
 .add('with grow', () => {
@@ -254,7 +241,7 @@ storiesOf('Input/TextField', module)
   const placeholder = text('Placeholder', '00,00');
   const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
   return (
-    <TextField size={size} placeHolder={placeholder} prefix={prefix} grow={true} onChange={action('onChange')} />
+    <TextField size={size as Size} placeHolder={placeholder} prefix={prefix} grow={true} onChange={action('onChange')} />
   );
 })
 .add('with prefix', () => {
@@ -262,7 +249,7 @@ storiesOf('Input/TextField', module)
   const placeholder = text('Placeholder', '00,00');
   const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
   return (
-    <TextField size={size} placeHolder={placeholder} prefix={prefix} onChange={action('onChange')} />
+    <TextField size={size as Size} placeHolder={placeholder} prefix={prefix} onChange={action('onChange')} />
   );
 })
 .add('with icon prefix', () => {
@@ -270,7 +257,7 @@ storiesOf('Input/TextField', module)
   const placeholder = text('Placeholder', '00,00');
   const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
   return (
-    <TextField size={size} placeHolder={placeholder} prefix={prefix} onChange={action('onChange')} />
+    <TextField size={size as Size} placeHolder={placeholder} prefix={prefix} onChange={action('onChange')} />
   );
 })
 .add('with postfix', () => {
@@ -278,7 +265,7 @@ storiesOf('Input/TextField', module)
   const placeholder = text('Placeholder', '00,00');
   const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
   return (
-    <TextField size={size} placeHolder={placeholder} postfix={postfix} onChange={action('onChange')} />
+    <TextField size={size as Size} placeHolder={placeholder} postfix={postfix} onChange={action('onChange')} />
   );
 })
 .add('with icon postfix', () => {
@@ -286,7 +273,7 @@ storiesOf('Input/TextField', module)
   const placeholder = text('Placeholder', '00,00');
   const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
   return (
-    <TextField size={size} placeHolder={placeholder} postfix={postfix} onChange={action('onChange')} />
+    <TextField size={size as Size} placeHolder={placeholder} postfix={postfix} onChange={action('onChange')} />
   );
 })
 .add('with placeholder', () => {
