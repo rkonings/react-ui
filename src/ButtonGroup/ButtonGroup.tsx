@@ -5,7 +5,7 @@ import Theme, { Size as ButtonGroupSize } from '../interfaces/Theme';
 import ButtonMenu from '../Menu/ButtonMenu';
 import { BaseButton } from 'Button/BaseButton';
 
-type ButtonGroupType = 'default' | 'primary' | 'secondairy';
+export type ButtonGroupType = 'default' | 'primary' | 'secondairy';
 
 interface ButtonGroupProps {
     size?: ButtonGroupSize;
