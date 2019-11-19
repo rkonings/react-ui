@@ -1,8 +1,13 @@
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
+import styled from 'styled-components';
 import { FilterBar } from '../src/Filters';
 import Countries from './Data/countries.json';
+
+const WrapperAlignTop = styled.div`
+    align-self: flex-start;
+`;
 
 storiesOf('Filters', module)
 .add('default', () => {
@@ -12,32 +17,37 @@ storiesOf('Filters', module)
             id: 'League',
             label: 'League',
             options: [
-                'Eredivisie',
-                'La Liga',
-                'Ligue 1'
+                { value: 'Eredivisie', label: 'Eredivisie'},
+                { value: 'La Liga', label: 'La Liga'},
+                { value: 'Ligue 1', label: 'Ligue 1'},
             ],
             value: []
         },
         {
             id: 'Country',
             label: 'Country',
-            options: Countries.map((item) => item.name),
-            value: []
+            options: Countries.map((item) => {
+                return {value: item.name, label: item.name};
+            }),
+            value: [],
+            search: true
         },
         {
             id: 'Clubs',
             label: 'Clubs',
             options: [
-                'AJAX',
-                'Feyenoord',
-                'PSV'
+                { value: 'Ajax', label: 'Ajax'},
+                { value: 'Heerenveen', label: 'Heerenveen'},
+                { value: 'FC Utrecht', label: 'FC Utrecht'},
             ],
             value: []
         }
     ];
 
     return (
-        <FilterBar data={data} onChange={action('changed')} />
+        <WrapperAlignTop>
+            <FilterBar data={data} onChange={action('changed')} />
+        </WrapperAlignTop>
     );
 
 });
