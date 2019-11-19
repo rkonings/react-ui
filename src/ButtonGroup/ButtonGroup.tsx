@@ -1,8 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Button, { ButtonProps } from '../Button/Button';
+import Button from '../Button/Button';
 import Theme, { Size as ButtonGroupSize } from '../interfaces/Theme';
 import ButtonMenu from '../Menu/ButtonMenu';
+import { BaseButton } from 'Button/BaseButton';
 
 type ButtonGroupType = 'default' | 'primary' | 'secondairy';
 
@@ -19,7 +20,7 @@ const ButtonGroup = ({setActive = false, className, children, type, size}: Butto
 
     const [activeIndex, setActiveIndex] = React.useState<number>(-1);
     const buttons = React.Children.map(children, (child, index) => {
-        return React.cloneElement<ButtonProps>(child, {
+        return React.cloneElement<BaseButton>(child, {
             type: child.props.type || type,
             size,
             onClick: (event) => {
@@ -37,7 +38,7 @@ const StyledButtonGroup = styled(ButtonGroup)`
     flex-direction: row;
     align-items: center;
 
-    > ${Button}, > ${ButtonMenu} {
+    ${Button}, > ${ButtonMenu} {
         ${({theme: { buttonGroup }, type = 'default'}) => {
             return `
                 border-width: 0px;
