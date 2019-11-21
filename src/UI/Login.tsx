@@ -10,7 +10,7 @@ import CheckBox from '../Input/Checkbox/Checkbox';
 import Switch from '../Input/Switch/Switch';
 import TextField from '../Input/TextField/TextField';
 
-interface Values {
+export interface LoginValues {
     password: string;
     email: string;
     remember?: boolean;
@@ -18,7 +18,7 @@ interface Values {
 
 interface LoginProps {
     className?: string;
-    onLogin?(values: Values): void;
+    onLogin?(values: LoginValues): void;
 }
 
 const LoginSchema = Yup.object().shape({
@@ -41,7 +41,7 @@ const Login = ({className, onLogin}: LoginProps) => {
                     password: '',
                     remember: false
                 }}
-                onSubmit={(values: Values, { setSubmitting }: FormikActions<Values>) => {
+                onSubmit={(values: LoginValues, { setSubmitting }: FormikActions<LoginValues>) => {
                     setTimeout(() => {
                         if (onLogin) {
                             onLogin(values);
