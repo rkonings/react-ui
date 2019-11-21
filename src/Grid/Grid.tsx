@@ -17,6 +17,7 @@ interface Grid extends Alignment {
     width?: string;
     height?: string;
     spacing?: number;
+    type?: 'row' | 'column';
 }
 
 const Grid = ({className, children, spacing}: Grid) => {
@@ -64,7 +65,7 @@ const verticalAlignment = ({verticalAlignment = 'flex-start'}: Alignment) => `
 
 export const StyledGrid = styled(Grid)<Grid>`
     display: flex;
-    flex-flow: row;
+    flex-flow: ${({type = 'column'}) => type === 'column' ? 'row' : 'column' };
 
     width: ${({width}) => getWidth(width)};
     height: ${({height}) => height};
