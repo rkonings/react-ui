@@ -52,7 +52,7 @@ const Login = ({className, onLogin}: LoginProps) => {
             >
                 {({ handleSubmit, handleChange, values, errors, touched, handleBlur }) => (
                     <form onSubmit={handleSubmit}>
-                        <Grid width="400px" spacing={20}>
+                        <Grid width="400px" type="row" spacing={20}>
                             <Item width="100%">
                                 <TextField
                                     name={'email'}
