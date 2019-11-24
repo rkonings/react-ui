@@ -23,7 +23,7 @@ export interface Sort {
     field: DataField;
 }
 
-interface Column {
+export interface Column {
     type: string;
     fieldName?: string;
     width?: string | number;
