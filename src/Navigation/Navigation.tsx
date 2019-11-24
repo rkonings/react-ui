@@ -29,7 +29,7 @@ export const NavigationItem = styled(({children, className, onClick, icon}: Navi
 
     svg {
         margin-right: 1em;
-        height: 1.2em
+        height: 1.2em;
         width: 1.2em;
         opacity: 0.8;
     }
