@@ -40,7 +40,7 @@ storiesOf('Nested sortable', module)
         };
     };
 
-    const createItems = (amount): Data  => {
+    const createItems = (amount: number): Data  => {
         const items = [];
 
         for (let i = 0; i < amount; i++) {

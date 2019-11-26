@@ -4,6 +4,7 @@ import React from 'react';
 import Button from '../src/Button/Button';
 import { Grid, Item } from '../src/Grid';
 import StyledTextField from '../src/Input/TextField/TextField';
+import { HorizontalAlignment, VerticalAlignment } from 'Grid/Grid';
 
 storiesOf('Grid', module)
 
@@ -23,8 +24,8 @@ storiesOf('Grid', module)
         <Grid
             width="100%"
             height="600px"
-            horizontalAlignment={hAlignment}
-            verticalAlignment={vAlignment}
+            horizontalAlignment={hAlignment as HorizontalAlignment}
+            verticalAlignment={vAlignment as VerticalAlignment}
         >
             <Button>Alignment</Button>
             <Button>Alignment</Button>

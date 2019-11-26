@@ -9,6 +9,8 @@ import Button from '../src/Button/Button';
 import OutlinedButton from '../src/Button/OutlinedButton';
 import TextButton from '../src/Button/TextButton';
 import { Bars, CaretDown } from '../src/Icon';
+import { ButtonType } from 'Button';
+import { Size } from 'interfaces/Theme';
 
 const DarkContainer = styled.div`
   background: ${({theme: { color }}) => color.black};
@@ -53,9 +55,9 @@ storiesOf('OutlinedButton', module)
   return (
     <OutlinedButton
       active={active}
-      type={type}
+      type={type as ButtonType}
       width={width}
-      size={size}
+      size={size as Size}
       contentAlignment={contentAlignment}
       onClick={action('Click')}
     >
@@ -72,8 +74,8 @@ storiesOf('OutlinedButton', module)
   return (
     <OutlinedButton
       active={active}
-      type={type}
-      size={size}
+      type={type as ButtonType}
+      size={size as Size}
       onClick={action('Click')}
       isLoading={isLoading}
     >
@@ -94,8 +96,8 @@ storiesOf('OutlinedButton', module)
     <React.Fragment>
       <OutlinedButton
         active={active}
-        type={type}
-        size={size}
+        type={type as ButtonType}
+        size={size as Size}
         contentAlignment={contentAlignment}
         width={width}
         onClick={action('Click')}
@@ -113,8 +115,8 @@ storiesOf('OutlinedButton', module)
   return  (
     <React.Fragment>
       <OutlinedButton
-        type={type}
-        size={size}
+        type={type as ButtonType}
+        size={size as Size}
         onClick={action('Click')}
       >
         {buttonText}<CaretDown spacing="left" />
@@ -135,7 +137,7 @@ storiesOf('TextButton/Light', module)
       <TextButton
         active={active}
         type="light"
-        size={size}
+        size={size as Size}
         onClick={action('Click')}
         shape={shape}
       >
@@ -154,7 +156,7 @@ storiesOf('TextButton/Light', module)
       <TextButton
         active={active}
         type="light"
-        size={size}
+        size={size as Size}
         onClick={action('Click')}
         isIcon={true}
         shape={shape}
@@ -176,8 +178,8 @@ storiesOf('TextButton', module)
   return (
     <TextButton
       active={active}
-      type={type}
-      size={size}
+      type={type as ButtonType}
+      size={size as Size}
       onClick={action('Click')}
       shape={shape}
     >
@@ -194,8 +196,8 @@ storiesOf('TextButton', module)
   return (
     <TextButton
       active={active}
-      type={type}
-      size={size}
+      type={type as ButtonType}
+      size={size as Size}
       onClick={action('Click')}
       isIcon={true}
       shape={shape}
@@ -213,8 +215,8 @@ storiesOf('TextButton', module)
   return (
     <TextButton
       active={active}
-      type={type}
-      size={size}
+      type={type as ButtonType}
+      size={size as Size}
       onClick={action('Click')}
       isLoading={isLoading}
     >
@@ -232,8 +234,8 @@ storiesOf('TextButton', module)
     <React.Fragment>
       <TextButton
         active={active}
-        type={type}
-        size={size}
+        type={type as ButtonType}
+      size={size as Size}
         onClick={action('Click')}
       >
           <CaretDown spacing="right" />{buttonText}
@@ -249,8 +251,8 @@ storiesOf('TextButton', module)
   return  (
     <React.Fragment>
       <TextButton
-        type={type}
-        size={size}
+        type={type as ButtonType}
+        size={size as Size}
         onClick={action('Click')}
       >
         {buttonText}<CaretDown spacing="left" />
@@ -270,8 +272,8 @@ storiesOf('Button/Light', module)
     <DarkContainer>
       <Button
         active={active}
-        type={type}
-        size={size}
+        type={type as ButtonType}
+      size={size as Size}
         onClick={action('Click')}
         shape={shape}
       >
@@ -290,8 +292,8 @@ storiesOf('Button', module)
     return (
       <Button
         active={active}
-        type={type}
-        size={size}
+        type={type as ButtonType}
+      size={size as Size}
         onClick={action('Click')}
         shape={shape}
       >
@@ -309,8 +311,8 @@ storiesOf('Button', module)
       <React.Fragment>
         <Button
           active={active}
-          type={type}
-          size={size}
+          type={type as ButtonType}
+      size={size as Size}
           onClick={action('Click')}
           isIcon={true}
           shape={shape}
@@ -329,8 +331,8 @@ storiesOf('Button', module)
     return (
       <Button
         active={active}
-        type={type}
-        size={size}
+        type={type as ButtonType}
+      size={size as Size}
         onClick={action('Click')}
         isLoading={isLoading}
       >
@@ -348,8 +350,8 @@ storiesOf('Button', module)
       <React.Fragment>
         <Button
           active={active}
-          type={type}
-          size={size}
+          type={type as ButtonType}
+      size={size as Size}
           onClick={action('Click')}
         >
             <CaretDown spacing="right" />{buttonText}
@@ -365,8 +367,8 @@ storiesOf('Button', module)
     return  (
       <React.Fragment>
         <Button
-          type={type}
-          size={size}
+          type={type as ButtonType}
+          size={size as Size}
           onClick={action('Click')}
         >
           {buttonText}<CaretDown spacing="left" />

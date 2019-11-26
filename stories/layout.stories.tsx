@@ -12,7 +12,9 @@ import RowAction from '../src/DataTable/DataTableRowAction';
 import { Edit, Options, Trash } from '../src/Icon';
 
 import { getDefaultSort, Sort } from '../src/DataTable/DataTable';
+import { Agenda, Clients, Home, Inbox, Invoices, ProjectManagement, TimeManagement } from '../src/Icon';
 import { DataField, DataRow } from '../src/interfaces/Data';
+import { Navigation, NavigationItem } from '../src/Navigation';
 
 const defaultData: DataRow[] = [];
 for (let i = 0; i < 100; i++) {
@@ -92,7 +94,7 @@ const columns = [
 ];
 
 const sortData = (data: DataRow[], sort: Sort) => {
-    const reverse = (sort.direction === 'DESC') ? {reverse: true} : null;
+    const reverse = (sort.direction === 'DESC') ? {reverse: true} : undefined;
     return arraySort(data, `data.${sort.field.name}`, reverse);
 };
 
@@ -136,8 +138,21 @@ const DataTableWithSort = () => {
 
 storiesOf('Layout', module)
 .add('Basic', () => {
+
+    const left = (
+        <Navigation>
+            <NavigationItem icon={<Home />}>Dashboard</NavigationItem>
+            <NavigationItem icon={<Inbox />}>Inbox</NavigationItem>
+            <NavigationItem icon={<Clients />}>Clients</NavigationItem>
+            <NavigationItem isActive={true} icon={<Agenda />}>Agenda</NavigationItem>
+            <NavigationItem icon={<ProjectManagement />}>Project management</NavigationItem>
+            <NavigationItem icon={<Invoices />}>Invoices</NavigationItem>
+            <NavigationItem icon={<TimeManagement />}>Time management</NavigationItem>
+        </Navigation>
+    );
+
     return (
-        <Basic>
+        <Basic pageTitle="Client management" left={left}>
             <DataTableWithSort />
         </Basic>
     );

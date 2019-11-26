@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import AppBar, { AppBarTitle } from '../src/AppBar/AppBar';
 import { TextButton } from '../src/Button';
-import { Bars, Search } from '../src/Icon';
+import { Search } from '../src/Icon';
 import ButtonMenu from '../src/Menu/ButtonMenu';
 import { MenuItem } from '../src/Menu/Menu';
 

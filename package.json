@@ -2,13 +2,12 @@
   "name": "react-ui",
   "version": "0.0.1",
   "description": "React UI Elements",
-  "main": "index.js",
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
     "storybook": "start-storybook --port 6006",
     "build-storybook": "build-storybook -c .storybook -o .out",
-    "build": "rm -rf /build/lib && tsc",
+    "build": "rm -rf /build && tsc",
     "build:icons": "svgr --out-dir src/Icon/ --template svgr.template.js --ext tsx src/assets/icons/",
     "lint:ts": "tslint 'src/**/*.{ts,tsx,js}'",
     "lint:style": "stylelint 'src/**/*.{ts,tsx,js}'"
@@ -42,6 +41,7 @@
     "@types/jest": "^24.0.18",
     "@types/memoize-one": "^4.1.1",
     "@types/moment": "^2.13.0",
+    "@types/react-color": "^3.0.1",
     "@types/react-dnd": "^3.0.2",
     "@types/react-virtualized": "^9.21.4",
     "@types/react-window": "^1.8.1",

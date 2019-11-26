@@ -3,9 +3,12 @@ import styled from 'styled-components';
 
 // https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 
+
+export type HorizontalAlignment = 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
+export type VerticalAlignment = 'flex-start' | 'center' | 'flex-end' | 'stretch' | 'baseline';
 interface Alignment {
-    horizontalAlignment?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
-    verticalAlignment?: 'flex-start' | 'center' | 'flex-end' | 'stretch' | 'baseline';
+    horizontalAlignment?: HorizontalAlignment;
+    verticalAlignment?: VerticalAlignment;
 }
 
 interface Grid extends Alignment {
@@ -14,6 +17,7 @@ interface Grid extends Alignment {
     width?: string;
     height?: string;
     spacing?: number;
+    type?: 'row' | 'column';
 }
 
 const Grid = ({className, children, spacing}: Grid) => {
@@ -61,7 +65,7 @@ const verticalAlignment = ({verticalAlignment = 'flex-start'}: Alignment) => `
 
 export const StyledGrid = styled(Grid)<Grid>`
     display: flex;
-    flex-flow: row;
+    flex-flow: ${({type = 'column'}) => type === 'column' ? 'row' : 'column' };
 
     width: ${({width}) => getWidth(width)};
     height: ${({height}) => height};

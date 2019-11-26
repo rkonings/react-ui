@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import AppBar, { AppBarTitle } from '../AppBar/AppBar';
 import { Grid, Item } from '../Grid';
-import { Agenda, Clients, Home, Inbox, Invoices, ProjectManagement, TimeManagement } from '../Icon';
-import { Navigation, NavigationItem } from '../Navigation/index';
+import { Navigation } from '../Navigation/index';
 
 interface Basic {
     className?: string;
     children?: JSX.Element | JSX.Element[];
+    left: JSX.Element;
+    pageTitle?: JSX.Element | string;
 }
 
 const Left = styled(Item)`
@@ -35,12 +36,7 @@ const Title = styled.h1`
     font-weight: 400;
 `;
 
-const MeasureWrapper = styled.div`
-    width: 100%;
-    height: 100%;
-`;
-
-const Basic = styled(({className, children}: Basic) => {
+const Basic = styled(({className, children, left, pageTitle}: Basic) => {
 
     return (
         <div className={className}>
@@ -49,20 +45,12 @@ const Basic = styled(({className, children}: Basic) => {
             </AppBar>
             <Grid height="calc(100% - 50px)" width="100%">
                 <Left height="100%" width="200px">
-                    <Navigation>
-                        <NavigationItem icon={<Home />}>Dashboard</NavigationItem>
-                        <NavigationItem icon={<Inbox />}>Inbox</NavigationItem>
-                        <NavigationItem icon={<Clients />}>Clients</NavigationItem>
-                        <NavigationItem isActive={true} icon={<Agenda />}>Agenda</NavigationItem>
-                        <NavigationItem icon={<ProjectManagement />}>Project management</NavigationItem>
-                        <NavigationItem icon={<Invoices />}>Invoices</NavigationItem>
-                        <NavigationItem icon={<TimeManagement />}>Time management</NavigationItem>
-                    </Navigation>
+                   {left}
                 </Left>
                 <Item height="100%" width="calc(100% - 200px)">
                     <Main>
                         <Back>Back to dashboard</Back>
-                        <Title>Clients management</Title>
+                        {pageTitle && <Title>{pageTitle}</Title>}
                         {children}
                     </Main>
                 </Item>

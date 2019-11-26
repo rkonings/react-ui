@@ -3,13 +3,14 @@ import { boolean, select } from '@storybook/addon-knobs';
 
 import Button from '../src/Button/Button';
 import TextButton from '../src/Button/TextButton';
-import ButtonGroup from '../src/ButtonGroup/ButtonGroup';
+import ButtonGroup, { ButtonGroupType } from '../src/ButtonGroup/ButtonGroup';
 import { CaretDown, Pen, Search, Trash } from '../src/Icon';
 
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 import ButtonMenu from '../src/Menu/ButtonMenu';
 import { MenuItem } from '../src/Menu/Menu';
+import { Size } from 'interfaces/Theme';
 
 const sizeLabel = 'Size';
 const sizeOptions = {
@@ -23,6 +24,7 @@ const sizeDefaultValue = 'm';
 
 const typeLabel = 'Type';
 const typeOptions = ['default', 'primary', 'secondairy'];
+
 const typeDefaultValue = 'default';
 
 storiesOf('ButtonGroup', module)
@@ -32,7 +34,7 @@ storiesOf('ButtonGroup', module)
     const setActive = boolean('setActive', false);
 
     return (
-      <ButtonGroup setActive={setActive} type={type} size={size}>
+      <ButtonGroup setActive={setActive} type={type as ButtonGroupType} size={size as Size}>
         <Button type={'secondairy'} onClick={action('Click')}>Button<CaretDown spacing="left" /></Button>
         <Button onClick={action('Click')}>Button</Button>
         <Button onClick={action('Click')}>Button</Button>
@@ -47,7 +49,7 @@ storiesOf('ButtonGroup', module)
     const setActive = boolean('setActive', false);
 
     return (
-      <ButtonGroup setActive={setActive} type={type} size={size}>
+      <ButtonGroup setActive={setActive} type={type as ButtonGroupType} size={size as Size}>
         <ButtonMenu
           type="secondairy"
           items={ (close) => (
@@ -84,7 +86,7 @@ storiesOf('ButtonGroup', module)
     const setActive = boolean('setActive', false);
 
     return (
-      <ButtonGroup setActive={setActive} type={type} size={size}>
+      <ButtonGroup setActive={setActive} type={type as ButtonGroupType} size={size as Size}>
         <TextButton type={'secondairy'} onClick={action('Click')}>Button<CaretDown spacing="left" /></TextButton>
         <TextButton onClick={action('Click')}>Button</TextButton>
         <TextButton onClick={action('Click')}>Button</TextButton>
@@ -99,7 +101,7 @@ storiesOf('ButtonGroup', module)
     const setActive = boolean('setActive', false);
 
     return (
-      <ButtonGroup setActive={setActive} type={type} size={size}>
+      <ButtonGroup setActive={setActive} type={type as ButtonGroupType} size={size as Size}>
         <Button type={'primary'} onClick={action('Click')}>Button<Trash spacing="left" /></Button>
         <TextButton onClick={action('Click')}><Pen /></TextButton>
         <TextButton onClick={action('Click')}><Search /></TextButton>

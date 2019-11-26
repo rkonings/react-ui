@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { Button , ButtonType, ButtonVariant, OutlinedButton, TextButton } from '../Button';
 import { Size } from '../interfaces/Theme';
-import { Menu, MenuItem } from './Menu';
+import { Menu } from './Menu';
 
 const StyledClickAway = styled.div`
     position: fixed;

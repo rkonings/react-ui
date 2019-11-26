@@ -1,4 +1,3 @@
-import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { Agenda, Clients, Home, Inbox, Invoices, ProjectManagement, TimeManagement } from '../src/Icon';
