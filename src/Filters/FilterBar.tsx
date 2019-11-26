@@ -7,19 +7,18 @@ export interface FilterOption {
     label: string;
 };
 
-interface Filter {
 export interface Filter {
     id: string;
     label: string;
     options: FilterOption[];
-    value: string[];
+    value?: string[];
     search?: boolean;
 }
 
 interface FilterBar {
     className?: string;
     data: Filter[];
-    onChange(data: Filter[]): void;
+    onChange(values: { [key: string]: string[] }): void;
 }
 
 const FilterBar = ({className, data, onChange}: FilterBar) => {
@@ -32,7 +31,6 @@ const FilterBar = ({className, data, onChange}: FilterBar) => {
         if (filter) {
             filter.value = value;
             setFilters(newFilters);
-            onChange(newFilters);
             const newValues = newFilters.reduce((obj, item) => {
                 if (item.value && item.value.length > 0) {
                     obj[item.id] = item.value;
@@ -73,7 +71,7 @@ const FilterBar = ({className, data, onChange}: FilterBar) => {
                         search={filter.search}
                         key={filter.id}
                         onClick={() => clickHandler(filter.id)}
-                        value={filter.value}
+                        value={filter.value ? filter.value : []}
                         options={filter.options}
                         open={open === filter.id ? true : false}
                         onChange={(value) => setFilterValue(filter.id, value)}
