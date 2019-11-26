@@ -32,6 +32,13 @@ const FilterBar = ({className, data, onChange}: FilterBar) => {
             filter.value = value;
             setFilters(newFilters);
             onChange(newFilters);
+            const newValues = newFilters.reduce((obj, item) => {
+                if (item.value && item.value.length > 0) {
+                    obj[item.id] = item.value;
+                }
+                return obj;
+            }, {});
+            onChange(newValues);
         }
     };
 
