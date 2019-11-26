@@ -8,6 +8,7 @@ export interface FilterOption {
 };
 
 interface Filter {
+export interface Filter {
     id: string;
     label: string;
     options: FilterOption[];
