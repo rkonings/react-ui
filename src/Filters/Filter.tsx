@@ -72,6 +72,7 @@ export const Menu = styled.div`
     max-height: 500px;
     overflow-y: scroll;
     position: absolute;
+    z-index: 1;
 `;
 
 const StyledClickAway = styled.div`
