@@ -159,7 +159,7 @@ const TextField = ({className, value, placeHolder, onChange, onKeyDown, onBlur, 
 };
 
 const BaseStyle = ({theme: {input: { textField }}, width: _width = '300px', grow: _grow = false, textAlign = 'left',
-prefix, postfix, size = 'm'}: TextFieldProps) => {
+prefix, postfix, size = 'm', style = 'default'}: TextFieldProps) => {
     const type = 'default';
     const grow = _grow ? 'flex: 1;' : '';
     const width = !_grow ? 'width: ' + _width + ';' : '';
@@ -176,7 +176,7 @@ prefix, postfix, size = 'm'}: TextFieldProps) => {
             width: 100%;
             box-sizing: border-box;
             font-size: ${textField.size[size]}px;
-            padding: 1em 1em 1em 0;
+            padding: ${style === 'default' ? '1em 1em 1em 0' : '1em'};
             ${postfix ? 'padding-right: 0' : ''};
             ${prefix ? 'padding-left: 0' : ''};
 
@@ -199,10 +199,16 @@ const StyledTextField = styled(TextField)`
 
     ${BaseStyle};
 
-    ${({theme: {input: { textField }}}) => {
+    ${({style = 'default', label, theme: {input: { textField }}}) => {
         const type = 'default';
-
+        const marginTop = (style === 'default' || !label) ? '0' : '1em';
         return `
+
+            ${Wrapper} {
+                margin-top: ${marginTop}
+
+            }
+
             input {
 
                 &:read-only {
