@@ -2,6 +2,7 @@ import { action } from '@storybook/addon-actions';
 import { array, boolean, select, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
+import faker from 'faker';
 
 import { Grid, Item } from '../src/Grid';
 import { ArrowLeft } from '../src/Icon';
@@ -198,6 +199,26 @@ storiesOf('Input/TextField', module)
       size={size as Size}
       onChange={action('onChange')}
       style={style}
+    />
+  );
+})
+.add('with label', () => {
+  const value = text('Value', 'react@development.nl');
+  const label = text('Label', faker.lorem.words(4));
+  const helperText = text('Helper text', faker.lorem.words(15));
+  const inputType = select(inputTypeLabel, inputTypeOptions, inputTypeDefault);
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  const style = select('Style', ['default', 'outlined'], 'default');
+
+  return (
+    <TextField
+      label={label}
+      value={value}
+      inputType={inputType}
+      size={size as Size}
+      onChange={action('onChange')}
+      style={style}
+      helperText={helperText}
     />
   );
 })
