@@ -20,7 +20,6 @@ const Content = styled.div`
     left: 50%;
     transform: translate(-50%, 0);
     margin-top: 20px;
-    width: 300px;
     box-sizing: border-box;
     padding: 1em;
     background: ${({theme: { color }}) => color.gray10};
