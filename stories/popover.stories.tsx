@@ -11,6 +11,18 @@ import Popover from '../src/Popover/Popover';
 
 const InputControl = styled.div`
     padding-bottom: 10px;
+
+    ${TextField} {
+        input {
+            background: none;
+        }
+    }
+`;
+
+const PopoverFooter = styled.div`
+    padding-top: 1em;
+    display: flex;
+    justify-content: flex-end;
 `;
 
 storiesOf('Popover', module)
@@ -22,15 +34,17 @@ storiesOf('Popover', module)
             {(setOpen) => (
                 <React.Fragment>
                     <InputControl>
-                        <TextField style="outlined" grow={true} placeHolder="Firstname" />
+                        <TextField width="200px" placeHolder="Firstname" />
                     </InputControl>
                     <InputControl>
-                        <TextField style="outlined" grow={true} placeHolder="LastName" />
+                        <TextField width="200px" placeHolder="LastName" />
                     </InputControl>
-                    <ButtonGroup>
-                        <TextButton onClick={() => setOpen(false)}>Cancel</TextButton>
-                        <Button onClick={() => setOpen(false)} type="primary">Save</Button>
-                    </ButtonGroup>
+                    <PopoverFooter>
+                        <ButtonGroup>
+                            <TextButton onClick={() => setOpen(false)}>Cancel</TextButton>
+                            <Button onClick={() => setOpen(false)} type="primary">Save</Button>
+                        </ButtonGroup>
+                    </PopoverFooter>
                 </React.Fragment>
             )}
         </Popover>
