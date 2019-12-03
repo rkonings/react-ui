@@ -13,6 +13,7 @@ const StyledClickAway = styled.div`
     left:0;
     bottom:0;
     right:0;
+    z-index: 1;
 `;
 
 const Content = styled.div<{xOffset: number}>`
@@ -24,6 +25,7 @@ const Content = styled.div<{xOffset: number}>`
     padding: 1em;
     background: ${({theme: { color }}) => color.gray10};
     border: 1px solid ${({theme: { color }}) => color.gray40};
+    z-index: 1;
 
 
     ::after {
