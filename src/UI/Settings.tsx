@@ -4,8 +4,23 @@ import ContactsCompanies from './Settings/ContactsCompanies';
 import BasicInfo from './Settings/BasicInfo';
 import { Route, Link, Switch } from 'react-router-dom';
 
+export interface UserSettings {
+  language: string;
+  dateFormat: string;
+  pushNotifications: boolean;
+  unscribeEmailLink: boolean;
+  signature: string;
+}
+
+export interface User {
+  firstName: string;
+  lastName: string;
+  settings: UserSettings;
+}
+
 interface Settings {
   className?: string;
+  user: User;
 }
 
 const Nav = styled.div`
@@ -21,7 +36,7 @@ const Nav = styled.div`
 
 const Content = styled.div``;
 
-const Settings = ({ className }: Settings) => {
+const Settings = ({ className, user }: Settings) => {
   return (
     <div className={className}>
       <Nav>
@@ -36,9 +51,9 @@ const Settings = ({ className }: Settings) => {
       </Nav>
       <Content>
         <Switch>
-          <Route path="/basic" component={BasicInfo} />
-          <Route path="/contacts-companies" component={ContactsCompanies} />
-          <Route path="/" component={BasicInfo} />
+          <Route path="/basic" render={() => <BasicInfo user={user} />} />
+          <Route path="/contacts-companies" render={() => <ContactsCompanies />} />
+          <Route path="/" render={() => <BasicInfo user={user} />} />
         </Switch>
         </Content>
     </div>
