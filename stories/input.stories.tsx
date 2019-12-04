@@ -67,6 +67,34 @@ storiesOf('Input/Select', module)
         </Grid>
     );
 })
+.add('with label', () => {
+
+  const label = text('label', 'label');
+
+  const options = [
+    'Dijkstra - Jacobs',
+    'Ven V.O.F.',
+    'Janssen, Groot and Dijk',
+    'Boer, Stichting and Jacobs',
+    'Willems Group',
+    'Brink, Brink and Dijkstra',
+    'Smits, Boer and Brouwer'
+  ];
+  const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
+  return (
+    <Grid width="600px" horizontalAlignment="flex-start">
+      <Item width="100%" horizontalAlignment="flex-start" verticalAlignment="center">
+        <Select
+          size={size as Size}
+          label={label}
+          onChange={action('onChange')}
+          options={array('Options', options, ':')}
+          name={'companies'}
+        />
+        </Item>
+      </Grid>
+  );
+})
 .add('with helper text', () => {
 
   const options = [
