@@ -16,7 +16,7 @@ import Popover from '../../Popover/Popover';
 import TextField from '../../Input/TextField/TextField';
 
 const InputField = styled.div`
-  padding-bottom: 10px;
+  padding-bottom: 2em;
 
   ${TextField} {
     input {
@@ -34,14 +34,15 @@ const PopoverFooter = styled.div`
 const EditableWithPopover = styled.div`
     display: flex;
     align-items: center;
-    padding-bottom: 10px;
+    padding-bottom: 1em;
+    font-size: 24px;
+    font-weight: 200;
 `;
 
 export default () => {
   return (
     <React.Fragment>
       <Section>
-        <Title>Basic information</Title>
         <EditableWithPopover>
             Randy Konings
           <Popover link={<TextButton isIcon={true}><Edit /></TextButton>}>
