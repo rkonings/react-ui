@@ -69,6 +69,7 @@
   "dependencies": {
     "@charlietango/use-focus-trap": "^1.2.3",
     "array-sort": "^1.0.0",
+    "dot-prop": "^5.2.0",
     "faker": "^4.1.0",
     "formik": "^1.5.8",
     "fuse.js": "^3.4.5",
