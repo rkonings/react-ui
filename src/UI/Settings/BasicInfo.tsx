@@ -68,10 +68,15 @@ export default () => {
           </Popover>
         </EditableWithPopover>
         <InputField>
-                <Select options={['Netherlands', 'UK']} />
+                <Select width="400px" label="Language" options={['Netherlands', 'UK']} />
         </InputField>
         <InputField>
-                <Select options={['Netherlands', 'UK']} />
+                <Select
+                  width="400px"
+                  label="Date &amp; number format"
+                  options={['Netherlands', 'UK']}
+                  helperText="Format: 4 december 2019, 04-12-2019, and 1.234,56"
+                />
         </InputField>
       </Section>
       <Section>
