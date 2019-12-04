@@ -8,7 +8,7 @@ import Switch from '../../Input/Switch/Switch';
 import { Button } from '../../Button';
 import TextButton from '../../Button/TextButton';
 import { Edit } from '../../Icon';
-import { User } from './../Settings';
+import { User, ValidationErrors } from './../Settings';
 
 import ButtonGroup from '../../ButtonGroup/ButtonGroup';
 
@@ -18,6 +18,8 @@ import TextField from '../../Input/TextField/TextField';
 
 interface BasicInfo {
   user: User;
+  onChange: (field: string, value: string | boolean | number) => void;
+  errors: ValidationErrors;
 }
 
 const InputField = styled.div`
@@ -44,7 +46,7 @@ const EditableWithPopover = styled.div`
     font-weight: 200;
 `;
 
-export default ({user}: BasicInfo) => {
+export default ({user, onChange, errors}: BasicInfo) => {
   return (
     <React.Fragment>
       <Section>
@@ -58,6 +60,8 @@ export default ({user}: BasicInfo) => {
                     value={user.firstName}
                     width="200px"
                     placeHolder="Firstname"
+                    onChange={(e) => onChange('firstName', e.currentTarget.value)}
+                    errorText={errors.get('firstName')}
                   />
                 </InputField>
                 <InputField>
@@ -65,6 +69,8 @@ export default ({user}: BasicInfo) => {
                     value={user.lastName}
                     width="200px"
                     placeHolder="LastName"
+                    onChange={(e) => onChange('lastName', e.currentTarget.value)}
+                    errorText={errors.get('lastName')}
                   />
                 </InputField>
                 <PopoverFooter>
@@ -87,6 +93,8 @@ export default ({user}: BasicInfo) => {
                   label="Language"
                   options={['Netherlands', 'UK']}
                   value={user.settings.language}
+                  onChange={(value) => onChange('settings.language', value)}
+                  errorText={errors.get('settings.language')}
                 />
         </InputField>
         <InputField>
@@ -96,6 +104,8 @@ export default ({user}: BasicInfo) => {
                   options={['Netherlands', 'UK']}
                   value={user.settings.dateFormat}
                   helperText="Format: 4 december 2019, 04-12-2019, and 1.234,56"
+                  onChange={(value) => onChange('settings.dateFormat', value)}
+                  errorText={errors.get('settings.dateFormat')}
                 />
         </InputField>
       </Section>
@@ -104,12 +114,23 @@ export default ({user}: BasicInfo) => {
         <SettingsField
           label="Enable push notifications"
           description="Include a link at the bottom of your emails allowing recipients to unsubscribe. It will help you stay compliant with local spam laws and improve deliverability."
-          input={<Checkbox checked={user.settings.pushNotifications} size="xl" />}
+          input={(
+            <Checkbox
+              onChange={(value) => onChange('settings.pushNotifications', value)}
+              checked={user.settings.pushNotifications}
+              size="xl"
+            />
+          )}
         />
         <SettingsField
           label="Include a link to unscribe to all email"
           description="Include a link at the bottom of your emails allowing recipients to unsubscribe. It will help you stay compliant with local spam laws and improve deliverability."
-          input={<Switch checked={user.settings.unscribeEmailLink} />}
+          input={(
+            <Switch
+              checked={user.settings.unscribeEmailLink}
+              onChange={(value) => onChange('settings.unscribeEmailLink', value)}
+            />
+          )}
         />
         <SettingsField label="Signature" input={<Button>Edit</Button>} />
       </Section>
