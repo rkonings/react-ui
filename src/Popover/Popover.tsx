@@ -13,17 +13,19 @@ const StyledClickAway = styled.div`
     left:0;
     bottom:0;
     right:0;
+    z-index: 1;
 `;
 
-const Content = styled.div`
+const Content = styled.div<{xOffset: number}>`
     position: absolute;
-    left: 50%;
+    left: ${({xOffset}) => xOffset}px;
     transform: translate(-50%, 0);
     margin-top: 20px;
     box-sizing: border-box;
     padding: 1em;
     background: ${({theme: { color }}) => color.gray10};
     border: 1px solid ${({theme: { color }}) => color.gray40};
+    z-index: 1;
 
 
     ::after {
@@ -49,13 +51,22 @@ const Popover = ({className, children, link}: Popover) => {
     const [ open, setOpen ] = React.useState(false);
     const ref = React.useRef<HTMLDivElement | null>(null);
 
+    const [ xOffset, setXOffset] = React.useState(0);
+
+    React.useEffect(() => {
+        if (ref && ref.current) {
+            setXOffset(ref.current.getBoundingClientRect().width * 0.5);
+
+        }
+    }, [link]);
+
     return (
         <div ref={ref} className={className}>
             {React.cloneElement(link, { onClick: () => setOpen(!open) })}
             {open && (
                 <React.Fragment>
                     <StyledClickAway onClick={() => setOpen(false)} />
-                    <Content>
+                    <Content xOffset={xOffset}>
                         {children(setOpen)}
                     </Content>
                 </React.Fragment>
