@@ -8,22 +8,39 @@ interface Settings {
   className?: string;
 }
 
+const Nav = styled.div`
+  display: block;
+  margin-bottom: 50px;
+  margin-right: 2em;
+  ul {
+    list-style: none;
+    margin:0;
+    padding:0;
+  }
+`;
+
+const Content = styled.div``;
+
 const Settings = ({ className }: Settings) => {
   return (
     <div className={className}>
-      <ul>
+      <Nav>
+        <ul>
         <li>
           <Link to="/basic">BasicInfo</Link>
         </li>
         <li>
           <Link to="/contacts-companies">Clients &amp; Companies</Link>
         </li>
-      </ul>
-      <Switch>
-        <Route path="/basic" component={BasicInfo} />
-        <Route path="/contacts-companies" component={ContactsCompanies} />
-        <Route path="/" component={BasicInfo} />
-      </Switch>
+        </ul>
+      </Nav>
+      <Content>
+        <Switch>
+          <Route path="/basic" component={BasicInfo} />
+          <Route path="/contacts-companies" component={ContactsCompanies} />
+          <Route path="/" component={BasicInfo} />
+        </Switch>
+        </Content>
     </div>
   );
 };
@@ -37,5 +54,5 @@ export default styled(Settings)`
   width: 100%;
   box-sizing: border-box;
   overflow: scroll;
-  flex-direction: column;
+  flex-direction: row;
 `;
