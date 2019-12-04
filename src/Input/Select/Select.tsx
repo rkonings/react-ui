@@ -13,6 +13,7 @@ interface Select extends HelperText, ErrorText {
     isOpen?: boolean;
     options: string[];
     width?: string;
+    label?: string | JSX.Element;
     size?: Size;
     onChange?(value: string): void;
     onBlur?(e: React.FormEvent<HTMLInputElement>): void;
@@ -136,8 +137,16 @@ const StyledClickAway = styled.div`
     right:0;
 `;
 
+const Label = styled.span`
+    display:block;
+    width: 100%;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 10px;
+`;
+
 const Select  = ({className, options, value: _value, isOpen: _open = false,
-    onChange, helperText, errorText}: Select) => {
+    onChange, helperText, errorText, label}: Select) => {
     const [value, setValue] = React.useState<string>('');
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
     const [selectedItem, setSelectedItem] = React.useState<string | undefined>();
@@ -209,6 +218,7 @@ const Select  = ({className, options, value: _value, isOpen: _open = false,
 
     return (
         <div ref={isOpen ? focusTrap : null} className={className}>
+            {label && <Label>{label}</Label>}
             <InputWrapper
                 isFocused={isFocused}
                 onClick={() => {
@@ -277,7 +287,6 @@ const StyledSelect = styled(Select)<Select>`
 
     ${StyledMenu} {
         border-top: 0;
-        top:${({theme: { input: {select} }, size = 'm'}) => select.size[size] * 3}px;
         z-index: 1600;
         background: #ffffff;
         left:0;
