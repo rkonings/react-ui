@@ -1,4 +1,4 @@
-import { text } from '@storybook/addon-knobs';
+import { boolean, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 import Button from '../src/Button/Button';
@@ -13,14 +13,18 @@ import Popup, {
 
 storiesOf('Popup', module).add('default', () => {
     const width = text('width', '300px');
-    const height = text('height', '300px');
+    const clickAway = boolean('clickaway', true);
 
     return (
-        <Popup width={width} height={height} link={<Button>Popup</Button>}>
+        <Popup
+            width={width}
+            clickAway={clickAway}
+            link={<Button>Popup</Button>}
+        >
             {setOpen => (
                 <React.Fragment>
-                    <PopupHeader>Reset password</PopupHeader>
-                    <PopupContent>Hoi</PopupContent>
+                    <PopupHeader>Store client</PopupHeader>
+                    <PopupContent>Are u sure to save this client?</PopupContent>
                     <PopupFooter>
                         <ButtonGroup>
                             <TextButton onClick={() => setOpen(false)}>
