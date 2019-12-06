@@ -30,7 +30,8 @@ export const PopupFooter = styled.div`
 export const PopupContent = styled.div`
     flex-grow: 1;
     box-sizing: border-box;
-    padding: 1em;
+    padding: 2em 1em 3em 1em;
+    color: ${({ theme: { color } }) => color.black};
 `;
 
 const StyledClickAway = styled.div`
@@ -62,7 +63,6 @@ interface PopupWindow {
 
 const PopupWindow = styled.div<PopupWindow>`
     width: ${({ width = '50%' }) => width};
-    height: ${({ height = '50%' }) => height};
     ${({ height }) => (height ? `height: ${height}` : '')};
     z-index: 1;
     display: flex;
@@ -70,7 +70,6 @@ const PopupWindow = styled.div<PopupWindow>`
     background: ${({ theme: { color } }) => color.gray10};
 `;
 
-const Popup = ({ className, link, children, width, height }: Popup) => {
 const Popup = ({
     className,
     link,
