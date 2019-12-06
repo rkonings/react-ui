@@ -1,3 +1,4 @@
+import useFocusTrap from '@charlietango/use-focus-trap';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -53,7 +54,8 @@ const Overlay = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.04);
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 999;
 `;
 
 interface PopupWindow {
@@ -79,6 +81,7 @@ const Popup = ({
     clickAway,
 }: Popup) => {
     const [open, setOpen] = React.useState(false);
+    const focusTrap = useFocusTrap();
 
     return (
         <div className={className}>
@@ -88,7 +91,7 @@ const Popup = ({
                     {clickAway && (
                         <StyledClickAway onClick={() => setOpen(false)} />
                     )}
-                    <PopupWindow width={width} height={height}>
+                    <PopupWindow ref={focusTrap} width={width} height={height}>
                         {children(setOpen)}
                     </PopupWindow>
                 </Overlay>
