@@ -137,7 +137,6 @@ export default ({ user, onChange, errors, validationSchema }: BasicInfo) => {
                 </InputField>
             </Section>
             <Section>
-                <Title>Cliens</Title>
                 <SettingsField
                     label="Enable push notifications"
                     description="Include a link at the bottom of your emails allowing recipients to unsubscribe. It will help you stay compliant with local spam laws and improve deliverability."
