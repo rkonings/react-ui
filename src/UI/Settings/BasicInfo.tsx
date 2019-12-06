@@ -15,6 +15,12 @@ import ButtonGroup from '../../ButtonGroup/ButtonGroup';
 import { PopoverInput } from '../../CombinedInput/PopoverInput';
 import TextField from '../../Input/TextField/TextField';
 
+import Popup, {
+    PopupContent,
+    PopupFooter,
+    PopupHeader,
+} from '../..//Popup/Popup';
+
 interface BasicInfo {
     user: User;
     onChange: OnChangeHandler;
@@ -174,7 +180,37 @@ export default ({ user, onChange, errors, validationSchema }: BasicInfo) => {
                 />
                 <SettingsField
                     label="Signature"
-                    input={<Button>Edit</Button>}
+                    input={
+                        <Popup
+                            width="300px"
+                            clickAway={true}
+                            link={<Button>Popup</Button>}
+                        >
+                            {setOpen => (
+                                <React.Fragment>
+                                    <PopupHeader>Store client</PopupHeader>
+                                    <PopupContent>
+                                        Are u sure to save this client?
+                                    </PopupContent>
+                                    <PopupFooter>
+                                        <ButtonGroup>
+                                            <TextButton
+                                                onClick={() => setOpen(false)}
+                                            >
+                                                cancel
+                                            </TextButton>
+                                            <Button
+                                                type="primary"
+                                                onClick={() => setOpen(false)}
+                                            >
+                                                Save
+                                            </Button>
+                                        </ButtonGroup>
+                                    </PopupFooter>
+                                </React.Fragment>
+                            )}
+                        </Popup>
+                    }
                 />
             </Section>
         </React.Fragment>
