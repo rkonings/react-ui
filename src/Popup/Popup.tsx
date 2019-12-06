@@ -63,6 +63,7 @@ interface PopupWindow {
 const PopupWindow = styled.div<PopupWindow>`
     width: ${({ width = '50%' }) => width};
     height: ${({ height = '50%' }) => height};
+    ${({ height }) => (height ? `height: ${height}` : '')};
     z-index: 1;
     display: flex;
     flex-direction: column;
@@ -70,6 +71,14 @@ const PopupWindow = styled.div<PopupWindow>`
 `;
 
 const Popup = ({ className, link, children, width, height }: Popup) => {
+const Popup = ({
+    className,
+    link,
+    children,
+    width,
+    height,
+    clickAway,
+}: Popup) => {
     const [open, setOpen] = React.useState(false);
 
     return (
