@@ -8,31 +8,34 @@ import Popover from '../Popover/Popover';
 
 export type ValidationErrors = Map<string, string>;
 export interface ChangedItem {
-  field: string;
-  value: string | boolean | number;
+    field: string;
+    value: string | boolean | number;
 }
 
 export interface ChangeOptions {
-  saveFields?: boolean;
+    saveFields?: boolean;
 }
 export type ChangedItems = ChangedItem[];
 export type OnChangeHandler = (
-  items: ChangedItems,
-  options?: ChangeOptions,
-  callBack?: () => void
+    items: ChangedItems,
+    options?: ChangeOptions,
+    callBack?: () => void
 ) => void;
 
 export const mapValidationErrors = (error: Yup.ValidationError) => {
     if (error.inner.length > 0) {
-      return error.inner.reduce((obj: ValidationErrors, item: Yup.ValidationError) => {
-        return obj.set(item.path, item.message);
-      }, new Map());
+        return error.inner.reduce(
+            (obj: ValidationErrors, item: Yup.ValidationError) => {
+                return obj.set(item.path, item.message);
+            },
+            new Map()
+        );
     } else {
-      const errorsMap = new Map<string, string>();
-      errorsMap.set(error.path, error.message);
-      return errorsMap;
+        const errorsMap = new Map<string, string>();
+        errorsMap.set(error.path, error.message);
+        return errorsMap;
     }
-  };
+};
 
 const Wrapper = styled.div`
     display: flex;
@@ -58,36 +61,56 @@ interface PopoverInput<T> {
     values: T;
     link: (values: T) => JSX.Element;
     label: (values: T) => string | JSX.Element | JSX.Element[];
-    children: (props: PopoverInputProps<T>) => string | JSX.Element | JSX.Element[];
+    children: (
+        props: PopoverInputProps<T>
+    ) => string | JSX.Element | JSX.Element[];
 }
 
-export const PopoverInput = <T extends {}>({label, onChange, errors, values, children,
-    validationSchema, link}: PopoverInput<T>) => {
-    const [ labelValues, setLabelValues ] = React.useState<T>(values);
-    const [ inputValues, setInputValues ] = React.useState<T>(values);
-    const [ inputErrors, setInputErrors ] = React.useState<ValidationErrors>(errors || new Map());
+export const PopoverInput = <T extends {}>({
+    label,
+    onChange,
+    errors,
+    values,
+    children,
+    validationSchema,
+    link,
+}: PopoverInput<T>) => {
+    const [labelValues, setLabelValues] = React.useState<T>(values);
+    const [inputValues, setInputValues] = React.useState<T>(values);
+    const [inputErrors, setInputErrors] = React.useState<ValidationErrors>(
+        errors || new Map()
+    );
 
     React.useEffect(() => {
-        setInputValues({...values});
+        setInputValues({ ...values });
     }, [values]);
 
-    const onChangeInputField = async (field: string, value: boolean | number | string) => {
-        const values = {...inputValues};
+    const onChangeInputField = async (
+        field: string,
+        value: boolean | number | string
+    ) => {
+        const values = { ...inputValues };
         dotProp.set(values, field, value);
         setInputValues(values);
 
-        validationSchema.validateAt(field, values).then(() => {
-            const errors = new Map(inputErrors);
-            errors.delete(field);
-            setInputErrors(errors);
-        }).catch((error) => {
-            const errors = mapValidationErrors(error);
-            setInputErrors(errors);
-        });
+        validationSchema
+            .validateAt(field, values)
+            .then(() => {
+                const errors = new Map(inputErrors);
+                errors.delete(field);
+                setInputErrors(errors);
+            })
+            .catch(error => {
+                const errors = mapValidationErrors(error);
+                setInputErrors(errors);
+            });
     };
 
     const onSave = (setOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
-        const values = Object.entries(inputValues).map(([key, value]) => ({field: key, value}));
+        const values = Object.entries(inputValues).map(([key, value]) => ({
+            field: key,
+            value,
+        }));
         if (inputErrors.size === 0) {
             setLabelValues(inputValues);
             onChange(values as ChangedItems, { saveFields: true }, () => {
@@ -96,7 +119,9 @@ export const PopoverInput = <T extends {}>({label, onChange, errors, values, chi
         }
     };
 
-    const onCancel = (setOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const onCancel = (
+        setOpen: React.Dispatch<React.SetStateAction<boolean>>
+    ) => {
         setInputValues(values);
         setOpen(false);
     };
@@ -105,14 +130,16 @@ export const PopoverInput = <T extends {}>({label, onChange, errors, values, chi
         <Wrapper>
             {label(labelValues)}
             <Popover link={link(labelValues)}>
-                {(setOpen) => children({
-                    setOpen,
-                    errors: inputErrors,
-                    values: inputValues,
-                    onChange: onChangeInputField,
-                    onSave: () => onSave(setOpen),
-                    onCancel: () => onCancel(setOpen)
-                })}
+                {setOpen =>
+                    children({
+                        setOpen,
+                        errors: inputErrors,
+                        values: inputValues,
+                        onChange: onChangeInputField,
+                        onSave: () => onSave(setOpen),
+                        onCancel: () => onCancel(setOpen),
+                    })
+                }
             </Popover>
         </Wrapper>
     );
