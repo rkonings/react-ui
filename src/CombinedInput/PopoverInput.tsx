@@ -4,7 +4,35 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import Popover from '../Popover/Popover';
-import { ValidationErrors, ChangedItems, OnChangeHandler, mapValidationErrors } from '../UI/Settings';
+// import { ValidationErrors, ChangedItems, OnChangeHandler, mapValidationErrors } from '../UI/Settings';
+
+export type ValidationErrors = Map<string, string>;
+export interface ChangedItem {
+  field: string;
+  value: string | boolean | number;
+}
+
+export interface ChangeOptions {
+  saveFields?: boolean;
+}
+export type ChangedItems = ChangedItem[];
+export type OnChangeHandler = (
+  items: ChangedItems,
+  options?: ChangeOptions,
+  callBack?: () => void
+) => void;
+
+export const mapValidationErrors = (error: Yup.ValidationError) => {
+    if (error.inner.length > 0) {
+      return error.inner.reduce((obj: ValidationErrors, item: Yup.ValidationError) => {
+        return obj.set(item.path, item.message);
+      }, new Map());
+    } else {
+      const errorsMap = new Map<string, string>();
+      errorsMap.set(error.path, error.message);
+      return errorsMap;
+    }
+  };
 
 const Wrapper = styled.div`
     display: flex;
