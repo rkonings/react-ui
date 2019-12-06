@@ -5,6 +5,7 @@ interface Popup {
     className?: string;
     width?: string;
     height?: string;
+    clickAway?: boolean;
     children: (
         close: React.Dispatch<React.SetStateAction<boolean>>
     ) => string | JSX.Element | JSX.Element[];
@@ -76,7 +77,9 @@ const Popup = ({ className, link, children, width, height }: Popup) => {
             {React.cloneElement(link, { onClick: () => setOpen(!open) })}
             {open && (
                 <Overlay>
-                    <StyledClickAway onClick={() => setOpen(false)} />
+                    {clickAway && (
+                        <StyledClickAway onClick={() => setOpen(false)} />
+                    )}
                     <PopupWindow width={width} height={height}>
                         {children(setOpen)}
                     </PopupWindow>
