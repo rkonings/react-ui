@@ -32,5 +32,5 @@ storiesOf('UI/Settings', module)
 
     };
 
-    return <Settings user={user} />;
+    return <Settings onChange={action('change')} user={user} />;
   });

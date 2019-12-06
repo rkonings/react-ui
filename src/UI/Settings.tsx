@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import { Route, Link, Switch } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
 import BasicInfo from './Settings/BasicInfo';
 import ContactsCompanies from './Settings/ContactsCompanies';
 
@@ -15,13 +15,27 @@ export interface UserSettings {
   signature: string;
 }
 
-export type ValidationErrors = Map<string, string>;
-
 export interface User {
   firstName: string;
   lastName: string;
   settings: UserSettings;
 }
+
+export type ValidationErrors = Map<string, string>;
+export interface ChangedItem {
+  field: string;
+  value: string | boolean | number;
+}
+
+export interface ChangeOptions {
+  saveFields?: boolean;
+}
+export type ChangedItems = ChangedItem[];
+export type OnChangeHandler = (
+  items: ChangedItems,
+  options?: ChangeOptions,
+  callBack?: () => void
+) => void;
 
 const UserSchema = Yup.object({
   firstName: Yup.string().required('is required'),
@@ -32,12 +46,12 @@ const UserSchema = Yup.object({
     pushNotifications: Yup.boolean().required('is required'),
     signature: Yup.string().max(10)
   })
-
 });
 
 interface Settings {
   className?: string;
   user: User;
+  onChange: (props: {user: User, newUser: User, changed: ChangedItems}) => void;
 }
 
 const Nav = styled.div`
@@ -53,26 +67,42 @@ const Nav = styled.div`
 
 const Content = styled.div``;
 
-const mapValidationErrors = (error: Yup.ValidationError) => {
-  return error.inner.reduce((obj: ValidationErrors, item: Yup.ValidationError) => {
-    return obj.set(item.path, item.message);
-  }, new Map());
-}
+export const mapValidationErrors = (error: Yup.ValidationError) => {
+  if (error.inner.length > 0) {
+    return error.inner.reduce((obj: ValidationErrors, item: Yup.ValidationError) => {
+      return obj.set(item.path, item.message);
+    }, new Map());
+  } else {
+    const errorsMap = new Map<string, string>();
+    errorsMap.set(error.path, error.message);
+    return errorsMap;
+  }
+};
 
-const Settings = ({ className, user }: Settings) => {
+const Settings = ({ className, user, onChange }: Settings) => {
 
   const [ data, setData ] = React.useState<User>(user);
   const [ errors, setErrors ] = React.useState<ValidationErrors>(new Map());
 
-  const onChange = async (field: string, value: string | boolean | number) => {
-    const user = {...data};
-    dotProp.set(user, field, value);
-    setData(user);
+  const onChangeHandler = async (items: ChangedItems, options?: ChangeOptions, callBack?: () => void) => {
+    const newUser = {...data};
+    items.forEach((item) => dotProp.set(newUser, item.field, item.value) );
+    setData(newUser);
 
-    UserSchema.validate(user, {abortEarly: false})
+    if (options && options.saveFields) {
+      onChange({newUser, changed: items, user});
+      if (callBack) {
+        callBack();
+      }
+      return;
+    }
+
+    UserSchema.validate(newUser, {abortEarly: false})
     .catch((error) => {
       const errors = mapValidationErrors(error);
       setErrors(errors);
+    }).then(() => {
+      onChange({newUser, changed: items, user});
     });
 
   };
@@ -91,11 +121,31 @@ const Settings = ({ className, user }: Settings) => {
       </Nav>
       <Content>
         <Switch>
-          <Route path="/basic" render={() => <BasicInfo onChange={onChange} user={data} errors={errors} />} />
+          <Route
+            path="/basic"
+            render={() => (
+              <BasicInfo
+                onChange={onChangeHandler}
+                user={data}
+                errors={errors}
+                validationSchema={UserSchema}
+              />
+            )}
+          />
           <Route path="/contacts-companies" render={() => <ContactsCompanies />} />
-          <Route path="/" render={() => <BasicInfo onChange={onChange} user={data} errors={errors} />} />
+          <Route
+            path="/"
+            render={() => (
+              <BasicInfo
+                validationSchema={UserSchema}
+                onChange={onChangeHandler}
+                user={data}
+                errors={errors}
+              />
+            )}
+          />
         </Switch>
-        </Content>
+      </Content>
     </div>
   );
 };
