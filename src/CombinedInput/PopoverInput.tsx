@@ -53,7 +53,7 @@ interface PopoverInputProps<T> {
 
 interface PopoverInput<T> {
     onChange: OnChangeHandler;
-    errors: ValidationErrors;
+    errors?: ValidationErrors;
     validationSchema: Yup.ObjectSchema;
     values: T;
     link: (values: T) => JSX.Element;
@@ -65,7 +65,7 @@ export const PopoverInput = <T extends {}>({label, onChange, errors, values, chi
     validationSchema, link}: PopoverInput<T>) => {
 
     const [ inputValues, setInputValues ] = React.useState<T>(values);
-    const [ inputErrors, setInputErrors ] = React.useState<ValidationErrors>(errors);
+    const [ inputErrors, setInputErrors ] = React.useState<ValidationErrors>(errors || new Map());
 
     React.useEffect(() => {
         setInputValues({...values});
