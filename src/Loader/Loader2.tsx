@@ -7,8 +7,12 @@ interface LoaderProps {
     className?: string;
 }
 
-const Loader = ({className}: LoaderProps) => {
-    return <div className={className}><span/></div>;
+const Loader = ({ className }: LoaderProps) => {
+    return (
+        <div className={className}>
+            <span />
+        </div>
+    );
 };
 
 const KeyFrame1 = keyframes`
@@ -38,56 +42,65 @@ const KeyFrame4 = keyframes`
 const getColor = (theme: Theme) => theme.loader.default.color;
 
 const StyledLoader = styled(Loader)`
-
-    ${({theme}) => css`
+    ${({ theme }) => css`
         height: 32px;
         width: 32px;
         box-sizing: border-box;
 
         &::after {
-            content: "";
+            content: '';
             display: block;
             position: absolute;
-            top: 0; left: 0;
-            bottom: 0; right: 0;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
             margin: auto;
             width: 12px;
             height: 12px;
-            top: 0; left: 0;
-            bottom: 0; right: 0;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
             margin: auto;
             background: ${getColor(theme)};
             border-radius: 50%;
-            animation: ${KeyFrame1} 2s cubic-bezier(0.770, 0.000, 0.175, 1.000) infinite;
+            animation: ${KeyFrame1} 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         }
 
         span {
             display: block;
             position: absolute;
-            top: 0; left: 0;
-            bottom: 0; right: 0;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
             margin: auto;
             height: 32px;
             width: 32px;
-            animation: ${KeyFrame2} 2s cubic-bezier(0.770, 0.000, 0.175, 1.000) infinite;
+            animation: ${KeyFrame2} 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
 
             &::before,
-            &::after{
-                content: "";
+            &::after {
+                content: '';
                 display: block;
                 position: absolute;
-                top: 0; left: 0;
-                bottom: 0; right: 0;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
                 margin: auto;
                 height: 12px;
                 width: 12px;
                 background: #000;
                 border-radius: 50%;
-                animation: ${KeyFrame3} 2s cubic-bezier(0.770, 0.000, 0.175, 1.000) infinite;
+                animation: ${KeyFrame3} 2s cubic-bezier(0.77, 0, 0.175, 1)
+                    infinite;
             }
 
             &::after {
-                animation: ${KeyFrame4} 2s cubic-bezier(0.770, 0.000, 0.175, 1.000) infinite;
+                animation: ${KeyFrame4} 2s cubic-bezier(0.77, 0, 0.175, 1)
+                    infinite;
             }
         }
     `}

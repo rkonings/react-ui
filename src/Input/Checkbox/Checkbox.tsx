@@ -1,7 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Check } from '../../Icon';
-import { Size as CheckBoxSize, Type as CheckBoxType } from '../../interfaces/Theme';
+import {
+    Size as CheckBoxSize,
+    Type as CheckBoxType,
+} from '../../interfaces/Theme';
 import { ErrorText, HelperText } from '../Core/index';
 
 const InnerCheckbox = styled.input.attrs({ type: 'checkbox' })`
@@ -15,8 +18,18 @@ interface CustomCheckBoxProps {
 }
 
 const CustomCheckBox = styled.div<CustomCheckBoxProps & ErrorText>`
-    ${({theme: {type = 'default', input : { checkbox, error }, icon}, size = 'm', errorText}) => {
-        const borderColor = errorText ? error.color : checkbox[type].default.borderColor;
+    ${({
+        theme: {
+            type = 'default',
+            input: { checkbox, error },
+            icon,
+        },
+        size = 'm',
+        errorText,
+    }) => {
+        const borderColor = errorText
+            ? error.color
+            : checkbox[type].default.borderColor;
 
         return `
             border: ${checkbox.borderSize} solid ${borderColor};
@@ -49,13 +62,23 @@ interface CheckBoxProps extends HelperText, ErrorText {
 
 const CheckBoxLabel = styled.span``;
 
-const CheckBox = ({className, onChange, checked = false, size = 'm',
-name, label, helperText, errorText}: CheckBoxProps) => {
+const CheckBox = ({
+    className,
+    onChange,
+    checked = false,
+    size = 'm',
+    name,
+    label,
+    helperText,
+    errorText,
+}: CheckBoxProps) => {
     const [isChecked, setIsChecked] = React.useState(checked);
 
     const onChangeHandler = (checked: boolean) => {
         setIsChecked(checked);
-        if (onChange) { onChange(checked); }
+        if (onChange) {
+            onChange(checked);
+        }
     };
 
     React.useEffect(() => setIsChecked(checked), [checked]);
@@ -66,7 +89,9 @@ name, label, helperText, errorText}: CheckBoxProps) => {
                 <InnerCheckbox
                     checked={isChecked}
                     name={name}
-                    onChange={({target: { checked }}) => onChangeHandler(checked)}
+                    onChange={({ target: { checked } }) =>
+                        onChangeHandler(checked)
+                    }
                 />
                 <CustomCheckBox size={size} errorText={errorText}>
                     <Check type="default" />
@@ -76,12 +101,17 @@ name, label, helperText, errorText}: CheckBoxProps) => {
             {helperText && !errorText && <HelperText>{helperText}</HelperText>}
             {errorText && <ErrorText>{errorText}</ErrorText>}
         </div>
-
     );
 };
 
 const StyledCheckBox = styled(CheckBox)`
-    ${({size = 'm', type = 'default', theme: { input: { checkbox, errorText, helper} } } ) => `
+    ${({
+        size = 'm',
+        type = 'default',
+        theme: {
+            input: { checkbox, errorText, helper },
+        },
+    }) => `
         position: relative;
         display: flex;
         justify-content: flex-start;
@@ -99,15 +129,17 @@ const StyledCheckBox = styled(CheckBox)`
             height: ${checkbox.size[size]}px;
         }
 
-        ${/*sc-selector*/Check} {
+        ${/*sc-selector*/ Check} {
             opacity: 0;
             fill: ${checkbox[type].default.color};
             width: ${checkbox.size[size] - 4}px;
             height: ${checkbox.size[size] - 4}px;
         }
-        ${/*sc-selector*/InnerCheckbox}:checked ~ ${/*sc-selector*/CustomCheckBox} {
+        ${/*sc-selector*/ InnerCheckbox}:checked ~ ${
+        /*sc-selector*/ CustomCheckBox
+    } {
             background: ${checkbox[type].checked.backgroundColor};
-            ${/*sc-selector*/Check} {
+            ${/*sc-selector*/ Check} {
                 opacity: 1;
                 fill: ${checkbox[type].checked.color}};
             }
@@ -118,8 +150,7 @@ const StyledCheckBox = styled(CheckBox)`
             margin-left: 15px;
             color: ${checkbox[type].default.label};
         }
-        `
-    }
+        `}
 `;
 
 export default StyledCheckBox;

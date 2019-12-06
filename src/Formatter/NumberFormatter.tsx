@@ -9,7 +9,11 @@ interface NumberFormatter {
     short?: boolean;
 }
 
-export const numberFormatter = ({value, type, short = false}: NumberFormatter) => {
+export const numberFormatter = ({
+    value,
+    type,
+    short = false,
+}: NumberFormatter) => {
     const options = {
         average: short,
         thousandSeparated: true,
@@ -21,9 +25,7 @@ export const numberFormatter = ({value, type, short = false}: NumberFormatter) =
 };
 
 const NumberFormatter = (props: NumberFormatter) => {
-    return (
-        <span>{numberFormatter(props)}</span>
-    );
+    return <span>{numberFormatter(props)}</span>;
 };
 
 export default NumberFormatter;

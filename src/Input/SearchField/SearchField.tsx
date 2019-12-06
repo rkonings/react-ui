@@ -5,23 +5,33 @@ import TextField from '../TextField/TextField';
 
 export const MenuItem = styled.a`
     padding: 15px 25px;
-    color: ${({theme: { menu: { item } }}) => item.default.color };
+    color: ${({
+        theme: {
+            menu: { item },
+        },
+    }) => item.default.color};
     display: flex;
     cursor: pointer;
     font-size: 14px;
 
     &:hover {
-        ${({theme: { menu: {item: { hover}} }}) => {
+        ${({
+            theme: {
+                menu: {
+                    item: { hover },
+                },
+            },
+        }) => {
             return `
                 background: ${hover.backgroundColor};
                 color: ${hover.color};
             `;
-        } }
+        }}
     }
 `;
 
 export const Menu = styled.div`
-    ${({theme: { menu}}) => {
+    ${({ theme: { menu } }) => {
         return `
             background: ${menu.backgroundColor};
             box-shadow: ${menu.boxShadow};
@@ -29,7 +39,7 @@ export const Menu = styled.div`
     }}
 
     width: 100%;
-    display:flex;
+    display: flex;
     flex-direction: column;
     min-width: 200px;
 `;
@@ -42,20 +52,26 @@ interface SearchField {
 
 const StyledClickAway = styled.div`
     position: fixed;
-    top:0;
-    left:0;
-    bottom:0;
-    right:0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
 `;
 
 const Clear = styled.div``;
 
-const SearchField = ({className, result, onChange, placeHolder}: SearchField) => {
-
+const SearchField = ({
+    className,
+    result,
+    onChange,
+    placeHolder,
+}: SearchField) => {
     const [isOpen, setIsOpen] = React.useState<boolean>(true);
     const [showClear, setShowClear] = React.useState<boolean>(false);
     const [value, setValue] = React.useState<string>('');
-    const [timeoutId, setTimeoutId] = React.useState<ReturnType<typeof setTimeout> | undefined>();
+    const [timeoutId, setTimeoutId] = React.useState<
+        ReturnType<typeof setTimeout> | undefined
+    >();
 
     React.useEffect(() => {
         setShowClear(value.length > 0 ? true : false);
@@ -65,26 +81,30 @@ const SearchField = ({className, result, onChange, placeHolder}: SearchField) =>
         setIsOpen(false);
         setValue('');
         onChange('', false);
-    }
+    };
 
     return (
         <div className={className}>
             <TextField
                 onFocus={() => setIsOpen(true)}
-                prefix={<Search/>}
-                onKeyDown={(e) => {
+                prefix={<Search />}
+                onKeyDown={e => {
                     if (e.key === 'Tab') {
                         setIsOpen(false);
                     }
                 }}
-                postfix={showClear ? (
-                    <Clear onClick={() => clear()}>
-                        <Close />
-                    </Clear>
-                ) : undefined}
+                postfix={
+                    showClear ? (
+                        <Clear onClick={() => clear()}>
+                            <Close />
+                        </Clear>
+                    ) : (
+                        undefined
+                    )
+                }
                 value={value}
                 placeHolder={placeHolder}
-                onChange={(e) => {
+                onChange={e => {
                     const newValue = e.currentTarget.value;
                     setValue(newValue);
                     if (timeoutId) {
@@ -101,7 +121,7 @@ const SearchField = ({className, result, onChange, placeHolder}: SearchField) =>
                 <React.Fragment>
                     <StyledClickAway onClick={() => setIsOpen(false)} />
                     <Menu>
-                        {result.map((item) => (
+                        {result.map(item => (
                             <MenuItem
                                 key={item}
                                 onClick={() => {
@@ -116,7 +136,6 @@ const SearchField = ({className, result, onChange, placeHolder}: SearchField) =>
                     </Menu>
                 </React.Fragment>
             )}
-
         </div>
     );
 };

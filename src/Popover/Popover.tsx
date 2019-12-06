@@ -3,30 +3,31 @@ import styled from 'styled-components';
 
 interface Popover {
     className?: string;
-    children: (close: React.Dispatch<React.SetStateAction<boolean>>) => string | JSX.Element | JSX.Element[];
+    children: (
+        close: React.Dispatch<React.SetStateAction<boolean>>
+    ) => string | JSX.Element | JSX.Element[];
     link: JSX.Element;
 }
 
 const StyledClickAway = styled.div`
     position: fixed;
-    top:0;
-    left:0;
-    bottom:0;
-    right:0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     z-index: 1;
 `;
 
-const Content = styled.div<{xOffset: number}>`
+const Content = styled.div<{ xOffset: number }>`
     position: absolute;
-    left: ${({xOffset}) => xOffset}px;
+    left: ${({ xOffset }) => xOffset}px;
     transform: translate(-50%, 0);
     margin-top: 20px;
     box-sizing: border-box;
     padding: 1em;
-    background: ${({theme: { color }}) => color.gray10};
-    border: 1px solid ${({theme: { color }}) => color.gray40};
+    background: ${({ theme: { color } }) => color.gray10};
+    border: 1px solid ${({ theme: { color } }) => color.gray40};
     z-index: 1;
-
 
     ::after {
         content: '';
@@ -42,21 +43,20 @@ const Content = styled.div<{xOffset: number}>`
         left: calc(50% - 10px);
         border-width: 1px;
         border-style: solid;
-        border-color: ${({theme: { color }}) => color.gray40};
+        border-color: ${({ theme: { color } }) => color.gray40};
         border-image: initial;
     }
 `;
 
-const Popover = ({className, children, link}: Popover) => {
-    const [ open, setOpen ] = React.useState(false);
+const Popover = ({ className, children, link }: Popover) => {
+    const [open, setOpen] = React.useState(false);
     const ref = React.useRef<HTMLDivElement | null>(null);
 
-    const [ xOffset, setXOffset] = React.useState(0);
+    const [xOffset, setXOffset] = React.useState(0);
 
     React.useEffect(() => {
         if (ref && ref.current) {
             setXOffset(ref.current.getBoundingClientRect().width * 0.5);
-
         }
     }, [link]);
 
@@ -66,9 +66,7 @@ const Popover = ({className, children, link}: Popover) => {
             {open && (
                 <React.Fragment>
                     <StyledClickAway onClick={() => setOpen(false)} />
-                    <Content xOffset={xOffset}>
-                        {children(setOpen)}
-                    </Content>
+                    <Content xOffset={xOffset}>{children(setOpen)}</Content>
                 </React.Fragment>
             )}
         </div>

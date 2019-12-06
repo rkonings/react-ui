@@ -8,29 +8,34 @@ export type ButtonType = 'default' | 'primary' | 'secondairy' | 'light';
 export type ButtonShape = 'DEFAULT' | 'ROUNDED' | 'CIRCLE';
 export type ButtonVariant = 'outlined' | 'text' | 'default';
 export interface BaseButton {
-  children: string | JSX.Element | Array<string | JSX.Element>;
-  inputType?: 'button' | 'reset' | 'submit';
-  type?: ButtonType;
-  shape?: ButtonShape;
-  variant?: 'Text' | 'Outlined';
-  className?: string;
-  theme: Theme;
-  isIcon?: boolean;
-  size?: ButtonSize;
-  active?: boolean;
-  width?: number | string;
-  contentAlignment?: string;
-  isLoading?: boolean;
-  onClick?(event: React.MouseEvent): void;
+    children: string | JSX.Element | Array<string | JSX.Element>;
+    inputType?: 'button' | 'reset' | 'submit';
+    type?: ButtonType;
+    shape?: ButtonShape;
+    variant?: 'Text' | 'Outlined';
+    className?: string;
+    theme: Theme;
+    isIcon?: boolean;
+    size?: ButtonSize;
+    active?: boolean;
+    width?: number | string;
+    contentAlignment?: string;
+    isLoading?: boolean;
+    onClick?(event: React.MouseEvent): void;
 }
 
 export const InnerText = styled.span`
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 `;
 
-export const ButtonBaseStyle = ({isIcon = false, theme, size = 'm',
-contentAlignment = 'center', width}: BaseButton) => {
+export const ButtonBaseStyle = ({
+    isIcon = false,
+    theme,
+    size = 'm',
+    contentAlignment = 'center',
+    width,
+}: BaseButton) => {
     const fontSize = theme.button.size[size];
     const height = fontSize * 3;
 
@@ -89,7 +94,7 @@ contentAlignment = 'center', width}: BaseButton) => {
     `;
 };
 
-export const ButtonStyleLoading = ({isLoading}: BaseButton) => {
+export const ButtonStyleLoading = ({ isLoading }: BaseButton) => {
     if (isLoading) {
         return `
             ${InnerText} {
@@ -100,7 +105,11 @@ export const ButtonStyleLoading = ({isLoading}: BaseButton) => {
     return null;
 };
 
-export const ButtonShapeStyle = ({theme, size = 'm', shape = 'DEFAULT'  }: BaseButton) => {
+export const ButtonShapeStyle = ({
+    theme,
+    size = 'm',
+    shape = 'DEFAULT',
+}: BaseButton) => {
     switch (shape) {
         case 'CIRCLE':
             const fontSize = theme.button.size[size];
@@ -109,29 +118,38 @@ export const ButtonShapeStyle = ({theme, size = 'm', shape = 'DEFAULT'  }: BaseB
                 border-radius: 50%;
                 width: ${width}px;
             `;
-        break;
+            break;
         default:
         case 'DEFAULT':
             return 'border-radius: 0;';
-        break;
+            break;
     }
 };
 
-export const BaseButton = styled(({children, className, onClick, variant,
-    inputType = 'button', isLoading, type = 'default' }: BaseButton) => {
+export const BaseButton = styled(
+    ({
+        children,
+        className,
+        onClick,
+        variant,
+        inputType = 'button',
+        isLoading,
+        type = 'default',
+    }: BaseButton) => {
         const theme = useTheme();
         const style = theme.button[type];
         let color = style.default.text;
         if (variant === 'Outlined') {
             color = style.default.outlined;
         }
-    return (
-        <button className={className} type={inputType} onClick={onClick}>
-            <InnerText>{children}</InnerText>
-            {isLoading && <Loader color={color} size={15} />}
-        </button>
-    );
-})`
+        return (
+            <button className={className} type={inputType} onClick={onClick}>
+                <InnerText>{children}</InnerText>
+                {isLoading && <Loader color={color} size={15} />}
+            </button>
+        );
+    }
+)`
     ${ButtonBaseStyle};
     ${ButtonShapeStyle};
     ${ButtonStyleLoading};

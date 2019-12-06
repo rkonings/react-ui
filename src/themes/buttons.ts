@@ -7,7 +7,7 @@ const Button = {
         s: 10,
         m: 12,
         l: 14,
-        xl: 16
+        xl: 16,
     },
     defaultSize: 'm',
     default: {
@@ -25,7 +25,7 @@ const Button = {
             main: color.gray50,
             text: color.black,
             outlined: color.gray100,
-        }
+        },
     },
     primary: {
         default: {
@@ -42,8 +42,7 @@ const Button = {
             main: color.blue100,
             text: color.white,
             outlined: color.blue100,
-        }
-
+        },
     },
     secondairy: {
         default: {
@@ -60,8 +59,7 @@ const Button = {
             main: color.orange100,
             text: color.white,
             outlined: color.orange100,
-        }
-
+        },
     },
     light: {
         default: {
@@ -78,21 +76,20 @@ const Button = {
             main: color.white,
             text: color.black,
             outlined: color.white,
-        }
-
-    }
+        },
+    },
 };
 
 export const buttonGroup = {
     default: {
-        borderColor: color.gray40
+        borderColor: color.gray40,
     },
     primary: {
-        borderColor: color.blue100
+        borderColor: color.blue100,
     },
     secondairy: {
-        borderColor: color.orange100
-    }
+        borderColor: color.orange100,
+    },
 };
 
 export default Button;

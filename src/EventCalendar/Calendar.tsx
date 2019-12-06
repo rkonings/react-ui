@@ -8,10 +8,10 @@ interface Calendar {
     month: number;
 }
 
-export const Calendar = ({className, year, month}: Calendar) => {
+export const Calendar = ({ className, year, month }: Calendar) => {
     return (
         <div className={className}>
-            <Month year={year} month={month}  />
+            <Month year={year} month={month} />
         </div>
     );
 };

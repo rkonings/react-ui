@@ -11,5 +11,4 @@ export default interface IconProps {
     className?: string;
     theme?: Theme;
     spacing?: IconSpacing;
-
 }

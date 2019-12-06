@@ -9,8 +9,8 @@ const icon = {
         s: 10,
         m: 12,
         l: 14,
-        xl: 16
-    }
+        xl: 16,
+    },
 };
 
 export default icon;

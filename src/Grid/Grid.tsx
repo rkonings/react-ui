@@ -3,9 +3,19 @@ import styled from 'styled-components';
 
 // https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 
-
-export type HorizontalAlignment = 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
-export type VerticalAlignment = 'flex-start' | 'center' | 'flex-end' | 'stretch' | 'baseline';
+export type HorizontalAlignment =
+    | 'flex-start'
+    | 'center'
+    | 'flex-end'
+    | 'space-between'
+    | 'space-around'
+    | 'space-evenly';
+export type VerticalAlignment =
+    | 'flex-start'
+    | 'center'
+    | 'flex-end'
+    | 'stretch'
+    | 'baseline';
 interface Alignment {
     horizontalAlignment?: HorizontalAlignment;
     verticalAlignment?: VerticalAlignment;
@@ -20,23 +30,17 @@ interface Grid extends Alignment {
     type?: 'row' | 'column';
 }
 
-const Grid = ({className, children, spacing}: Grid) => {
-
+const Grid = ({ className, children, spacing }: Grid) => {
     if (spacing) {
-        const items = React.Children.map(children, (child) => {
+        const items = React.Children.map(children, child => {
             return React.cloneElement<Item>(child, {
                 spacing: child.props.spacing || spacing,
-              });
+            });
         });
-        return (
-            <div className={className}>{items}</div>
-        );
-
+        return <div className={className}>{items}</div>;
     }
 
-    return (
-        <div className={className}>{children}</div>
-    );
+    return <div className={className}>{children}</div>;
 };
 
 const getWidth = (value?: string | number, spacing?: number) => {
@@ -55,20 +59,23 @@ const getWidth = (value?: string | number, spacing?: number) => {
     return '100%';
 };
 
-const horizontalAlignment = ({horizontalAlignment = 'flex-start'}: Alignment) => `
+const horizontalAlignment = ({
+    horizontalAlignment = 'flex-start',
+}: Alignment) => `
     justify-content: ${horizontalAlignment};
 `;
 
-const verticalAlignment = ({verticalAlignment = 'flex-start'}: Alignment) => `
+const verticalAlignment = ({ verticalAlignment = 'flex-start' }: Alignment) => `
     align-items: ${verticalAlignment};
 `;
 
 export const StyledGrid = styled(Grid)<Grid>`
     display: flex;
-    flex-flow: ${({type = 'column'}) => type === 'column' ? 'row' : 'column' };
+    flex-flow: ${({ type = 'column' }) =>
+        type === 'column' ? 'row' : 'column'};
 
-    width: ${({width}) => getWidth(width)};
-    height: ${({height}) => height};
+    width: ${({ width }) => getWidth(width)};
+    height: ${({ height }) => height};
     box-sizing: border-box;
 
     ${horizontalAlignment};
@@ -85,7 +92,7 @@ export const StyledItem = styled.div<Item>`
     flex-flow: row wrap;
 
 
-    ${({grow, width, spacing}) => {
+    ${({ grow, width, spacing }) => {
         if (grow) {
             return `
                 flex-grow: 1;
@@ -96,15 +103,15 @@ export const StyledItem = styled.div<Item>`
         `;
     }}
 
-    height: ${({height}) => height};
+    height: ${({ height }) => height};
     box-sizing: border-box;
 
     ${horizontalAlignment};
     ${verticalAlignment};
-    ${({spacing}: Item) => {
+    ${({ spacing }: Item) => {
         if (spacing) {
             return `margin: ${spacing * 0.5}px`;
         }
-        return  ``;
+        return ``;
     }};
 `;

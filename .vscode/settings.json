@@ -1,5 +1,8 @@
 {
-    "search.exclude": {        
-        "build/**/*": true,
-    }
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "search.exclude": {
+        "build/**/*": true
+    },
+    "editor.tabSize": 2
 }

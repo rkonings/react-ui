@@ -1,11 +1,17 @@
 import { XYCoord } from 'dnd-core';
 import * as React from 'react';
 import { useRef } from 'react';
-import { DragElementWrapper, DragSourceOptions, DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
+import {
+    DragElementWrapper,
+    DragSourceOptions,
+    DropTargetMonitor,
+    useDrag,
+    useDrop,
+} from 'react-dnd';
 
 import styled from 'styled-components';
 
-import { GripHorizontal } from '../Icon' ;
+import { GripHorizontal } from '../Icon';
 import StyledSelect from '../Input/Select/Select';
 import { DESTINATION } from './helpers';
 import { Data, ItemTypes } from './NestedSortable';
@@ -13,7 +19,11 @@ import SortableItem, { ItemData } from './SortableItem';
 export interface Group {
     id: string;
     items: Data;
-    sortItems: (dragId: string, destinationId: string, mode: DESTINATION) => void;
+    sortItems: (
+        dragId: string,
+        destinationId: string,
+        mode: DESTINATION
+    ) => void;
     addToGroup(groupId: string, type: string): void;
 }
 
@@ -45,21 +55,21 @@ const Handle = styled.div`
     cursor: move;
 
     svg {
-        fill: ${({theme: { color }}) => color.gray80 }
+        fill: ${({ theme: { color } }) => color.gray80};
     }
 `;
 
 const DragPlaceHolder = styled.div`
     height: 100px;
     width: 100%;
-    background: ${({theme: { color }}) => color.gray20 };
+    background: ${({ theme: { color } }) => color.gray20};
 `;
 
 const ElementsWrapper = styled.div`
     min-height: 60px;
     padding: 10px 0px 20px 30px;
-    margin-left:20px;
-    border-left: 1px solid ${({theme: { color }}) => color.gray20 };
+    margin-left: 20px;
+    border-left: 1px solid ${({ theme: { color } }) => color.gray20};
 `;
 
 interface GroupHeader {
@@ -67,20 +77,23 @@ interface GroupHeader {
     dragRef: DragElementWrapper<DragSourceOptions>;
 }
 
-const GroupHeader = styled(({className, dragRef}: GroupHeader) => {
+const GroupHeader = styled(({ className, dragRef }: GroupHeader) => {
     return (
         <div className={className}>
-
             <Handle ref={dragRef}>
                 <GripHorizontal />
             </Handle>
             <div>Match&nbsp;</div>
-            <StyledSelect options={['any', '1 or more']} size={'xs'} width="120px" />
+            <StyledSelect
+                options={['any', '1 or more']}
+                size={'xs'}
+                width="120px"
+            />
             <div>&nbsp; of the following rules</div>
         </div>
     );
 })`
-    ${({theme: { color }}) => `
+    ${({ theme: { color } }) => `
         background: ${color.gray10};
         border: 1px solid ${color.gray20};
         display: flex;
@@ -95,29 +108,29 @@ const Link = styled.div`
     font-weight: 800;
 
     &:hover {
-        color: ${({theme: { color }}) => color.black };
+        color: ${({ theme: { color } }) => color.black};
     }
 `;
 
 const GroupFooter = styled.div`
     font-size: 12px;
-    margin-left:20px;
+    margin-left: 20px;
     position: relative;
     padding-left: 30px;
     height: 40px;
-    display:flex;
+    display: flex;
     margin-top: -20px;
     align-items: center;
-    color: ${({theme: { color }}) => color.gray60};
+    color: ${({ theme: { color } }) => color.gray60};
 
     &::before {
-        content: " ";
-        display:block;
+        content: ' ';
+        display: block;
         position: absolute;
         width: 25px;
         left: 0px;
         height: 1px;
-        background: ${({theme: { color }}) => color.gray30};
+        background: ${({ theme: { color } }) => color.gray30};
     }
 `;
 
@@ -125,13 +138,18 @@ const InnerGroup = styled.div`
     margin-bottom: 20px;
 `;
 
-const SortableGroup = ({items, id, sortItems, addToGroup}: Group  ): JSX.Element => {
+const SortableGroup = ({
+    items,
+    id,
+    sortItems,
+    addToGroup,
+}: Group): JSX.Element => {
     const ref = useRef<HTMLDivElement>(null);
-    const [{isOver, isOverCurrent}, drop] = useDrop({
-        collect: (monitor) => ({
+    const [{ isOver, isOverCurrent }, drop] = useDrop({
+        collect: monitor => ({
             isOver: monitor.isOver(),
             isOverCurrent: monitor.isOver({ shallow: true }),
-          }),
+        }),
         accept: [ItemTypes.ITEM, ItemTypes.GROUP],
         hover(dragItem: ItemData | GroupData, monitor: DropTargetMonitor) {
             if (!ref.current) {
@@ -143,7 +161,7 @@ const SortableGroup = ({items, id, sortItems, addToGroup}: Group  ): JSX.Element
                 return;
             }
 
-            if (!monitor.isOver({shallow: true})) {
+            if (!monitor.isOver({ shallow: true })) {
                 return;
             }
 
@@ -154,13 +172,15 @@ const SortableGroup = ({items, id, sortItems, addToGroup}: Group  ): JSX.Element
             const hoverTopY =
                 (hoverBoundingRect.bottom - hoverBoundingRect.top) / 4;
 
-            const hoverBottomY =  (hoverBoundingRect.bottom - hoverBoundingRect.top) - hoverTopY;
+            const hoverBottomY =
+                hoverBoundingRect.bottom - hoverBoundingRect.top - hoverTopY;
 
             // Determine mouse position
             const clientOffset = monitor.getClientOffset();
 
             // Get pixels to the top
-            const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+            const hoverClientY =
+                (clientOffset as XYCoord).y - hoverBoundingRect.top;
 
             if (hoverTopY > hoverClientY) {
                 sortItems(dragItem.id, id, 'BEFORE');
@@ -174,10 +194,10 @@ const SortableGroup = ({items, id, sortItems, addToGroup}: Group  ): JSX.Element
 
     const [{ isDragging }, drag, preview] = useDrag({
         item: { type: ItemTypes.GROUP, id, items },
-        isDragging: (monitor) => {
+        isDragging: monitor => {
             return id === monitor.getItem().id;
         },
-        collect: (monitor) => ({
+        collect: monitor => ({
             isDragging: monitor.isDragging(),
         }),
     });
@@ -189,36 +209,41 @@ const SortableGroup = ({items, id, sortItems, addToGroup}: Group  ): JSX.Element
             {isDragging && <DragPlaceHolder />}
             {!isDragging && (
                 <InnerGroup>
-                   <GroupHeader dragRef={drag} />
+                    <GroupHeader dragRef={drag} />
                     <ElementsWrapper>
-                        {items.length > 0 && items.map((item) => {
-
-                            if (item && 'items' in item) {
-                                return (
-                                    <SortableGroup
-                                        id={item.id}
-                                        addToGroup={addToGroup}
-                                        key={item.id}
-                                        items={item.items}
-                                        sortItems={sortItems}
-                                    />
-                                );
-                            } else {
-                                return (
-                                    <SortableItem
-                                        id={item.id}
-                                        name={item.name}
-                                        key={item.id}
-                                        sortItems={sortItems}
-                                    />
-                                );
-                            }
-
-                        })}
+                        {items.length > 0 &&
+                            items.map(item => {
+                                if (item && 'items' in item) {
+                                    return (
+                                        <SortableGroup
+                                            id={item.id}
+                                            addToGroup={addToGroup}
+                                            key={item.id}
+                                            items={item.items}
+                                            sortItems={sortItems}
+                                        />
+                                    );
+                                } else {
+                                    return (
+                                        <SortableItem
+                                            id={item.id}
+                                            name={item.name}
+                                            key={item.id}
+                                            sortItems={sortItems}
+                                        />
+                                    );
+                                }
+                            })}
                     </ElementsWrapper>
                     <GroupFooter>
-                        add a new&nbsp;<Link onClick={() => addToGroup(id, ItemTypes.ITEM)}>rule</Link>&nbsp;or&nbsp;
-                        <Link onClick={() => addToGroup(id, ItemTypes.GROUP)}>group</Link>
+                        add a new&nbsp;
+                        <Link onClick={() => addToGroup(id, ItemTypes.ITEM)}>
+                            rule
+                        </Link>
+                        &nbsp;or&nbsp;
+                        <Link onClick={() => addToGroup(id, ItemTypes.GROUP)}>
+                            group
+                        </Link>
                     </GroupFooter>
                 </InnerGroup>
             )}
