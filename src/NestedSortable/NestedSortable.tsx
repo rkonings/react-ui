@@ -9,11 +9,11 @@ import SortableGroup, { GroupData } from './SortableGroup';
 import SortableItem, { ItemData } from './SortableItem';
 export const ItemTypes = {
     ITEM: 'item',
-    GROUP: 'group'
+    GROUP: 'group',
 };
 
 const Wrapper = styled.div`
-    display:flex;
+    display: flex;
     flex-direction: column;
     width: 800px;
 `;
@@ -29,19 +29,22 @@ interface GroupExample {
     data: Data;
 }
 
-export default ({data}: GroupExample) => {
-
+export default ({ data }: GroupExample) => {
     const [items, setItems] = React.useState<Data>(data);
 
     const sortItems = React.useCallback(
         (dragId: string, destinationId: string, mode: DESTINATION) => {
-
-            const reorderedItems = reorderItems([...items], dragId, destinationId, mode );
+            const reorderedItems = reorderItems(
+                [...items],
+                dragId,
+                destinationId,
+                mode
+            );
             if (reorderedItems) {
                 setItems(reorderedItems);
             }
         },
-        [items],
+        [items]
     );
 
     const addToGroup = (groupId: string, type: string) => {
@@ -53,13 +56,13 @@ export default ({data}: GroupExample) => {
             item = {
                 type: ItemTypes.ITEM,
                 id,
-                name: id
+                name: id,
             };
         } else {
             item = {
                 type: ItemTypes.GROUP,
                 id,
-                items: []
+                items: [],
             };
         }
 
@@ -70,29 +73,29 @@ export default ({data}: GroupExample) => {
     return (
         <DndProvider backend={HTML5Backend}>
             <Wrapper>
-                {items.length > 0 && items.map((item, index) => {
-                    if ('items' in item) {
-                        return (
-                            <SortableGroup
-                                key={item.id}
-                                addToGroup={addToGroup}
-                                id={item.id}
-                                items={item.items}
-                                sortItems={sortItems}
-                            />
-                        );
-                    } else {
-                        return (
-                            <SortableItem
-                                key={item.id}
-                                name={item.name}
-                                id={item.id}
-                                sortItems={sortItems}
-                            />
-                        );
-                    }
-
-                } )}
+                {items.length > 0 &&
+                    items.map((item, index) => {
+                        if ('items' in item) {
+                            return (
+                                <SortableGroup
+                                    key={item.id}
+                                    addToGroup={addToGroup}
+                                    id={item.id}
+                                    items={item.items}
+                                    sortItems={sortItems}
+                                />
+                            );
+                        } else {
+                            return (
+                                <SortableItem
+                                    key={item.id}
+                                    name={item.name}
+                                    id={item.id}
+                                    sortItems={sortItems}
+                                />
+                            );
+                        }
+                    })}
             </Wrapper>
         </DndProvider>
     );

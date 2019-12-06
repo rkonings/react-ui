@@ -20,36 +20,49 @@ interface Month {
     onChange(selectedDate: moment.Moment | null): void;
 }
 
-export default styled(({className, month, year, value,
-    potentialRange, onChangePotentialRange, onChange}: Month) => {
-    const firstDayOfMonth = moment([year, month]).startOf('month');
-    const weeksInMonth = Math.ceil((firstDayOfMonth.isoWeekday() + firstDayOfMonth.daysInMonth()) / 7);
-    const weeks = [];
-
-    for (let i = 0; i < weeksInMonth; i++ ) {
-        weeks.push(
-            <Week
-                key={i}
-                isoWeek={firstDayOfMonth.clone().startOf('isoWeek')}
-                value={value}
-                month={month}
-                year={year}
-                onChange={onChange}
-                potentialRange={potentialRange}
-                onChangePotentialRange={onChangePotentialRange}
-            />
+export default styled(
+    ({
+        className,
+        month,
+        year,
+        value,
+        potentialRange,
+        onChangePotentialRange,
+        onChange,
+    }: Month) => {
+        const firstDayOfMonth = moment([year, month]).startOf('month');
+        const weeksInMonth = Math.ceil(
+            (firstDayOfMonth.isoWeekday() + firstDayOfMonth.daysInMonth()) / 7
         );
+        const weeks = [];
 
-        firstDayOfMonth.add(7, 'days');
+        for (let i = 0; i < weeksInMonth; i++) {
+            weeks.push(
+                <Week
+                    key={i}
+                    isoWeek={firstDayOfMonth.clone().startOf('isoWeek')}
+                    value={value}
+                    month={month}
+                    year={year}
+                    onChange={onChange}
+                    potentialRange={potentialRange}
+                    onChangePotentialRange={onChangePotentialRange}
+                />
+            );
+
+            firstDayOfMonth.add(7, 'days');
+        }
+
+        return (
+            <div className={className}>
+                <MonthTitle>
+                    {moment([year, month]).format('MMM YYYY')}
+                </MonthTitle>
+                {weeks}
+            </div>
+        );
     }
-
-    return (
-        <div className={className}>
-            <MonthTitle>{moment([year, month]).format('MMM YYYY')}</MonthTitle>
-            {weeks}
-        </div>
-    );
-})`
+)`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

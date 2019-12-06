@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { BaseButton } from './BaseButton';
 import { Button, ButtonStyleHover } from './Button';
 
-const ButtonColorStyle = ({active, theme, type = 'default'}: BaseButton) => {
+const ButtonColorStyle = ({ active, theme, type = 'default' }: BaseButton) => {
     const style = theme.button[type];
     const state = active ? 'active' : 'default';
     const color = style[state].outlined;
@@ -25,7 +25,6 @@ const ButtonStyleIcon = ({ theme, type = 'default' }: BaseButton) => {
             fill: ${color};
         }
     `;
-
 };
 
 const TextButton = (props: BaseButton) => (

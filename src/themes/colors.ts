@@ -25,7 +25,7 @@ const orange = {
     orange80: '#B53E17',
     orange90: '#A33815',
     orange100: '#8C3012',
-    orange110: '#75280F'
+    orange110: '#75280F',
 };
 
 const gray = {
@@ -42,7 +42,7 @@ const gray = {
     gray100: '#475359',
     gray110: '#34444C',
     gray120: '#263238',
-    gray130: '#1B2327'
+    gray130: '#1B2327',
 };
 
 const color = {
@@ -55,8 +55,8 @@ const color = {
     ...orange,
     ...gray,
     green: {
-        light: '#30BE76'
-    }
+        light: '#30BE76',
+    },
 };
 
 export default color;

@@ -12,7 +12,7 @@ const WeekNumber = styled.div`
     font-weight: bold;
     height: 40px;
     font-size: 12px;
-    color: ${({theme: { color }}) => color.gray60 };
+    color: ${({ theme: { color } }) => color.gray60};
 `;
 
 interface Week {
@@ -22,18 +22,21 @@ interface Week {
     year: number;
 }
 
-export default styled(({className, isoWeek, year, month}: Week) => {
+export default styled(({ className, isoWeek, year, month }: Week) => {
     const days = [1, 2, 3, 4, 5, 6, 7];
 
     return (
         <div className={className}>
             <WeekNumber>{isoWeek.isoWeek()}</WeekNumber>
-            {days.map((weekDay) => {
+            {days.map(weekDay => {
                 isoWeek.isoWeekday(weekDay);
                 const day = isoWeek.date();
                 return (
                     <Day
-                        isInMonth={isoWeek.isSame(moment([year, month, 1]), 'month')}
+                        isInMonth={isoWeek.isSame(
+                            moment([year, month, 1]),
+                            'month'
+                        )}
                         date={isoWeek.format('YYYY-MM-DD')}
                         key={weekDay}
                         day={day}
@@ -49,6 +52,6 @@ export default styled(({className, isoWeek, year, month}: Week) => {
     justify-content: flex-start;
 
     ${Day}:nth-child(2) {
-        border-left: 1px solid ${({theme: { color }}) => color.gray20};
+        border-left: 1px solid ${({ theme: { color } }) => color.gray20};
     }
 `;

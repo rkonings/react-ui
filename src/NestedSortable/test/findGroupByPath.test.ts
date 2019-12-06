@@ -20,16 +20,16 @@ const data = [
                     {
                         type: ItemTypes.ITEM,
                         name: 'Item 111',
-                        id: 'BAZZ'
-                    }
+                        id: 'BAZZ',
+                    },
                 ],
             },
             {
                 type: ItemTypes.ITEM,
                 name: 'Item 1- 3',
                 id: 'item-1-3',
-            }
-        ]
+            },
+        ],
     },
     {
         type: ItemTypes.ITEM,
@@ -64,14 +64,14 @@ const data = [
                 type: ItemTypes.ITEM,
                 name: 'Item 4- 3',
                 id: 'item-4-3',
-            }
-        ]
+            },
+        ],
     },
     {
         type: ItemTypes.ITEM,
         name: 'Item 5',
         id: 'item-5',
-    }
+    },
 ];
 
 describe('findGroupByPath', () => {
@@ -96,5 +96,4 @@ describe('findGroupByPath', () => {
         const result = findGroupByPath([...data], [0, 1, 0, 1]);
         expect(result.id).toEqual('DOO');
     });
-
 });

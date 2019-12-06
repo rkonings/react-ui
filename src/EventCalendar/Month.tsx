@@ -15,12 +15,14 @@ interface Month {
     month: number;
 }
 
-export default styled(({className, year, month}: Month) => {
+export default styled(({ className, year, month }: Month) => {
     const firstDayOfMonth = moment([year, month]).startOf('month');
-    const weeksInMonth = Math.ceil((firstDayOfMonth.isoWeekday() + firstDayOfMonth.daysInMonth()) / 7);
+    const weeksInMonth = Math.ceil(
+        (firstDayOfMonth.isoWeekday() + firstDayOfMonth.daysInMonth()) / 7
+    );
     const weeks = [];
 
-    for (let i = 0; i < weeksInMonth; i++ ) {
+    for (let i = 0; i < weeksInMonth; i++) {
         weeks.push(
             <Week
                 month={month}

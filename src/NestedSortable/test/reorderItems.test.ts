@@ -6,16 +6,16 @@ describe('reorderItems', () => {
             {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
-                id: 'FOO'
+                id: 'FOO',
             },
             {
                 type: ItemTypes.ITEM,
                 name: 'BAZZ',
-                id: 'BAZZ'
+                id: 'BAZZ',
             },
         ];
 
-        const result = reorderItems([...data], 'FOO', 'BAZZ', 'AFTER' );
+        const result = reorderItems([...data], 'FOO', 'BAZZ', 'AFTER');
         expect(result[1].id).toEqual('FOO');
     });
 
@@ -24,11 +24,11 @@ describe('reorderItems', () => {
             {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
-                id: 'FOO'
+                id: 'FOO',
             },
         ];
 
-        const result = reorderItems([...data], 'FOO', 'FOO', 'AFTER' );
+        const result = reorderItems([...data], 'FOO', 'FOO', 'AFTER');
         expect(result[0].id).toEqual('FOO');
     });
 
@@ -37,7 +37,7 @@ describe('reorderItems', () => {
             {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
-                id: 'FOO'
+                id: 'FOO',
             },
             {
                 type: ItemTypes.GROUP,
@@ -46,13 +46,13 @@ describe('reorderItems', () => {
                     {
                         type: ItemTypes.ITEM,
                         name: 'FOOBAZZ',
-                        id: 'FOOBAZZ'
+                        id: 'FOOBAZZ',
                     },
-                ]
+                ],
             },
         ];
 
-        const result = reorderItems([...data], 'FOO', 'FOOBAZZ', 'BEFORE' );
+        const result = reorderItems([...data], 'FOO', 'FOOBAZZ', 'BEFORE');
         expect(result[0].items[0].id).toEqual('FOO');
     });
 
@@ -61,7 +61,7 @@ describe('reorderItems', () => {
             {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
-                id: 'FOO'
+                id: 'FOO',
             },
             {
                 type: ItemTypes.GROUP,
@@ -70,13 +70,13 @@ describe('reorderItems', () => {
                     {
                         type: ItemTypes.ITEM,
                         name: 'FOOBAZZ',
-                        id: 'FOOBAZZ'
+                        id: 'FOOBAZZ',
                     },
-                ]
+                ],
             },
         ];
 
-        const result = reorderItems([...data], 'FOO', 'FOOBAZZ', 'AFTER' );
+        const result = reorderItems([...data], 'FOO', 'FOOBAZZ', 'AFTER');
         expect(result[0].items[1].id).toEqual('FOO');
     });
 
@@ -85,7 +85,7 @@ describe('reorderItems', () => {
             {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
-                id: 'FOO'
+                id: 'FOO',
             },
             {
                 type: ItemTypes.GROUP,
@@ -94,18 +94,18 @@ describe('reorderItems', () => {
                     {
                         type: ItemTypes.ITEM,
                         name: 'DOO',
-                        id: 'DOO'
+                        id: 'DOO',
                     },
                     {
                         type: ItemTypes.ITEM,
                         name: 'FOOBAZZ',
-                        id: 'FOOBAZZ'
+                        id: 'FOOBAZZ',
                     },
-                ]
+                ],
             },
         ];
 
-        const result = reorderItems([...data], 'FOO', 'FOOBAZZ', 'AFTER' );
+        const result = reorderItems([...data], 'FOO', 'FOOBAZZ', 'AFTER');
         expect(result[0].items[2].id).toEqual('FOO');
     });
 
@@ -114,7 +114,7 @@ describe('reorderItems', () => {
             {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
-                id: 'FOO'
+                id: 'FOO',
             },
             {
                 type: ItemTypes.GROUP,
@@ -123,18 +123,18 @@ describe('reorderItems', () => {
                     {
                         type: ItemTypes.ITEM,
                         name: 'DOO',
-                        id: 'DOO'
+                        id: 'DOO',
                     },
                     {
                         type: ItemTypes.ITEM,
                         name: 'FOOBAZZ',
-                        id: 'FOOBAZZ'
+                        id: 'FOOBAZZ',
                     },
-                ]
+                ],
             },
         ];
 
-        const result = reorderItems([...data], 'FOO', 'DOO', 'BEFORE' );
+        const result = reorderItems([...data], 'FOO', 'DOO', 'BEFORE');
         expect(result[0].items[0].id).toEqual('FOO');
     });
 
@@ -143,16 +143,16 @@ describe('reorderItems', () => {
             {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
-                id: 'FOO'
+                id: 'FOO',
             },
             {
                 type: ItemTypes.GROUP,
                 id: 'BAZZ',
-                items: []
+                items: [],
             },
         ];
 
-        const result = reorderItems([...data], 'FOO', 'BAZZ', 'IN' );
+        const result = reorderItems([...data], 'FOO', 'BAZZ', 'IN');
         expect(result[0].items[0].id).toEqual('FOO');
     });
 
@@ -161,16 +161,16 @@ describe('reorderItems', () => {
             {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
-                id: 'FOO'
+                id: 'FOO',
             },
             {
                 type: ItemTypes.GROUP,
                 id: 'BAZZ',
-                items: []
+                items: [],
             },
         ];
 
-        const result = reorderItems([...data], 'FOO', 'BAZZ', 'AFTER' );
+        const result = reorderItems([...data], 'FOO', 'BAZZ', 'AFTER');
         expect(result[1].id).toEqual('FOO');
     });
 
@@ -179,21 +179,21 @@ describe('reorderItems', () => {
             {
                 type: ItemTypes.ITEM,
                 name: 'FOOBAZZ',
-                id: 'FOOBAZZ'
+                id: 'FOOBAZZ',
             },
             {
                 type: ItemTypes.GROUP,
                 id: 'BAZZ',
-                items: []
+                items: [],
             },
             {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
-                id: 'FOO'
+                id: 'FOO',
             },
         ];
 
-        const result = reorderItems([...data], 'FOO', 'BAZZ', 'BEFORE' );
+        const result = reorderItems([...data], 'FOO', 'BAZZ', 'BEFORE');
         expect(result[1].id).toEqual('FOO');
     });
 
@@ -202,21 +202,21 @@ describe('reorderItems', () => {
             {
                 type: ItemTypes.ITEM,
                 name: 'FOOBAZZ',
-                id: 'FOOBAZZ'
+                id: 'FOOBAZZ',
             },
             {
                 type: ItemTypes.GROUP,
                 id: 'BAZZ',
-                items: []
+                items: [],
             },
             {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
-                id: 'FOO'
+                id: 'FOO',
             },
         ];
 
-        const result = reorderItems([...data], 'FOOBAZZ', 'BAZZ', 'BEFORE' );
+        const result = reorderItems([...data], 'FOOBAZZ', 'BAZZ', 'BEFORE');
         expect(result).toBeFalsy();
     });
 
@@ -225,21 +225,21 @@ describe('reorderItems', () => {
             {
                 type: ItemTypes.ITEM,
                 name: 'FOOBAZZ',
-                id: 'FOOBAZZ'
+                id: 'FOOBAZZ',
             },
             {
                 type: ItemTypes.GROUP,
                 id: 'BAZZ',
-                items: []
+                items: [],
             },
             {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
-                id: 'FOO'
+                id: 'FOO',
             },
         ];
 
-        const result = reorderItems([...data], 'FOO', 'BAZZ', 'AFTER' );
+        const result = reorderItems([...data], 'FOO', 'BAZZ', 'AFTER');
         expect(result).toBeFalsy();
     });
 

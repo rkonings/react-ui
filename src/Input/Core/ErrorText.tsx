@@ -5,7 +5,7 @@ export interface ErrorText {
 }
 
 export const ErrorText = styled.div`
-    color: ${({theme}) => theme.input.error.color };
+    color: ${({ theme }) => theme.input.error.color};
     font-size: 14px;
     padding-top: 4px;
 `;

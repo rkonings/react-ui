@@ -9,8 +9,12 @@ interface LoaderProps {
     color?: string;
 }
 
-const Loader = ({className, color}: LoaderProps) => {
-    return <div className={className}><span /></div>;
+const Loader = ({ className, color }: LoaderProps) => {
+    return (
+        <div className={className}>
+            <span />
+        </div>
+    );
 };
 
 const LoaderKeyFrames = keyframes`
@@ -30,9 +34,10 @@ const LoaderInnerAfterKeyFrames = keyframes`
 `;
 
 const StyledLoader = styled(Loader)`
-    height: ${({size}) => size}px;
-    width: ${({size}) => size}px;
-    animation: ${LoaderKeyFrames} ${({speed = 1}) => 4.8 / speed}s linear infinite;
+    height: ${({ size }) => size}px;
+    width: ${({ size }) => size}px;
+    animation: ${LoaderKeyFrames} ${({ speed = 1 }) => 4.8 / speed}s linear
+        infinite;
     box-sizing: border-box;
 
     span {
@@ -44,26 +49,41 @@ const StyledLoader = styled(Loader)`
         bottom: 0;
         right: 0;
         margin: auto;
-        height: ${({size}) => size}px;
-        width: ${({size}) => size}px;
-        clip: rect(0, ${({size}) => size}px, ${({size}) => size}px, ${({size}) => size * 0.5}px);
-        animation: ${LoaderInnerKeyFrames} ${({speed = 1}) => 1.2 / speed}s linear infinite;
+        height: ${({ size }) => size}px;
+        width: ${({ size }) => size}px;
+        clip: rect(
+            0,
+            ${({ size }) => size}px,
+            ${({ size }) => size}px,
+            ${({ size }) => size * 0.5}px
+        );
+        animation: ${LoaderInnerKeyFrames} ${({ speed = 1 }) => 1.2 / speed}s
+            linear infinite;
 
         &::after {
             box-sizing: border-box;
-            content: "";
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             bottom: 0;
             right: 0;
             margin: auto;
-            height: ${({size}) => size}px;
-            width: ${({size}) => size}px;
-            clip: rect(0, ${({size}) => size}px, ${({size}) => size}px, ${({size}) => size * 0.5}px);
-            border: 3px solid ${({color, theme: { loader }}) => color || loader.default.color};
+            height: ${({ size }) => size}px;
+            width: ${({ size }) => size}px;
+            clip: rect(
+                0,
+                ${({ size }) => size}px,
+                ${({ size }) => size}px,
+                ${({ size }) => size * 0.5}px
+            );
+            border: 3px solid
+                ${({ color, theme: { loader } }) =>
+                    color || loader.default.color};
             border-radius: 50%;
-            animation: ${LoaderInnerAfterKeyFrames} ${({speed = 1}) => 1.2 / speed}s cubic-bezier(0.770, 0.000, 0.175, 1.000) infinite;
+            animation: ${LoaderInnerAfterKeyFrames}
+                ${({ speed = 1 }) => 1.2 / speed}s
+                cubic-bezier(0.77, 0, 0.175, 1) infinite;
         }
     }
 `;

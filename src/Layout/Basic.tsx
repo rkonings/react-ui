@@ -12,7 +12,7 @@ interface Basic {
 }
 
 const Left = styled(Item)`
-    background: #F7F7F7;
+    background: #f7f7f7;
 `;
 
 const Main = styled.div`
@@ -26,18 +26,17 @@ const Main = styled.div`
 
 const Back = styled.div`
     font-size: 12px;
-    color: #1B2327;
+    color: #1b2327;
     font-weight: 400;
 `;
 
 const Title = styled.h1`
     font-size: 22px;
-    color: #1B2327;
+    color: #1b2327;
     font-weight: 400;
 `;
 
-const Basic = styled(({className, children, left, pageTitle}: Basic) => {
-
+const Basic = styled(({ className, children, left, pageTitle }: Basic) => {
     return (
         <div className={className}>
             <AppBar>
@@ -45,7 +44,7 @@ const Basic = styled(({className, children, left, pageTitle}: Basic) => {
             </AppBar>
             <Grid height="calc(100% - 50px)" width="100%">
                 <Left height="100%" width="200px">
-                   {left}
+                    {left}
                 </Left>
                 <Item height="100%" width="calc(100% - 200px)">
                     <Main>
