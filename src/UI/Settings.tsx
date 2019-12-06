@@ -8,156 +8,171 @@ import BasicInfo from './Settings/BasicInfo';
 import ContactsCompanies from './Settings/ContactsCompanies';
 
 export interface UserSettings {
-  language: string;
-  dateFormat: string;
-  pushNotifications: boolean;
-  unscribeEmailLink: boolean;
-  signature: string;
+    language: string;
+    dateFormat: string;
+    pushNotifications: boolean;
+    unscribeEmailLink: boolean;
+    signature: string;
 }
 
 export interface User {
-  firstName: string;
-  lastName: string;
-  settings: UserSettings;
+    firstName: string;
+    lastName: string;
+    settings: UserSettings;
 }
 
 export type ValidationErrors = Map<string, string>;
 export interface ChangedItem {
-  field: string;
-  value: string | boolean | number;
+    field: string;
+    value: string | boolean | number;
 }
 
 export interface ChangeOptions {
-  saveFields?: boolean;
+    saveFields?: boolean;
 }
 export type ChangedItems = ChangedItem[];
 export type OnChangeHandler = (
-  items: ChangedItems,
-  options?: ChangeOptions,
-  callBack?: () => void
+    items: ChangedItems,
+    options?: ChangeOptions,
+    callBack?: () => void
 ) => void;
 
 const UserSchema = Yup.object({
-  firstName: Yup.string().required('is required'),
-  lastName: Yup.string().required('field is required'),
-  settings: Yup.object({
-    language: Yup.string().required('is required'),
-    dateFormat: Yup.string().required('is required'),
-    pushNotifications: Yup.boolean().required('is required'),
-    signature: Yup.string().max(10)
-  })
+    firstName: Yup.string().required('is required'),
+    lastName: Yup.string().required('field is required'),
+    settings: Yup.object({
+        language: Yup.string().required('is required'),
+        dateFormat: Yup.string().required('is required'),
+        pushNotifications: Yup.boolean().required('is required'),
+        signature: Yup.string().max(10),
+    }),
 });
 
 interface Settings {
-  className?: string;
-  user: User;
-  onChange: (props: {user: User, newUser: User, changed: ChangedItems}) => void;
+    className?: string;
+    user: User;
+    onChange: (props: {
+        user: User;
+        newUser: User;
+        changed: ChangedItems;
+    }) => void;
 }
 
 const Nav = styled.div`
-  display: block;
-  margin-bottom: 50px;
-  margin-right: 2em;
-  ul {
-    list-style: none;
-    margin:0;
-    padding:0;
-  }
+    display: block;
+    margin-bottom: 50px;
+    margin-right: 2em;
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
 `;
 
 const Content = styled.div``;
 
 export const mapValidationErrors = (error: Yup.ValidationError) => {
-  if (error.inner.length > 0) {
-    return error.inner.reduce((obj: ValidationErrors, item: Yup.ValidationError) => {
-      return obj.set(item.path, item.message);
-    }, new Map());
-  } else {
-    const errorsMap = new Map<string, string>();
-    errorsMap.set(error.path, error.message);
-    return errorsMap;
-  }
+    if (error.inner.length > 0) {
+        return error.inner.reduce(
+            (obj: ValidationErrors, item: Yup.ValidationError) => {
+                return obj.set(item.path, item.message);
+            },
+            new Map()
+        );
+    } else {
+        const errorsMap = new Map<string, string>();
+        errorsMap.set(error.path, error.message);
+        return errorsMap;
+    }
 };
 
 const Settings = ({ className, user, onChange }: Settings) => {
+    const [data, setData] = React.useState<User>(user);
+    const [errors, setErrors] = React.useState<ValidationErrors>(new Map());
 
-  const [ data, setData ] = React.useState<User>(user);
-  const [ errors, setErrors ] = React.useState<ValidationErrors>(new Map());
+    const onChangeHandler = async (
+        items: ChangedItems,
+        options?: ChangeOptions,
+        callBack?: () => void
+    ) => {
+        const newUser = { ...data };
+        items.forEach(item => dotProp.set(newUser, item.field, item.value));
+        setData(newUser);
 
-  const onChangeHandler = async (items: ChangedItems, options?: ChangeOptions, callBack?: () => void) => {
-    const newUser = {...data};
-    items.forEach((item) => dotProp.set(newUser, item.field, item.value) );
-    setData(newUser);
+        if (options && options.saveFields) {
+            onChange({ newUser, changed: items, user });
+            if (callBack) {
+                callBack();
+            }
+            return;
+        }
 
-    if (options && options.saveFields) {
-      onChange({newUser, changed: items, user});
-      if (callBack) {
-        callBack();
-      }
-      return;
-    }
+        UserSchema.validate(newUser, { abortEarly: false })
+            .catch(error => {
+                const errors = mapValidationErrors(error);
+                setErrors(errors);
+            })
+            .then(() => {
+                onChange({ newUser, changed: items, user });
+            });
+    };
 
-    UserSchema.validate(newUser, {abortEarly: false})
-    .catch((error) => {
-      const errors = mapValidationErrors(error);
-      setErrors(errors);
-    }).then(() => {
-      onChange({newUser, changed: items, user});
-    });
-
-  };
-
-  return (
-    <div className={className}>
-      <Nav>
-        <ul>
-        <li>
-          <Link to="/basic">BasicInfo</Link>
-        </li>
-        <li>
-          <Link to="/contacts-companies">Clients &amp; Companies</Link>
-        </li>
-        </ul>
-      </Nav>
-      <Content>
-        <Switch>
-          <Route
-            path="/basic"
-            render={() => (
-              <BasicInfo
-                onChange={onChangeHandler}
-                user={data}
-                errors={errors}
-                validationSchema={UserSchema}
-              />
-            )}
-          />
-          <Route path="/contacts-companies" render={() => <ContactsCompanies />} />
-          <Route
-            path="/"
-            render={() => (
-              <BasicInfo
-                validationSchema={UserSchema}
-                onChange={onChangeHandler}
-                user={data}
-                errors={errors}
-              />
-            )}
-          />
-        </Switch>
-      </Content>
-    </div>
-  );
+    return (
+        <div className={className}>
+            <Nav>
+                <ul>
+                    <li>
+                        <Link to="/basic">BasicInfo</Link>
+                    </li>
+                    <li>
+                        <Link to="/contacts-companies">
+                            Clients &amp; Companies
+                        </Link>
+                    </li>
+                </ul>
+            </Nav>
+            <Content>
+                <Switch>
+                    <Route
+                        path="/basic"
+                        render={() => (
+                            <BasicInfo
+                                onChange={onChangeHandler}
+                                user={data}
+                                errors={errors}
+                                validationSchema={UserSchema}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/contacts-companies"
+                        render={() => <ContactsCompanies />}
+                    />
+                    <Route
+                        path="/"
+                        render={() => (
+                            <BasicInfo
+                                validationSchema={UserSchema}
+                                onChange={onChangeHandler}
+                                user={data}
+                                errors={errors}
+                            />
+                        )}
+                    />
+                </Switch>
+            </Content>
+        </div>
+    );
 };
 
 export default styled(Settings)`
-  padding: 2em;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
-  overflow: scroll;
-  flex-direction: row;
+    padding: 2em;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: scroll;
+    flex-direction: row;
 `;
