@@ -63,7 +63,7 @@ interface PopoverInput<T> {
 
 export const PopoverInput = <T extends {}>({label, onChange, errors, values, children,
     validationSchema, link}: PopoverInput<T>) => {
-
+    const [ labelValues, setLabelValues ] = React.useState<T>(values);
     const [ inputValues, setInputValues ] = React.useState<T>(values);
     const [ inputErrors, setInputErrors ] = React.useState<ValidationErrors>(errors || new Map());
 
@@ -89,6 +89,7 @@ export const PopoverInput = <T extends {}>({label, onChange, errors, values, chi
     const onSave = (setOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
         const values = Object.entries(inputValues).map(([key, value]) => ({field: key, value}));
         if (inputErrors.size === 0) {
+            setLabelValues(inputValues);
             onChange(values as ChangedItems, { saveFields: true }, () => {
                 setOpen(false);
             });
@@ -102,8 +103,8 @@ export const PopoverInput = <T extends {}>({label, onChange, errors, values, chi
 
     return (
         <Wrapper>
-            {label(values)}
-            <Popover link={link(values)}>
+            {label(labelValues)}
+            <Popover link={link(labelValues)}>
                 {(setOpen) => children({
                     setOpen,
                     errors: inputErrors,
