@@ -7,17 +7,21 @@ interface RowActionProps {
     className?: string;
     theme: Theme;
     onClick?(event: React.MouseEvent): void;
-  }
-  const RowAaction = ({children, className, onClick }: RowActionProps): JSX.Element => {
+}
+const RowAaction = ({
+    children,
+    className,
+    onClick,
+}: RowActionProps): JSX.Element => {
     return (
-      <button className={className} type={`button`} onClick={onClick}>
-        {children}
-      </button>
+        <button className={className} type={`button`} onClick={onClick}>
+            {children}
+        </button>
     );
-  };
+};
 
-  export default styled(RowAaction)`
-      ${({theme}: RowActionProps) => `
+export default styled(RowAaction)`
+    ${({ theme }: RowActionProps) => `
           font-family: ${theme.fontFamily};
           font-weight: ${theme.button.fontWeight};
           background: none;
@@ -49,4 +53,4 @@ interface RowActionProps {
               outline: none;
           }
       `}
-  `;
+`;

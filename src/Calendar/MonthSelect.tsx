@@ -14,7 +14,7 @@ interface Month {
 }
 
 const Month = styled.div<Month>`
-    display:flex;
+    display: flex;
     width: 15%;
     height: 30px;
     font-size: 12px;
@@ -23,7 +23,12 @@ const Month = styled.div<Month>`
     justify-content: center;
     align-items: center;
 
-    ${({selected, selectedDateInMonth, isInSelectedRange, theme: { color}}) => {
+    ${({
+        selected,
+        selectedDateInMonth,
+        isInSelectedRange,
+        theme: { color },
+    }) => {
         let backgroundColor = 'none';
         let textColor = color.black;
         let borderColor = 'rgba(0,0,0,0)';
@@ -43,8 +48,7 @@ const Month = styled.div<Month>`
         `;
     }};
 
-    ${({disabled, theme: { color }}) => {
-
+    ${({ disabled, theme: { color } }) => {
         if (disabled) {
             return `
                 background: ${color.gray20};
@@ -79,10 +83,16 @@ interface Calendar {
     onChange(year: number, month: number): void;
 }
 
-const isMonthSelected = (selected: moment.Moment | DateRange, month: moment.Moment) => {
+const isMonthSelected = (
+    selected: moment.Moment | DateRange,
+    month: moment.Moment
+) => {
     if (isDateRange(selected)) {
         if (selected.start && selected.end) {
-            return selected.start.isSame(month, 'month') || selected.end.isSame(month, 'month');
+            return (
+                selected.start.isSame(month, 'month') ||
+                selected.end.isSame(month, 'month')
+            );
         } else if (selected.start) {
             return selected.start.isSame(month, 'month');
         } else {
@@ -93,7 +103,10 @@ const isMonthSelected = (selected: moment.Moment | DateRange, month: moment.Mome
     }
 };
 
-const isInSelectedRange = (selected: moment.Moment | DateRange, month: moment.Moment) => {
+const isInSelectedRange = (
+    selected: moment.Moment | DateRange,
+    month: moment.Moment
+) => {
     if (isDateRange(selected) && selected.start && selected.end) {
         return month.isBetween(selected.start, selected.end, 'month');
     } else {
@@ -101,7 +114,11 @@ const isInSelectedRange = (selected: moment.Moment | DateRange, month: moment.Mo
     }
 };
 
-const isDisabled = (selected: moment.Moment | DateRange, month: number, year: number) => {
+const isDisabled = (
+    selected: moment.Moment | DateRange,
+    month: number,
+    year: number
+) => {
     if (isDateRange(selected) && selected.start && selected.end === null) {
         return moment([year, month]).isBefore(selected.start, 'month');
     }
@@ -109,33 +126,51 @@ const isDisabled = (selected: moment.Moment | DateRange, month: number, year: nu
     return false;
 };
 
-const Calendar = styled(({className, onChange, style, year,
-    selectedMonth, selectedYear, selectedDate}: Calendar) => {
-
-    const months = moment.monthsShort('-MMM-');
-    return (
-        <div className={className} style={style}>
-            <Title>{year}</Title>
-            {months.map((m, index) => {
-                const disabled = isDisabled(selectedDate, index, year);
-                const onClick = !disabled ? () => onChange(year, index) : undefined;
-                return (
-                    <Month
-                        onClick={onClick}
-                        key={m}
-                        disabled={disabled}
-                        isInSelectedRange={isInSelectedRange(selectedDate, moment([year, index]))}
-                        selected={selectedMonth === index && selectedYear === year}
-                        selectedDateInMonth={isMonthSelected(selectedDate, moment([year, index]))}
-                    >
-                        {m}
-                    </Month>
-                );
-            })}
-        </div>
-    );
-})`
-    display:flex;
+const Calendar = styled(
+    ({
+        className,
+        onChange,
+        style,
+        year,
+        selectedMonth,
+        selectedYear,
+        selectedDate,
+    }: Calendar) => {
+        const months = moment.monthsShort('-MMM-');
+        return (
+            <div className={className} style={style}>
+                <Title>{year}</Title>
+                {months.map((m, index) => {
+                    const disabled = isDisabled(selectedDate, index, year);
+                    const onClick = !disabled
+                        ? () => onChange(year, index)
+                        : undefined;
+                    return (
+                        <Month
+                            onClick={onClick}
+                            key={m}
+                            disabled={disabled}
+                            isInSelectedRange={isInSelectedRange(
+                                selectedDate,
+                                moment([year, index])
+                            )}
+                            selected={
+                                selectedMonth === index && selectedYear === year
+                            }
+                            selectedDateInMonth={isMonthSelected(
+                                selectedDate,
+                                moment([year, index])
+                            )}
+                        >
+                            {m}
+                        </Month>
+                    );
+                })}
+            </div>
+        );
+    }
+)`
+    display: flex;
     width: 100%;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -154,11 +189,11 @@ interface MonthSelect {
 }
 
 interface RowData {
-   selectedDate: moment.Moment;
-   selectedMonth: number;
-   startYear: number;
-   selectedYear: number;
-   onChange(year: number, month: number): void;
+    selectedDate: moment.Moment;
+    selectedMonth: number;
+    startYear: number;
+    selectedYear: number;
+    onChange(year: number, month: number): void;
 }
 
 interface Row {
@@ -176,47 +211,53 @@ const Row = ({ data, index, style }: Row) => (
         year={data.startYear + index}
         onChange={data.onChange}
     />
-  );
+);
 
-export const MonthSelect = styled(({className, onChange, selectedMonth,
-    selectedYear, selectedDate, startYear, endYear, width}: MonthSelect) => {
+export const MonthSelect = styled(
+    ({
+        className,
+        onChange,
+        selectedMonth,
+        selectedYear,
+        selectedDate,
+        startYear,
+        endYear,
+        width,
+    }: MonthSelect) => {
+        const onChangeHandler = (year: number, month: number) => {
+            onChange(year, month);
+        };
 
-    const onChangeHandler = (year: number, month: number) => {
-        onChange(year, month);
-    };
+        const ref = React.useRef<List>(null);
 
-    const ref = React.useRef<List>(null);
+        React.useEffect(() => {
+            if (ref.current) {
+                const scrollToItem = selectedYear - startYear;
+                ref.current.scrollToItem(scrollToItem, 'smart');
+            }
+        }, [selectedYear]);
 
-    React.useEffect(() => {
-        if (ref.current) {
-            const scrollToItem = selectedYear - startYear;
-            ref.current.scrollToItem(scrollToItem, 'smart');
-        }
-
-    }, [selectedYear]);
-
-    return (
-        <div className={className}>
-            <List
-                ref={ref}
-                itemData={
-                    {
+        return (
+            <div className={className}>
+                <List
+                    ref={ref}
+                    itemData={{
                         selectedDate,
                         selectedMonth,
                         selectedYear,
                         onChange: onChangeHandler,
-                        startYear
-                    }
-                }
-                height={350}
-                itemCount={endYear - startYear + 1}
-                itemSize={100}
-                width={width}
-            >
-                {Row}
-            </List>
-        </div>
-    );
-})`
+                        startYear,
+                    }}
+                    height={350}
+                    itemCount={endYear - startYear + 1}
+                    itemSize={100}
+                    width={width}
+                >
+                    {Row}
+                </List>
+            </div>
+        );
+    }
+)`
     margin-bottom: 25px;
 `;

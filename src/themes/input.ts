@@ -8,7 +8,7 @@ const checkbox = {
         s: 12,
         m: 14,
         l: 16,
-        xl: 18
+        xl: 18,
     },
     default: {
         default: {
@@ -18,13 +18,13 @@ const checkbox = {
             label: color.gray70,
         },
         hover: {
-            borderColor: color.gray100
+            borderColor: color.gray100,
         },
         checked: {
             backgroundColor: 'none',
             borderColor: color.gray60,
-            color: color.gray120
-        }
+            color: color.gray120,
+        },
     },
     primary: {
         default: {
@@ -33,13 +33,13 @@ const checkbox = {
             backgroundColor: 'none',
         },
         hover: {
-            borderColor: color.gray100
+            borderColor: color.gray100,
         },
         checked: {
             backgroundColor: color.primary,
             borderColor: color.gray60,
-            color: color.white
-        }
+            color: color.white,
+        },
     },
     secondairy: {
         default: {
@@ -48,16 +48,14 @@ const checkbox = {
             backgroundColor: 'none',
         },
         hover: {
-            borderColor: color.gray100
+            borderColor: color.gray100,
         },
         checked: {
             backgroundColor: color.secondairy,
             borderColor: color.gray60,
-            color: color.white
-        }
-
-    }
-
+            color: color.white,
+        },
+    },
 };
 
 const select = {
@@ -67,21 +65,21 @@ const select = {
         s: 12,
         m: 14,
         l: 16,
-        xl: 18
+        xl: 18,
     },
     default: {
         borderColor: color.gray60,
         color: color.gray120,
         item: {
             color: color.gray120,
-        }
+        },
     },
     hover: {
         borderColor: color.blue110,
         item: {
             color: color.white,
             backgroundColor: color.blue90,
-        }
+        },
     },
     focus: {
         borderColor: color.gray100,
@@ -89,9 +87,8 @@ const select = {
         item: {
             backgroundColor: color.blue110,
             color: color.white,
-
-        }
-    }
+        },
+    },
 };
 
 const textField = {
@@ -103,26 +100,26 @@ const textField = {
         s: 12,
         m: 14,
         l: 16,
-        xl: 18
+        xl: 18,
     },
     default: {
         default: {
             helperText: color.gray70,
             borderColor: color.gray60,
             color: color.gray120,
-            placeholderColor: color.gray60
+            placeholderColor: color.gray60,
         },
         error: {
             errorText: color.error,
             borderColor: color.error,
         },
         hover: {
-            borderColor: color.blue110
+            borderColor: color.blue110,
         },
         focus: {
             borderColor: color.gray100,
-            color: color.gray120
-        }
+            color: color.gray120,
+        },
     },
     primary: {
         default: {
@@ -131,13 +128,13 @@ const textField = {
             backgroundColor: 'none',
         },
         hover: {
-            borderColor: color.gray100
+            borderColor: color.gray100,
         },
         checked: {
             backgroundColor: color.primary,
             borderColor: color.gray60,
-            color: color.white
-        }
+            color: color.white,
+        },
     },
     secondairy: {
         default: {
@@ -146,38 +143,36 @@ const textField = {
             backgroundColor: 'none',
         },
         hover: {
-            borderColor: color.gray100
+            borderColor: color.gray100,
         },
         checked: {
             backgroundColor: color.secondairy,
             borderColor: color.gray60,
-            color: color.white
-        }
-
-    }
-
+            color: color.white,
+        },
+    },
 };
 
 const _switch = {
     label: color.gray70,
     default: {
         backgroundColor: color.gray30,
-        thumbColor: color.gray70
+        thumbColor: color.gray70,
     },
     hover: {
         backgroundColor: color.gray50,
     },
     checked: {
-        thumbColor: color.primary
-    }
+        thumbColor: color.primary,
+    },
 };
 
 const error = {
-    color: color.error
+    color: color.error,
 };
 
 const helper = {
-    color: color.gray70
+    color: color.gray70,
 };
 
 export default {
@@ -186,5 +181,5 @@ export default {
     checkbox,
     textField,
     switch: _switch,
-    select
+    select,
 };

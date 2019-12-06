@@ -2,16 +2,22 @@ import useFocusTrap from '@charlietango/use-focus-trap';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { Button , ButtonType, ButtonVariant, OutlinedButton, TextButton } from '../Button';
+import {
+    Button,
+    ButtonType,
+    ButtonVariant,
+    OutlinedButton,
+    TextButton,
+} from '../Button';
 import { Size } from '../interfaces/Theme';
 import { Menu } from './Menu';
 
 const StyledClickAway = styled.div`
     position: fixed;
-    top:0;
-    left:0;
-    bottom:0;
-    right:0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
 `;
 
 interface ButtonMenu {
@@ -40,7 +46,14 @@ const getComponent = (variant: ButtonVariant = 'default') => {
     }
 };
 
-const ButtonMenu = ({className, items, children, size = 'm', type = 'default', variant}: ButtonMenu) => {
+const ButtonMenu = ({
+    className,
+    items,
+    children,
+    size = 'm',
+    type = 'default',
+    variant,
+}: ButtonMenu) => {
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
     const focusTrap = useFocusTrap();
     const Component = getComponent(variant);
@@ -52,8 +65,8 @@ const ButtonMenu = ({className, items, children, size = 'm', type = 'default', v
                 onClick={() => setIsOpen(!isOpen)}
                 type={type}
                 size={size}
-            >{
-                children}
+            >
+                {children}
             </Component>
             {isOpen && (
                 <React.Fragment>
@@ -71,7 +84,7 @@ const StyledButtonMenu = styled(ButtonMenu)`
     position: relative;
     ${Menu} {
         position: absolute;
-        ${({menuAlign}) => (menuAlign === 'RIGHT') ? 'right:0;' : null}
+        ${({ menuAlign }) => (menuAlign === 'RIGHT' ? 'right:0;' : null)}
     }
 `;
 

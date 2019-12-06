@@ -13,7 +13,7 @@ describe('findParentById', () => {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
                 id: 'FOO',
-            }
+            },
         ];
         const result = findParentById(data, 'FOO');
         expect((result as GroupData).type).toEqual(ItemTypes.GROUP);
@@ -40,13 +40,12 @@ describe('findParentById', () => {
                         type: ItemTypes.ITEM,
                         name: 'FOO',
                         id: 'FOO',
-                    }
-                ]
-            }
+                    },
+                ],
+            },
         ];
         const result = findParentById(data, 'FOO');
         expect((result as GroupData).type).toEqual(ItemTypes.GROUP);
         expect((result as GroupData).id).toEqual('BAZZ');
     });
-
 });

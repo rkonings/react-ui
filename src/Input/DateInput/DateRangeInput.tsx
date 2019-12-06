@@ -15,59 +15,82 @@ interface DateRangeInput {
     onChangeEndDate(date: moment.Moment): void;
 }
 
-export default styled(({className, startDate, endDate, onChangeStartDate,
-    onChangeEndDate, onFocus, dateFormat = DATE_FORMAT}: DateRangeInput) => {
+export default styled(
+    ({
+        className,
+        startDate,
+        endDate,
+        onChangeStartDate,
+        onChangeEndDate,
+        onFocus,
+        dateFormat = DATE_FORMAT,
+    }: DateRangeInput) => {
+        const formattedStartDate = startDate
+            ? startDate.format(dateFormat)
+            : '';
+        const formattedEndDate = endDate ? endDate.format(dateFormat) : '';
+        const [startValue, setStartValue] = React.useState<string>(
+            formattedStartDate
+        );
+        const [endValue, setEndValue] = React.useState<string>(
+            formattedEndDate
+        );
 
-    const formattedStartDate = startDate ? startDate.format(dateFormat) : '';
-    const formattedEndDate = endDate ? endDate.format(dateFormat) : '';
-    const [startValue, setStartValue] = React.useState<string>(formattedStartDate);
-    const [endValue, setEndValue ] = React.useState<string>(formattedEndDate);
+        React.useEffect(() => {
+            const formattedDate = startDate ? startDate.format(dateFormat) : '';
+            setStartValue(formattedDate);
+        }, [startDate]);
 
-    React.useEffect(() => {
-        const formattedDate = startDate ? startDate.format(dateFormat) : '';
-        setStartValue(formattedDate);
-    }, [startDate]);
+        React.useEffect(() => {
+            const formattedDate = endDate ? endDate.format(dateFormat) : '';
+            setEndValue(formattedDate);
+        }, [endDate]);
 
-    React.useEffect(() => {
-        const formattedDate = endDate ? endDate.format(dateFormat) : '';
-        setEndValue(formattedDate);
-    }, [endDate]);
+        const onChangeStartDateHandler = (
+            event: React.FormEvent<HTMLInputElement>
+        ) => {
+            const value = event.currentTarget.value;
 
-    const onChangeStartDateHandler = (event: React.FormEvent<HTMLInputElement>) => {
-        const value = event.currentTarget.value;
+            setStartValue(value);
+            if (moment(value, dateFormat, true).isValid()) {
+                onChangeStartDate(moment(value, dateFormat));
+            }
+        };
 
-        setStartValue(value);
-        if (moment(value, dateFormat, true).isValid()) {
-           onChangeStartDate(moment(value, dateFormat));
-        }
-    };
+        const onChangeEndDateHandler = (
+            event: React.FormEvent<HTMLInputElement>
+        ) => {
+            const value = event.currentTarget.value;
 
-    const onChangeEndDateHandler = (event: React.FormEvent<HTMLInputElement>) => {
-        const value = event.currentTarget.value;
+            setEndValue(value);
+            if (
+                moment(value, dateFormat, true).isValid() &&
+                moment(value, dateFormat).isAfter(
+                    moment(startValue, dateFormat),
+                    'day'
+                )
+            ) {
+                onChangeEndDate(moment(value, dateFormat));
+            }
+        };
 
-        setEndValue(value);
-        if (moment(value, dateFormat, true).isValid() &&
-        moment(value, dateFormat).isAfter(moment(startValue, dateFormat), 'day')) {
-           onChangeEndDate(moment(value, dateFormat));
-        }
-    };
-
-    return (
-        <div className={className}>
-            <TextField
-                value={startValue}
-                onChange={onChangeStartDateHandler}
-                onFocus={() => onFocus && onFocus('START_DATE')}
-            />
-            <span>-</span>
-            <TextField
-                value={endValue}
-                onChange={onChangeEndDateHandler}
-                onFocus={() => onFocus && onFocus('END_DATE')}
-            />
-        </div>
-    );
-})`
+        return (
+            <div className={className}>
+                <TextField
+                    value={startValue}
+                    onChange={onChangeStartDateHandler}
+                    onFocus={() => onFocus && onFocus('START_DATE')}
+                />
+                <span>-</span>
+                <TextField
+                    value={endValue}
+                    onChange={onChangeEndDateHandler}
+                    onFocus={() => onFocus && onFocus('END_DATE')}
+                />
+            </div>
+        );
+    }
+)`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -75,7 +98,6 @@ export default styled(({className, startDate, endDate, onChangeStartDate,
     span {
         width: 100px;
         text-align: center;
-
     }
 
     input {

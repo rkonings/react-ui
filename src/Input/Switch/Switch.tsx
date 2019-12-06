@@ -20,31 +20,35 @@ const InnerCheckbox = styled.input.attrs({ type: 'checkbox' })`
 
 const SwitchThumb = styled.div`
     position: absolute;
-    display:block;
+    display: block;
     width: 15px;
     height: 15px;
     border-radius: 50%;
     transition: left 0.1s ease-in;
-    left:0;
-    background: ${({theme: {input}}) => input.switch.default.thumbColor};
+    left: 0;
+    background: ${({ theme: { input } }) => input.switch.default.thumbColor};
 `;
 
 const CustomSwitch = styled.div<Switch>`
-
     ${SwitchThumb} {
-        ${({theme: { input }, checked}) => {
+        ${({ theme: { input }, checked }) => {
             const toggle = input.switch;
             return `
-                background: ${checked ? toggle.checked.thumbColor : toggle.default.thumbColor};
+                background: ${
+                    checked
+                        ? toggle.checked.thumbColor
+                        : toggle.default.thumbColor
+                };
             `;
         }};
     }
 
-    background: ${({theme: { input }}) => input.switch.default.backgroundColor};
+    background: ${({ theme: { input } }) =>
+        input.switch.default.backgroundColor};
     height: 15px;
     width: 30px;
     cursor: pointer;
-    display:flex;
+    display: flex;
     justify-content: flex-start;
     align-items: center;
     position: relative;
@@ -54,16 +58,24 @@ const CustomSwitch = styled.div<Switch>`
 const Label = styled.span`
     font-size: 13px;
     margin-left: 15px;
-    color: ${({theme: { input }}) => input.switch.label};
+    color: ${({ theme: { input } }) => input.switch.label};
 `;
 
-const Switch = ({className, checked = false, helperText,
-    onChange, name, label}: Switch) => {
+const Switch = ({
+    className,
+    checked = false,
+    helperText,
+    onChange,
+    name,
+    label,
+}: Switch) => {
     const [isChecked, setIsChecked] = React.useState(checked);
 
     const onChangeHandler = (checked: boolean) => {
         setIsChecked(checked);
-        if (onChange) { onChange(checked); }
+        if (onChange) {
+            onChange(checked);
+        }
     };
 
     React.useEffect(() => setIsChecked(checked), [checked]);
@@ -74,7 +86,9 @@ const Switch = ({className, checked = false, helperText,
                 <InnerCheckbox
                     checked={isChecked}
                     name={name}
-                    onChange={({target: { checked }}) => onChangeHandler(checked)}
+                    onChange={({ target: { checked } }) =>
+                        onChangeHandler(checked)
+                    }
                 />
                 <CustomSwitch checked={isChecked}>
                     <SwitchThumb />
@@ -94,14 +108,15 @@ const StyledSwitch = styled(Switch)`
         display: flex;
 
         &:hover {
-            ${/*sc-selector*/CustomSwitch} {
-                background: ${({theme: { input }}) => input.switch.hover.backgroundColor};
+            ${/*sc-selector*/ CustomSwitch} {
+                background: ${({ theme: { input } }) =>
+                    input.switch.hover.backgroundColor};
             }
         }
     }
 
     position: relative;
-    ${/*sc-selector*/InnerCheckbox}:checked ~ ${/*sc-selector*/CustomSwitch} {
+    ${/*sc-selector*/ InnerCheckbox}:checked ~ ${/*sc-selector*/ CustomSwitch} {
 
         ${SwitchThumb} {
             left: calc(100% - 15px);

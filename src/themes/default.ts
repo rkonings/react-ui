@@ -13,7 +13,7 @@ const calendar = {
             hover: {
                 backgroundColor: color.primary,
                 color: color.white,
-            }
+            },
         },
         selected: {
             backgroundColor: color.primary,
@@ -33,8 +33,8 @@ const calendar = {
         },
         notInMonth: {
             color: color.gray40,
-        }
-    }
+        },
+    },
 };
 
 const menu = {
@@ -42,17 +42,17 @@ const menu = {
     boxShadow: '0px 4px 9px rgba(0, 0, 0, 0.05);',
     item: {
         default: {
-            color: color.black
+            color: color.black,
         },
         active: {
             color: color.white,
-            backgroundColor: color.primary
+            backgroundColor: color.primary,
         },
         hover: {
             color: color.white,
-            backgroundColor: color.primary
-        }
-    }
+            backgroundColor: color.primary,
+        },
+    },
 };
 
 const align = (contentAlignment = 'center') => {
@@ -67,13 +67,12 @@ const align = (contentAlignment = 'center') => {
     return `justify-content: ${align};`;
 };
 
-const fontSize = {
-
-};
+const fontSize = {};
 
 const theme: Theme = {
     align,
-    fontFamily: 'Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+    fontFamily:
+        'Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
     fontSize,
     color,
     icon,
@@ -85,9 +84,9 @@ const theme: Theme = {
     calendar,
     loader: {
         default: {
-            color: color.gray110
-        }
-    }
+            color: color.gray110,
+        },
+    },
 };
 
 export default theme;

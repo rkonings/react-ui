@@ -14,14 +14,23 @@ interface NavigationItem {
     onClick?: (event: React.MouseEvent) => void;
 }
 
-export const NavigationItem = styled(({children, className, onClick, icon}: NavigationItem) => {
-    return (
-        <a onClick={onClick} className={className}>{icon}{children}</a>
-    );
-})`
+export const NavigationItem = styled(
+    ({ children, className, onClick, icon }: NavigationItem) => {
+        return (
+            <a onClick={onClick} className={className}>
+                {icon}
+                {children}
+            </a>
+        );
+    }
+)`
     padding: 0 1em;
     height: 40px;
-    color: ${({theme: { menu: { item } }}) => item.default.color };
+    color: ${({
+        theme: {
+            menu: { item },
+        },
+    }) => item.default.color};
     display: flex;
     cursor: pointer;
     font-size: 14px;
@@ -34,7 +43,13 @@ export const NavigationItem = styled(({children, className, onClick, icon}: Navi
         opacity: 0.8;
     }
 
-    ${({theme: { color, menu : { item }}, isActive}) => {
+    ${({
+        theme: {
+            color,
+            menu: { item },
+        },
+        isActive,
+    }) => {
         if (isActive) {
             return `
                 background: ${item.active.backgroundColor};
@@ -50,12 +65,17 @@ export const NavigationItem = styled(({children, className, onClick, icon}: Navi
             `;
         }
         return;
-
     }};
 
     &:hover {
-
-        ${({theme: { color,  menu: {item: { hover}} }}) => {
+        ${({
+            theme: {
+                color,
+                menu: {
+                    item: { hover },
+                },
+            },
+        }) => {
             return `
                 svg {
                     fill: ${color.white};
@@ -67,18 +87,16 @@ export const NavigationItem = styled(({children, className, onClick, icon}: Navi
                 background: ${hover.backgroundColor};
                 color: ${hover.color};
             `;
-        } }
+        }}
     }
 `;
 
-const Navigation = ({className, children}: Navigation) => {
-    return (
-        <div className={className}>{children}</div>
-    );
+const Navigation = ({ className, children }: Navigation) => {
+    return <div className={className}>{children}</div>;
 };
 
 export default styled(Navigation)`
-    ${({theme: { menu}}) => {
+    ${({ theme: { menu } }) => {
         return `
             background: ${menu.backgroundColor};
         `;

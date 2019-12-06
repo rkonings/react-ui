@@ -10,7 +10,12 @@ interface ColorProps {
 }
 const Color = ({ color, className }: ColorProps) => {
     const theme = useTheme();
-    return <div className={className}><div>{color}</div>{theme.color[color]}</div>;
+    return (
+        <div className={className}>
+            <div>{color}</div>
+            {theme.color[color]}
+        </div>
+    );
 };
 
 export default styled(Color)`
@@ -23,7 +28,8 @@ export default styled(Color)`
     justify-content: center;
     flex-direction: column;
     text-align: center;
-    color: ${({ theme: { color }, ...props }) => readableColor(color[props.color])};
+    color: ${({ theme: { color }, ...props }) =>
+        readableColor(color[props.color])};
     height: 100px;
     background: ${({ theme: { color }, ...props }) => {
         return color[props.color];

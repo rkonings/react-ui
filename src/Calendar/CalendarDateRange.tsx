@@ -37,45 +37,60 @@ interface DaySelect {
     onChangePotentialRange?(date: moment.Moment): void;
     onChange(selectedDate: moment.Moment): void;
 }
-const DaySelect = styled(({className, value, onChange, month, year,
-    potentialRange, onChangePotentialRange, amountMonths = 3}: DaySelect) => {
+const DaySelect = styled(
+    ({
+        className,
+        value,
+        onChange,
+        month,
+        year,
+        potentialRange,
+        onChangePotentialRange,
+        amountMonths = 3,
+    }: DaySelect) => {
+        const months = [];
+        const monthYear = moment([year, month]);
 
-    const months = [];
-    const monthYear = moment([year, month]);
+        for (let i = 0; i < amountMonths; i++) {
+            months.push(
+                <Month
+                    key={i}
+                    value={value}
+                    onChange={onChange}
+                    month={monthYear.month()}
+                    year={monthYear.year()}
+                    potentialRange={potentialRange}
+                    onChangePotentialRange={onChangePotentialRange}
+                />
+            );
+            monthYear.add(1, 'month');
+        }
 
-    for (let i = 0; i < amountMonths; i++) {
-        months.push(
-            <Month
-                key={i}
-                value={value}
-                onChange={onChange}
-                month={monthYear.month()}
-                year={monthYear.year()}
-                potentialRange={potentialRange}
-                onChangePotentialRange={onChangePotentialRange}
-            />
-        );
-        monthYear.add(1, 'month');
+        return <div className={className}>{months}</div>;
     }
+)``;
 
-    return (
-        <div className={className}>
-            {months}
-        </div>
-    );
-})`
-
-`;
-
-const CalendarDateRange = ({className, value: _value, onChange,
-    startYear, endYear, width, onBlur, onFocus}: CalendarDateRange) => {
-
+const CalendarDateRange = ({
+    className,
+    value: _value,
+    onChange,
+    startYear,
+    endYear,
+    width,
+    onBlur,
+    onFocus,
+}: CalendarDateRange) => {
     const [value, _setValue] = React.useState<DateRange | null>(_value);
     const [month, setMonth] = React.useState<number>(moment().month());
     const [year, setYear] = React.useState<number>(moment().year());
 
-    const [selectingMode, setSelectingMode] = React.useState<'START_DATE' | 'END_DATE'>('START_DATE');
-    const [potentialRange, setPotentialRange] = React.useState<DateRange | null>(null);
+    const [selectingMode, setSelectingMode] = React.useState<
+        'START_DATE' | 'END_DATE'
+    >('START_DATE');
+    const [
+        potentialRange,
+        setPotentialRange,
+    ] = React.useState<DateRange | null>(null);
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
     React.useEffect(() => {
@@ -91,12 +106,11 @@ const CalendarDateRange = ({className, value: _value, onChange,
         }
 
         _setValue(_value);
-
     }, [_value]);
 
     const changePotentialRange = (date: moment.Moment) => {
         if (value && selectingMode === 'END_DATE' && value.start) {
-            setPotentialRange({start: value.start, end: date});
+            setPotentialRange({ start: value.start, end: date });
         } else {
             setPotentialRange(null);
         }
@@ -112,34 +126,35 @@ const CalendarDateRange = ({className, value: _value, onChange,
     const onChangeHandler = (selectedDate: moment.Moment) => {
         if (selectingMode === 'START_DATE') {
             if (value) {
-                if ((value.end && selectedDate.isBefore(value.end, 'day')) || value && !value.end) {
-                    setValue({...value, start: selectedDate});
-
+                if (
+                    (value.end && selectedDate.isBefore(value.end, 'day')) ||
+                    (value && !value.end)
+                ) {
+                    setValue({ ...value, start: selectedDate });
                 } else {
-                    setValue({end: null, start: selectedDate});
+                    setValue({ end: null, start: selectedDate });
                 }
             } else {
-                setValue({start: selectedDate, end: null});
+                setValue({ start: selectedDate, end: null });
             }
             setSelectingMode('END_DATE');
-
         } else {
-
             if (value) {
-
-                if (value && value.start && (selectedDate.isAfter(value.start, 'day') ||
-                selectedDate.isSame(value.start, 'day'))) {
-                    setValue({...value, end: selectedDate});
+                if (
+                    value &&
+                    value.start &&
+                    (selectedDate.isAfter(value.start, 'day') ||
+                        selectedDate.isSame(value.start, 'day'))
+                ) {
+                    setValue({ ...value, end: selectedDate });
                     setSelectingMode('START_DATE');
                 } else {
-                    setValue({...value, start: selectedDate});
+                    setValue({ ...value, start: selectedDate });
                 }
             } else {
-                setValue({start: null, end: selectedDate});
+                setValue({ start: null, end: selectedDate });
             }
-
         }
-
     };
 
     const onChangeMonthHandler = (year: number, month: number) => {
@@ -152,16 +167,15 @@ const CalendarDateRange = ({className, value: _value, onChange,
         setMonth(date.month());
         setYear(date.year());
         if (value && isDateRange(value)) {
-            setValue({...value, start: date});
+            setValue({ ...value, start: date });
         }
-
     };
 
     const onChangeEndDateInputHandler = (date: moment.Moment) => {
         setMonth(date.month());
         setYear(date.year());
         if (value && isDateRange(value)) {
-            setValue({...value, end: date});
+            setValue({ ...value, end: date });
         }
     };
 
@@ -170,8 +184,8 @@ const CalendarDateRange = ({className, value: _value, onChange,
     };
 
     const getInputField = () => {
-        const startDate = (value) ? value.start : null;
-        const endDate = (value) ? value.end : null;
+        const startDate = value ? value.start : null;
+        const endDate = value ? value.end : null;
         return (
             <DateRangeInput
                 onFocus={onDateRangeInputFocus}
@@ -181,7 +195,6 @@ const CalendarDateRange = ({className, value: _value, onChange,
                 onChangeEndDate={onChangeEndDateInputHandler}
             />
         );
-
     };
 
     return (
@@ -194,9 +207,7 @@ const CalendarDateRange = ({className, value: _value, onChange,
             {getInputField()}
             <Grid width="100%">
                 <Item width="50%">
-                    <MonthSelectButton
-                        onClick={() => setIsOpen(!isOpen)}
-                    >
+                    <MonthSelectButton onClick={() => setIsOpen(!isOpen)}>
                         {moment([year, month]).format('MMM YYYY')}
                         <CaretDown spacing="left" />
                     </MonthSelectButton>
@@ -205,24 +216,38 @@ const CalendarDateRange = ({className, value: _value, onChange,
                     <StyledButtonGroup>
                         <TextButton
                             onClick={() => {
-                                const prevMonth = moment([year, month]).subtract(1, 'month');
-                                if (prevMonth.isAfter(moment([startYear - 1, 11]), 'month')) {
+                                const prevMonth = moment([
+                                    year,
+                                    month,
+                                ]).subtract(1, 'month');
+                                if (
+                                    prevMonth.isAfter(
+                                        moment([startYear - 1, 11]),
+                                        'month'
+                                    )
+                                ) {
                                     setMonth(prevMonth.month());
                                     setYear(prevMonth.year());
                                 }
-
                             }}
                         >
                             <ArrowLeft size="s" />
                         </TextButton>
                         <TextButton
                             onClick={() => {
-                                const nextMonth = moment([year, month]).add(1, 'month');
-                                if (nextMonth.isBefore(moment([endYear + 1, 0]), 'month')) {
+                                const nextMonth = moment([year, month]).add(
+                                    1,
+                                    'month'
+                                );
+                                if (
+                                    nextMonth.isBefore(
+                                        moment([endYear + 1, 0]),
+                                        'month'
+                                    )
+                                ) {
                                     setMonth(nextMonth.month());
                                     setYear(nextMonth.year());
                                 }
-
                             }}
                         >
                             <ArrowRight />
@@ -253,13 +278,12 @@ const CalendarDateRange = ({className, value: _value, onChange,
                     onChangePotentialRange={changePotentialRange}
                 />
             )}
-
         </div>
     );
 };
 
 const StyledCalendarDateRange = styled(CalendarDateRange)`
-    width: ${({width}) => width}px;
+    width: ${({ width }) => width}px;
     padding: 20px 20px 0px 20px;
 
     ${TextButton} {

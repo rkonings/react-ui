@@ -5,7 +5,7 @@ export interface HelperText {
 }
 
 export const HelperText = styled.div`
-        color: ${({theme}) => theme.input.helper.color};
-        font-size: 14px;
-        padding-top: 4px;
+    color: ${({ theme }) => theme.input.helper.color};
+    font-size: 14px;
+    padding-top: 4px;
 `;

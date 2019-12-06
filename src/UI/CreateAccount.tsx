@@ -28,15 +28,12 @@ const CreateAccountSchema = Yup.object().shape({
         .min(6, 'password must have more than 6 chars')
         .max(50, 'password is too long')
         .required('password is required'),
-    firstName: Yup.string()
-        .required('firstname is required'),
-    lastName: Yup.string()
-        .required('lastname is required'),
-    phone: Yup.string()
-        .required('phone is required')
-  });
+    firstName: Yup.string().required('firstname is required'),
+    lastName: Yup.string().required('lastname is required'),
+    phone: Yup.string().required('phone is required'),
+});
 
-const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
+const CreateAccount = ({ className, onCreate }: CreateAccountProps) => {
     return (
         <div className={className}>
             <Formik
@@ -46,25 +43,40 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
                     password: '',
                     firstName: '',
                     lastName: '',
-                    phone: ''
+                    phone: '',
                 }}
-                onSubmit={(values: Values, { setSubmitting }: FormikActions<Values>) => {
+                onSubmit={(
+                    values: Values,
+                    { setSubmitting }: FormikActions<Values>
+                ) => {
                     setTimeout(() => {
                         if (onCreate) {
                             onCreate(values);
                         }
-                      setSubmitting(false);
+                        setSubmitting(false);
                     }, 2000);
                 }}
             >
-                {({ handleSubmit, handleChange, values, errors, touched, handleBlur, isSubmitting }) => (
+                {({
+                    handleSubmit,
+                    handleChange,
+                    values,
+                    errors,
+                    touched,
+                    handleBlur,
+                    isSubmitting,
+                }) => (
                     <form onSubmit={handleSubmit}>
                         <Grid width="400px" spacing={20}>
                             <Item width="100%">
                                 <TextField
                                     name={'firstName'}
                                     helperText={'enter your firstname'}
-                                    errorText={touched.firstName ? errors.firstName : undefined}
+                                    errorText={
+                                        touched.firstName
+                                            ? errors.firstName
+                                            : undefined
+                                    }
                                     value={values.firstName}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -76,7 +88,11 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
                                 <TextField
                                     name={'lastName'}
                                     helperText={'enter your lastname'}
-                                    errorText={touched.lastName ? errors.lastName : undefined}
+                                    errorText={
+                                        touched.lastName
+                                            ? errors.lastName
+                                            : undefined
+                                    }
                                     value={values.lastName}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -88,7 +104,9 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
                                 <TextField
                                     name={'phone'}
                                     helperText={'enter your phone number'}
-                                    errorText={touched.phone ? errors.phone : undefined}
+                                    errorText={
+                                        touched.phone ? errors.phone : undefined
+                                    }
                                     value={values.phone}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -100,7 +118,9 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
                                 <TextField
                                     name={'email'}
                                     helperText={'enter your e-mail'}
-                                    errorText={touched.email ? errors.email : undefined}
+                                    errorText={
+                                        touched.email ? errors.email : undefined
+                                    }
                                     value={values.email}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -112,7 +132,11 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
                                 <TextField
                                     name={'password'}
                                     helperText={'use a strong password'}
-                                    errorText={touched.password ? errors.password : undefined}
+                                    errorText={
+                                        touched.password
+                                            ? errors.password
+                                            : undefined
+                                    }
                                     value={values.password}
                                     placeHolder={'password'}
                                     inputType={'password'}
@@ -122,13 +146,18 @@ const CreateAccount = ({className, onCreate}: CreateAccountProps) => {
                                 />
                             </Item>
                             <Item width="100%">
-                                <Button isLoading={isSubmitting} inputType={'submit'} type={'primary'}>Create</Button>
+                                <Button
+                                    isLoading={isSubmitting}
+                                    inputType={'submit'}
+                                    type={'primary'}
+                                >
+                                    Create
+                                </Button>
                             </Item>
                         </Grid>
                     </form>
                 )}
             </Formik>
-
         </div>
     );
 };
