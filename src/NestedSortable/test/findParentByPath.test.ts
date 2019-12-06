@@ -7,13 +7,12 @@ describe('findParentByPath', () => {
             {
                 type: ItemTypes.ITEM,
                 id: 'FOO',
-                name: 'FOO'
-            }
+                name: 'FOO',
+            },
         ];
 
         const parent = findParentByPath(data, [0]);
         expect(parent.id).toBe('0');
-
     });
 
     test('find parent of path 0, 0', () => {
@@ -25,16 +24,14 @@ describe('findParentByPath', () => {
                     {
                         type: ItemTypes.ITEM,
                         id: 'BAZZ',
-                        name: 'BAZZ'
-                    }
-                ]
-
-            }
+                        name: 'BAZZ',
+                    },
+                ],
+            },
         ];
 
         const parent = findParentByPath(data, [0, 0]);
         expect(parent.id).toBe('FOO');
-
     });
 
     test('find parent of path 0, 0, 0', () => {
@@ -50,18 +47,15 @@ describe('findParentByPath', () => {
                             {
                                 type: ItemTypes.ITEM,
                                 id: 'BAZZ',
-                                name: 'BAZZ'
-                            }
-                        ]
-
-                    }
-                ]
-
-            }
+                                name: 'BAZZ',
+                            },
+                        ],
+                    },
+                ],
+            },
         ];
 
         const parent = findParentByPath(data, [0, 0, 0]);
         expect(parent.id).toBe('FOOBAZZ');
-
     });
 });

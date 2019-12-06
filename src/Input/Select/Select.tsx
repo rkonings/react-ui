@@ -3,7 +3,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { ArrowDown, ArrowUp } from '../../Icon';
-import { Size  } from '../../interfaces/Theme';
+import { Size } from '../../interfaces/Theme';
 import { ErrorText, HelperText } from '../Core';
 
 interface Select extends HelperText, ErrorText {
@@ -24,7 +24,7 @@ interface Arrow {
     direction?: 'UP' | 'DOWN';
 }
 
-const Arrow = ({className, direction = 'DOWN'}: Arrow) => {
+const Arrow = ({ className, direction = 'DOWN' }: Arrow) => {
     return (
         <div className={className}>
             {direction === 'DOWN' && <ArrowDown />}
@@ -34,7 +34,7 @@ const Arrow = ({className, direction = 'DOWN'}: Arrow) => {
 };
 
 const StyledArrow = styled(Arrow)`
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     width: 50px;
@@ -42,7 +42,11 @@ const StyledArrow = styled(Arrow)`
 `;
 
 const StyledMenu = styled.div`
-    ${({theme: { input: { select }}}) => `
+    ${({
+        theme: {
+            input: { select },
+        },
+    }) => `
         border: ${select.borderSize} solid ${select.focus.borderColor};
     `}
     border-top: 0;
@@ -56,7 +60,14 @@ interface MenuItem {
 
 const StyledMenuItem = styled.div<MenuItem>`
 
-    ${({ selected, theme: { input: { select: { focus } } } }) =>  {
+    ${({
+        selected,
+        theme: {
+            input: {
+                select: { focus },
+            },
+        },
+    }) => {
         if (selected) {
             return `
                 background: ${focus.item.backgroundColor};
@@ -68,7 +79,14 @@ const StyledMenuItem = styled.div<MenuItem>`
     padding 1em;
     font-size: 14px;
     &:hover {
-        ${({selected, theme: { input: { select: { hover, focus } }}}) =>  {
+        ${({
+            selected,
+            theme: {
+                input: {
+                    select: { hover, focus },
+                },
+            },
+        }) => {
             if (selected) {
                 return `
                     background: ${focus.item.backgroundColor};
@@ -82,7 +100,8 @@ const StyledMenuItem = styled.div<MenuItem>`
         }};
 
 
-        ${({selected, theme: { color}}) =>  selected ? `color: ${color.white};` : null}
+        ${({ selected, theme: { color } }) =>
+            selected ? `color: ${color.white};` : null}
     }
 `;
 interface InputWrapper {
@@ -90,20 +109,29 @@ interface InputWrapper {
 }
 
 const InputWrapper = styled.div<InputWrapper & ErrorText>`
-    border: 1px solid ${({errorText, isFocused = false, theme: { input: { select, error }}}) => {
-        if (errorText) {
-            return error.color;
-        }
-        return isFocused ? select.focus.borderColor : select.default.borderColor;
-    }};
-    transition : border 500ms ease-out;
+    border: 1px solid
+        ${({
+            errorText,
+            isFocused = false,
+            theme: {
+                input: { select, error },
+            },
+        }) => {
+            if (errorText) {
+                return error.color;
+            }
+            return isFocused
+                ? select.focus.borderColor
+                : select.default.borderColor;
+        }};
+    transition: border 500ms ease-out;
     box-sizing: border-box;
     position: relative;
     width: 100%;
 
     ${StyledArrow} {
         position: absolute;
-        right:0;
+        right: 0;
         top: 0;
     }
 
@@ -123,7 +151,13 @@ const InputWrapper = styled.div<InputWrapper & ErrorText>`
     }
 
     &:hover {
-        ${({theme: { input: { select: { hover}} }}) => `
+        ${({
+            theme: {
+                input: {
+                    select: { hover },
+                },
+            },
+        }) => `
             border: 1px solid ${hover.borderColor} ;
         `};
     }
@@ -131,25 +165,35 @@ const InputWrapper = styled.div<InputWrapper & ErrorText>`
 
 const StyledClickAway = styled.div`
     position: fixed;
-    top:0;
-    left:0;
-    bottom:0;
-    right:0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
 `;
 
 const Label = styled.span`
-    display:block;
+    display: block;
     width: 100%;
     font-weight: 500;
     font-size: 14px;
     margin-bottom: 10px;
 `;
 
-const Select  = ({className, options, value: _value, isOpen: _open = false,
-    onChange, helperText, errorText, label}: Select) => {
+const Select = ({
+    className,
+    options,
+    value: _value,
+    isOpen: _open = false,
+    onChange,
+    helperText,
+    errorText,
+    label,
+}: Select) => {
     const [value, setValue] = React.useState<string>('');
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
-    const [selectedItem, setSelectedItem] = React.useState<string | undefined>();
+    const [selectedItem, setSelectedItem] = React.useState<
+        string | undefined
+    >();
     const [isFocused, setIsFocused] = React.useState<boolean>(false);
 
     const focusTrap = useFocusTrap();
@@ -172,7 +216,9 @@ const Select  = ({className, options, value: _value, isOpen: _open = false,
 
     const nextSelectedItem = () => {
         let nextIndex = 0;
-        const currentIndex = options.findIndex( (option) => option === selectedItem );
+        const currentIndex = options.findIndex(
+            option => option === selectedItem
+        );
         if (currentIndex < options.length - 1) {
             nextIndex = currentIndex + 1;
         }
@@ -181,7 +227,9 @@ const Select  = ({className, options, value: _value, isOpen: _open = false,
     };
 
     const prevSelectedItem = () => {
-        const currentIndex = options.findIndex( (option) => option === selectedItem );
+        const currentIndex = options.findIndex(
+            option => option === selectedItem
+        );
         let prevIndex = currentIndex - 1;
         if (currentIndex === 0) {
             prevIndex = options.length - 1;
@@ -190,11 +238,14 @@ const Select  = ({className, options, value: _value, isOpen: _open = false,
     };
 
     const keyPressHandler = (e: KeyboardEvent) => {
-
-        if ((e.key === 'Enter' || e.key === 'ArrowDown') && !isOpen && isFocused) {
+        if (
+            (e.key === 'Enter' || e.key === 'ArrowDown') &&
+            !isOpen &&
+            isFocused
+        ) {
             e.preventDefault();
             setIsOpen(true);
-        } else if ((e.key === 'Escape') && isOpen) {
+        } else if (e.key === 'Escape' && isOpen) {
             setIsOpen(false);
         } else if (e.key === 'Enter' && isOpen) {
             e.preventDefault();
@@ -237,36 +288,33 @@ const Select  = ({className, options, value: _value, isOpen: _open = false,
                     }}
                     type="text"
                     name={name}
-                    onChange={(e) => {
+                    onChange={e => {
                         setValue(e.currentTarget.value);
                     }}
                     value={value}
                 />
-                <StyledArrow direction={(isOpen) ? 'UP' : 'DOWN'} />
+                <StyledArrow direction={isOpen ? 'UP' : 'DOWN'} />
             </InputWrapper>
             {helperText && !errorText && <HelperText>{helperText}</HelperText>}
             {errorText && <ErrorText>{errorText}</ErrorText>}
-            { isOpen && (
+            {isOpen && (
                 <React.Fragment>
                     <StyledClickAway onClick={() => setIsOpen(false)} />
-                    <StyledMenu >
-                        {options.map(
-                            (option, optIndex) => (
-                                <StyledMenuItem
-                                    onClick={() => {
-                                        setSelectedItem(option);
-                                        setIsOpen(false);
-                                        changeValue(option);
-                                    }}
-                                    key={optIndex}
-                                    selected={selectedItem === option}
-                                >
-                                    {option}
-                                </StyledMenuItem>
-                            )
-                        )}
+                    <StyledMenu>
+                        {options.map((option, optIndex) => (
+                            <StyledMenuItem
+                                onClick={() => {
+                                    setSelectedItem(option);
+                                    setIsOpen(false);
+                                    changeValue(option);
+                                }}
+                                key={optIndex}
+                                selected={selectedItem === option}
+                            >
+                                {option}
+                            </StyledMenuItem>
+                        ))}
                     </StyledMenu>
-
                 </React.Fragment>
             )}
         </div>
@@ -275,21 +323,31 @@ const Select  = ({className, options, value: _value, isOpen: _open = false,
 
 const StyledSelect = styled(Select)<Select>`
     position: relative;
-    width: ${({width = '100%'}) => width};
+    width: ${({ width = '100%' }) => width};
 
     input {
-        font-size: ${({theme: { input: {select} }, size = 'm'}) => select.size[size]}px;
+        font-size: ${({
+            theme: {
+                input: { select },
+            },
+            size = 'm',
+        }) => select.size[size]}px;
     }
 
     ${StyledMenuItem} {
-        font-size: ${({theme: { input: {select} }, size = 'm'}) => select.size[size]}px;
+        font-size: ${({
+            theme: {
+                input: { select },
+            },
+            size = 'm',
+        }) => select.size[size]}px;
     }
 
     ${StyledMenu} {
         border-top: 0;
         z-index: 1600;
         background: #ffffff;
-        left:0;
+        left: 0;
         width: 100%;
         position: absolute;
     }

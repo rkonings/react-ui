@@ -21,8 +21,8 @@ const data = [
                 type: ItemTypes.ITEM,
                 name: 'Item 1- 3',
                 id: 'item-1-3',
-            }
-        ]
+            },
+        ],
     },
     {
         type: ItemTypes.ITEM,
@@ -30,7 +30,6 @@ const data = [
         id: 'item-1',
     },
     {
-
         type: ItemTypes.ITEM,
         name: 'Item 2',
         id: 'item-2',
@@ -58,14 +57,14 @@ const data = [
                 type: ItemTypes.ITEM,
                 name: 'Item 4- 3',
                 id: 'item-4-3',
-            }
-        ]
+            },
+        ],
     },
     {
         type: ItemTypes.ITEM,
         name: 'Item 5',
         id: 'item-5',
-    }
+    },
 ];
 
 describe('moveItemByPath', () => {
@@ -80,7 +79,7 @@ describe('moveItemByPath', () => {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
                 id: 'FOO',
-            }
+            },
         ];
         const result = moveItemByPath(testData, [0], [1], 'AFTER');
         expect(result[1].id).toEqual('DOO');
@@ -107,7 +106,7 @@ describe('moveItemByPath', () => {
                 type: ItemTypes.ITEM,
                 name: 'Item 4',
                 id: 'item-4',
-            }
+            },
         ];
 
         const result = moveItemByPath(testData, [1], [3], 'BEFORE');
@@ -138,7 +137,7 @@ describe('moveItemByPath', () => {
                 type: ItemTypes.ITEM,
                 name: 'Item 4',
                 id: 'item-4',
-            }
+            },
         ];
 
         const result = moveItemByPath(testData, [3], [0], 'BEFORE');

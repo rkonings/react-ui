@@ -22,21 +22,23 @@ const Label = styled.div`
     font-size: 15px;
 `;
 const Description = styled.div`
-    color: ${({theme: { color }}) => color.gray80};
+    color: ${({ theme: { color } }) => color.gray80};
     font-size: 14px;
 `;
 
-
-const CoreSettingsField = ({className, input, label, description}: SettingsField) => {
+const CoreSettingsField = ({
+    className,
+    input,
+    label,
+    description,
+}: SettingsField) => {
     return (
         <div className={className}>
             <Content>
                 <Label>{label}</Label>
                 {description && <Description>{description}</Description>}
             </Content>
-            <Input>
-                {input}
-            </Input>
+            <Input>{input}</Input>
         </div>
     );
 };
@@ -50,12 +52,11 @@ const SettingsField = styled(CoreSettingsField)`
     min-height: 50px;
     justify-content: space-between;
     margin-bottom: 1em;
-    ${({theme: { color }}) => {
+    ${({ theme: { color } }) => {
         return `
             border: 1px solid ${color.gray40};
         `;
     }}
-
 `;
 
 export default SettingsField;

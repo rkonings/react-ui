@@ -28,10 +28,10 @@ const LoginSchema = Yup.object().shape({
     password: Yup.string()
         .min(6, 'password must have more than 6 chars')
         .max(50, 'password is too long')
-        .required('password is required')
-  });
+        .required('password is required'),
+});
 
-const Login = ({className, onLogin}: LoginProps) => {
+const Login = ({ className, onLogin }: LoginProps) => {
     return (
         <div className={className}>
             <Formik
@@ -39,24 +39,36 @@ const Login = ({className, onLogin}: LoginProps) => {
                 initialValues={{
                     email: '',
                     password: '',
-                    remember: false
+                    remember: false,
                 }}
-                onSubmit={(values: LoginValues, { setSubmitting }: FormikActions<LoginValues>) => {
+                onSubmit={(
+                    values: LoginValues,
+                    { setSubmitting }: FormikActions<LoginValues>
+                ) => {
                     setTimeout(() => {
                         if (onLogin) {
                             onLogin(values);
                         }
-                      setSubmitting(false);
+                        setSubmitting(false);
                     }, 100);
                 }}
             >
-                {({ handleSubmit, handleChange, values, errors, touched, handleBlur }) => (
+                {({
+                    handleSubmit,
+                    handleChange,
+                    values,
+                    errors,
+                    touched,
+                    handleBlur,
+                }) => (
                     <form onSubmit={handleSubmit}>
                         <Grid width="400px" type="row" spacing={20}>
                             <Item width="100%">
                                 <TextField
                                     name={'email'}
-                                    errorText={touched.email ? errors.email : undefined}
+                                    errorText={
+                                        touched.email ? errors.email : undefined
+                                    }
                                     value={values.email}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -67,7 +79,11 @@ const Login = ({className, onLogin}: LoginProps) => {
                             <Item width="100%">
                                 <TextField
                                     name={'password'}
-                                    errorText={touched.password ? errors.password : undefined}
+                                    errorText={
+                                        touched.password
+                                            ? errors.password
+                                            : undefined
+                                    }
                                     value={values.password}
                                     placeHolder={'password'}
                                     inputType={'password'}
@@ -93,16 +109,23 @@ const Login = ({className, onLogin}: LoginProps) => {
                                 />
                             </Item>
                             <Item width="50%">
-                                <Button width="100%" inputType={'submit'} type={'primary'}>Login</Button>
+                                <Button
+                                    width="100%"
+                                    inputType={'submit'}
+                                    type={'primary'}
+                                >
+                                    Login
+                                </Button>
                             </Item>
                             <Item width="50%">
-                                <TextButton width="100%">or create account</TextButton>
+                                <TextButton width="100%">
+                                    or create account
+                                </TextButton>
                             </Item>
                         </Grid>
                     </form>
                 )}
             </Formik>
-
         </div>
     );
 };

@@ -12,5 +12,4 @@ describe('canMoveToPath', () => {
     test('from 0,0,0 to 0,0,1', () => {
         expect(canMoveToPath([0, 0, 0], [0, 0, 1])).toBe(true);
     });
-
 });

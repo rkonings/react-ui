@@ -6,8 +6,8 @@ describe('getEventsOnDate', () => {
                 title: 'FOO',
                 start: '2019-01-01',
                 end: '2019-01-10',
-                id: 'FOO'
-            }
+                id: 'FOO',
+            },
         ];
 
         const result = getEventsOnDay(events, '2019-01-02');
@@ -20,8 +20,8 @@ describe('getEventsOnDate', () => {
                 title: 'FOO',
                 start: '2018-01-01',
                 end: '2018-01-10',
-                id: 'FOO'
-            }
+                id: 'FOO',
+            },
         ];
 
         const result = getEventsOnDay(events, '2019-01-02');
@@ -34,8 +34,8 @@ describe('getEventsOnDate', () => {
                 title: 'FOO',
                 start: '2018-01-01',
                 end: '2018-01-01',
-                id: 'FOO'
-            }
+                id: 'FOO',
+            },
         ];
 
         const result = getEventsOnDay(events, '2018-01-01');

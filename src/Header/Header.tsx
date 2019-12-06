@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const HeaderTitle = styled.div`
-    ${({theme}) => {
+    ${({ theme }) => {
         return `
             font-weight: 400;
             font-size: 60px;
@@ -11,14 +11,13 @@ export const HeaderTitle = styled.div`
 `;
 
 export const HeaderSubTitle = styled.div`
-    ${({theme}) => {
+    ${({ theme }) => {
         return `
             font-weight: 200;
             font-size: 30px;
             position: relative;
         `;
     }};
-
 `;
 
 interface Header {
@@ -26,7 +25,7 @@ interface Header {
 }
 
 const Header = styled.div<Header>`
-    ${({theme, backgroundImage}) => {
+    ${({ theme, backgroundImage }) => {
         return `
             display: flex;
             justify-content: flex-end;
@@ -41,7 +40,7 @@ const Header = styled.div<Header>`
         `;
     }};
 
-    ${({backgroundImage}) => {
+    ${({ backgroundImage }) => {
         if (backgroundImage) {
             return `
                 background-image: url('${backgroundImage}');
@@ -62,7 +61,6 @@ const Header = styled.div<Header>`
 
         return;
     }};
-
 `;
 
 export default Header;

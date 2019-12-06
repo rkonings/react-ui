@@ -16,7 +16,10 @@ export interface EventRange {
     onMouseOut(): void;
 }
 
-export const getEventRangeType = (event: Event, date: string): EventRangeType => {
+export const getEventRangeType = (
+    event: Event,
+    date: string
+): EventRangeType => {
     if (event.start === date) {
         return 'START';
     }
@@ -26,42 +29,45 @@ export const getEventRangeType = (event: Event, date: string): EventRangeType =>
     return 'MIDDLE';
 };
 
-const EventRange = styled(({className, children, onMouseOut, onMouseOver, event}: EventRange) => {
-    const ref = useRef<HTMLDivElement>(null);
-    const [, drag] = useDrag({
-        item: { type: ItemTypes.Event, id: event.id },
-        isDragging: (monitor) => {
-            return event.id === monitor.getItem().id;
-        },
-        collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-        }),
-    });
+const EventRange = styled(
+    ({ className, children, onMouseOut, onMouseOver, event }: EventRange) => {
+        const ref = useRef<HTMLDivElement>(null);
+        const [, drag] = useDrag({
+            item: { type: ItemTypes.Event, id: event.id },
+            isDragging: monitor => {
+                return event.id === monitor.getItem().id;
+            },
+            collect: monitor => ({
+                isDragging: monitor.isDragging(),
+            }),
+        });
 
-    drag(ref);
+        drag(ref);
 
-    return (
-        <div
-            ref={ref}
-            className={className}
-            onMouseOver={() => onMouseOver()}
-            onMouseOut={() => onMouseOut()}
-        >
-            {children}
-        </div>
-    );
-})`
-    background: ${({hover, theme: { color }}) => hover ? color.secondairy : color.primary};
-    color: ${({theme: { color }}) => color.white};
+        return (
+            <div
+                ref={ref}
+                className={className}
+                onMouseOver={() => onMouseOver()}
+                onMouseOut={() => onMouseOut()}
+            >
+                {children}
+            </div>
+        );
+    }
+)`
+    background: ${({ hover, theme: { color } }) =>
+        hover ? color.secondairy : color.primary};
+    color: ${({ theme: { color } }) => color.white};
     width: 100%;
-    padding-right:1px;
+    padding-right: 1px;
     height: 10px;
     display: flex;
     align-items: center;
     margin-bottom: 5px;
     /* box-sizing: border-box; */
 
-    ${({type = 'MIDDLE'}) => {
+    ${({ type = 'MIDDLE' }) => {
         if (type === 'START') {
             return `
                 width: 80%;
