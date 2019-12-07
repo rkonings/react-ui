@@ -8,18 +8,15 @@ import { Edit } from '../../Icon';
 import Checkbox from '../../Input/Checkbox/Checkbox';
 import Select from '../../Input/Select/Select';
 import Switch from '../../Input/Switch/Switch';
-import { Section, SettingsField, Title } from '../../SettingsField';
+import { Section, SettingsField } from '../../SettingsField';
 import { OnChangeHandler, User, ValidationErrors } from './../Settings';
 
 import ButtonGroup from '../../ButtonGroup/ButtonGroup';
 import { PopoverInput } from '../../CombinedInput/PopoverInput';
+import PopupInput from '../../CombinedInput/PopupInput';
 import TextField from '../../Input/TextField/TextField';
 
-import Popup, {
-    PopupContent,
-    PopupFooter,
-    PopupHeader,
-} from '../..//Popup/Popup';
+import { PopupContent, PopupFooter, PopupHeader } from '../..//Popup/Popup';
 
 interface BasicInfo {
     user: User;
@@ -179,29 +176,55 @@ export default ({ user, onChange, errors, validationSchema }: BasicInfo) => {
                     }
                 />
                 <SettingsField
-                    label="Signature"
+                    label="Security"
+                    description="Change your e-mail address"
                     input={
-                        <Popup
-                            width="300px"
-                            clickAway={true}
-                            link={<Button>Popup</Button>}
+                        <PopupInput<{ email: string }>
+                            link={<Button>Change</Button>}
+                            onChange={onChange}
+                            validationSchema={validationSchema}
+                            values={{
+                                email: user.email,
+                            }}
                         >
-                            {setOpen => (
+                            {({
+                                setOpen,
+                                errors,
+                                values,
+                                onChange,
+                                onSave,
+                                onCancel,
+                            }) => (
                                 <React.Fragment>
-                                    <PopupHeader>Store client</PopupHeader>
+                                    <PopupHeader>
+                                        Change email address
+                                    </PopupHeader>
                                     <PopupContent>
-                                        Are u sure to save this client?
+                                        <InputField>
+                                            <TextField
+                                                value={values.email}
+                                                width="200px"
+                                                inputType="email"
+                                                onChange={e =>
+                                                    onChange(
+                                                        'email',
+                                                        e.currentTarget.value
+                                                    )
+                                                }
+                                                errorText={errors.get('email')}
+                                            />
+                                        </InputField>
                                     </PopupContent>
                                     <PopupFooter>
                                         <ButtonGroup>
                                             <TextButton
-                                                onClick={() => setOpen(false)}
+                                                onClick={() => onCancel()}
                                             >
                                                 cancel
                                             </TextButton>
                                             <Button
                                                 type="primary"
-                                                onClick={() => setOpen(false)}
+                                                onClick={() => onSave()}
                                             >
                                                 Save
                                             </Button>
@@ -209,7 +232,7 @@ export default ({ user, onChange, errors, validationSchema }: BasicInfo) => {
                                     </PopupFooter>
                                 </React.Fragment>
                             )}
-                        </Popup>
+                        </PopupInput>
                     }
                 />
             </Section>
