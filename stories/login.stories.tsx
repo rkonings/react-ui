@@ -8,29 +8,29 @@ import Settings from '../src/UI/Settings';
 import faker from 'faker';
 
 storiesOf('UI/Forms', module)
-  .add('login', () => {
-    return <Login onLogin={action('login')} />;
-  })
-  .add('Create account', () => {
-    return <CreateAccount onCreate={action('Create account')} />;
-  });
+    .add('login', () => {
+        return <Login onLogin={action('login')} />;
+    })
+    .add('Create account', () => {
+        return <CreateAccount onCreate={action('Create account')} />;
+    });
 
 storiesOf('UI/Settings', module)
-  .addDecorator(StoryRouter())
-  .add('Settings', () => {
+    .addDecorator(StoryRouter())
+    .add('Settings', () => {
+        const user = {
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName(),
+            password: faker.hacker.adjective(),
+            email: faker.internet.email(),
+            settings: {
+                language: 'UK',
+                dateFormat: 'UK',
+                pushNotifications: true,
+                unscribeEmailLink: true,
+                signature: faker.lorem.words(4),
+            },
+        };
 
-    const user = {
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      settings: {
-        language: 'UK',
-        dateFormat: 'UK',
-        pushNotifications: true,
-        unscribeEmailLink: true,
-        signature: faker.lorem.words(4)
-      }
-
-    };
-
-    return <Settings onChange={action('change')} user={user} />;
-  });
+        return <Settings onChange={action('change')} user={user} />;
+    });
