@@ -3,17 +3,10 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import {
-    Route,
-    Switch,
-    useHistory,
-    useRouteMatch,
-    useLocation,
-    useParams,
-} from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { Navigation, NavigationItem } from '../Navigation';
 import BasicInfo from './Settings/BasicInfo';
 import ContactsCompanies from './Settings/ContactsCompanies';
-import { Navigation, NavigationItem } from '../Navigation';
 
 export interface UserSettings {
     language: string;
