@@ -135,7 +135,7 @@ const Settings = ({ className, user, onChange }: Settings) => {
                         Basic infomation
                     </NavigationItem>
                     <NavigationItem
-                        isActive={pathname === '/contact-companies'}
+                        isActive={pathname === '/contacts-companies'}
                         onClick={() => history.push('/contacts-companies')}
                     >
                         Clients &amp; Companies
