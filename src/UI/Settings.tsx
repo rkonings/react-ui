@@ -49,7 +49,6 @@ const UserSchema = Yup.object({
         language: Yup.string().required('is required'),
         dateFormat: Yup.string().required('is required'),
         pushNotifications: Yup.boolean().required('is required'),
-        signature: Yup.string().max(10),
     }),
 });
 
