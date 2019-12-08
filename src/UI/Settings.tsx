@@ -152,17 +152,6 @@ const Settings = ({ className, user, onChange }: Settings) => {
             <Content>
                 <Switch>
                     <Route
-                        path="/basic"
-                        render={() => (
-                            <BasicInfo
-                                onChange={onChangeHandler}
-                                user={data}
-                                errors={errors}
-                                validationSchema={UserSchema}
-                            />
-                        )}
-                    />
-                    <Route
                         path="/contacts-companies"
                         render={() => <ContactsCompanies />}
                     />
