@@ -3,9 +3,17 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 
-import { Link, Route, Switch } from 'react-router-dom';
+import {
+    Route,
+    Switch,
+    useHistory,
+    useRouteMatch,
+    useLocation,
+    useParams,
+} from 'react-router-dom';
 import BasicInfo from './Settings/BasicInfo';
 import ContactsCompanies from './Settings/ContactsCompanies';
+import { Navigation, NavigationItem } from '../Navigation';
 
 export interface UserSettings {
     language: string;
@@ -93,6 +101,8 @@ export const mapValidationErrors = (error: Yup.ValidationError) => {
 const Settings = ({ className, user, onChange }: Settings) => {
     const [data, setData] = React.useState<User>(user);
     const [errors, setErrors] = React.useState<ValidationErrors>(new Map());
+    const history = useHistory();
+    const { pathname } = useLocation();
 
     const onChangeHandler = async (
         items: ChangedItems,
@@ -124,16 +134,20 @@ const Settings = ({ className, user, onChange }: Settings) => {
     return (
         <div className={className}>
             <Nav>
-                <ul>
-                    <li>
-                        <Link to="/basic">BasicInfo</Link>
-                    </li>
-                    <li>
-                        <Link to="/contacts-companies">
-                            Clients &amp; Companies
-                        </Link>
-                    </li>
-                </ul>
+                <Navigation>
+                    <NavigationItem
+                        isActive={pathname === '/'}
+                        onClick={() => history.push('/')}
+                    >
+                        Basic infomation
+                    </NavigationItem>
+                    <NavigationItem
+                        isActive={pathname === '/contact-companies'}
+                        onClick={() => history.push('/contacts-companies')}
+                    >
+                        Clients &amp; Companies
+                    </NavigationItem>
+                </Navigation>
             </Nav>
             <Content>
                 <Switch>
