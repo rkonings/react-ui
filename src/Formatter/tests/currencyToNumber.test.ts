@@ -20,5 +20,4 @@ describe('currencyToNumber', () => {
         const result = currencyToNumber('€1mln');
         expect(result).toBe(1000000);
     });
-
 });

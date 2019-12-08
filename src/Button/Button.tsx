@@ -3,12 +3,10 @@ import styled from 'styled-components';
 import { BaseButton } from './BaseButton';
 
 export const Button = (props: BaseButton): JSX.Element => {
-    return (
-        <BaseButton {...props} />
-    );
+    return <BaseButton {...props} />;
 };
 
-const ButtonColorStyle = ({active, theme, type = 'default'}: BaseButton) => {
+const ButtonColorStyle = ({ active, theme, type = 'default' }: BaseButton) => {
     const style = theme.button[type];
     const state = active ? 'active' : 'default';
     const color = style[state].text;
@@ -20,8 +18,14 @@ const ButtonColorStyle = ({active, theme, type = 'default'}: BaseButton) => {
     `;
 };
 
-export const ButtonStyleHover = ({ theme, type = 'default', isLoading }: BaseButton) => {
-    if (isLoading) { return; }
+export const ButtonStyleHover = ({
+    theme,
+    type = 'default',
+    isLoading,
+}: BaseButton) => {
+    if (isLoading) {
+        return;
+    }
     const style = theme.button[type];
     const color = style.hover.text;
     const background = style.hover.main;
@@ -73,7 +77,6 @@ const ButtonStyleIcon = ({ theme, type = 'default' }: BaseButton) => {
             fill: ${color};
         }
     `;
-
 };
 
 /* Button hover effects: https://codepen.io/ritchiejacobs/pen/qEJjBM */

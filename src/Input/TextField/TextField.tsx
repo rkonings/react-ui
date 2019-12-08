@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Theme from '../../interfaces/Theme';
-import { Size  } from '../../interfaces/Theme';
+import { Size } from '../../interfaces/Theme';
 import { ErrorText, HelperText } from '../Core';
 
 const DEFAULT_TYPE = 'text';
@@ -22,6 +22,7 @@ export interface TextFieldProps extends HelperText, ErrorText {
     name?: string;
     size?: Size;
     grow?: boolean;
+    label?: string | JSX.Element;
     prefix?: string | JSX.Element;
     postfix?: string | JSX.Element;
     style?: TextFieldStyle;
@@ -43,28 +44,45 @@ const Postfix = styled.span`
     margin-left: 5px;
 `;
 
+const Label = styled.span`
+    display: block;
+    width: 100%;
+    font-weight: 500;
+`;
+
 interface Label {
     focus: boolean;
     disabled?: boolean;
     errorText?: string;
     _style?: TextFieldStyle;
 }
-const Label = styled.label<Label>`
-
+const Wrapper = styled.label<Label>`
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
-    transition : border 500ms ease-out;
+    transition: border 500ms ease-out;
 
-    ${({theme: {input: { textField, error }}, errorText = false, disabled, _style = 'default'}) => {
-         let border = 'border-bottom';
+    ${({
+        theme: {
+            input: { textField, error },
+        },
+        errorText = false,
+        disabled,
+        _style = 'default',
+    }) => {
+        let border = 'border-bottom';
         if (_style === 'outlined') {
             border = 'border';
         }
 
-        const borderColor = errorText ? error.color : textField.default.hover.borderColor;
+        const borderColor = errorText
+            ? error.color
+            : textField.default.hover.borderColor;
 
-        return disabled ? null : `
+        return disabled
+            ? null
+            : `
             &:hover {
                 ${border}: ${textField.borderSize} solid ${borderColor};
                 color: ${textField.default.hover.color};
@@ -72,11 +90,19 @@ const Label = styled.label<Label>`
         `;
     }}
 
-    ${({theme: {input: { textField, error }}, errorText = false, focus, _style = 'default'}) => {
-
+    ${({
+        theme: {
+            input: { textField, error },
+        },
+        errorText = false,
+        focus,
+        _style = 'default',
+    }) => {
         const type = 'default';
         const state = focus ? 'focus' : 'default';
-        const borderColor = errorText ? error.color : textField[type][state].borderColor;
+        const borderColor = errorText
+            ? error.color
+            : textField[type][state].borderColor;
 
         let border = 'border-bottom';
         if (_style === 'outlined') {
@@ -87,19 +113,36 @@ const Label = styled.label<Label>`
             ${border}: ${textField.borderSize} solid ${borderColor};
         `;
     }}
-
 `;
 
-const TextField = ({className, value, placeHolder, onChange, onKeyDown, onBlur, onFocus, name, style, readOnly,
-    helperText, errorText, autoFocus, disabled, inputType = DEFAULT_TYPE, prefix, postfix}: TextFieldProps) => {
+const TextField = ({
+    className,
+    value,
+    placeHolder,
+    onChange,
+    onKeyDown,
+    onBlur,
+    onFocus,
+    name,
+    style,
+    readOnly,
+    helperText,
+    errorText,
+    autoFocus,
+    disabled,
+    inputType = DEFAULT_TYPE,
+    prefix,
+    postfix,
+    label,
+}: TextFieldProps) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [focus, setFocus] = React.useState<boolean>(false);
 
     React.useEffect(() => {
         if (autoFocus && inputRef && inputRef.current) {
-          inputRef.current.focus();
+            inputRef.current.focus();
         }
-      }, [autoFocus]);
+    }, [autoFocus]);
 
     const onFocusHandler = (e: React.FormEvent<HTMLInputElement>) => {
         setFocus(true);
@@ -117,12 +160,14 @@ const TextField = ({className, value, placeHolder, onChange, onKeyDown, onBlur, 
 
     return (
         <div className={className}>
-            <Label focus={focus} disabled={disabled} errorText={errorText} _style={style}>
-                {prefix && (
-                    <Prefix>
-                        {prefix}
-                    </Prefix>
-                )}
+            {label && <Label>{label}</Label>}
+            <Wrapper
+                focus={focus}
+                disabled={disabled}
+                errorText={errorText}
+                _style={style}
+            >
+                {prefix && <Prefix>{prefix}</Prefix>}
                 <input
                     readOnly={readOnly}
                     name={name}
@@ -136,21 +181,26 @@ const TextField = ({className, value, placeHolder, onChange, onKeyDown, onBlur, 
                     disabled={disabled}
                     onKeyDown={onKeyDown}
                 />
-                {postfix && (
-                    <Postfix>
-                        {postfix}
-                    </Postfix>
-                )}
-            </Label>
+                {postfix && <Postfix>{postfix}</Postfix>}
+            </Wrapper>
             {helperText && !errorText && <HelperText>{helperText}</HelperText>}
             {errorText && <ErrorText>{errorText}</ErrorText>}
         </div>
     );
-
 };
 
-const BaseStyle = ({theme: {input: { textField }}, width: _width = '300px', grow: _grow = false, textAlign = 'left',
-prefix, postfix, size = 'm'}: TextFieldProps) => {
+const BaseStyle = ({
+    theme: {
+        input: { textField },
+    },
+    width: _width = '300px',
+    grow: _grow = false,
+    textAlign = 'left',
+    prefix,
+    postfix,
+    size = 'm',
+    style = 'default',
+}: TextFieldProps) => {
     const type = 'default';
     const grow = _grow ? 'flex: 1;' : '';
     const width = !_grow ? 'width: ' + _width + ';' : '';
@@ -167,33 +217,51 @@ prefix, postfix, size = 'm'}: TextFieldProps) => {
             width: 100%;
             box-sizing: border-box;
             font-size: ${textField.size[size]}px;
-            padding: 1em;
+            padding: ${style === 'default' ? '1em 1em 1em 0' : '1em'};
             ${postfix ? 'padding-right: 0' : ''};
             ${prefix ? 'padding-left: 0' : ''};
 
-            &::-webkit-input-placeholde { color: ${textField[type].default.placeholderColor}; }
-            &::-moz-placeholder { color: ${textField[type].default.placeholderColor}; }
-            &:-ms-input-placeholder { color: ${textField[type].default.placeholderColor}; }
+            &::-webkit-input-placeholde { color: ${
+                textField[type].default.placeholderColor
+            }; }
+            &::-moz-placeholder { color: ${
+                textField[type].default.placeholderColor
+            }; }
+            &:-ms-input-placeholder { color: ${
+                textField[type].default.placeholderColor
+            }; }
             &::placeholder {
                 transition : opacity 200ms ease-out;
                 opacity:1;
                 color: ${textField[type].default.placeholderColor};
             }
-            &::-ms-input-placeholder { color: ${textField[type].default.placeholderColor}; }
+            &::-ms-input-placeholder { color: ${
+                textField[type].default.placeholderColor
+            }; }
         }
 
     `;
-
 };
 
 const StyledTextField = styled(TextField)`
-
     ${BaseStyle};
 
-    ${({theme: {input: { textField }}}) => {
+    ${({
+        style = 'default',
+        label,
+        theme: {
+            input: { textField },
+        },
+    }) => {
         const type = 'default';
-
+        const marginTop = style === 'default' || !label ? '0' : '1em';
         return `
+
+            ${Wrapper} {
+                margin-top: ${marginTop}
+
+            }
+
             input {
 
                 &:read-only {
@@ -218,7 +286,6 @@ const StyledTextField = styled(TextField)`
 
         `;
     }};
-
 `;
 
 export default StyledTextField;

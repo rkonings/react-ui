@@ -8,7 +8,7 @@ import { moveEventToDate } from './helpers/moveEventToDate';
 import { Event } from './interfaces';
 
 export const ItemTypes = {
-    Event: 'event'
+    Event: 'event',
 };
 
 interface EventCalendarState {
@@ -20,27 +20,27 @@ interface EventCalendarState {
 }
 
 type EventCalendarAction =
-  | { type: 'dragOver', date: string; }
-  | { type: 'changeEventDate', id: string, date: string }
-  | { type: 'hoverEvent'; event: Event | null };
+    | { type: 'dragOver'; date: string }
+    | { type: 'changeEventDate'; id: string; date: string }
+    | { type: 'hoverEvent'; event: Event | null };
 
 export const sortEvents = (events: Event[]) => {
     events.sort((a, b) => {
         const primarySort = moment(a.start).unix() - moment(b.start).unix();
         if (primarySort !== 0) {
-           return primarySort;
+            return primarySort;
         }
 
         const diffA = moment(a.end).diff(moment(a.start), 'days');
         const diffB = moment(b.end).diff(moment(b.start), 'days');
 
         return diffB - diffA;
-     });
+    });
 };
 
 export const getAvailableIndex = (events: Event[]) => {
     for (let i = 0; i <= events.length; i++) {
-        if (events.findIndex((event) => event.index === i) === -1) {
+        if (events.findIndex(event => event.index === i) === -1) {
             return i;
         }
     }
@@ -49,7 +49,7 @@ export const getAvailableIndex = (events: Event[]) => {
 };
 
 export const prepareEvents = (events: Event[]) => {
-    events.forEach((event) => event.index = 0);
+    events.forEach(event => (event.index = 0));
     sortEvents(events);
 
     const queue = [...events];
@@ -63,11 +63,9 @@ export const prepareEvents = (events: Event[]) => {
         event.index = availableIndex;
 
         processed.push(event);
-
     }
 
     return processed;
-
 };
 
 const reducer = (state: EventCalendarState, action: EventCalendarAction) => {
@@ -75,33 +73,37 @@ const reducer = (state: EventCalendarState, action: EventCalendarAction) => {
         case 'hoverEvent':
             return {
                 ...state,
-                hoverEvent: action.event
+                hoverEvent: action.event,
             };
 
         case 'dragOver':
             return {
                 ...state,
-                dragOver: action.date
+                dragOver: action.date,
             };
 
         case 'changeEventDate':
-            const result = moveEventToDate([...state.events], action.id, action.date);
+            const result = moveEventToDate(
+                [...state.events],
+                action.id,
+                action.date
+            );
             const events = prepareEvents(result);
 
             return {
                 ...state,
                 dragOver: action.date,
-                events
+                events,
             };
 
-      default:
-        return state;
+        default:
+            return state;
     }
-  };
+};
 
-  export const StateContext = createContext<[EventCalendarState,
-    React.Dispatch<EventCalendarAction>]>([{} as EventCalendarState,
-        (action: EventCalendarAction) => null ]);
+export const StateContext = createContext<
+    [EventCalendarState, React.Dispatch<EventCalendarAction>]
+>([{} as EventCalendarState, (action: EventCalendarAction) => null]);
 
 export const useStateValue = () => useContext(StateContext);
 interface EventCalendar {
@@ -109,22 +111,21 @@ interface EventCalendar {
     year: number;
     month: number;
 }
-const EventCalendar = ({events, year, month}: EventCalendar) => {
-
+const EventCalendar = ({ events, year, month }: EventCalendar) => {
     prepareEvents(events);
 
     const initialState: EventCalendarState = {
         hoverEvent: null,
         events,
         year,
-        month
+        month,
     };
 
     return (
         <DndProvider backend={HTML5Backend}>
             <StateContext.Provider value={useReducer(reducer, initialState)}>
                 <div>
-                    <Calendar year={year} month={month}  />
+                    <Calendar year={year} month={month} />
                 </div>
             </StateContext.Provider>
         </DndProvider>

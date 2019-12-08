@@ -18,26 +18,40 @@ interface Day {
     onClick(selectedDate: moment.Moment): void;
 }
 
-export default styled(({className, day, month, year, inCurrentMonth,
-    isDisabled, onClick, onChangePotentialRange}: Day) => {
-    return (
-        <div
-            onClick={() => {
-                if (inCurrentMonth && !isDisabled) {
-                    onClick(moment([year, month, day]));
-                }
-            }}
-            onMouseOver={() => {
-                if (inCurrentMonth && !isDisabled && onChangePotentialRange) {
-                    onChangePotentialRange(moment([year, month, day]));
-                }
-            }}
-            className={className}
-        >
-            {day}
-        </div>
-    );
-})`
+export default styled(
+    ({
+        className,
+        day,
+        month,
+        year,
+        inCurrentMonth,
+        isDisabled,
+        onClick,
+        onChangePotentialRange,
+    }: Day) => {
+        return (
+            <div
+                onClick={() => {
+                    if (inCurrentMonth && !isDisabled) {
+                        onClick(moment([year, month, day]));
+                    }
+                }}
+                onMouseOver={() => {
+                    if (
+                        inCurrentMonth &&
+                        !isDisabled &&
+                        onChangePotentialRange
+                    ) {
+                        onChangePotentialRange(moment([year, month, day]));
+                    }
+                }}
+                className={className}
+            >
+                {day}
+            </div>
+        );
+    }
+)`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,20 +59,27 @@ export default styled(({className, day, month, year, inCurrentMonth,
     height: 40px;
     font-size: 12px;
 
-    ${({isSelected, isDisabled, inPotentialRange, inCurrentMonth,
-        isDayInRange, theme: { color, calendar: { day } }}) => {
+    ${({
+        isSelected,
+        isDisabled,
+        inPotentialRange,
+        inCurrentMonth,
+        isDayInRange,
+        theme: {
+            color,
+            calendar: { day },
+        },
+    }) => {
         if (inPotentialRange && inCurrentMonth) {
             return `
                 background: ${day.inPotentialRange.backgroundColor};
                 color: ${day.inPotentialRange.color};
             `;
-
         } else if (isSelected && inCurrentMonth) {
             return `
                 background: ${day.selected.backgroundColor};
                 color: ${day.selected.color};
             `;
-
         } else if (isDisabled && inCurrentMonth) {
             return `
                 background: ${day.disabled.backgroundColor};
@@ -80,7 +101,14 @@ export default styled(({className, day, month, year, inCurrentMonth,
         return;
     }}
 
-    ${({isDisabled, inCurrentMonth, theme: { color, calendar: { day} }}) => {
+    ${({
+        isDisabled,
+        inCurrentMonth,
+        theme: {
+            color,
+            calendar: { day },
+        },
+    }) => {
         if (!isDisabled && inCurrentMonth) {
             return `
                 cursor: pointer;

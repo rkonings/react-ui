@@ -4,7 +4,7 @@ import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
 
 import { XYCoord } from 'dnd-core';
 import styled from 'styled-components';
-import { GripHorizontal } from '../Icon' ;
+import { GripHorizontal } from '../Icon';
 import StyledSelect from '../Input/Select/Select';
 import StyledTextField from '../Input/TextField/TextField';
 import { DESTINATION } from './helpers';
@@ -14,7 +14,11 @@ import { GroupData } from './SortableGroup';
 export interface Item {
     name: string;
     id: string;
-    sortItems: (dragId: string, destinationId: string, mode: DESTINATION) => void;
+    sortItems: (
+        dragId: string,
+        destinationId: string,
+        mode: DESTINATION
+    ) => void;
     onDragOver?(id: string): void;
 }
 
@@ -27,7 +31,7 @@ export interface ItemData {
 const DragPlaceHolder = styled.div`
     height: 60px;
     width: 100%;
-    background: ${({theme: { color }}) => color.gray10 };
+    background: ${({ theme: { color } }) => color.gray10};
 `;
 
 interface ItemProps {
@@ -36,12 +40,12 @@ interface ItemProps {
 
 const Item = styled.div<ItemProps>`
     width: 100%;
-    display:flex;
+    display: flex;
     flex-direction: row;
     align-items: center;
     font-size: 12px;
     height: 60px;
-    background: ${({theme: { color }}) => color.white};
+    background: ${({ theme: { color } }) => color.white};
 `;
 
 const Handle = styled.div`
@@ -50,7 +54,7 @@ const Handle = styled.div`
     cursor: move;
 
     svg {
-        fill: ${({theme: { color }}) => color.gray80 }
+        fill: ${({ theme: { color } }) => color.gray80};
     }
 `;
 
@@ -58,7 +62,7 @@ const Column = styled.div`
     padding-right: 10px;
 `;
 
-export default ({name, id, sortItems}: Item) => {
+export default ({ name, id, sortItems }: Item) => {
     const ref = useRef<HTMLDivElement>(null);
     const [, drop] = useDrop({
         accept: [ItemTypes.ITEM, ItemTypes.GROUP],
@@ -83,7 +87,8 @@ export default ({name, id, sortItems}: Item) => {
             const clientOffset = monitor.getClientOffset();
 
             // Get pixels to the top
-            const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+            const hoverClientY =
+                (clientOffset as XYCoord).y - hoverBoundingRect.top;
 
             if (hoverClientY < hoverMiddleY) {
                 sortItems(dragItem.id, id, 'BEFORE');
@@ -95,10 +100,10 @@ export default ({name, id, sortItems}: Item) => {
 
     const [{ isDragging }, drag, preview] = useDrag({
         item: { type: ItemTypes.ITEM, id },
-        isDragging: (monitor) => {
+        isDragging: monitor => {
             return id === monitor.getItem().id;
         },
-        collect: (monitor) => ({
+        collect: monitor => ({
             isDragging: monitor.isDragging(),
         }),
     });
@@ -114,13 +119,24 @@ export default ({name, id, sortItems}: Item) => {
                         <GripHorizontal />
                     </Handle>
                     <Column>
-                        <StyledSelect options={['Pagetitle', 'URL']} size={'xs'} width="250px" />
+                        <StyledSelect
+                            options={['Pagetitle', 'URL']}
+                            size={'xs'}
+                            width="250px"
+                        />
                     </Column>
                     <Column>
-                        <StyledSelect options={['=', '>']} size={'xs'} width="75px" />
+                        <StyledSelect
+                            options={['=', '>']}
+                            size={'xs'}
+                            width="75px"
+                        />
                     </Column>
                     <Column>
-                        <StyledTextField placeHolder={'enter a page title'} size={'xs'} />
+                        <StyledTextField
+                            placeHolder={'enter a page title'}
+                            size={'xs'}
+                        />
                     </Column>
                 </React.Fragment>
             )}

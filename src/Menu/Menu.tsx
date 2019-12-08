@@ -6,12 +6,21 @@ interface MenuItem {
 
 export const MenuItem = styled.a<MenuItem>`
     padding: 15px 25px;
-    color: ${({theme: { menu: { item } }}) => item.default.color };
+    color: ${({
+        theme: {
+            menu: { item },
+        },
+    }) => item.default.color};
     display: flex;
     cursor: pointer;
     font-size: 14px;
 
-    ${({theme: { menu : { item }}, isActive}) => {
+    ${({
+        theme: {
+            menu: { item },
+        },
+        isActive,
+    }) => {
         if (isActive) {
             return `
                 background: ${item.active.backgroundColor};
@@ -19,16 +28,21 @@ export const MenuItem = styled.a<MenuItem>`
             `;
         }
         return;
-
     }};
 
     &:hover {
-        ${({theme: { menu: {item: { hover}} }}) => {
+        ${({
+            theme: {
+                menu: {
+                    item: { hover },
+                },
+            },
+        }) => {
             return `
                 background: ${hover.backgroundColor};
                 color: ${hover.color};
             `;
-        } }
+        }}
     }
 `;
 
@@ -37,7 +51,7 @@ interface Menu {
 }
 
 export const Menu = styled.div<Menu>`
-    ${({theme: { menu}, dropShadow}) => {
+    ${({ theme: { menu }, dropShadow }) => {
         const shadowCSS = dropShadow ? `box-shadow: ${menu.boxShadow};` : null;
         return `
             background: ${menu.backgroundColor};
@@ -46,7 +60,7 @@ export const Menu = styled.div<Menu>`
     }}
 
     width: 100%;
-    display:flex;
+    display: flex;
     flex-direction: column;
     min-width: 200px;
 `;

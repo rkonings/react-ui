@@ -30,44 +30,45 @@ const EventPlaceHolder = styled.div`
 const EventsWrapper = styled.div`
     position: absolute;
     top: 40px;
-    left:0;
+    left: 0;
     width: 100%;
 `;
 
-const getOrderEvents = (events: Event[], amount: number = 5 ) => {
-    const ordered: Array<null|Event> = Array(amount).fill(null);
+const getOrderEvents = (events: Event[], amount: number = 5) => {
+    const ordered: Array<null | Event> = Array(amount).fill(null);
     for (let index = 0; index < amount; index++) {
-        const eventOnIndex = events.find((event) => event.index === index);
+        const eventOnIndex = events.find(event => event.index === index);
         if (eventOnIndex) {
             ordered[index] = eventOnIndex;
         }
     }
     return ordered;
-
 };
 
-export default styled(({className, day, date, isInMonth}: Day) => {
-
+export default styled(({ className, day, date, isInMonth }: Day) => {
     const [{ hoverEvent, dragOver, events }, dispatch] = useStateValue();
     const ref = useRef<HTMLDivElement>(null);
 
     const eventRangeMouseOverHandler = (event: Event) => {
         dispatch({
             type: 'hoverEvent',
-            event
+            event,
         });
     };
 
     const eventRangeMouseOutHandler = () => {
         dispatch({
             type: 'hoverEvent',
-            event: null
+            event: null,
         });
     };
 
     const [, drop] = useDrop({
         accept: [ItemTypes.Event],
-        hover(dragItem: { type: string; id: string }, monitor: DropTargetMonitor) {
+        hover(
+            dragItem: { type: string; id: string },
+            monitor: DropTargetMonitor
+        ) {
             if (!ref.current) {
                 return;
             }
@@ -79,7 +80,7 @@ export default styled(({className, day, date, isInMonth}: Day) => {
             dispatch({
                 type: 'changeEventDate',
                 id: dragItem.id,
-                date
+                date,
             });
         },
     });
@@ -93,19 +94,26 @@ export default styled(({className, day, date, isInMonth}: Day) => {
 
     return (
         <div ref={ref} className={className}>
-            <Inner>
-                {day}
-            </Inner>
+            <Inner>{day}</Inner>
             {ordered && (
                 <EventsWrapper>
-                    {ordered.map( (event, key) => {
+                    {ordered.map((event, key) => {
                         if (event) {
                             return (
                                 <EventRange
                                     event={event}
-                                    hover={!!(hoverEvent && event.id === hoverEvent.id)}
-                                    onMouseOver={() => eventRangeMouseOverHandler(event)}
-                                    onMouseOut={() => eventRangeMouseOutHandler()}
+                                    hover={
+                                        !!(
+                                            hoverEvent &&
+                                            event.id === hoverEvent.id
+                                        )
+                                    }
+                                    onMouseOver={() =>
+                                        eventRangeMouseOverHandler(event)
+                                    }
+                                    onMouseOut={() =>
+                                        eventRangeMouseOutHandler()
+                                    }
                                     type={getEventRangeType(event, date)}
                                     key={key}
                                 />
@@ -113,7 +121,6 @@ export default styled(({className, day, date, isInMonth}: Day) => {
                         } else {
                             return <EventPlaceHolder key={key} />;
                         }
-
                     })}
                 </EventsWrapper>
             )}
@@ -125,9 +132,9 @@ export default styled(({className, day, date, isInMonth}: Day) => {
     box-sizing: border-box;
     position: relative;
     font-size: 12px;
-    color: ${({theme: { color }}) => color.gray80};
-    border: 1px solid ${({theme: { color }}) => color.gray20};
+    color: ${({ theme: { color } }) => color.gray80};
+    border: 1px solid ${({ theme: { color } }) => color.gray20};
     border-left: none;
     border-top: none;
-    ${({isInMonth}) => isInMonth ? null : 'opacity: 0.3;'}
+    ${({ isInMonth }) => (isInMonth ? null : 'opacity: 0.3;')}
 `;

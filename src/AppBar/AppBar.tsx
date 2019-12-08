@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 export const AppBarTitle = styled.h6`
-    display:flex;
+    display: flex;
     flex-grow: 1;
     font-size: 14px;
     font-weight: 400;
@@ -14,14 +14,9 @@ interface AppBar {
     fixed?: boolean;
 }
 
-const AppBar = styled(({className, children}: AppBar) => {
-    return (
-        <div className={className}>
-            {children}
-        </div>
-    );
+const AppBar = styled(({ className, children }: AppBar) => {
+    return <div className={className}>{children}</div>;
 })`
-
     display: flex;
     width: 100%;
     height: 50px;
@@ -29,7 +24,7 @@ const AppBar = styled(({className, children}: AppBar) => {
     padding: 0 20px;
     box-sizing: border-box;
 
-    ${({fixed}) => {
+    ${({ fixed }) => {
         if (fixed) {
             return `
                 position: fixed;
@@ -40,13 +35,12 @@ const AppBar = styled(({className, children}: AppBar) => {
         return '';
     }}
 
-    ${({theme: { color }}) => {
+    ${({ theme: { color } }) => {
         return `
             background: ${color.gray120};
             color: ${color.white};
         `;
     }};
-
 `;
 
 export default AppBar;

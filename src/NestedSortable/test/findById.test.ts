@@ -12,7 +12,7 @@ describe('findById', () => {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
                 id: 'FOO',
-            }
+            },
         ];
         const result = findById(data, 'FOO');
 
@@ -40,26 +40,25 @@ describe('findById', () => {
                             {
                                 type: ItemTypes.ITEM,
                                 id: 'BAZZFOODOO',
-                                name: 'BAZZFOODOO'
-                            }
-                        ]
-
-                    }
+                                name: 'BAZZFOODOO',
+                            },
+                        ],
+                    },
                 ],
-                id: 'BAZZ'
+                id: 'BAZZ',
             },
             {
                 type: ItemTypes.ITEM,
                 name: 'FOO',
                 id: 'FOO',
-            }
+            },
         ];
         const result = findById(data, 'BAZZFOODOO');
 
         expect(result).toEqual({
             type: ItemTypes.ITEM,
             id: 'BAZZFOODOO',
-            name: 'BAZZFOODOO'
+            name: 'BAZZFOODOO',
         });
     });
 });

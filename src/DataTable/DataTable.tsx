@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { memo, useState } from 'react';
-import { areEqual, VariableSizeGrid, VariableSizeGrid as Grid } from 'react-window';
+import {
+    areEqual,
+    VariableSizeGrid,
+    VariableSizeGrid as Grid,
+} from 'react-window';
 import styled from 'styled-components';
 import useTheme from '../hooks/useTheme';
 import { ArrowDown, ArrowLeft, ArrowUp } from '../Icon/index';
@@ -61,55 +65,60 @@ interface CellProps {
     style: React.CSSProperties;
 }
 
-const Cell = memo(({ data, rowIndex, columnIndex, style, className }: CellProps) => {
-    const { setSelectedItems, rows, selected, fields, columns } = data;
-    const row = rows[rowIndex];
-    const column = columns[columnIndex];
+const Cell = memo(
+    ({ data, rowIndex, columnIndex, style, className }: CellProps) => {
+        const { setSelectedItems, rows, selected, fields, columns } = data;
+        const row = rows[rowIndex];
+        const column = columns[columnIndex];
 
-    let content;
+        let content;
 
-    switch (column.type) {
-        case 'TOOLBAR':
-            content = column.toolbar && column.toolbar(row);
-        break;
-        case 'SELECT':
-            content = (
-                <CheckBox
-                    checked={selected.has(row.data)}
-                    onChange={() => setSelectedItems(row.data)}
-                    type={'primary'}
-                />
-            );
-        break;
-        case 'DATA':
-        default:
-            const field = fields.find( (f) => f.name === column.fieldName);
-            if (field) {
-                content = row.data[field.name];
-            }
+        switch (column.type) {
+            case 'TOOLBAR':
+                content = column.toolbar && column.toolbar(row);
+                break;
+            case 'SELECT':
+                content = (
+                    <CheckBox
+                        checked={selected.has(row.data)}
+                        onChange={() => setSelectedItems(row.data)}
+                        type={'primary'}
+                    />
+                );
+                break;
+            case 'DATA':
+            default:
+                const field = fields.find(f => f.name === column.fieldName);
+                if (field) {
+                    content = row.data[field.name];
+                }
 
-        break;
-    }
+                break;
+        }
 
-    return (
-      <div
-        className={className}
-        style={style}
-      >
-        {content}
-      </div>
-    );
-}, areEqual);
+        return (
+            <div className={className} style={style}>
+                {content}
+            </div>
+        );
+    },
+    areEqual
+);
 
 const StyledCell = styled(Cell)<CellProps>`
     display: flex;
     align-items: center;
-    ${({rowIndex, theme: { table: { row }}}) => rowIndex % 2 ? `background: ${row.secondairyColor};` : `` }
+    ${({
+        rowIndex,
+        theme: {
+            table: { row },
+        },
+    }) => (rowIndex % 2 ? `background: ${row.secondairyColor};` : ``)}
     box-sizing: border-box;
     padding: 0 20px;
-    ${({data, columnIndex}) => {
+    ${({ data, columnIndex }) => {
         const column = data.columns[columnIndex];
-       return CellAlignment(column.align);
+        return CellAlignment(column.align);
     }};
 `;
 
@@ -119,22 +128,26 @@ interface HeaderCellProps {
 }
 
 const HeaderCell = styled.div<HeaderCellProps>`
-    width: ${({width}) => width}px;
-    ${({align = 'left'}) => CellAlignment(align)};
+    width: ${({ width }) => width}px;
+    ${({ align = 'left' }) => CellAlignment(align)};
     display: flex;
     align-items: center;
     box-sizing: border-box;
     padding: 0 20px;
     font-weight: bold;
 
-    ${({theme: { table: { header } }}) => {
+    ${({
+        theme: {
+            table: { header },
+        },
+    }) => {
         return `
             background: ${header.color};
             height: ${header.height}px;
             color: ${header.text};
             font-size: ${header.fontSize};
         `;
-    } };
+    }};
 `;
 
 interface HeaderCellSortableProps extends HeaderCellProps {
@@ -143,26 +156,33 @@ interface HeaderCellSortableProps extends HeaderCellProps {
     sortDirection?: string;
     currentSort?: boolean;
     onClick(e: React.MouseEvent): void;
-
 }
 
-const HeaderCellSortable = ({onClick, sortDirection, className, children, ...props}: HeaderCellSortableProps) => (
-
-        <HeaderCell {...props}>
-            <button className={className} onClick={onClick}>
-                {children}
-                {sortDirection === 'DESC' && <ArrowUp spacing={'left'} />}
-                {sortDirection === 'ASC' && <ArrowDown spacing={'left'} />}
-            </button>
-        </HeaderCell>
-
+const HeaderCellSortable = ({
+    onClick,
+    sortDirection,
+    className,
+    children,
+    ...props
+}: HeaderCellSortableProps) => (
+    <HeaderCell {...props}>
+        <button className={className} onClick={onClick}>
+            {children}
+            {sortDirection === 'DESC' && <ArrowUp spacing={'left'} />}
+            {sortDirection === 'ASC' && <ArrowDown spacing={'left'} />}
+        </button>
+    </HeaderCell>
 );
 
 const StyledHeaderCellSortable = styled(HeaderCellSortable)`
     border: none;
     border-radius: 0;
     padding: 0;
-    ${({theme: { table: { header } }}) => {
+    ${({
+        theme: {
+            table: { header },
+        },
+    }) => {
         return `
             background: ${header.color};
             height: ${header.height}px;
@@ -172,17 +192,17 @@ const StyledHeaderCellSortable = styled(HeaderCellSortable)`
             display: flex;
             align-items: center;
         `;
-    } };
+    }};
 
     &:hover {
         ${ArrowLeft}, ${ArrowDown} {
-            opacity: ${({currentSort}) => currentSort ? 1 : 0.8 };
+            opacity: ${({ currentSort }) => (currentSort ? 1 : 0.8)};
         }
     }
 
     ${ArrowLeft}, ${ArrowDown} {
-        animation: opacity .4s ease-in;;
-        opacity: ${({currentSort}) => currentSort ? 1 : 0.1 };
+        animation: opacity 0.4s ease-in;
+        opacity: ${({ currentSort }) => (currentSort ? 1 : 0.1)};
     }
 
     &:focus {
@@ -211,41 +231,63 @@ const getNewSortDirection = (sort: Sort, field: DataField) => {
         newSortDirection = 'ASC';
     }
 
-    return {field, direction: newSortDirection};
+    return { field, direction: newSortDirection };
 };
 
-const Header = ({fields, sort, setSort, className, columnWidth, toggleSelectAll, selectAll, columns}: HeaderProps) => {
+const Header = ({
+    fields,
+    sort,
+    setSort,
+    className,
+    columnWidth,
+    toggleSelectAll,
+    selectAll,
+    columns,
+}: HeaderProps) => {
     return (
         <div className={className}>
-        {
-            columns.map((column, index) => {
-
+            {columns.map((column, index) => {
                 switch (column.type) {
-
                     case 'SELECT':
                         return (
-                            <HeaderCell align={column.align} key={index} width={columnWidth(index)}>
-                                <CheckBox checked={selectAll} onChange={() => toggleSelectAll()} />
+                            <HeaderCell
+                                align={column.align}
+                                key={index}
+                                width={columnWidth(index)}
+                            >
+                                <CheckBox
+                                    checked={selectAll}
+                                    onChange={() => toggleSelectAll()}
+                                />
                             </HeaderCell>
                         );
-                    break;
+                        break;
                     case 'TOOLBAR':
                         return (
                             <HeaderCell
                                 align={column.align}
                                 width={columnWidth(index)}
                                 key={index}
-                            >&nbsp;
+                            >
+                                &nbsp;
                             </HeaderCell>
                         );
-                    break;
+                        break;
                     case 'DATA':
                     default:
-                        const field = fields.find( (f) => f.name === column.fieldName);
+                        const field = fields.find(
+                            f => f.name === column.fieldName
+                        );
                         if (field) {
                             if (column.sortable) {
-                                const sortDirection = sort.field === field ? sort.direction : 'ASC';
-                                const newSort = getNewSortDirection(sort, field);
+                                const sortDirection =
+                                    sort.field === field
+                                        ? sort.direction
+                                        : 'ASC';
+                                const newSort = getNewSortDirection(
+                                    sort,
+                                    field
+                                );
                                 return (
                                     <StyledHeaderCellSortable
                                         align={column.align}
@@ -258,7 +300,6 @@ const Header = ({fields, sort, setSort, className, columnWidth, toggleSelectAll,
                                         {field.display}
                                     </StyledHeaderCellSortable>
                                 );
-
                             }
                             return (
                                 <HeaderCell
@@ -271,16 +312,21 @@ const Header = ({fields, sort, setSort, className, columnWidth, toggleSelectAll,
                             );
                         }
 
-                    break;
+                        break;
                 }
 
-                return <HeaderCell align={column.align} width={columnWidth(index)} key={index}>&nbsp;</HeaderCell>;
-
-            })
-        }
+                return (
+                    <HeaderCell
+                        align={column.align}
+                        width={columnWidth(index)}
+                        key={index}
+                    >
+                        &nbsp;
+                    </HeaderCell>
+                );
+            })}
         </div>
     );
-
 };
 
 const StyledHeader = styled(Header)`
@@ -288,7 +334,10 @@ const StyledHeader = styled(Header)`
     width: 100%;
 `;
 
-const getColumnWidthByType = (column: Column, remainingwidth?: number): number => {
+const getColumnWidthByType = (
+    column: Column,
+    remainingwidth?: number
+): number => {
     if (column.type === 'SELECT') {
         return 50;
     }
@@ -306,18 +355,21 @@ const getColumnWidthByType = (column: Column, remainingwidth?: number): number =
     return width;
 };
 
-export const getDefaultSort = (columns: Column[], fields: DataField[]): Sort => {
+export const getDefaultSort = (
+    columns: Column[],
+    fields: DataField[]
+): Sort => {
     const DEFAULT_SORT: Sort = {
         direction: 'ASC',
-        field: fields[0]
+        field: fields[0],
     };
 
-    const column = columns.find( (column) => column.defaultSort === true);
+    const column = columns.find(column => column.defaultSort === true);
     if (column) {
-        const field = fields.find( (field) => field.name === column.fieldName);
+        const field = fields.find(field => field.name === column.fieldName);
         return {
             direction: column.defaultSortDirection || 'ASC',
-            field: field || fields[0]
+            field: field || fields[0],
         };
     }
 
@@ -333,8 +385,15 @@ const getRemainingColumnWidth = (columns: Column[], width: number) => {
     }, width);
 };
 
-const DataTable = ({data, sortHandler, fields, className, columns, width, height = 600}: DataTableProps) => {
-
+const DataTable = ({
+    data,
+    sortHandler,
+    fields,
+    className,
+    columns,
+    width,
+    height = 600,
+}: DataTableProps) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selected, setSelected] = useState<Set<Data>>(new Set());
     const defaultSort = getDefaultSort(columns, fields);
@@ -351,8 +410,8 @@ const DataTable = ({data, sortHandler, fields, className, columns, width, height
     };
 
     React.useEffect(() => {
-        if (ref ) {
-            const index = columns.findIndex((item) => !item.width );
+        if (ref) {
+            const index = columns.findIndex(item => !item.width);
             if (index > 0) {
                 ref.resetAfterColumnIndex(index);
             }
@@ -375,7 +434,7 @@ const DataTable = ({data, sortHandler, fields, className, columns, width, height
             setSelected(new Set());
             setSelectAll(false);
         } else {
-            setSelected(new Set(data.map((row) => row.data)));
+            setSelected(new Set(data.map(row => row.data)));
             setSelectAll(true);
         }
     };
@@ -401,18 +460,18 @@ const DataTable = ({data, sortHandler, fields, className, columns, width, height
                 toggleSelectAll={toggleSelectAll}
                 selectAll={selectAll}
                 fields={fields}
-                columnWidth={(index) => getColumnWidth(index)}
+                columnWidth={index => getColumnWidth(index)}
                 columns={columns}
                 sort={sort}
                 setSort={setSort}
             />
             <Grid
-                ref={(el) => {
+                ref={el => {
                     if (el) {
                         ref = el;
                     }
                 }}
-                columnWidth={(index) => getColumnWidth(index)}
+                columnWidth={index => getColumnWidth(index)}
                 overscanRowCount={20}
                 columnCount={columns.length}
                 rowHeight={() => theme.table.row.height}
@@ -422,19 +481,22 @@ const DataTable = ({data, sortHandler, fields, className, columns, width, height
                 height={height}
                 overscanCount={10}
             >
-            {StyledCell}
+                {StyledCell}
             </Grid>
         </div>
     );
-
 };
 
 export default styled(DataTable)`
-    ${({ theme: { fontFamily, table: { fontSize } } }) => {
+    ${({
+        theme: {
+            fontFamily,
+            table: { fontSize },
+        },
+    }) => {
         return `
             font-family: ${fontFamily};
             font-size: ${fontSize};
         `;
     }};
-
 `;
