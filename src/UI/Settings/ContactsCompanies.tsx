@@ -1,33 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import { Button } from '../../Button';
 import Checkbox from '../../Input/Checkbox/Checkbox';
 import Switch from '../../Input/Switch/Switch';
 import { Section, SettingsField, Title } from '../../SettingsField';
 import Tab, { TabContent } from '../../Tab/Tab';
-
-import ButtonGroup from '../../ButtonGroup/ButtonGroup';
-
-import TextButton from '../../Button/TextButton';
-import TextField from '../../Input/TextField/TextField';
-import Popover from '../../Popover/Popover';
-
-const InputControl = styled.div`
-    padding-bottom: 10px;
-
-    ${TextField} {
-        input {
-            background: none;
-        }
-    }
-`;
-
-const PopoverFooter = styled.div`
-    padding-top: 1em;
-    display: flex;
-    justify-content: flex-end;
-`;
 
 export default () => (
     <Tab active="clients">
