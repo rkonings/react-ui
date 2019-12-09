@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import * as Yup from 'yup';
 
 import { Button } from '../../Button';
@@ -16,6 +15,9 @@ import { PopoverInput } from '../../CombinedInput/PopoverInput';
 import PopupInput from '../../CombinedInput/PopupInput';
 import TextField from '../../Input/TextField/TextField';
 
+import { InputField } from '../../Form';
+
+import { PopoverFooter } from 'Popover/Popover';
 import { PopupContent, PopupFooter, PopupHeader } from '../..//Popup/Popup';
 
 interface BasicInfo {
@@ -24,22 +26,6 @@ interface BasicInfo {
     errors: ValidationErrors;
     validationSchema: Yup.ObjectSchema;
 }
-
-const InputField = styled.div`
-    padding-bottom: 2em;
-
-    ${TextField} {
-        input {
-            background: none;
-        }
-    }
-`;
-
-const PopoverFooter = styled.div`
-    padding-top: 1em;
-    display: flex;
-    justify-content: flex-end;
-`;
 
 export default ({ user, onChange, errors, validationSchema }: BasicInfo) => {
     return (
