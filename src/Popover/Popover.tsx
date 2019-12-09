@@ -9,6 +9,12 @@ interface Popover {
     link: JSX.Element;
 }
 
+export const PopoverFooter = styled.div`
+    padding-top: 1em;
+    display: flex;
+    justify-content: flex-end;
+`;
+
 const StyledClickAway = styled.div`
     position: fixed;
     top: 0;
