@@ -19,8 +19,8 @@ import TextField from '../../Input/TextField/TextField';
 
 import { InputField } from '../../Form';
 
-import { PopoverFooter } from 'Popover/Popover';
-import { PopupContent, PopupFooter, PopupHeader } from '../..//Popup/Popup';
+import { PopoverFooter } from '../../Popover/Popover';
+import { PopupContent, PopupFooter, PopupHeader } from '../../Popup/Popup';
 
 interface BasicInfo {
     user: User;
