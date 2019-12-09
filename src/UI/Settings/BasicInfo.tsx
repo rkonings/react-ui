@@ -3,12 +3,14 @@ import * as Yup from 'yup';
 
 import { Button } from '../../Button';
 import TextButton from '../../Button/TextButton';
+import { OnChangeHandler } from '../../Form';
 import { Edit } from '../../Icon';
 import Checkbox from '../../Input/Checkbox/Checkbox';
 import Select from '../../Input/Select/Select';
 import Switch from '../../Input/Switch/Switch';
 import { Section, SettingsField } from '../../SettingsField';
-import { OnChangeHandler, User, ValidationErrors } from './../Settings';
+import { ValidationErrors } from '../../Validation';
+import { User } from './../Settings';
 
 import ButtonGroup from '../../ButtonGroup/ButtonGroup';
 import { PopoverInput } from '../../CombinedInput/PopoverInput';
