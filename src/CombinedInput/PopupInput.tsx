@@ -93,21 +93,31 @@ export const PopupInput = <T extends {}>({
     };
 
     const onSave = (setOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
-        const values = Object.entries(inputValues).map(([key, value]) => ({
-            field: key,
-            value,
-        }));
-        if (inputErrors.size === 0) {
-            onChange(values as ChangedItems, { saveFields: true }, () => {
-                setOpen(false);
+        validationSchema
+            .validate(inputValues, { abortEarly: false })
+            .then(() => {
+                setInputErrors(new Map());
+                const values = Object.entries(inputValues).map(
+                    ([key, value]) => ({
+                        field: key,
+                        value,
+                    })
+                );
+                onChange(values as ChangedItems, { saveFields: true }, () => {
+                    setOpen(false);
+                });
+            })
+            .catch(error => {
+                const errors = mapValidationErrors(error);
+                setInputErrors(errors);
             });
-        }
     };
 
     const onCancel = (
         setOpen: React.Dispatch<React.SetStateAction<boolean>>
     ) => {
         setInputValues(values);
+        setInputErrors(new Map());
         setOpen(false);
     };
     return (
