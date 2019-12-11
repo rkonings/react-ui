@@ -5,12 +5,13 @@ import styled from 'styled-components';
 interface Popup {
     className?: string;
     width?: string;
+    isOpen?: boolean;
     height?: string;
     clickAway?: boolean;
     children: (
         close: React.Dispatch<React.SetStateAction<boolean>>
     ) => string | JSX.Element | JSX.Element[];
-    link: JSX.Element;
+    link?: JSX.Element;
 }
 
 export const PopupHeader = styled.div`
@@ -78,14 +79,20 @@ const Popup = ({
     children,
     width,
     height,
+    isOpen = false,
     clickAway,
 }: Popup) => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState();
     const focusTrap = useFocusTrap();
+
+    React.useEffect(() => {
+        setOpen(isOpen);
+    }, [isOpen]);
 
     return (
         <div className={className}>
-            {React.cloneElement(link, { onClick: () => setOpen(!open) })}
+            {link &&
+                React.cloneElement(link, { onClick: () => setOpen(!open) })}
             {open && (
                 <Overlay>
                     {clickAway && (
