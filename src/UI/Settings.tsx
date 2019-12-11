@@ -1,10 +1,11 @@
 import dotProp from 'dot-prop';
 import React from 'react';
 import styled from 'styled-components';
-import * as Yup from 'yup';
 
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { ChangedItems, ChangeOptions } from '../Form';
 import { Navigation, NavigationItem } from '../Navigation';
+import { ValidationErrors, Yup } from '../Validation';
 import BasicInfo from './Settings/BasicInfo';
 import ContactsCompanies from './Settings/ContactsCompanies';
 
@@ -23,22 +24,6 @@ export interface User {
     password: string;
     email: string;
 }
-
-export type ValidationErrors = Map<string, string>;
-export interface ChangedItem {
-    field: string;
-    value: string | boolean | number;
-}
-
-export interface ChangeOptions {
-    saveFields?: boolean;
-}
-export type ChangedItems = ChangedItem[];
-export type OnChangeHandler = (
-    items: ChangedItems,
-    options?: ChangeOptions,
-    callBack?: () => void
-) => void;
 
 const UserSchema = Yup.object({
     firstName: Yup.string().required('is required'),
