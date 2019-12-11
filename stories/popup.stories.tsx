@@ -11,35 +11,69 @@ import Popup, {
     PopupHeader,
 } from '../src/Popup/Popup';
 
-storiesOf('Popup', module).add('default', () => {
-    const width = text('width', '300px');
-    const clickAway = boolean('clickaway', true);
+storiesOf('Popup', module)
+    .add('default', () => {
+        const width = text('width', '300px');
+        const clickAway = boolean('clickaway', true);
 
-    return (
-        <Popup
-            width={width}
-            clickAway={clickAway}
-            link={<Button>Popup</Button>}
-        >
-            {setOpen => (
-                <React.Fragment>
-                    <PopupHeader>Store client</PopupHeader>
-                    <PopupContent>Are u sure to save this client?</PopupContent>
-                    <PopupFooter>
-                        <ButtonGroup>
-                            <TextButton onClick={() => setOpen(false)}>
-                                cancel
-                            </TextButton>
-                            <Button
-                                type="primary"
-                                onClick={() => setOpen(false)}
-                            >
-                                Save
-                            </Button>
-                        </ButtonGroup>
-                    </PopupFooter>
-                </React.Fragment>
-            )}
-        </Popup>
-    );
-});
+        return (
+            <Popup
+                width={width}
+                clickAway={clickAway}
+                link={<Button>Popup</Button>}
+            >
+                {setOpen => (
+                    <React.Fragment>
+                        <PopupHeader>Store client</PopupHeader>
+                        <PopupContent>
+                            Are u sure to save this client?
+                        </PopupContent>
+                        <PopupFooter>
+                            <ButtonGroup>
+                                <TextButton onClick={() => setOpen(false)}>
+                                    cancel
+                                </TextButton>
+                                <Button
+                                    type="primary"
+                                    onClick={() => setOpen(false)}
+                                >
+                                    Save
+                                </Button>
+                            </ButtonGroup>
+                        </PopupFooter>
+                    </React.Fragment>
+                )}
+            </Popup>
+        );
+    })
+    .add('no button', () => {
+        const width = text('width', '300px');
+        const clickAway = boolean('clickaway', true);
+        const isOpen = boolean('isOpen', true);
+
+        return (
+            <Popup width={width} isOpen={isOpen} clickAway={clickAway}>
+                {setOpen => (
+                    <React.Fragment>
+                        <PopupHeader>Store client</PopupHeader>
+                        <PopupContent>
+                            Are u sure to save this client?
+                        </PopupContent>
+                        <PopupFooter>
+                            <ButtonGroup>
+                                <TextButton onClick={() => setOpen(false)}>
+                                    cancel
+                                </TextButton>
+                                <Button
+                                    type="primary"
+                                    onClick={() => setOpen(false)}
+                                >
+                                    Save
+                                </Button>
+                            </ButtonGroup>
+                        </PopupFooter>
+                    </React.Fragment>
+                )}
+            </Popup>
+        );
+    });

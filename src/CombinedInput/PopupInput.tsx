@@ -47,8 +47,11 @@ interface PopoverInput<T> {
     onChange: OnChangeHandler;
     errors?: ValidationErrors;
     validationSchema: Yup.ObjectSchema;
+    width?: string;
+    height?: string;
+    isOpen?: boolean;
     values: T;
-    link: JSX.Element;
+    link?: JSX.Element;
     children: (
         props: PopupInputProps<T>
     ) => string | JSX.Element | JSX.Element[];
@@ -61,6 +64,9 @@ export const PopupInput = <T extends {}>({
     errors,
     validationSchema,
     link,
+    isOpen,
+    width,
+    height,
 }: PopoverInput<T>) => {
     const [inputValues, setInputValues] = React.useState<T>(values);
     const [inputErrors, setInputErrors] = React.useState<ValidationErrors>(
@@ -121,7 +127,7 @@ export const PopupInput = <T extends {}>({
         setOpen(false);
     };
     return (
-        <Popup link={link}>
+        <Popup width={width} height={height} isOpen={isOpen} link={link}>
             {setOpen =>
                 children({
                     setOpen,
