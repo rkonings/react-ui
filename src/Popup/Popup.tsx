@@ -73,6 +73,31 @@ const PopupWindow = styled.div<PopupWindow>`
     background: ${({ theme: { color } }) => color.gray10};
 `;
 
+interface PopupCore {
+    width?: string;
+    height?: string;
+    isOpen?: boolean;
+    clickAway?: () => void;
+    children: JSX.Element;
+}
+
+export const PopupCore = ({
+    clickAway,
+    width,
+    height,
+    children,
+}: PopupCore) => {
+    const focusTrap = useFocusTrap();
+    return (
+        <Overlay>
+            {clickAway && <StyledClickAway onClick={() => clickAway()} />}
+            <PopupWindow ref={focusTrap} width={width} height={height}>
+                {children}
+            </PopupWindow>
+        </Overlay>
+    );
+};
+
 const Popup = ({
     className,
     link,

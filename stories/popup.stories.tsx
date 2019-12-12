@@ -76,4 +76,35 @@ storiesOf('Popup', module)
                 )}
             </Popup>
         );
+    })
+    .add('popup core', () => {
+        const width = text('width', '300px');
+        const clickAway = boolean('clickaway', true);
+        const isOpen = boolean('isOpen', true);
+
+        return (
+            <PopupCore width={width} isOpen={isOpen} clickAway={clickAway}>
+                {setOpen => (
+                    <React.Fragment>
+                        <PopupHeader>Store client</PopupHeader>
+                        <PopupContent>
+                            Are u sure to save this client?
+                        </PopupContent>
+                        <PopupFooter>
+                            <ButtonGroup>
+                                <TextButton onClick={() => setOpen(false)}>
+                                    cancel
+                                </TextButton>
+                                <Button
+                                    type="primary"
+                                    onClick={() => setOpen(false)}
+                                >
+                                    Save
+                                </Button>
+                            </ButtonGroup>
+                        </PopupFooter>
+                    </React.Fragment>
+                )}
+            </PopupCore>
+        );
     });
