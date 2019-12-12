@@ -1,7 +1,7 @@
 import dotProp from 'dot-prop';
 import React from 'react';
 import * as Yup from 'yup';
-import Popup from '../Popup/Popup';
+import Popup, { PopupCore } from '../Popup/Popup';
 
 export type ValidationErrors = Map<string, string>;
 export interface ChangedItem {
@@ -43,6 +43,14 @@ interface PopupInputProps<T> {
     onCancel: () => void;
 }
 
+interface PopupCoreInputProps<T> {
+    errors: ValidationErrors;
+    values: T;
+    onChange: (field: string, value: boolean | number | string) => void;
+    onSave: (callBackFunction?: () => void) => void;
+    onCancel: (callBackFunction?: () => void) => void;
+}
+
 interface PopoverInput<T> {
     onChange: OnChangeHandler;
     errors?: ValidationErrors;
@@ -56,6 +64,99 @@ interface PopoverInput<T> {
         props: PopupInputProps<T>
     ) => string | JSX.Element | JSX.Element[];
 }
+
+interface PopupCoreInput<T> {
+    onChange: OnChangeHandler;
+    values: T;
+    validationSchema: Yup.ObjectSchema;
+    width?: string;
+    height?: string;
+    clickAway?: () => void;
+    children: (
+        props: PopupCoreInputProps<T>
+    ) => string | JSX.Element | JSX.Element[];
+}
+
+export const PopupCoreInput = <T extends {}>({
+    children,
+    clickAway,
+    values,
+    onChange,
+    validationSchema,
+}: PopupCoreInput<T>) => {
+    const [inputValues, setInputValues] = React.useState<T>(values);
+    const [inputErrors, setInputErrors] = React.useState<ValidationErrors>(
+        new Map()
+    );
+
+    React.useEffect(() => {
+        setInputValues({ ...values });
+    }, [values]);
+
+    const onChangeInputField = async (
+        field: string,
+        value: boolean | number | string
+    ) => {
+        const values = { ...inputValues };
+        dotProp.set(values, field, value);
+        setInputValues(values);
+
+        validationSchema
+            .validateAt(field, values)
+            .then(() => {
+                const errors = new Map(inputErrors);
+                errors.delete(field);
+                setInputErrors(errors);
+            })
+            .catch(error => {
+                const errors = mapValidationErrors(error);
+                setInputErrors(errors);
+            });
+    };
+
+    const onSave = () => {
+        validationSchema
+            .validate(inputValues, { abortEarly: false })
+            .then(() => {
+                setInputErrors(new Map());
+                const values = Object.entries(inputValues).map(
+                    ([key, value]) => ({
+                        field: key,
+                        value,
+                    })
+                );
+                onChange(
+                    values as ChangedItems,
+                    { saveFields: true },
+                    () => {}
+                );
+            })
+            .catch(error => {
+                const errors = mapValidationErrors(error);
+                setInputErrors(errors);
+            });
+    };
+
+    const onCancel = (callBackFunction?: () => void) => {
+        if (callBackFunction) {
+            callBackFunction();
+        }
+    };
+
+    return (
+        <PopupCore clickAway={clickAway}>
+            <React.Fragment>
+                {children({
+                    errors: inputErrors,
+                    values: inputValues,
+                    onSave,
+                    onChange: onChangeInputField,
+                    onCancel,
+                })}
+            </React.Fragment>
+        </PopupCore>
+    );
+};
 
 export const PopupInput = <T extends {}>({
     children,
