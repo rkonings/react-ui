@@ -85,6 +85,7 @@ export default styled(FilterPopup)`
     ${PopupContent} {
         flex-direction: row;
         display: flex;
+        height: 400px;
     }
 
     ${FilterList} {
