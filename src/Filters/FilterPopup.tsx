@@ -11,9 +11,31 @@ interface FilterPopup {
     data: FilterConfig[];
     onChange(values: { [key: string]: string[] }): void;
 }
+    return filters.reduce((map, filterConfig) => {
+        map.set(filterConfig.id, filterConfig.value || []);
+        return map;
+    }, new Map());
+};
+
+const setFilterValues = (
+    values: Map<string, string[]>,
+    filters: FilterConfig[]
+) => {
+    filters.forEach(filter => {
+        const value = values.get(filter.id);
+        if (value) {
+            filter.value = value;
+        }
+    });
+
+    return filters;
+};
 
 const FilterPopup = ({ className, width, data, onChange }: FilterPopup) => {
     const [filters, setFilters] = React.useState<FilterConfig[]>(data);
+    const [currentFilters, setCurrentFilters] = React.useState<
+        Map<string, string[]>
+    >(getFilterValues(data));
     const setFilterValue = (id: string, value: string[]) => {
         const newFilters = [...filters];
         const filter = newFilters.find(filter => filter.id === id);
@@ -29,7 +51,12 @@ const FilterPopup = ({ className, width, data, onChange }: FilterPopup) => {
             }
             return obj;
         }, {});
+        setCurrentFilters(getFilterValues(filters));
         onChange(newValues);
+    };
+
+    const onCancelHandler = () => {
+        setFilters(setFilterValues(currentFilters, filters));
     };
 
     return (
@@ -60,7 +87,12 @@ const FilterPopup = ({ className, width, data, onChange }: FilterPopup) => {
                         </PopupContent>
                         <PopupFooter>
                             <ButtonGroup>
-                                <TextButton onClick={() => setOpen(false)}>
+                                <TextButton
+                                    onClick={() => {
+                                        onCancelHandler();
+                                        setOpen(false);
+                                    }}
+                                >
                                     cancel
                                 </TextButton>
                                 <Button
@@ -85,6 +117,7 @@ export default styled(FilterPopup)`
     ${PopupContent} {
         flex-direction: row;
         display: flex;
+        overflow: scroll;
         height: 400px;
     }
 
