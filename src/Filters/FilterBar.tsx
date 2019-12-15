@@ -7,7 +7,7 @@ export interface FilterOption {
     label: string;
 }
 
-export interface Filter {
+export interface FilterConfig {
     id: string;
     label: string;
     options: FilterOption[];
@@ -17,13 +17,13 @@ export interface Filter {
 
 interface FilterBar {
     className?: string;
-    data: Filter[];
+    data: FilterConfig[];
     onChange(values: { [key: string]: string[] }): void;
 }
 
 const FilterBar = ({ className, data, onChange }: FilterBar) => {
     const [open, setOpen] = React.useState<string | null>(null);
-    const [filters, setFilters] = React.useState<Filter[]>(data);
+    const [filters, setFilters] = React.useState<FilterConfig[]>(data);
 
     const setFilterValue = (id: string, value: string[]) => {
         const newFilters = [...filters];
