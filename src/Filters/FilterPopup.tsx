@@ -89,5 +89,6 @@ export default styled(FilterPopup)`
 
     ${FilterList} {
         margin-right: 3em;
+        max-width: 250px;
     }
 `;
