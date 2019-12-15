@@ -1,19 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Filter from './Filter';
-
-export interface FilterOption {
-    value: string;
-    label: string;
-}
-
-export interface FilterConfig {
-    id: string;
-    label: string;
-    options: FilterOption[];
-    value?: string[];
-    search?: boolean;
-}
+import Filter, { FilterConfig } from './Filter';
 
 interface FilterBar {
     className?: string;

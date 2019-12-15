@@ -4,7 +4,19 @@ import styled from 'styled-components';
 import { AngleDown, Check, Search } from '../Icon';
 import { CustomCheckBox } from '../Input/Checkbox/Checkbox';
 import TextField from '../Input/TextField/TextField';
-import { FilterOption } from './FilterBar';
+
+export interface FilterOption {
+    value: string;
+    label: string;
+}
+
+export interface FilterConfig {
+    id: string;
+    label: string;
+    options: FilterOption[];
+    value?: string[];
+    search?: boolean;
+}
 
 interface Filter {
     value: string[];
@@ -26,23 +38,27 @@ interface MenuItem {
     onKeyDown(e: React.KeyboardEvent): void;
 }
 
-export const MenuItem = styled(({className, children, selected, onClick, onKeyDown}: MenuItem) => {
-    return (
-        <div
-            className={className}
-            onClick={onClick}
-            onKeyDown={onKeyDown}
-            tabIndex={0}
-        >
-            <CustomCheckBox>
-                {selected && <Check />}
-            </CustomCheckBox>
-            {children}
-        </div>
-    );
-})`
+export const MenuItem = styled(
+    ({ className, children, selected, onClick, onKeyDown }: MenuItem) => {
+        return (
+            <div
+                className={className}
+                onClick={onClick}
+                onKeyDown={onKeyDown}
+                tabIndex={0}
+            >
+                <CustomCheckBox>{selected && <Check />}</CustomCheckBox>
+                {children}
+            </div>
+        );
+    }
+)`
     padding: 10px 18px;
-    color: ${({theme: { menu: { item } }}) => item.default.color };
+    color: ${({
+        theme: {
+            menu: { item },
+        },
+    }) => item.default.color};
     display: flex;
     cursor: pointer;
     font-size: 14px;
@@ -57,7 +73,7 @@ export const MenuItem = styled(({className, children, selected, onClick, onKeyDo
 `;
 
 export const Menu = styled.div`
-    ${({theme: { menu}}) => {
+    ${({ theme: { menu } }) => {
         return `
             background: ${menu.backgroundColor};
             box-shadow: ${menu.boxShadow};
@@ -65,7 +81,7 @@ export const Menu = styled.div`
     }}
 
     width: 100%;
-    display:flex;
+    display: flex;
     flex-direction: column;
     min-width: 300px;
     padding: 10px 0;
@@ -77,10 +93,10 @@ export const Menu = styled.div`
 
 const StyledClickAway = styled.div`
     position: fixed;
-    top:0;
-    left:0;
-    bottom:0;
-    right:0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
 `;
 
 const FilterName = styled.div`
@@ -106,25 +122,28 @@ interface OptionItem {
     onSelect(value: string): void;
 }
 
-const OptionItem = styled(({className, option, selected, onSelect}: OptionItem) => {
-    return (
-        <div className={className}>
-            <MenuItem
-                selected={selected}
-                onClick={() => {
-                    onSelect(option.value);
-                }}
-                onKeyDown={(e) => {
-                    if (e.keyCode === 32) { // Space
+const OptionItem = styled(
+    ({ className, option, selected, onSelect }: OptionItem) => {
+        return (
+            <div className={className}>
+                <MenuItem
+                    selected={selected}
+                    onClick={() => {
                         onSelect(option.value);
-                    }
-                }}
-            >
-                {option.label}
-            </MenuItem>
-        </div>
-    );
-})``;
+                    }}
+                    onKeyDown={e => {
+                        if (e.keyCode === 32) {
+                            // Space
+                            onSelect(option.value);
+                        }
+                    }}
+                >
+                    {option.label}
+                </MenuItem>
+            </div>
+        );
+    }
+)``;
 
 interface Options {
     className?: string;
@@ -133,25 +152,33 @@ interface Options {
     removeSelected?: boolean;
     onSelect(item: string): void;
 }
-const Options = styled(({className, onSelect, options, selected, removeSelected = false}: Options) => {
-    return (
-        <div className={className}>
-            {options.map((option) => {
-                if (removeSelected === true && selected.has(option.value)){
-                    return null;
-                }
-                return (
-                    <OptionItem
-                        key={option.value}
-                        option={option}
-                        onSelect={onSelect}
-                        selected={selected.has(option.value)}
-                    />
-                );
-            })}
-        </div>
-    );
-})`
+const Options = styled(
+    ({
+        className,
+        onSelect,
+        options,
+        selected,
+        removeSelected = false,
+    }: Options) => {
+        return (
+            <div className={className}>
+                {options.map(option => {
+                    if (removeSelected === true && selected.has(option.value)) {
+                        return null;
+                    }
+                    return (
+                        <OptionItem
+                            key={option.value}
+                            option={option}
+                            onSelect={onSelect}
+                            selected={selected.has(option.value)}
+                        />
+                    );
+                })}
+            </div>
+        );
+    }
+)`
     max-height: 200px;
     overflow-y: scroll;
 `;
@@ -168,48 +195,65 @@ interface SelectedOptionItem {
     option: FilterOption;
     onSelect(option: string): void;
 }
-const SelectedOptionItem = styled(({className, option, onSelect}: SelectedOptionItem) => {
-    return (
-        <div onClick={() => onSelect(option.value)} className={className}>{option.label}</div>
-    );
-})`
+const SelectedOptionItem = styled(
+    ({ className, option, onSelect }: SelectedOptionItem) => {
+        return (
+            <div onClick={() => onSelect(option.value)} className={className}>
+                {option.label}
+            </div>
+        );
+    }
+)`
     font-size: 12px;
     padding: 0.5em;
     margin-right: 2px;
     margin-top: 2px;
     cursor: pointer;
-    background: ${({theme: { color }}) => color.gray30};
+    background: ${({ theme: { color } }) => color.gray30};
 `;
 
 const SelectedOptionList = styled.div`
-    display:flex;
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     padding: 5px 20px;
     min-height: 20px;
 `;
 
-const SelectedOptions = styled(({className, options, onSelect, selected}: Options) => {
-    const selectedOptions = options.filter((item) => selected.has(item.value));
-    return (
-        <div className={className}>
-            <SelectedOptionList>
-                {selectedOptions.map((option) => (
-                    <SelectedOptionItem
-                        key={option.value}
-                        option={option}
-                        onSelect={onSelect}
-                    />
-                ))}
-            </SelectedOptionList>
-        </div>
-    );
-})`
+const SelectedOptions = styled(
+    ({ className, options, onSelect, selected }: Options) => {
+        const selectedOptions = options.filter(item =>
+            selected.has(item.value)
+        );
+        return (
+            <div className={className}>
+                <SelectedOptionList>
+                    {selectedOptions.map(option => (
+                        <SelectedOptionItem
+                            key={option.value}
+                            option={option}
+                            onSelect={onSelect}
+                        />
+                    ))}
+                </SelectedOptionList>
+            </div>
+        );
+    }
+)`
     padding-bottom: 10px;
 `;
 
-const Filter = ({className, options, onChange, open = false, value,
-    onClick, label, onKeyDown, search = false}: Filter) => {
+const Filter = ({
+    className,
+    options,
+    onChange,
+    open = false,
+    value,
+    onClick,
+    label,
+    onKeyDown,
+    search = false,
+}: Filter) => {
     const [selected, setSelected] = React.useState<Set<string>>(new Set(value));
     const [searchValue, setSearchValue] = React.useState<string>('');
     const [result, setResult] = React.useState<FilterOption[]>(options);
@@ -229,7 +273,7 @@ const Filter = ({className, options, onChange, open = false, value,
         maxPatternLength: 32,
         minMatchCharLength: 3,
         threshold: 0.2,
-        keys: ['label']
+        keys: ['label'],
     };
     const fuse = new Fuse(options, fuseOptions);
 
@@ -250,7 +294,9 @@ const Filter = ({className, options, onChange, open = false, value,
                 tabIndex={0}
                 onClick={() => onClick()}
             >
-                {label} <ItemCount>{selected.size > 0 ? selected.size : ''}</ItemCount> <AngleDown />
+                {label}{' '}
+                <ItemCount>{selected.size > 0 ? selected.size : ''}</ItemCount>{' '}
+                <AngleDown />
             </FilterName>
             {open && (
                 <React.Fragment>
@@ -261,11 +307,17 @@ const Filter = ({className, options, onChange, open = false, value,
                                 <TextField
                                     value={searchValue}
                                     prefix={<Search />}
-                                    onChange={(e) => searchHandler(e.currentTarget.value)}
+                                    onChange={e =>
+                                        searchHandler(e.currentTarget.value)
+                                    }
                                 />
 
                                 {selected.size > 0 && (
-                                    <SelectedOptions options={options} onSelect={selectHandler} selected={selected} />
+                                    <SelectedOptions
+                                        options={options}
+                                        onSelect={selectHandler}
+                                        selected={selected}
+                                    />
                                 )}
                                 <Options
                                     options={result}
@@ -290,7 +342,6 @@ const Filter = ({className, options, onChange, open = false, value,
 };
 
 export default styled(Filter)`
-
     ${TextField} {
         padding: 0 20px 20px;
         box-sizing: border-box;
@@ -298,11 +349,12 @@ export default styled(Filter)`
 
     position: relative;
     ${FilterName} {
-        color: ${({open, theme: { color }}) => open ? color.primary : color.black };
+        color: ${({ open, theme: { color } }) =>
+            open ? color.primary : color.black};
 
         &:focus {
             outline: none;
-            color: ${({theme: { color }}) => color.primary};
+            color: ${({ theme: { color } }) => color.primary};
         }
     }
 `;
