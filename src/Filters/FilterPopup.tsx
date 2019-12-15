@@ -11,6 +11,7 @@ interface FilterPopup {
     data: FilterConfig[];
     onChange(values: { [key: string]: string[] }): void;
 }
+const getFilterValues = (filters: FilterConfig[]) => {
     return filters.reduce((map, filterConfig) => {
         map.set(filterConfig.id, filterConfig.value || []);
         return map;
