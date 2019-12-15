@@ -23,11 +23,8 @@ interface Filter {
     className?: string;
     options: FilterOption[];
     search?: boolean;
-    open?: boolean;
     label: string | JSX.Element;
     onChange(value: string[]): void;
-    onClick(): void;
-    onKeyDown(e: React.KeyboardEvent): void;
 }
 
 interface MenuItem {
@@ -280,7 +277,9 @@ export const FilterMenu = styled(
             </div>
         );
     }
-)`
+)``;
+
+const FilterDropDownMenu = styled.div`
     ${({ theme: { menu } }) => {
         return `
             background: ${menu.backgroundColor};
@@ -346,55 +345,65 @@ const useFilter = (
     };
 };
 
-const FilterDropDown = ({
-    className,
-    options,
-    onChange,
-    open = false,
-    value,
-    onClick,
-    label,
-    onKeyDown,
-    search = false,
-}: Filter) => {
-    const {
-        searchHandler,
-        selectHandler,
-        selected,
-        searchValue,
-        result,
-    } = useFilter(value, options, onChange);
+interface FilterDropDown extends Filter {
+    open?: boolean;
+    onClick(): void;
+    onKeyDown(e: React.KeyboardEvent): void;
+}
 
-    return (
-        <div className={className}>
-            <FilterName
-                onKeyDown={onKeyDown}
-                tabIndex={0}
-                onClick={() => onClick()}
-            >
-                {label}{' '}
-                <ItemCount>{selected.size > 0 ? selected.size : ''}</ItemCount>{' '}
-                <AngleDown />
-            </FilterName>
-            {open && (
-                <React.Fragment>
-                    <StyledClickAway onClick={() => onClick()} />
-                    <FilterMenu
-                        selectHandler={selectHandler}
-                        searchHandler={searchHandler}
-                        search={search}
-                        searchValue={searchValue}
-                        selected={selected}
-                        options={options}
-                        result={result}
-                    />
-                </React.Fragment>
-            )}
-        </div>
-    );
-};
+export const FilterDropDown = styled(
+    ({
+        className,
+        options,
+        onChange,
+        open = false,
+        value,
+        onClick,
+        label,
+        onKeyDown,
+        search = false,
+    }: FilterDropDown) => {
+        const {
+            searchHandler,
+            selectHandler,
+            selected,
+            searchValue,
+            result,
+        } = useFilter(value, options, onChange);
 
-export default styled(FilterDropDown)`
+        return (
+            <div className={className}>
+                <FilterName
+                    onKeyDown={onKeyDown}
+                    tabIndex={0}
+                    onClick={() => onClick()}
+                >
+                    {label}{' '}
+                    <ItemCount>
+                        {selected.size > 0 ? selected.size : ''}
+                    </ItemCount>{' '}
+                    <AngleDown />
+                </FilterName>
+                {open && (
+                    <React.Fragment>
+                        <StyledClickAway onClick={() => onClick()} />
+                        <FilterDropDownMenu>
+                            <FilterMenu
+                                selectHandler={selectHandler}
+                                searchHandler={searchHandler}
+                                search={search}
+                                searchValue={searchValue}
+                                selected={selected}
+                                options={options}
+                                result={result}
+                            />
+                        </FilterDropDownMenu>
+                    </React.Fragment>
+                )}
+            </div>
+        );
+    }
+)`
     ${TextField} {
         padding: 0 20px 20px;
         box-sizing: border-box;
@@ -404,6 +413,60 @@ export default styled(FilterDropDown)`
     ${FilterName} {
         color: ${({ open, theme: { color } }) =>
             open ? color.primary : color.black};
+
+        &:focus {
+            outline: none;
+            color: ${({ theme: { color } }) => color.primary};
+        }
+    }
+`;
+
+export const FilterList = styled(
+    ({
+        className,
+        options,
+        onChange,
+        label,
+        value,
+        search = false,
+    }: Filter) => {
+        const {
+            searchHandler,
+            selectHandler,
+            selected,
+            searchValue,
+            result,
+        } = useFilter(value, options, onChange);
+
+        return (
+            <div className={className}>
+                <FilterName tabIndex={0}>
+                    {label}{' '}
+                    <ItemCount>
+                        {selected.size > 0 ? selected.size : ''}
+                    </ItemCount>{' '}
+                </FilterName>
+                <FilterMenu
+                    selectHandler={selectHandler}
+                    searchHandler={searchHandler}
+                    search={search}
+                    searchValue={searchValue}
+                    selected={selected}
+                    options={options}
+                    result={result}
+                />
+            </div>
+        );
+    }
+)`
+    ${TextField} {
+        padding: 0 20px 20px;
+        box-sizing: border-box;
+    }
+
+    position: relative;
+    ${FilterName} {
+        color: ${({ theme: { color } }) => color.black};
 
         &:focus {
             outline: none;
