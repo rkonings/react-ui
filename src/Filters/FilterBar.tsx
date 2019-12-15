@@ -1,33 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import Filter from './Filter';
-
-export interface FilterOption {
-    value: string;
-    label: string;
-};
-
-export interface Filter {
-    id: string;
-    label: string;
-    options: FilterOption[];
-    value?: string[];
-    search?: boolean;
-}
+import Filter, { FilterConfig } from './Filter';
 
 interface FilterBar {
     className?: string;
-    data: Filter[];
+    data: FilterConfig[];
     onChange(values: { [key: string]: string[] }): void;
 }
 
-const FilterBar = ({className, data, onChange}: FilterBar) => {
+const FilterBar = ({ className, data, onChange }: FilterBar) => {
     const [open, setOpen] = React.useState<string | null>(null);
-    const [filters, setFilters] = React.useState<Filter[]>(data);
+    const [filters, setFilters] = React.useState<FilterConfig[]>(data);
 
     const setFilterValue = (id: string, value: string[]) => {
         const newFilters = [...filters];
-        const filter = newFilters.find((filter) => filter.id === id );
+        const filter = newFilters.find(filter => filter.id === id);
         if (filter) {
             filter.value = value;
             setFilters(newFilters);
@@ -42,17 +29,16 @@ const FilterBar = ({className, data, onChange}: FilterBar) => {
     };
 
     const clickHandler = (id: string) => {
-
         if (open === id) {
             setOpen(null);
         } else {
             setOpen(id);
         }
-
     };
 
     const keyDownHandler = (e: React.KeyboardEvent, id: string) => {
-        if (e.keyCode === 32 || e.key === 'Enter') { // Space
+        if (e.keyCode === 32 || e.key === 'Enter') {
+            // Space
             if (open === id) {
                 setOpen(null);
             } else {
@@ -63,10 +49,10 @@ const FilterBar = ({className, data, onChange}: FilterBar) => {
 
     return (
         <div className={className}>
-            {filters.map((filter) => {
+            {filters.map(filter => {
                 return (
                     <Filter
-                        onKeyDown={(e) => keyDownHandler(e, filter.id)}
+                        onKeyDown={e => keyDownHandler(e, filter.id)}
                         label={filter.label}
                         search={filter.search}
                         key={filter.id}
@@ -74,16 +60,14 @@ const FilterBar = ({className, data, onChange}: FilterBar) => {
                         value={filter.value ? filter.value : []}
                         options={filter.options}
                         open={open === filter.id ? true : false}
-                        onChange={(value) => setFilterValue(filter.id, value)}
+                        onChange={value => setFilterValue(filter.id, value)}
                     />
                 );
             })}
         </div>
     );
-
 };
 
 export default styled(FilterBar)`
     display: flex;
-
 `;
