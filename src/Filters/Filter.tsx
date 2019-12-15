@@ -299,17 +299,11 @@ export const FilterMenu = styled(
     z-index: 1;
 `;
 
-const Filter = ({
-    className,
-    options,
-    onChange,
-    open = false,
-    value,
-    onClick,
-    label,
-    onKeyDown,
-    search = false,
-}: Filter) => {
+const useFilter = (
+    value: string[],
+    options: FilterOption[],
+    onChange: (values: string[]) => void
+) => {
     const [selected, setSelected] = React.useState<Set<string>>(new Set(value));
     const [searchValue, setSearchValue] = React.useState<string>('');
     const [result, setResult] = React.useState<FilterOption[]>(options);
@@ -342,6 +336,34 @@ const Filter = ({
             setResult(results);
         }
     };
+
+    return {
+        searchHandler,
+        selectHandler,
+        selected,
+        searchValue,
+        result,
+    };
+};
+
+const Filter = ({
+    className,
+    options,
+    onChange,
+    open = false,
+    value,
+    onClick,
+    label,
+    onKeyDown,
+    search = false,
+}: Filter) => {
+    const {
+        searchHandler,
+        selectHandler,
+        selected,
+        searchValue,
+        result,
+    } = useFilter(value, options, onChange);
 
     return (
         <div className={className}>
