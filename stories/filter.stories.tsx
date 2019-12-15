@@ -9,39 +9,37 @@ const WrapperAlignTop = styled.div`
     align-self: flex-start;
 `;
 
-storiesOf('Filters', module)
-.add('default', () => {
-
+storiesOf('Filters', module).add('default', () => {
     const data = [
         {
             id: 'League',
             label: 'League',
             options: [
-                { value: 'Eredivisie', label: 'Eredivisie'},
-                { value: 'La Liga', label: 'La Liga'},
-                { value: 'Ligue 1', label: 'Ligue 1'},
+                { value: 'Eredivisie', label: 'Eredivisie' },
+                { value: 'La Liga', label: 'La Liga' },
+                { value: 'Ligue 1', label: 'Ligue 1' },
             ],
-            value: []
+            value: [],
         },
         {
             id: 'Country',
             label: 'Country',
-            options: Countries.map((item) => {
-                return {value: item.name, label: item.name};
+            options: Countries.map(item => {
+                return { value: item.name, label: item.name };
             }),
             value: [],
-            search: true
+            search: true,
         },
         {
             id: 'Clubs',
             label: 'Clubs',
             options: [
-                { value: 'Ajax', label: 'Ajax'},
-                { value: 'Heerenveen', label: 'Heerenveen'},
-                { value: 'FC Utrecht', label: 'FC Utrecht'},
+                { value: 'Ajax', label: 'Ajax' },
+                { value: 'Heerenveen', label: 'Heerenveen' },
+                { value: 'FC Utrecht', label: 'FC Utrecht' },
             ],
-            value: []
-        }
+            value: [],
+        },
     ];
 
     return (
@@ -49,5 +47,4 @@ storiesOf('Filters', module)
             <FilterBar data={data} onChange={action('changed')} />
         </WrapperAlignTop>
     );
-
 });
