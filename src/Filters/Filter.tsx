@@ -346,7 +346,7 @@ const useFilter = (
     };
 };
 
-const Filter = ({
+const FilterDropDown = ({
     className,
     options,
     onChange,
@@ -394,7 +394,7 @@ const Filter = ({
     );
 };
 
-export default styled(Filter)`
+export default styled(FilterDropDown)`
     ${TextField} {
         padding: 0 20px 20px;
         box-sizing: border-box;
