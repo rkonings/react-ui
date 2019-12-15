@@ -71,26 +71,6 @@ export const MenuItem = styled(
         outline: none;
     }
 `;
-
-export const Menu = styled.div`
-    ${({ theme: { menu } }) => {
-        return `
-            background: ${menu.backgroundColor};
-            box-shadow: ${menu.boxShadow};
-        `;
-    }}
-
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    min-width: 300px;
-    padding: 10px 0;
-    max-height: 500px;
-    overflow-y: scroll;
-    position: absolute;
-    z-index: 1;
-`;
-
 const StyledClickAway = styled.div`
     position: fixed;
     top: 0;
@@ -243,6 +223,82 @@ const SelectedOptions = styled(
     padding-bottom: 10px;
 `;
 
+interface FilterMenu {
+    className?: string;
+    options: FilterOption[];
+    result: FilterOption[];
+    search?: boolean;
+    selected: Set<string>;
+    searchValue: string;
+    searchHandler(value: string): void;
+    selectHandler(item: string): void;
+}
+
+export const FilterMenu = styled(
+    ({
+        className,
+        searchValue,
+        search,
+        selected,
+        searchHandler,
+        options,
+        selectHandler,
+        result,
+    }: FilterMenu) => {
+        return (
+            <div className={className}>
+                {search && (
+                    <React.Fragment>
+                        <TextField
+                            value={searchValue}
+                            prefix={<Search />}
+                            onChange={e => searchHandler(e.currentTarget.value)}
+                        />
+
+                        {selected.size > 0 && (
+                            <SelectedOptions
+                                options={options}
+                                onSelect={selectHandler}
+                                selected={selected}
+                            />
+                        )}
+                        <Options
+                            options={result}
+                            onSelect={selectHandler}
+                            selected={selected}
+                            removeSelected={true}
+                        />
+                    </React.Fragment>
+                )}
+                {search === false && (
+                    <Options
+                        options={result}
+                        onSelect={selectHandler}
+                        selected={selected}
+                    />
+                )}
+            </div>
+        );
+    }
+)`
+    ${({ theme: { menu } }) => {
+        return `
+            background: ${menu.backgroundColor};
+            box-shadow: ${menu.boxShadow};
+        `;
+    }}
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    padding: 10px 0;
+    max-height: 500px;
+    overflow-y: scroll;
+    position: absolute;
+    z-index: 1;
+`;
+
 const Filter = ({
     className,
     options,
@@ -301,40 +357,15 @@ const Filter = ({
             {open && (
                 <React.Fragment>
                     <StyledClickAway onClick={() => onClick()} />
-                    <Menu>
-                        {search && (
-                            <React.Fragment>
-                                <TextField
-                                    value={searchValue}
-                                    prefix={<Search />}
-                                    onChange={e =>
-                                        searchHandler(e.currentTarget.value)
-                                    }
-                                />
-
-                                {selected.size > 0 && (
-                                    <SelectedOptions
-                                        options={options}
-                                        onSelect={selectHandler}
-                                        selected={selected}
-                                    />
-                                )}
-                                <Options
-                                    options={result}
-                                    onSelect={selectHandler}
-                                    selected={selected}
-                                    removeSelected={true}
-                                />
-                            </React.Fragment>
-                        )}
-                        {search === false && (
-                            <Options
-                                options={result}
-                                onSelect={selectHandler}
-                                selected={selected}
-                            />
-                        )}
-                    </Menu>
+                    <FilterMenu
+                        selectHandler={selectHandler}
+                        searchHandler={searchHandler}
+                        search={search}
+                        searchValue={searchValue}
+                        selected={selected}
+                        options={options}
+                        result={result}
+                    />
                 </React.Fragment>
             )}
         </div>
