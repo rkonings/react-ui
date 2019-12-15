@@ -85,7 +85,11 @@ storiesOf('Filters', module)
 
         return (
             <WrapperAlignTop>
-                <FilterPopup data={data} onChange={action('changed')} />
+                <FilterPopup
+                    data={data}
+                    width="90%"
+                    onChange={action('changed')}
+                />
             </WrapperAlignTop>
         );
     });
