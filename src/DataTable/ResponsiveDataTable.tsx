@@ -18,6 +18,7 @@ interface ResponsiveDataTable {
     data: DataRow[];
     fields: DataField[];
     columns: Column[];
+    loading?: boolean;
     sortHandler?(sort: Sort): void;
 }
 
@@ -26,6 +27,7 @@ export default ({
     fields,
     columns,
     sortHandler,
+    loading = false,
 }: ResponsiveDataTable) => {
     const [ref, props] = useDimensions();
 
@@ -35,6 +37,7 @@ export default ({
                 <DataTable
                     columns={columns}
                     data={data}
+                    loading={loading}
                     fields={fields}
                     width={props.width}
                     sortHandler={sortHandler}
