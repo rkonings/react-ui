@@ -12,6 +12,25 @@ import Sort from '../Icon/Sort';
 import CheckBox from '../Input/Checkbox/Checkbox';
 import { Data, DataField, DataRow } from '../interfaces/Data';
 
+const DataTableContext = React.createContext<{ header: JSX.Element } | null>(
+    null
+);
+
+const innerElementType = React.forwardRef<
+    HTMLDivElement,
+    { children: React.ReactNode; style: React.CSSProperties }
+>(({ children, style }, ref) => {
+    const height = style.height ? parseInt(style.height.toString(), 10) : 0;
+    const updatedStyle = { ...style, height: height + 50 };
+    const context = React.useContext(DataTableContext);
+    return (
+        <div ref={ref} style={updatedStyle}>
+            {children}
+            {context && context.header}
+        </div>
+    );
+});
+
 const CellAlignment = (align: string = 'left') => {
     if (align === 'center') {
         return `justify-content: center;`;
@@ -42,6 +61,7 @@ interface DataTableProps {
     className?: string;
     data: DataRow[];
     fields: DataField[];
+    loading?: boolean;
     columns: Column[];
     width: number;
     height?: number;
@@ -53,6 +73,7 @@ interface ItemData {
     fields: DataField[];
     selected: Set<Data>;
     columns: Column[];
+    loading?: boolean;
     setSelectedItems(item: Data): void;
     toggleSelectAll(): void;
 }
@@ -65,39 +86,57 @@ interface CellProps {
     style: React.CSSProperties;
 }
 
+const LoadingPlaceholder = styled.div`
+    width: 100%;
+    height: 10px;
+    background: #ccc;
+`;
+
 const Cell = memo(
     ({ data, rowIndex, columnIndex, style, className }: CellProps) => {
-        const { setSelectedItems, rows, selected, fields, columns } = data;
+        const {
+            setSelectedItems,
+            rows,
+            selected,
+            fields,
+            columns,
+            loading,
+        } = data;
         const row = rows[rowIndex];
         const column = columns[columnIndex];
 
         let content;
+        if (loading) {
+            content = <LoadingPlaceholder />;
+        } else {
+            switch (column.type) {
+                case 'TOOLBAR':
+                    content = column.toolbar && column.toolbar(row);
+                    break;
+                case 'SELECT':
+                    content = (
+                        <CheckBox
+                            checked={selected.has(row.data)}
+                            onChange={() => setSelectedItems(row.data)}
+                            type={'primary'}
+                        />
+                    );
+                    break;
+                case 'DATA':
+                default:
+                    const field = fields.find(f => f.name === column.fieldName);
+                    if (field) {
+                        content = row.data[field.name];
+                    }
 
-        switch (column.type) {
-            case 'TOOLBAR':
-                content = column.toolbar && column.toolbar(row);
-                break;
-            case 'SELECT':
-                content = (
-                    <CheckBox
-                        checked={selected.has(row.data)}
-                        onChange={() => setSelectedItems(row.data)}
-                        type={'primary'}
-                    />
-                );
-                break;
-            case 'DATA':
-            default:
-                const field = fields.find(f => f.name === column.fieldName);
-                if (field) {
-                    content = row.data[field.name];
-                }
-
-                break;
+                    break;
+            }
         }
+        const top = style.top ? parseInt(style.top.toString(), 10) : 0;
+        const updatedStyle = { ...style, top: top + 50 };
 
         return (
-            <div className={className} style={style}>
+            <div className={className} style={updatedStyle}>
                 {content}
             </div>
         );
@@ -105,7 +144,36 @@ const Cell = memo(
     areEqual
 );
 
-const StyledCell = styled(Cell)<CellProps>`
+const StyledCell = memo(
+    styled(Cell)<CellProps>`
+        display: flex;
+        align-items: center;
+        ${({
+            rowIndex,
+            theme: {
+                table: { row },
+            },
+        }) => (rowIndex % 2 ? `background: ${row.secondairyColor};` : ``)}
+        box-sizing: border-box;
+        padding: 0 20px;
+        ${({ data, columnIndex }) => {
+            const column = data.columns[columnIndex];
+            return CellAlignment(column.align);
+        }};
+    `,
+    areEqual
+);
+
+const StyledLoadingCell = styled(({ style, className }: CellProps) => {
+    const top = style.top ? parseInt(style.top.toString(), 10) : 0;
+    const updatedStyle = { ...style, top: top + 50 };
+
+    return (
+        <div className={className} style={updatedStyle}>
+            <LoadingPlaceholder />
+        </div>
+    );
+})`
     display: flex;
     align-items: center;
     ${({
@@ -116,10 +184,6 @@ const StyledCell = styled(Cell)<CellProps>`
     }) => (rowIndex % 2 ? `background: ${row.secondairyColor};` : ``)}
     box-sizing: border-box;
     padding: 0 20px;
-    ${({ data, columnIndex }) => {
-        const column = data.columns[columnIndex];
-        return CellAlignment(column.align);
-    }};
 `;
 
 interface HeaderCellProps {
@@ -332,6 +396,9 @@ const Header = ({
 const StyledHeader = styled(Header)`
     display: flex;
     width: 100%;
+    position: sticky;
+    top: 0;
+    left: 0;
 `;
 
 const getColumnWidthByType = (
@@ -390,6 +457,7 @@ const DataTable = ({
     sortHandler,
     fields,
     className,
+    loading = false,
     columns,
     width,
     height = 600,
@@ -444,18 +512,15 @@ const DataTable = ({
         const column = columns[index];
         return getColumnWidthByType(column, w);
     };
-
     const itemData = {
+        loading,
         rows: data,
         fields,
         setSelectedItems,
         toggleSelectAll,
         selected,
         columns,
-    };
-
-    return (
-        <div className={className}>
+        header: (
             <StyledHeader
                 toggleSelectAll={toggleSelectAll}
                 selectAll={selectAll}
@@ -465,24 +530,61 @@ const DataTable = ({
                 sort={sort}
                 setSort={setSort}
             />
-            <Grid
-                ref={el => {
-                    if (el) {
-                        ref = el;
-                    }
+        ),
+    };
+
+    return (
+        <div className={className}>
+            <DataTableContext.Provider
+                value={{
+                    header: (
+                        <StyledHeader
+                            toggleSelectAll={toggleSelectAll}
+                            selectAll={selectAll}
+                            fields={fields}
+                            columnWidth={index => getColumnWidth(index)}
+                            columns={columns}
+                            sort={sort}
+                            setSort={setSort}
+                        />
+                    ),
                 }}
-                columnWidth={index => getColumnWidth(index)}
-                overscanRowCount={20}
-                columnCount={columns.length}
-                rowHeight={() => theme.table.row.height}
-                rowCount={data.length}
-                itemData={itemData}
-                width={width}
-                height={height}
-                overscanCount={10}
             >
-                {StyledCell}
-            </Grid>
+                {loading && (
+                    <Grid
+                        innerElementType={innerElementType}
+                        columnWidth={index => getColumnWidth(index)}
+                        columnCount={columns.length}
+                        rowHeight={() => theme.table.row.height}
+                        rowCount={20}
+                        width={width}
+                        height={height}
+                    >
+                        {StyledLoadingCell}
+                    </Grid>
+                )}
+                {!loading && (
+                    <Grid
+                        ref={el => {
+                            if (el) {
+                                ref = el;
+                            }
+                        }}
+                        innerElementType={innerElementType}
+                        columnWidth={index => getColumnWidth(index)}
+                        overscanRowCount={20}
+                        columnCount={columns.length}
+                        rowHeight={() => theme.table.row.height}
+                        rowCount={data.length}
+                        itemData={itemData}
+                        width={width}
+                        height={height}
+                        overscanCount={10}
+                    >
+                        {StyledCell}
+                    </Grid>
+                )}
+            </DataTableContext.Provider>
         </div>
     );
 };
