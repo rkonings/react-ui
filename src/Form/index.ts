@@ -16,8 +16,11 @@ export type OnChangeHandler = (
     callBack?: () => void
 ) => void;
 
-export const InputField = styled.div`
-    padding-bottom: 2em;
+interface InputField {
+    spacingBottom?: string;
+}
+export const InputField = styled.div<InputField>`
+    padding-bottom: ${({ spacingBottom = '2em' }) => spacingBottom};
 
     ${TextField} {
         input {
