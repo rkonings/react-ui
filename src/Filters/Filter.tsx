@@ -23,11 +23,8 @@ interface Filter {
     className?: string;
     options: FilterOption[];
     search?: boolean;
-    open?: boolean;
     label: string | JSX.Element;
     onChange(value: string[]): void;
-    onClick(): void;
-    onKeyDown(e: React.KeyboardEvent): void;
 }
 
 interface MenuItem {
@@ -71,26 +68,6 @@ export const MenuItem = styled(
         outline: none;
     }
 `;
-
-export const Menu = styled.div`
-    ${({ theme: { menu } }) => {
-        return `
-            background: ${menu.backgroundColor};
-            box-shadow: ${menu.boxShadow};
-        `;
-    }}
-
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    min-width: 300px;
-    padding: 10px 0;
-    max-height: 500px;
-    overflow-y: scroll;
-    position: absolute;
-    z-index: 1;
-`;
-
 const StyledClickAway = styled.div`
     position: fixed;
     top: 0;
@@ -243,17 +220,89 @@ const SelectedOptions = styled(
     padding-bottom: 10px;
 `;
 
-const Filter = ({
-    className,
-    options,
-    onChange,
-    open = false,
-    value,
-    onClick,
-    label,
-    onKeyDown,
-    search = false,
-}: Filter) => {
+interface FilterMenu {
+    className?: string;
+    options: FilterOption[];
+    result: FilterOption[];
+    search?: boolean;
+    selected: Set<string>;
+    searchValue: string;
+    searchHandler(value: string): void;
+    selectHandler(item: string): void;
+}
+
+export const FilterMenu = styled(
+    ({
+        className,
+        searchValue,
+        search,
+        selected,
+        searchHandler,
+        options,
+        selectHandler,
+        result,
+    }: FilterMenu) => {
+        return (
+            <div className={className}>
+                {search && (
+                    <React.Fragment>
+                        <TextField
+                            value={searchValue}
+                            prefix={<Search />}
+                            onChange={e => searchHandler(e.currentTarget.value)}
+                        />
+
+                        {selected.size > 0 && (
+                            <SelectedOptions
+                                options={options}
+                                onSelect={selectHandler}
+                                selected={selected}
+                            />
+                        )}
+                        <Options
+                            options={result}
+                            onSelect={selectHandler}
+                            selected={selected}
+                            removeSelected={true}
+                        />
+                    </React.Fragment>
+                )}
+                {search === false && (
+                    <Options
+                        options={result}
+                        onSelect={selectHandler}
+                        selected={selected}
+                    />
+                )}
+            </div>
+        );
+    }
+)``;
+
+const FilterDropDownMenu = styled.div`
+    ${({ theme: { menu } }) => {
+        return `
+            background: ${menu.backgroundColor};
+            box-shadow: ${menu.boxShadow};
+        `;
+    }}
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    padding: 10px 0;
+    max-height: 500px;
+    overflow-y: scroll;
+    position: absolute;
+    z-index: 1;
+`;
+
+const useFilter = (
+    value: string[],
+    options: FilterOption[],
+    onChange: (values: string[]) => void
+) => {
     const [selected, setSelected] = React.useState<Set<string>>(new Set(value));
     const [searchValue, setSearchValue] = React.useState<string>('');
     const [result, setResult] = React.useState<FilterOption[]>(options);
@@ -287,61 +336,74 @@ const Filter = ({
         }
     };
 
-    return (
-        <div className={className}>
-            <FilterName
-                onKeyDown={onKeyDown}
-                tabIndex={0}
-                onClick={() => onClick()}
-            >
-                {label}{' '}
-                <ItemCount>{selected.size > 0 ? selected.size : ''}</ItemCount>{' '}
-                <AngleDown />
-            </FilterName>
-            {open && (
-                <React.Fragment>
-                    <StyledClickAway onClick={() => onClick()} />
-                    <Menu>
-                        {search && (
-                            <React.Fragment>
-                                <TextField
-                                    value={searchValue}
-                                    prefix={<Search />}
-                                    onChange={e =>
-                                        searchHandler(e.currentTarget.value)
-                                    }
-                                />
-
-                                {selected.size > 0 && (
-                                    <SelectedOptions
-                                        options={options}
-                                        onSelect={selectHandler}
-                                        selected={selected}
-                                    />
-                                )}
-                                <Options
-                                    options={result}
-                                    onSelect={selectHandler}
-                                    selected={selected}
-                                    removeSelected={true}
-                                />
-                            </React.Fragment>
-                        )}
-                        {search === false && (
-                            <Options
-                                options={result}
-                                onSelect={selectHandler}
-                                selected={selected}
-                            />
-                        )}
-                    </Menu>
-                </React.Fragment>
-            )}
-        </div>
-    );
+    return {
+        searchHandler,
+        selectHandler,
+        selected,
+        searchValue,
+        result,
+    };
 };
 
-export default styled(Filter)`
+interface FilterDropDown extends Filter {
+    open?: boolean;
+    onClick(): void;
+    onKeyDown(e: React.KeyboardEvent): void;
+}
+
+export const FilterDropDown = styled(
+    ({
+        className,
+        options,
+        onChange,
+        open = false,
+        value,
+        onClick,
+        label,
+        onKeyDown,
+        search = false,
+    }: FilterDropDown) => {
+        const {
+            searchHandler,
+            selectHandler,
+            selected,
+            searchValue,
+            result,
+        } = useFilter(value, options, onChange);
+
+        return (
+            <div className={className}>
+                <FilterName
+                    onKeyDown={onKeyDown}
+                    tabIndex={0}
+                    onClick={() => onClick()}
+                >
+                    {label}{' '}
+                    <ItemCount>
+                        {selected.size > 0 ? selected.size : ''}
+                    </ItemCount>{' '}
+                    <AngleDown />
+                </FilterName>
+                {open && (
+                    <React.Fragment>
+                        <StyledClickAway onClick={() => onClick()} />
+                        <FilterDropDownMenu>
+                            <FilterMenu
+                                selectHandler={selectHandler}
+                                searchHandler={searchHandler}
+                                search={search}
+                                searchValue={searchValue}
+                                selected={selected}
+                                options={options}
+                                result={result}
+                            />
+                        </FilterDropDownMenu>
+                    </React.Fragment>
+                )}
+            </div>
+        );
+    }
+)`
     ${TextField} {
         padding: 0 20px 20px;
         box-sizing: border-box;
@@ -351,6 +413,60 @@ export default styled(Filter)`
     ${FilterName} {
         color: ${({ open, theme: { color } }) =>
             open ? color.primary : color.black};
+
+        &:focus {
+            outline: none;
+            color: ${({ theme: { color } }) => color.primary};
+        }
+    }
+`;
+
+export const FilterList = styled(
+    ({
+        className,
+        options,
+        onChange,
+        label,
+        value,
+        search = false,
+    }: Filter) => {
+        const {
+            searchHandler,
+            selectHandler,
+            selected,
+            searchValue,
+            result,
+        } = useFilter(value, options, onChange);
+
+        return (
+            <div className={className}>
+                <FilterName tabIndex={0}>
+                    {label}{' '}
+                    <ItemCount>
+                        {selected.size > 0 ? selected.size : ''}
+                    </ItemCount>{' '}
+                </FilterName>
+                <FilterMenu
+                    selectHandler={selectHandler}
+                    searchHandler={searchHandler}
+                    search={search}
+                    searchValue={searchValue}
+                    selected={selected}
+                    options={options}
+                    result={result}
+                />
+            </div>
+        );
+    }
+)`
+    ${TextField} {
+        padding: 0 20px 20px;
+        box-sizing: border-box;
+    }
+
+    position: relative;
+    ${FilterName} {
+        color: ${({ theme: { color } }) => color.black};
 
         &:focus {
             outline: none;

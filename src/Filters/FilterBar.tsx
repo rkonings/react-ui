@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Filter, { FilterConfig } from './Filter';
+import { FilterConfig, FilterDropDown } from './Filter';
 
 interface FilterBar {
     className?: string;
@@ -51,7 +51,7 @@ const FilterBar = ({ className, data, onChange }: FilterBar) => {
         <div className={className}>
             {filters.map(filter => {
                 return (
-                    <Filter
+                    <FilterDropDown
                         onKeyDown={e => keyDownHandler(e, filter.id)}
                         label={filter.label}
                         search={filter.search}
