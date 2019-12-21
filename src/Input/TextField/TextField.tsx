@@ -44,7 +44,7 @@ const Postfix = styled.span`
     margin-left: 5px;
 `;
 
-const Label = styled.span`
+export const Label = styled.span`
     display: block;
     width: 100%;
     font-weight: 500;
