@@ -1,7 +1,7 @@
 import dotProp from 'dot-prop';
 import React from 'react';
 import * as Yup from 'yup';
-import Popup, { PopupCore } from '../Popup/Popup';
+import Popup, { PopupCore, PopupPosition } from '../Popup/Popup';
 
 export type ValidationErrors = Map<string, string>;
 export interface ChangedItem {
@@ -60,6 +60,7 @@ interface PopoverInput<T> {
     isOpen?: boolean;
     values: T;
     link?: JSX.Element;
+    position?: PopupPosition;
     children: (
         props: PopupInputProps<T>
     ) => string | JSX.Element | JSX.Element[];
@@ -71,6 +72,7 @@ interface PopupCoreInput<T> {
     validationSchema: Yup.ObjectSchema;
     width?: string;
     height?: string;
+    position?: PopupPosition;
     clickAway?: () => void;
     children: (
         props: PopupCoreInputProps<T>
@@ -83,6 +85,7 @@ export const PopupCoreInput = <T extends {}>({
     values,
     onChange,
     validationSchema,
+    position = 'CENTER',
 }: PopupCoreInput<T>) => {
     const [inputValues, setInputValues] = React.useState<T>(values);
     const [inputErrors, setInputErrors] = React.useState<ValidationErrors>(
@@ -144,7 +147,7 @@ export const PopupCoreInput = <T extends {}>({
     };
 
     return (
-        <PopupCore clickAway={clickAway}>
+        <PopupCore position={position} clickAway={clickAway}>
             <React.Fragment>
                 {children({
                     errors: inputErrors,
@@ -168,6 +171,7 @@ export const PopupInput = <T extends {}>({
     isOpen,
     width,
     height,
+    position = 'CENTER',
 }: PopoverInput<T>) => {
     const [inputValues, setInputValues] = React.useState<T>(values);
     const [inputErrors, setInputErrors] = React.useState<ValidationErrors>(
@@ -228,7 +232,13 @@ export const PopupInput = <T extends {}>({
         setOpen(false);
     };
     return (
-        <Popup width={width} height={height} isOpen={isOpen} link={link}>
+        <Popup
+            position={position}
+            width={width}
+            height={height}
+            isOpen={isOpen}
+            link={link}
+        >
             {setOpen =>
                 children({
                     setOpen,
