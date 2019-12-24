@@ -29,6 +29,7 @@ const Main = styled.div`
     padding: 2em;
     display: flex;
     flex-direction: column;
+    overflow: scroll;
 `;
 
 const Back = styled.div`
