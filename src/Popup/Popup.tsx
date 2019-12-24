@@ -2,12 +2,15 @@ import useFocusTrap from '@charlietango/use-focus-trap';
 import React from 'react';
 import styled from 'styled-components';
 
+export type PopupPosition = 'BOTTOM' | 'CENTER';
+
 interface Popup {
     className?: string;
     width?: string;
     isOpen?: boolean;
     height?: string;
     clickAway?: boolean;
+    position?: PopupPosition;
     children: (
         close: React.Dispatch<React.SetStateAction<boolean>>
     ) => string | JSX.Element | JSX.Element[];
@@ -45,7 +48,7 @@ const StyledClickAway = styled.div`
     z-index: 1;
 `;
 
-const Overlay = styled.div`
+const Overlay = styled.div<{ position: PopupPosition }>`
     position: fixed;
     top: 0;
     left: 0;
@@ -53,8 +56,23 @@ const Overlay = styled.div`
     right: 0;
     z-index: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
+
+    ${({ position = 'CENTER' }) => {
+        if (position === 'CENTER') {
+            return `
+                align-items: center;
+                justify-content: center;
+            `;
+        } else if (position === 'BOTTOM') {
+            return `
+                align-items: flex-end;
+                justify-content: center;
+            `;
+        }
+
+        return '';
+    }}
+
     background: rgba(0, 0, 0, 0.4);
     z-index: 999;
 `;
@@ -79,6 +97,7 @@ interface PopupCore {
     isOpen?: boolean;
     clickAway?: () => void;
     children: JSX.Element;
+    position?: PopupPosition;
 }
 
 export const PopupCore = ({
@@ -86,10 +105,11 @@ export const PopupCore = ({
     width,
     height,
     children,
+    position = 'CENTER',
 }: PopupCore) => {
     const focusTrap = useFocusTrap();
     return (
-        <Overlay>
+        <Overlay position={position}>
             {clickAway && <StyledClickAway onClick={() => clickAway()} />}
             <PopupWindow ref={focusTrap} width={width} height={height}>
                 {children}
@@ -106,6 +126,7 @@ const Popup = ({
     height,
     isOpen = false,
     clickAway,
+    position = 'CENTER',
 }: Popup) => {
     const [open, setOpen] = React.useState();
     const focusTrap = useFocusTrap();
@@ -119,7 +140,7 @@ const Popup = ({
             {link &&
                 React.cloneElement(link, { onClick: () => setOpen(!open) })}
             {open && (
-                <Overlay>
+                <Overlay position={position}>
                     {clickAway && (
                         <StyledClickAway onClick={() => setOpen(false)} />
                     )}
