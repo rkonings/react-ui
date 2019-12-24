@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import { boolean, text } from '@storybook/addon-knobs';
+import { boolean, select, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import faker from 'faker';
 import React from 'react';
@@ -34,8 +34,11 @@ storiesOf('Input/Popup', module)
             lastName: Yup.string().required('field is required'),
         });
 
+        const position = select('Position', ['BOTTOM', 'CENTER'], 'CENTER');
+
         return (
             <PopupInput
+                position={position}
                 link={<Button>Popup</Button>}
                 onChange={(values, options, cb) => {
                     cb();
@@ -99,6 +102,8 @@ storiesOf('Input/Popup', module)
             lastName: faker.name.lastName(),
         };
 
+        const position = select('Position', ['BOTTOM', 'CENTER'], 'CENTER');
+
         const validationSchema = Yup.object({
             firstName: Yup.string().required('is required'),
             lastName: Yup.string().required('field is required'),
@@ -106,6 +111,7 @@ storiesOf('Input/Popup', module)
 
         return (
             <PopupInput
+                position={position}
                 isOpen={isOpen}
                 onChange={(values, options, cb) => {
                     cb();
@@ -168,6 +174,8 @@ storiesOf('Input/Popup', module)
             lastName: faker.name.lastName(),
         };
 
+        const position = select('Position', ['BOTTOM', 'CENTER'], 'CENTER');
+
         const validationSchema = Yup.object({
             firstName: Yup.string().required('is required'),
             lastName: Yup.string().required('field is required'),
@@ -175,6 +183,7 @@ storiesOf('Input/Popup', module)
 
         return (
             <PopupCoreInput
+                position={position}
                 clickAway={action('ClickAway')}
                 validationSchema={validationSchema}
                 values={values}
