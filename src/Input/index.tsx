@@ -178,7 +178,7 @@ export const Style = ({
 
       }
 
-      input {
+      input, textarea {
 
           &:read-only {
               cursor: default;
