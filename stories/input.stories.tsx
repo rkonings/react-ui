@@ -10,6 +10,7 @@ import CheckBox from '../src/Input/Checkbox/Checkbox';
 import DateRangePicker from '../src/Input/DateRangePicker/DaterangePicker';
 import Select from '../src/Input/Select/Select';
 import Switch from '../src/Input/Switch/Switch';
+import TextArea from '../src/Input/TextArea';
 import CurrencyTextField from '../src/Input/TextField/CurrencyTextField';
 import TextField from '../src/Input/TextField/TextField';
 import { Size, Type } from '../src/interfaces/Theme';
@@ -217,9 +218,26 @@ storiesOf('Input/Switch', module)
         );
     });
 
+storiesOf('Input/TextArea', module).add('default', () => {
+    const label = text('Label', faker.lorem.words(4));
+    const alignment = select('Alignment', ['left', 'right'], 'left');
+    const placeholder = text('Placeholder', 'Alignment');
+    const style = select('Style', ['default', 'outlined'], 'default');
+    const helperText = text('Helper text', faker.lorem.words(15));
+    return (
+        <TextArea
+            helperText={helperText}
+            style={style}
+            label={label}
+            textAlign={alignment}
+            placeHolder={placeholder}
+        />
+    );
+});
 storiesOf('Input/TextField', module)
     .add('with value', () => {
         const value = text('Value', 'react@development.nl');
+
         const inputType = select(
             inputTypeLabel,
             inputTypeOptions,
