@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import TextField, { Label } from '../TextField/TextField';
+import { Label } from '../';
+import TextField from '../TextField/TextField';
 
 export const InlineEditableTextField = styled(TextField)`
     input {
