@@ -123,14 +123,10 @@ const UpdateActivity = ({
                     })
                 );
                 onChange(values as ChangedItems, { saveFields: true }, () => {
-                    // callback onChange
-                    // switch to read mode
-                    console.log(values);
                     setEditable(false);
                 });
             })
             .catch(error => {
-                console.log(error);
                 const errors = mapValidationErrors(error);
                 setInputErrors(errors);
             });
