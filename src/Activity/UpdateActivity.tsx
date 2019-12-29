@@ -8,6 +8,7 @@ import TextButton from '../Button/TextButton';
 import ButtonGroup from '../ButtonGroup/ButtonGroup';
 import { ChangedItems, OnChangeHandler } from '../Form';
 import { Agenda, Edit, Trash } from '../Icon';
+import TextArea from '../Input/TextArea';
 import TextField from '../Input/TextField/TextField';
 import { mapValidationErrors, ValidationErrors } from '../Validation';
 
@@ -95,7 +96,6 @@ const UpdateActivity = ({
     onRemove,
 }: UpdateActivityProps) => {
     const [editable, setEditable] = React.useState<boolean>(false);
-    const [labelValues, setLabelValues] = React.useState<Activity>(activity);
     const [inputValues, setInputValues] = React.useState<Activity>(activity);
     const [inputErrors, setInputErrors] = React.useState<ValidationErrors>(
         new Map()
@@ -103,7 +103,6 @@ const UpdateActivity = ({
 
     React.useEffect(() => {
         setInputValues({ ...activity });
-        setLabelValues({ ...activity });
     }, [activity]);
 
     const onCancel = () => {
@@ -124,14 +123,10 @@ const UpdateActivity = ({
                     })
                 );
                 onChange(values as ChangedItems, { saveFields: true }, () => {
-                    // callback onChange
-                    // switch to read mode
-                    console.log(values);
                     setEditable(false);
                 });
             })
             .catch(error => {
-                console.log(error);
                 const errors = mapValidationErrors(error);
                 setInputErrors(errors);
             });
@@ -204,7 +199,7 @@ const UpdateActivity = ({
 
             <ActivityNotes>
                 {editable ? (
-                    <TextField
+                    <TextArea
                         value={inputValues.notes}
                         placeHolder="notes"
                         onChange={e =>
