@@ -9,18 +9,17 @@ import {
     Style,
     Wrapper,
 } from '../';
+
 import { ErrorText, HelperText } from '../Core';
 
-const DEFAULT_TYPE = 'text';
-
-export interface TextFieldProps extends InputProps, HelperText, ErrorText {
-    onChange?(e: React.FormEvent<HTMLInputElement>): void;
-    onBlur?(e: React.FormEvent<HTMLInputElement>): void;
-    onFocus?(e: React.FormEvent<HTMLInputElement>): void;
-    onKeyDown?(e: React.KeyboardEvent<HTMLInputElement>): void;
+export interface TextAreaProps extends InputProps, HelperText, ErrorText {
+    onChange?(e: React.FormEvent<HTMLTextAreaElement>): void;
+    onBlur?(e: React.FormEvent<HTMLTextAreaElement>): void;
+    onFocus?(e: React.FormEvent<HTMLTextAreaElement>): void;
+    onKeyDown?(e: React.KeyboardEvent<HTMLTextAreaElement>): void;
 }
 
-const TextField = ({
+const TextArea = ({
     className,
     value,
     placeHolder,
@@ -35,12 +34,11 @@ const TextField = ({
     errorText,
     autoFocus,
     disabled,
-    inputType = DEFAULT_TYPE,
     prefix,
     postfix,
     label,
-}: TextFieldProps) => {
-    const inputRef = React.useRef<HTMLInputElement>(null);
+}: TextAreaProps) => {
+    const inputRef = React.useRef<HTMLTextAreaElement>(null);
     const [focus, setFocus] = React.useState<boolean>(false);
 
     React.useEffect(() => {
@@ -49,14 +47,14 @@ const TextField = ({
         }
     }, [autoFocus]);
 
-    const onFocusHandler = (e: React.FormEvent<HTMLInputElement>) => {
+    const onFocusHandler = (e: React.FormEvent<HTMLTextAreaElement>) => {
         setFocus(true);
         if (onFocus) {
             onFocus(e);
         }
     };
 
-    const onBlurHandler = (e: React.FormEvent<HTMLInputElement>) => {
+    const onBlurHandler = (e: React.FormEvent<HTMLTextAreaElement>) => {
         setFocus(false);
         if (onBlur) {
             onBlur(e);
@@ -73,10 +71,9 @@ const TextField = ({
                 _style={style}
             >
                 {prefix && <Prefix>{prefix}</Prefix>}
-                <input
+                <textarea
                     readOnly={readOnly}
                     name={name}
-                    type={inputType}
                     ref={inputRef}
                     placeholder={placeHolder}
                     value={value}
@@ -94,9 +91,9 @@ const TextField = ({
     );
 };
 
-const StyledTextField = styled(TextField)`
+const StyledTextArea = styled(TextArea)`
     ${BaseStyle};
     ${Style};
 `;
 
-export default StyledTextField;
+export default StyledTextArea;
