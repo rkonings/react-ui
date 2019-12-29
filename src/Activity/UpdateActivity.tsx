@@ -8,6 +8,7 @@ import TextButton from '../Button/TextButton';
 import ButtonGroup from '../ButtonGroup/ButtonGroup';
 import { ChangedItems, OnChangeHandler } from '../Form';
 import { Agenda, Edit, Trash } from '../Icon';
+import TextArea from '../Input/TextArea';
 import TextField from '../Input/TextField/TextField';
 import { mapValidationErrors, ValidationErrors } from '../Validation';
 
@@ -204,7 +205,7 @@ const UpdateActivity = ({
 
             <ActivityNotes>
                 {editable ? (
-                    <TextField
+                    <TextArea
                         value={inputValues.notes}
                         placeHolder="notes"
                         onChange={e =>
