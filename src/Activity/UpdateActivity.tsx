@@ -96,7 +96,6 @@ const UpdateActivity = ({
     onRemove,
 }: UpdateActivityProps) => {
     const [editable, setEditable] = React.useState<boolean>(false);
-    const [labelValues, setLabelValues] = React.useState<Activity>(activity);
     const [inputValues, setInputValues] = React.useState<Activity>(activity);
     const [inputErrors, setInputErrors] = React.useState<ValidationErrors>(
         new Map()
@@ -104,7 +103,6 @@ const UpdateActivity = ({
 
     React.useEffect(() => {
         setInputValues({ ...activity });
-        setLabelValues({ ...activity });
     }, [activity]);
 
     const onCancel = () => {
