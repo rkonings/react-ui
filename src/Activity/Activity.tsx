@@ -1,7 +1,16 @@
+import dotProp from 'dot-prop';
 import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
-import { Agenda } from '../Icon';
+import * as Yup from 'yup';
+import Button from '../Button/Button';
+import TextButton from '../Button/TextButton';
+import ButtonGroup from '../ButtonGroup/ButtonGroup';
+import { ChangedItems, OnChangeHandler } from '../Form';
+import { Agenda, Edit, Trash } from '../Icon';
+import TextArea from '../Input/TextArea';
+import TextField from '../Input/TextField/TextField';
+import { mapValidationErrors, ValidationErrors } from '../Validation';
 
 export interface Activity {
     type: string;
@@ -9,11 +18,15 @@ export interface Activity {
     client?: string;
     notes: string;
     creationDate: Date;
+    _id: string;
 }
 
-interface ActivityProps {
+interface UpdateActivityProps {
     className?: string;
     activity: Activity;
+    validationSchema: Yup.ObjectSchema;
+    onChange: OnChangeHandler;
+    onRemove: () => void;
 }
 
 const ActivityType = styled.div`
@@ -46,8 +59,23 @@ const ActivityNotes = styled.div`
 const ActivityHeader = styled.div`
     display: flex;
     width: 100%;
+    height: 15px;
+    align-items: center;
     margin-bottom: 1em;
     justify-content: space-between;
+`;
+
+const ActivityFooter = styled.div`
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    margin-top: 2em;
+    justify-content: flex-end;
+`;
+
+const ActivityToolBar = styled.div`
+    display: flex;
+    justify-content: flex-end;
 `;
 
 const ActivityIcon = styled.div`
@@ -61,7 +89,68 @@ const ActivityIcon = styled.div`
     }
 `;
 
-const Activity = ({ className, activity }: ActivityProps) => {
+const Activity = ({
+    className,
+    activity,
+    validationSchema,
+    onChange,
+    onRemove,
+}: UpdateActivityProps) => {
+    const [editable, setEditable] = React.useState<boolean>(false);
+    const [inputValues, setInputValues] = React.useState<Activity>(activity);
+    const [inputErrors, setInputErrors] = React.useState<ValidationErrors>(
+        new Map()
+    );
+
+    React.useEffect(() => {
+        setInputValues({ ...activity });
+    }, [activity]);
+
+    const onCancel = () => {
+        setInputValues(activity);
+        setInputErrors(new Map());
+        setEditable(false);
+    };
+
+    const onSave = () => {
+        validationSchema
+            .validate(inputValues, { abortEarly: false, stripUnknown: true })
+            .then(result => {
+                setInputErrors(new Map());
+                const values = Object.entries(result).map(([key, value]) => ({
+                    field: key,
+                    value,
+                }));
+                onChange(values as ChangedItems, { saveFields: true }, () => {
+                    setEditable(false);
+                });
+            })
+            .catch(error => {
+                const errors = mapValidationErrors(error);
+                setInputErrors(errors);
+            });
+    };
+
+    const onChangeInputField = async (
+        field: string,
+        value: boolean | number | string
+    ) => {
+        const values = { ...inputValues };
+        dotProp.set(values, field, value);
+        setInputValues(values);
+
+        validationSchema
+            .validateAt(field, values)
+            .then(() => {
+                const errors = new Map(inputErrors);
+                errors.delete(field);
+                setInputErrors(errors);
+            })
+            .catch(error => {
+                const errors = mapValidationErrors(error);
+                setInputErrors(errors);
+            });
+    };
     return (
         <div className={className}>
             <ActivityIcon>
@@ -69,13 +158,69 @@ const Activity = ({ className, activity }: ActivityProps) => {
             </ActivityIcon>
             <ActivityHeader>
                 <ActivityType>{activity.type}</ActivityType>
+                {!editable && (
+                    <ActivityToolBar>
+                        <TextButton
+                            size="s"
+                            isIcon={true}
+                            onClick={() => setEditable(true)}
+                        >
+                            <Edit />
+                        </TextButton>
+                        <TextButton
+                            size="s"
+                            isIcon={true}
+                            onClick={() => onRemove()}
+                        >
+                            <Trash />
+                        </TextButton>
+                    </ActivityToolBar>
+                )}
                 <ActivityDate>
                     {moment(activity.creationDate).format('D MMM YYYY')}&nbsp;at
                     &nbsp;{moment(activity.creationDate).format('h:MM A z')}
                 </ActivityDate>
             </ActivityHeader>
-            <ActivityTitle>{activity.title}</ActivityTitle>
-            <ActivityNotes>{activity.notes}</ActivityNotes>
+            <ActivityTitle>
+                {editable ? (
+                    <TextField
+                        value={inputValues.title}
+                        placeHolder="title"
+                        onChange={e =>
+                            onChangeInputField('title', e.currentTarget.value)
+                        }
+                        errorText={inputErrors.get('title')}
+                    />
+                ) : (
+                    inputValues.title
+                )}
+            </ActivityTitle>
+
+            <ActivityNotes>
+                {editable ? (
+                    <TextArea
+                        value={inputValues.notes}
+                        placeHolder="notes"
+                        onChange={e =>
+                            onChangeInputField('notes', e.currentTarget.value)
+                        }
+                        errorText={inputErrors.get('notes')}
+                    />
+                ) : (
+                    inputValues.notes
+                )}
+            </ActivityNotes>
+
+            {editable && (
+                <ActivityFooter>
+                    <ButtonGroup>
+                        <TextButton onClick={onCancel}>cancel</TextButton>
+                        <Button onClick={onSave} type="primary">
+                            Save
+                        </Button>
+                    </ButtonGroup>
+                </ActivityFooter>
+            )}
         </div>
     );
 };
@@ -85,4 +230,12 @@ export default styled(Activity)`
     padding: 1em 1em 1em 50px;
     margin-bottom: 2em;
     position: relative;
+    ${ActivityToolBar} {
+        display: none;
+    }
+    &:hover {
+        ${ActivityToolBar} {
+            display: flex;
+        }
+    }
 `;
