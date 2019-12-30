@@ -100,6 +100,7 @@ const DatePicker = ({
         if (date) {
             setSelectedDate(date);
             setInputValue(date.format(DATE_FORMAT));
+
             if (onChange) {
                 onChange(date);
             }
@@ -210,7 +211,10 @@ const DatePicker = ({
 
                         {!openMonthSelect && (
                             <DaySelect
-                                onChange={onCalendarChange}
+                                onChange={date => {
+                                    onCalendarChange(date);
+                                    setOpen(false);
+                                }}
                                 amountMonths={2}
                                 month={month}
                                 year={year}
