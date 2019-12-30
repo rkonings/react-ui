@@ -33,7 +33,7 @@ const Content = styled.div<{ xOffset: number }>`
     padding: 1em;
     background: ${({ theme: { color } }) => color.gray10};
     border: 1px solid ${({ theme: { color } }) => color.gray40};
-    z-index: 1;
+    z-index: 999;
 
     ::after {
         content: '';
