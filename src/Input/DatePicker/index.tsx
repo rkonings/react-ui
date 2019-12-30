@@ -66,6 +66,7 @@ const MonthSelectButton = styled(TextButton)`
 const DatePicker = ({
     className,
     value,
+    onChange,
     startYear = 2000,
     endYear = 2030,
 }: DatePicker) => {
@@ -99,6 +100,9 @@ const DatePicker = ({
         if (date) {
             setSelectedDate(date);
             setInputValue(date.format(DATE_FORMAT));
+            if (onChange) {
+                onChange(date);
+            }
         }
     };
     const onTextFieldChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -109,6 +113,9 @@ const DatePicker = ({
             setSelectedDate(date);
             setYear(date.year());
             setMonth(date.month());
+            if (onChange) {
+                onChange(date);
+            }
         } else {
             setSelectedDate(null);
         }
