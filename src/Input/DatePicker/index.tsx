@@ -128,6 +128,7 @@ const DatePicker = ({
                         value={inputValue}
                         onChange={onTextFieldChange}
                         postfix={<Agenda />}
+                        grow={true}
                     />
                 }
             >
