@@ -37,7 +37,7 @@ interface DaySelect {
     onChangePotentialRange?(date: moment.Moment): void;
     onChange(selectedDate: moment.Moment): void;
 }
-const DaySelect = styled(
+export const DaySelect = styled(
     ({
         className,
         value,

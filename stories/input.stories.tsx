@@ -7,6 +7,7 @@ import React from 'react';
 import { Grid, Item } from '../src/Grid';
 import { ArrowLeft } from '../src/Icon';
 import CheckBox from '../src/Input/Checkbox/Checkbox';
+import DatePicker from '../src/Input/DatePicker';
 import DateRangePicker from '../src/Input/DateRangePicker/DaterangePicker';
 import Select from '../src/Input/Select/Select';
 import Switch from '../src/Input/Switch/Switch';
@@ -32,6 +33,10 @@ const sizeDefaultValue = 'm';
 const inputTypeLabel = 'Input Type';
 const inputTypeOptions = ['text', 'password', 'email'];
 const inputTypeDefault = 'text';
+
+storiesOf('Input/DatePicker', module).add('default', () => {
+    return <DatePicker onChange={action('onChange')} />;
+});
 
 storiesOf('Input/DateRangePicker', module).add('advanced', () => {
     return <DateRangePicker onChange={action('onChange')} />;
