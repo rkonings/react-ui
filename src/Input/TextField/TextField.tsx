@@ -14,6 +14,9 @@ import { ErrorText, HelperText } from '../Core';
 const DEFAULT_TYPE = 'text';
 
 export interface TextFieldProps extends InputProps, HelperText, ErrorText {
+    onClick?: (
+        event: React.MouseEvent<HTMLInputElement, MouseEvent>
+    ) => void | undefined;
     onChange?(e: React.FormEvent<HTMLInputElement>): void;
     onBlur?(e: React.FormEvent<HTMLInputElement>): void;
     onFocus?(e: React.FormEvent<HTMLInputElement>): void;
@@ -29,6 +32,7 @@ const TextField = ({
     onBlur,
     onFocus,
     name,
+    onClick,
     style,
     readOnly,
     helperText,
@@ -74,6 +78,7 @@ const TextField = ({
             >
                 {prefix && <Prefix>{prefix}</Prefix>}
                 <input
+                    onClick={onClick}
                     readOnly={readOnly}
                     name={name}
                     type={inputType}
