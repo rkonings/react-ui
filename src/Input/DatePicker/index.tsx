@@ -247,6 +247,7 @@ const DatePicker = ({
 
 export default styled(DatePicker)`
     ${Month} {
+        text-align: left;
         width: 300px;
     }
 `;
