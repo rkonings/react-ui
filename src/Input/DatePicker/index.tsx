@@ -63,6 +63,10 @@ const MonthSelectButton = styled(TextButton)`
     margin-left: -18px;
 `;
 
+const Header = styled.div`
+    margin-bottom: 1em;
+`;
+
 const DatePicker = ({
     className,
     value,
@@ -143,61 +147,73 @@ const DatePicker = ({
             >
                 {setOpen => (
                     <React.Fragment>
-                        <Grid width="100%">
-                            <Item width="50%">
-                                <MonthSelectButton
-                                    onClick={() =>
-                                        setOpenMonthSelect(!openMonthSelect)
-                                    }
+                        <Header>
+                            <Grid width="100%">
+                                <Item width="50%">
+                                    <MonthSelectButton
+                                        onClick={() =>
+                                            setOpenMonthSelect(!openMonthSelect)
+                                        }
+                                    >
+                                        {moment([year, month]).format(
+                                            'MMM YYYY'
+                                        )}
+                                        <CaretDown spacing="left" />
+                                    </MonthSelectButton>
+                                </Item>
+                                <Item
+                                    width="50%"
+                                    horizontalAlignment="flex-end"
                                 >
-                                    {moment([year, month]).format('MMM YYYY')}
-                                    <CaretDown spacing="left" />
-                                </MonthSelectButton>
-                            </Item>
-                            <Item width="50%" horizontalAlignment="flex-end">
-                                <ButtonGroup>
-                                    <TextButton
-                                        onClick={() => {
-                                            const prevMonth = moment([
-                                                year,
-                                                month,
-                                            ]).subtract(1, 'month');
-                                            if (
-                                                prevMonth.isAfter(
-                                                    moment([startYear - 1, 11]),
-                                                    'month'
-                                                )
-                                            ) {
-                                                setMonth(prevMonth.month());
-                                                setYear(prevMonth.year());
-                                            }
-                                        }}
-                                    >
-                                        <ArrowLeft size="s" />
-                                    </TextButton>
-                                    <TextButton
-                                        onClick={() => {
-                                            const nextMonth = moment([
-                                                year,
-                                                month,
-                                            ]).add(1, 'month');
-                                            if (
-                                                nextMonth.isBefore(
-                                                    moment([endYear + 1, 0]),
-                                                    'month'
-                                                )
-                                            ) {
-                                                setMonth(nextMonth.month());
-                                                setYear(nextMonth.year());
-                                            }
-                                        }}
-                                    >
-                                        <ArrowRight />
-                                    </TextButton>
-                                </ButtonGroup>
-                            </Item>
-                        </Grid>
-
+                                    <ButtonGroup>
+                                        <TextButton
+                                            onClick={() => {
+                                                const prevMonth = moment([
+                                                    year,
+                                                    month,
+                                                ]).subtract(1, 'month');
+                                                if (
+                                                    prevMonth.isAfter(
+                                                        moment([
+                                                            startYear - 1,
+                                                            11,
+                                                        ]),
+                                                        'month'
+                                                    )
+                                                ) {
+                                                    setMonth(prevMonth.month());
+                                                    setYear(prevMonth.year());
+                                                }
+                                            }}
+                                        >
+                                            <ArrowLeft size="s" />
+                                        </TextButton>
+                                        <TextButton
+                                            onClick={() => {
+                                                const nextMonth = moment([
+                                                    year,
+                                                    month,
+                                                ]).add(1, 'month');
+                                                if (
+                                                    nextMonth.isBefore(
+                                                        moment([
+                                                            endYear + 1,
+                                                            0,
+                                                        ]),
+                                                        'month'
+                                                    )
+                                                ) {
+                                                    setMonth(nextMonth.month());
+                                                    setYear(nextMonth.year());
+                                                }
+                                            }}
+                                        >
+                                            <ArrowRight />
+                                        </TextButton>
+                                    </ButtonGroup>
+                                </Item>
+                            </Grid>
+                        </Header>
                         {openMonthSelect && (
                             <MonthSelect
                                 width={300}
