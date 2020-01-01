@@ -135,7 +135,8 @@ const DatePicker = ({
                     <TextField
                         value={inputValue}
                         onChange={onTextFieldChange}
-                        postfix={<Agenda />}
+                        prefix={<Agenda />}
+                        postfix={<CaretDown />}
                         grow={true}
                     />
                 }
