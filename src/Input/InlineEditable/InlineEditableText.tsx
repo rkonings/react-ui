@@ -29,6 +29,25 @@ const InputToolbar = styled.div`
     margin-top: 5px;
 `;
 
+const Wrapper = styled.div<{ isEditable: boolean }>`
+    ${({ theme: { color }, isEditable }) => {
+        if (isEditable) {
+            return ``;
+        }
+
+        return `
+            &:hover {
+                background: ${color.gray10};
+                border-bottom: 1px solid ${color.gray60};
+
+                ${EditButton} {
+                    opacity: 1;
+                }
+            }
+        `;
+    }}
+`;
+
 export const Label = styled.div`
     display: flex;
     flex: grow;
@@ -75,12 +94,13 @@ const InlineEditableText = ({
     };
 
     return (
-        <div
+        <Wrapper
             onClick={() => {
                 if (!isEditable) {
                     setIsEditable(true);
                 }
             }}
+            isEditable={isEditable}
             className={className}
         >
             {isEditable ? (
@@ -117,7 +137,7 @@ const InlineEditableText = ({
                     </EditButton>
                 </React.Fragment>
             )}
-        </div>
+        </Wrapper>
     );
 };
 
@@ -134,14 +154,5 @@ export default styled(InlineEditableText)`
     ${EditButton} {
         margin-left: 1em;
         opacity: 0;
-    }
-
-    &:hover {
-        background: ${({ theme: { color } }) => color.gray10};
-        border-bottom: 1px solid ${({ theme: { color } }) => color.gray60};
-
-        ${EditButton} {
-            opacity: 1;
-        }
     }
 `;
