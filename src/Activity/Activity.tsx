@@ -3,14 +3,13 @@ import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-import Button from '../Button/Button';
-import TextButton from '../Button/TextButton';
-import ButtonGroup from '../ButtonGroup/ButtonGroup';
+
 import { ChangedItems, OnChangeHandler } from '../Form';
-import { Agenda, Edit, Trash } from '../Icon';
-import TextArea from '../Input/TextArea';
-import TextField from '../Input/TextField/TextField';
+import { Agenda } from '../Icon';
 import { mapValidationErrors, ValidationErrors } from '../Validation';
+
+import InlineEditableDate from '../Input/InlineEditable/InlineEditableDate';
+import InlineEditableText from '../Input/InlineEditable/InlineEditableText';
 
 export interface Activity {
     type: string;
@@ -19,6 +18,7 @@ export interface Activity {
     notes: string;
     creationDate: Date;
     _id: string;
+    dueDate?: Date;
 }
 
 interface UpdateActivityProps {
@@ -46,7 +46,14 @@ const ActivityDate = styled.div`
 const ActivityTitle = styled.div`
     color: ${({ theme: { color } }) => color.gray110};
     font-weight: 500;
-    margin-bottom: 0.5em;
+`;
+
+const ActivityDueDate = styled.div`
+    color: ${({ theme: { color } }) => color.gray110};
+    font-weight: 500;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
 `;
 
 const ActivityNotes = styled.div`
@@ -65,12 +72,8 @@ const ActivityHeader = styled.div`
     justify-content: space-between;
 `;
 
-const ActivityFooter = styled.div`
-    display: flex;
-    align-items: flex-end;
-    width: 100%;
-    margin-top: 2em;
-    justify-content: flex-end;
+const ActivityBar = styled.div`
+    margin: 1em 0;
 `;
 
 const ActivityToolBar = styled.div`
@@ -96,7 +99,6 @@ const Activity = ({
     onChange,
     onRemove,
 }: UpdateActivityProps) => {
-    const [editable, setEditable] = React.useState<boolean>(false);
     const [inputValues, setInputValues] = React.useState<Activity>(activity);
     const [inputErrors, setInputErrors] = React.useState<ValidationErrors>(
         new Map()
@@ -106,34 +108,9 @@ const Activity = ({
         setInputValues({ ...activity });
     }, [activity]);
 
-    const onCancel = () => {
-        setInputValues(activity);
-        setInputErrors(new Map());
-        setEditable(false);
-    };
-
-    const onSave = () => {
-        validationSchema
-            .validate(inputValues, { abortEarly: false, stripUnknown: true })
-            .then(result => {
-                setInputErrors(new Map());
-                const values = Object.entries(result).map(([key, value]) => ({
-                    field: key,
-                    value,
-                }));
-                onChange(values as ChangedItems, { saveFields: true }, () => {
-                    setEditable(false);
-                });
-            })
-            .catch(error => {
-                const errors = mapValidationErrors(error);
-                setInputErrors(errors);
-            });
-    };
-
     const onChangeInputField = async (
         field: string,
-        value: boolean | number | string
+        value: boolean | number | string | Date
     ) => {
         const values = { ...inputValues };
         dotProp.set(values, field, value);
@@ -141,10 +118,15 @@ const Activity = ({
 
         validationSchema
             .validateAt(field, values)
-            .then(() => {
+            .then(_ => {
                 const errors = new Map(inputErrors);
                 errors.delete(field);
                 setInputErrors(errors);
+                onChange(
+                    [{ field, value }] as ChangedItems,
+                    { saveFields: true },
+                    () => null
+                );
             })
             .catch(error => {
                 const errors = mapValidationErrors(error);
@@ -158,69 +140,45 @@ const Activity = ({
             </ActivityIcon>
             <ActivityHeader>
                 <ActivityType>{activity.type}</ActivityType>
-                {!editable && (
-                    <ActivityToolBar>
-                        <TextButton
-                            size="s"
-                            isIcon={true}
-                            onClick={() => setEditable(true)}
-                        >
-                            <Edit />
-                        </TextButton>
-                        <TextButton
-                            size="s"
-                            isIcon={true}
-                            onClick={() => onRemove()}
-                        >
-                            <Trash />
-                        </TextButton>
-                    </ActivityToolBar>
-                )}
                 <ActivityDate>
-                    {moment(activity.creationDate).format('D MMM YYYY')}&nbsp;at
-                    &nbsp;{moment(activity.creationDate).format('h:MM A z')}
+                    {moment(inputValues.creationDate).format('D MMM YYYY')}
+                    &nbsp;at &nbsp;
+                    {moment(inputValues.creationDate).format('h:MM A z')}
                 </ActivityDate>
             </ActivityHeader>
             <ActivityTitle>
-                {editable ? (
-                    <TextField
-                        value={inputValues.title}
-                        placeHolder="title"
-                        onChange={e =>
-                            onChangeInputField('title', e.currentTarget.value)
-                        }
-                        errorText={inputErrors.get('title')}
-                    />
-                ) : (
-                    inputValues.title
-                )}
+                <InlineEditableText
+                    onChange={value => onChangeInputField('title', value)}
+                    field="title"
+                    validationSchema={validationSchema}
+                    value={inputValues.title}
+                />
             </ActivityTitle>
+            <ActivityBar>
+                <ActivityDueDate>
+                    Due date
+                    <InlineEditableDate
+                        validationSchema={validationSchema}
+                        field="dueDate"
+                        onChange={value => {
+                            if (value) {
+                                onChangeInputField('dueDate', value.toDate());
+                            }
+                        }}
+                        value={moment(inputValues.dueDate)}
+                    />
+                </ActivityDueDate>
+            </ActivityBar>
 
             <ActivityNotes>
-                {editable ? (
-                    <TextArea
-                        value={inputValues.notes}
-                        placeHolder="notes"
-                        onChange={e =>
-                            onChangeInputField('notes', e.currentTarget.value)
-                        }
-                        errorText={inputErrors.get('notes')}
-                    />
-                ) : (
-                    inputValues.notes
-                )}
+                <InlineEditableText
+                    onChange={value => onChangeInputField('notes', value)}
+                    field="notes"
+                    validationSchema={validationSchema}
+                    value={inputValues.notes}
+                    type="TEXTAREA"
+                />
             </ActivityNotes>
-
-            {editable && (
-                <ActivityFooter>
-                    <ButtonGroup>
-                        <TextButton onClick={onCancel}>cancel</TextButton>
-                        <Button onClick={onSave} type="primary">
-                            Save
-                        </Button>
-                    </ButtonGroup>
-                </ActivityFooter>
-            )}
         </div>
     );
 };
