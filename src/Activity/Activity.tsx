@@ -110,7 +110,7 @@ const Activity = ({
 
     const onChangeInputField = async (
         field: string,
-        value: boolean | number | string | Date
+        value: boolean | number | string | Date | null
     ) => {
         const values = { ...inputValues };
         dotProp.set(values, field, value);
@@ -163,9 +163,15 @@ const Activity = ({
                         onChange={value => {
                             if (value) {
                                 onChangeInputField('dueDate', value.toDate());
+                            } else {
+                                onChangeInputField('dueDate', value);
                             }
                         }}
-                        value={moment(inputValues.dueDate)}
+                        value={
+                            inputValues.dueDate
+                                ? moment(inputValues.dueDate)
+                                : null
+                        }
                     />
                 </ActivityDueDate>
             </ActivityBar>
