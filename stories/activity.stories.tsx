@@ -16,6 +16,7 @@ const validationSchema = Yup.object({
     notes: Yup.string(),
     creationDate: Yup.date().required('Date is required'),
     type: Yup.string().required('type is required'),
+    dueDate: Yup.date().required('due date is required'),
 });
 
 storiesOf('Activity', module).add('default', () => {
@@ -26,6 +27,7 @@ storiesOf('Activity', module).add('default', () => {
         notes:
             'Est ex et velit quas reprehenderit nesciunt.\nRepellendus mollitia tempora explicabo iure fugiat omnis harum accusamus ad.\nImpedit magni cupiditate ut.\nMinima qui cupiditate.\nQuaerat eum veritatis.',
         creationDate: new Date(1552769616138),
+        dueDate: new Date(),
     };
 
     return (
