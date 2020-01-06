@@ -50,7 +50,12 @@ const Wrapper = styled.div<{ isEditable: boolean }>`
 
 export const Label = styled.div`
     display: flex;
+    flex-direction: column;
     flex: grow;
+
+    p {
+        margin: 0 0 5px 0;
+    }
 `;
 
 const InlineEditableText = ({
@@ -131,7 +136,16 @@ const InlineEditableText = ({
                 </InputWrapper>
             ) : (
                 <React.Fragment>
-                    <Label>{innerValue}</Label>
+                    <Label>
+                        {innerValue.split('\n').map((item, key) => {
+                            return (
+                                <p key={key}>
+                                    {item}
+                                    <br />
+                                </p>
+                            );
+                        })}
+                    </Label>
                     <EditButton>
                         <Edit />
                     </EditButton>
