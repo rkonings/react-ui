@@ -6,7 +6,11 @@ interface Popover {
     children: (
         close: React.Dispatch<React.SetStateAction<boolean>>
     ) => string | JSX.Element | JSX.Element[];
-    link: JSX.Element;
+    link:
+        | ((
+              setOpen: React.Dispatch<React.SetStateAction<boolean>>
+          ) => JSX.Element)
+        | JSX.Element;
 }
 
 export const PopoverFooter = styled.div`
@@ -66,9 +70,17 @@ const Popover = ({ className, children, link }: Popover) => {
         }
     }, [link]);
 
+    const getLink = () => {
+        if (typeof link === 'function') {
+            return link(setOpen);
+        } else {
+            return React.cloneElement(link, { onClick: () => setOpen(!open) });
+        }
+    };
+
     return (
         <div ref={ref} className={className}>
-            {React.cloneElement(link, { onClick: () => setOpen(!open) })}
+            {getLink()}
             {open && (
                 <React.Fragment>
                     <StyledClickAway onClick={() => setOpen(false)} />
