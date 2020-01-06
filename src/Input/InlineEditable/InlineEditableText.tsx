@@ -95,7 +95,6 @@ const InlineEditableText = ({
 
     return (
         <Wrapper
-            onBlur={() => onCancel()}
             onClick={() => {
                 if (!isEditable) {
                     setIsEditable(true);
