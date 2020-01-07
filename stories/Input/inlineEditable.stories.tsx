@@ -5,10 +5,12 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 import InlineEditableDate from '../../src/Input/InlineEditable/InlineEditableDate';
+import InlineEditableSelect from '../../src/Input/InlineEditable/InlineEditableSelect';
 import InlineEditableText from '../../src/Input/InlineEditable/InlineEditableText';
 const validationSchema = Yup.object({
     title: Yup.string().required('is required'),
     date: Yup.date(),
+    type: Yup.string().nullable(),
 });
 
 const Wrapper = styled.div`
@@ -16,6 +18,17 @@ const Wrapper = styled.div`
 `;
 
 storiesOf('Input/InlineEditable', module)
+    .add('select', () => {
+        return (
+            <InlineEditableSelect
+                value={'FOO'}
+                options={['FOO', 'BAZZ', 'BAR', 'FOOBAR']}
+                field="type"
+                onChange={action('onChange')}
+                validationSchema={validationSchema}
+            />
+        );
+    })
     .add('no date', () => {
         return (
             <InlineEditableDate
