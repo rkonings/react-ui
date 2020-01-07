@@ -174,6 +174,10 @@ const DateLabel = styled.div`
     }
 `;
 
+const Content = styled.div`
+    width: 300px;
+`;
+
 const Value = styled.div`
     margin-left: 10px;
     margin-right: 10px;
@@ -253,12 +257,12 @@ const DatePicker = ({
     return (
         <div className={className}>
             <Popover
-                link={setOpen => (
+                link={open => (
                     <DateLabel>
-                        <span onClick={() => setOpen(true)}>
+                        <span onClick={open}>
                             <Agenda />
                         </span>
-                        <Value onClick={() => setOpen(true)}>
+                        <Value onClick={open}>
                             {currentDate
                                 ? currentDate.format(DATE_FORMAT)
                                 : placeholder}
@@ -269,14 +273,14 @@ const DatePicker = ({
                             </Clear>
                         )}
 
-                        <span onClick={() => setOpen(true)}>
+                        <span onClick={open}>
                             <CaretDown />
                         </span>
                     </DateLabel>
                 )}
             >
                 {setOpen => (
-                    <React.Fragment>
+                    <Content>
                         <Header
                             setOpenMonthSelect={setOpenMonthSelect}
                             openMonthSelect={openMonthSelect}
@@ -330,7 +334,7 @@ const DatePicker = ({
                                 Save
                             </Button>
                         </ButtonGroup>
-                    </React.Fragment>
+                    </Content>
                 )}
             </Popover>
         </div>

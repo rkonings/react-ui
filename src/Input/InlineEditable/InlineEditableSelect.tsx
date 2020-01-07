@@ -158,9 +158,9 @@ const InlineEditableSelect = ({
     return (
         <div className={className}>
             <Popover
-                link={setOpen => (
+                link={open => (
                     <Label>
-                        <Value onClick={() => setOpen(true)}>
+                        <Value onClick={open}>
                             {currentValue ? currentValue : placeholder}
                         </Value>
                         {selectedValue && (
@@ -169,7 +169,7 @@ const InlineEditableSelect = ({
                             </Clear>
                         )}
 
-                        <span onClick={() => setOpen(true)}>
+                        <span onClick={open}>
                             <CaretDown />
                         </span>
                     </Label>
