@@ -25,13 +25,10 @@ const PopoverFooter = styled.div`
     justify-content: flex-end;
 `;
 
-storiesOf('Popover', module)
-.add('default', () => {
+storiesOf('Popover', module).add('default', () => {
     return (
-        <Popover
-            link={<Button>edit</Button>}
-        >
-            {(setOpen) => (
+        <Popover link={<Button>edit</Button>}>
+            {setOpen => (
                 <React.Fragment>
                     <InputControl>
                         <TextField width="200px" placeHolder="Firstname" />
@@ -41,8 +38,15 @@ storiesOf('Popover', module)
                     </InputControl>
                     <PopoverFooter>
                         <ButtonGroup>
-                            <TextButton onClick={() => setOpen(false)}>Cancel</TextButton>
-                            <Button onClick={() => setOpen(false)} type="primary">Save</Button>
+                            <TextButton onClick={() => setOpen(false)}>
+                                Cancel
+                            </TextButton>
+                            <Button
+                                onClick={() => setOpen(false)}
+                                type="primary"
+                            >
+                                Save
+                            </Button>
                         </ButtonGroup>
                     </PopoverFooter>
                 </React.Fragment>
