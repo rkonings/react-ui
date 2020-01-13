@@ -59,12 +59,21 @@ storiesOf('Popover', module)
     })
     .add('delete', () => {
         return (
-            <DeletePopover
-                link={<Button>Trash</Button>}
-                onDelete={action('deleted')}
-            >
-                Your are about to premantly remove this client. This cannot be
-                undone.
-            </DeletePopover>
+            <React.Fragment>
+                <DeletePopover
+                    link={<Button>Trash</Button>}
+                    onDelete={action('deleted')}
+                >
+                    Your are about to premantly remove this client. This cannot
+                    be undone.
+                </DeletePopover>
+                <DeletePopover
+                    link={<Button>Trash</Button>}
+                    onDelete={action('deleted')}
+                >
+                    Your are about to premantly remove this client. This cannot
+                    be undone.
+                </DeletePopover>
+            </React.Fragment>
         );
     });
