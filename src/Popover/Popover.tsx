@@ -1,26 +1,6 @@
 import React from 'react';
-import usePortal from 'react-useportal';
 import styled, { css } from 'styled-components';
-
-const useModal = () => {
-    const {
-        ref,
-        isOpen,
-        togglePortal,
-        closePortal,
-        Portal,
-        openPortal,
-    } = usePortal({});
-
-    return {
-        Portal,
-        togglePortal,
-        closePortal,
-        isOpen,
-        openPortal,
-        ref,
-    };
-};
+import { usePortal } from '../Portal/Portal';
 
 interface Popover {
     className?: string;
@@ -92,7 +72,7 @@ const Content = styled.div<{ domRect?: DOMRect | ClientRect | null }>`
 const Popover = ({ className, children, link }: Popover) => {
     // const [open, setOpen] = React.useState(false);
     const ref = React.useRef<HTMLDivElement | null>(null);
-    const { isOpen, Portal, closePortal, openPortal } = useModal();
+    const { isOpen, Portal, closePortal, openPortal } = usePortal();
 
     const setOpen = (open?: boolean) => {
         if (typeof open === 'undefined') {
