@@ -12,6 +12,11 @@ interface DeletePopover {
     className?: string;
 }
 
+const Content = styled.div`
+    width: 200px;
+    font-size: 14px;
+`;
+
 const DeletePopover = ({
     link,
     onDelete,
@@ -25,7 +30,7 @@ const DeletePopover = ({
     return (
         <Popover className={className} link={link}>
             {setOpen => (
-                <React.Fragment>
+                <Content>
                     {children}
                     <PopoverFooter>
                         <ButtonGroup>
@@ -43,7 +48,7 @@ const DeletePopover = ({
                             </TextButton>
                         </ButtonGroup>
                     </PopoverFooter>
-                </React.Fragment>
+                </Content>
             )}
         </Popover>
     );

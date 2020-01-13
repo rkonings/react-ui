@@ -46,7 +46,7 @@ const Wrapper = styled.div`
 `;
 
 interface PopoverInputProps<T> {
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setOpen: (open?: boolean) => void;
     errors: ValidationErrors;
     values: T;
     onChange: (field: string, value: boolean | number | string) => void;
@@ -106,7 +106,7 @@ export const PopoverInput = <T extends {}>({
             });
     };
 
-    const onSave = (setOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const onSave = (setOpen: (open?: boolean) => void) => {
         const values = Object.entries(inputValues).map(([key, value]) => ({
             field: key,
             value,
@@ -119,9 +119,7 @@ export const PopoverInput = <T extends {}>({
         }
     };
 
-    const onCancel = (
-        setOpen: React.Dispatch<React.SetStateAction<boolean>>
-    ) => {
+    const onCancel = (setOpen: (open?: boolean) => void) => {
         setInputValues(values);
         setOpen(false);
     };

@@ -1,15 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { usePortal } from '../Portal/Portal';
 
 interface Popover {
     className?: string;
     children: (
-        close: React.Dispatch<React.SetStateAction<boolean>>
+        toggle: (open?: boolean) => void
     ) => string | JSX.Element | JSX.Element[];
     link:
-        | ((
-              setOpen: React.Dispatch<React.SetStateAction<boolean>>
-          ) => JSX.Element)
+        | ((openPortal: (e: React.MouseEvent) => void) => JSX.Element)
         | JSX.Element;
 }
 
@@ -26,11 +25,23 @@ const StyledClickAway = styled.div`
     bottom: 0;
     right: 0;
     z-index: 1;
+    width: 100%;
+    height: 100%;
 `;
 
-const Content = styled.div<{ xOffset: number }>`
+const Content = styled.div<{ domRect?: DOMRect | ClientRect | null }>`
+    ${({ domRect }) => {
+        if (domRect) {
+            return css`
+                left: ${domRect.left + domRect.width * 0.5}px;
+                top: ${domRect.top + domRect.height}px;
+            `;
+        }
+
+        return '';
+    }}
+
     position: absolute;
-    left: ${({ xOffset }) => xOffset}px;
     transform: translate(-50%, 0);
     margin-top: 20px;
     box-sizing: border-box;
@@ -59,33 +70,50 @@ const Content = styled.div<{ xOffset: number }>`
 `;
 
 const Popover = ({ className, children, link }: Popover) => {
-    const [open, setOpen] = React.useState(false);
+    // const [open, setOpen] = React.useState(false);
     const ref = React.useRef<HTMLDivElement | null>(null);
+    const { isOpen, Portal, closePortal, openPortal } = usePortal();
 
-    const [xOffset, setXOffset] = React.useState(0);
-
-    React.useEffect(() => {
-        if (ref && ref.current) {
-            setXOffset(ref.current.getBoundingClientRect().width * 0.5);
+    const setOpen = (open?: boolean) => {
+        if (typeof open === 'undefined') {
+            if (isOpen) {
+                closePortal();
+            } else {
+                openPortal();
+            }
+        } else {
+            if (open) {
+                openPortal();
+            } else {
+                closePortal();
+            }
         }
-    }, [link]);
+    };
 
     const getLink = () => {
         if (typeof link === 'function') {
-            return link(setOpen);
+            return link(openPortal);
         } else {
-            return React.cloneElement(link, { onClick: () => setOpen(!open) });
+            return React.cloneElement(link, {
+                onClick: openPortal,
+            });
         }
     };
 
     return (
         <div ref={ref} className={className}>
             {getLink()}
-            {open && (
-                <React.Fragment>
-                    <StyledClickAway onClick={() => setOpen(false)} />
-                    <Content xOffset={xOffset}>{children(setOpen)}</Content>
-                </React.Fragment>
+            {isOpen && (
+                <Portal>
+                    <StyledClickAway onClick={() => setOpen()} />
+                    <Content
+                        domRect={
+                            ref.current && ref.current.getBoundingClientRect()
+                        }
+                    >
+                        {children(setOpen)}
+                    </Content>
+                </Portal>
             )}
         </div>
     );
