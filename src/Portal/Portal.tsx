@@ -2,7 +2,7 @@ import React from 'react';
 import _usePortal from './usePortal';
 
 interface PortalContext {
-    open: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
+    open: (value: JSX.Element | null) => void;
     close: () => void;
     Portal: () => React.ReactPortal;
     isOpen: boolean;
