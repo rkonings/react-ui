@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+export interface PortalProps {
+    children: ReactNode;
+    onClose: () => void;
+}
+
 export default () => {
     const portal = useRef<HTMLDivElement>(document.createElement('div'));
     const [content, setContent] = useState<JSX.Element | null>(null);
