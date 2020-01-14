@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 export interface PortalProps {
@@ -8,16 +8,8 @@ export interface PortalProps {
 
 export default () => {
     const portal = useRef<HTMLDivElement>(document.createElement('div'));
-    const [content, setContent] = useState<JSX.Element | null>(null);
-
-    const open = (value: JSX.Element | null) => {
-        setContent(value);
-    };
     let onCloseHandler: (() => void) | null = null;
 
-    const Portal = () => {
-        return createPortal(content, portal.current);
-    };
     const Portal = useCallback(
         ({ children, onClose }: PortalProps) => {
             onCloseHandler = onClose;
@@ -42,14 +34,7 @@ export default () => {
         document.body.appendChild(portal.current);
     }, []);
 
-    const close = () => {
-        open(null);
-    };
-
     return {
-        open,
-        close,
         Portal,
-        isOpen: content !== null,
     };
 };
