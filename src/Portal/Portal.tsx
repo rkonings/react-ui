@@ -1,11 +1,9 @@
 import React from 'react';
 import _usePortal from './usePortal';
+import { PortalProps } from './usePortal';
 
 interface PortalContext {
-    open: (value: JSX.Element | null) => void;
-    close: () => void;
-    Portal: () => React.ReactPortal;
-    isOpen: boolean;
+    Portal: (portalProps: PortalProps) => React.ReactPortal;
 }
 
 export const PortalContext = React.createContext<PortalContext>(
