@@ -29,7 +29,7 @@ const DeletePopover = ({
 
     return (
         <Popover className={className} link={link}>
-            {setOpen => (
+            {close => (
                 <Content>
                     {children}
                     <PopoverFooter>
@@ -37,13 +37,13 @@ const DeletePopover = ({
                             <Button
                                 onClick={() => {
                                     deleteHandler();
-                                    setOpen(false);
+                                    close();
                                 }}
                                 type="secondairy"
                             >
                                 Delete
                             </Button>
-                            <TextButton onClick={() => setOpen(false)}>
+                            <TextButton onClick={() => close()}>
                                 Cancel
                             </TextButton>
                         </ButtonGroup>
