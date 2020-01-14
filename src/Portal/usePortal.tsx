@@ -8,13 +8,24 @@ export default () => {
     const open = (value: JSX.Element | null) => {
         setContent(value);
     };
+    let onCloseHandler: (() => void) | null = null;
 
     const Portal = () => {
         return createPortal(content, portal.current);
     };
+    const Portal = useCallback(
+        ({ children, onClose }: PortalProps) => {
+            onCloseHandler = onClose;
+            return createPortal(children, portal.current);
+        },
+        [portal]
+    );
 
     const handleResize = () => {
-        setContent(null);
+        if (onCloseHandler) {
+            onCloseHandler();
+            onCloseHandler = null;
+        }
     };
 
     useEffect(() => {
