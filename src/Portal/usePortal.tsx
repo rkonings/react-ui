@@ -1,14 +1,17 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 export default () => {
     const portal = useRef<HTMLDivElement>(document.createElement('div'));
     const [content, setContent] = useState<JSX.Element | null>(null);
-    const open = setContent;
 
-    const Portal = useCallback(() => {
+    const open = (value: JSX.Element | null) => {
+        setContent(value);
+    };
+
+    const Portal = () => {
         return createPortal(content, portal.current);
-    }, [content]);
+    };
 
     const handleResize = () => {
         setContent(null);
