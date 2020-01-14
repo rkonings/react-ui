@@ -1,20 +1,28 @@
-import { useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+
+export interface PortalProps {
+    children: ReactNode;
+    onClose: () => void;
+}
 
 export default () => {
     const portal = useRef<HTMLDivElement>(document.createElement('div'));
-    const [content, setContent] = useState<JSX.Element | null>(null);
+    let onCloseHandler: (() => void) | null = null;
 
-    const open = (value: JSX.Element | null) => {
-        setContent(value);
-    };
-
-    const Portal = () => {
-        return createPortal(content, portal.current);
-    };
+    const Portal = useCallback(
+        ({ children, onClose }: PortalProps) => {
+            onCloseHandler = onClose;
+            return createPortal(children, portal.current);
+        },
+        [portal]
+    );
 
     const handleResize = () => {
-        setContent(null);
+        if (onCloseHandler) {
+            onCloseHandler();
+            onCloseHandler = null;
+        }
     };
 
     useEffect(() => {
@@ -26,14 +34,7 @@ export default () => {
         document.body.appendChild(portal.current);
     }, []);
 
-    const close = () => {
-        open(null);
-    };
-
     return {
-        open,
-        close,
         Portal,
-        isOpen: content !== null,
     };
 };
