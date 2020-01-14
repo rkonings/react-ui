@@ -73,15 +73,22 @@ const Popover = ({ className, children, link }: Popover) => {
     // const [open, setOpen] = React.useState(false);
     const ref = React.useRef<HTMLDivElement | null>(null);
     const { open, Portal, close } = usePortal();
+    const [isOpen, setIsOpen] = React.useState<boolean>(false);
+
+    const closePortal = () => {
+        setIsOpen(false);
+        close();
+    };
 
     const openPortal = () => {
+        setIsOpen(true);
         open(
             <React.Fragment>
-                <StyledClickAway onClick={() => close()} />
+                <StyledClickAway onClick={() => closePortal()} />
                 <Content
                     domRect={ref.current && ref.current.getBoundingClientRect()}
                 >
-                    {children(close)}
+                    {children(closePortal)}
                 </Content>
             </React.Fragment>
         );
@@ -100,7 +107,7 @@ const Popover = ({ className, children, link }: Popover) => {
     return (
         <div ref={ref} className={className}>
             {getLink()}
-            <Portal />
+            {isOpen && <Portal />}
         </div>
     );
 };
