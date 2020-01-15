@@ -37,8 +37,12 @@ const Header = styled.div`
     align-items: center;
     width: 98%;
     justify-content: space-between;
+const HeaderToolbar = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 `;
-const HeaderToolbar = styled.div``;
 
 const Basic = styled(
     ({ className, children, left, pageTitle, toolbar }: Basic) => {
