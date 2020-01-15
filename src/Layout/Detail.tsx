@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import AppBar, { AppBarTitle } from '../AppBar/AppBar';
 import { Grid, Item } from '../Grid';
 import { Navigation } from '../Navigation/index';
+import { Header, HeaderTitle, HeaderToolbar } from './Header';
 
 interface Detail {
     className?: string;
@@ -10,6 +11,7 @@ interface Detail {
     left: JSX.Element;
     pageTitle?: JSX.Element | string;
     details: JSX.Element;
+    toolbar?: JSX.Element | string;
 }
 
 const Left = styled(Item)`
@@ -32,20 +34,8 @@ const Main = styled.div`
     overflow: scroll;
 `;
 
-const Back = styled.div`
-    font-size: 12px;
-    color: #1b2327;
-    font-weight: 400;
-`;
-
-const Title = styled.h1`
-    font-size: 22px;
-    color: #1b2327;
-    font-weight: 400;
-`;
-
 const Detail = styled(
-    ({ className, children, left, pageTitle, details }: Detail) => {
+    ({ className, children, left, pageTitle, details, toolbar }: Detail) => {
         return (
             <div className={className}>
                 <AppBar>
@@ -60,8 +50,14 @@ const Detail = styled(
                             {details}
                         </Details>
                         <Main>
-                            <Back>Back to dashboard</Back>
-                            {pageTitle && <Title>{pageTitle}</Title>}
+                            <Header>
+                                {pageTitle && (
+                                    <HeaderTitle>{pageTitle}</HeaderTitle>
+                                )}
+                                {toolbar && (
+                                    <HeaderToolbar>{toolbar}</HeaderToolbar>
+                                )}
+                            </Header>
                             {children}
                         </Main>
                     </Grid>

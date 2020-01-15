@@ -11,21 +11,30 @@ import { DataTable } from '../src/DataTable';
 import RowAction from '../src/DataTable/DataTableRowAction';
 import { Edit, Options, Trash } from '../src/Icon';
 
+import Button from '../src/Button/Button';
 import { getDefaultSort, Sort } from '../src/DataTable/DataTable';
-import { Agenda, Clients, Home, Inbox, Invoices, ProjectManagement, TimeManagement } from '../src/Icon';
+import {
+    Agenda,
+    Clients,
+    Home,
+    Inbox,
+    Invoices,
+    ProjectManagement,
+    TimeManagement,
+} from '../src/Icon';
 import { DataField, DataRow } from '../src/interfaces/Data';
 import { Navigation, NavigationItem } from '../src/Navigation';
 
 const defaultData: DataRow[] = [];
 for (let i = 0; i < 100; i++) {
     const row: DataRow = {
-        data:
-            {
-                company: faker.company.companyName(),
-                phone: faker.phone.phoneNumber(),
-                last_seen: faker.date.between('2015-01-01', '2018-12-31').toDateString()
-            }
-
+        data: {
+            company: faker.company.companyName(),
+            phone: faker.phone.phoneNumber(),
+            last_seen: faker.date
+                .between('2015-01-01', '2018-12-31')
+                .toDateString(),
+        },
     };
     defaultData.push(row);
 }
@@ -36,42 +45,42 @@ const fields: DataField[] = [
         name: 'company',
         hasNegative: false,
         isDateTime: false,
-        display: 'Company'
+        display: 'Company',
     },
     {
         type: 'string',
         name: 'phone',
         hasNegative: false,
         isDateTime: false,
-        display: 'Telephone'
+        display: 'Telephone',
     },
     {
         type: 'string',
         name: 'last_seen',
         hasNegative: false,
         isDateTime: true,
-        display: 'Last seen'
-    }
+        display: 'Last seen',
+    },
 ];
 
 const columns = [
     {
         type: 'SELECT',
-        width: 50
+        width: 50,
     },
     {
         type: 'DATA',
         fieldName: 'company',
         sortable: true,
         defaultSort: true,
-        defaultSortDirection: 'ASC'
+        defaultSortDirection: 'ASC',
     },
     {
         type: 'DATA',
         fieldName: 'phone',
         width: 150,
         align: 'right',
-        sortable: true
+        sortable: true,
     },
     {
         type: 'DATA',
@@ -85,26 +94,32 @@ const columns = [
         width: 110,
         toolbar: (row: DataRow) => (
             <ButtonGroup size={'s'}>
-                <RowAction onClick={() => console.log('Edit', row)}><Edit /></RowAction>
-                <RowAction onClick={() => console.log('Delete', row)}><Trash /></RowAction>
-                <RowAction><Options /></RowAction>
+                <RowAction onClick={() => console.log('Edit', row)}>
+                    <Edit />
+                </RowAction>
+                <RowAction onClick={() => console.log('Delete', row)}>
+                    <Trash />
+                </RowAction>
+                <RowAction>
+                    <Options />
+                </RowAction>
             </ButtonGroup>
-        )
-    }
+        ),
+    },
 ];
 
 const sortData = (data: DataRow[], sort: Sort) => {
-    const reverse = (sort.direction === 'DESC') ? {reverse: true} : undefined;
+    const reverse = sort.direction === 'DESC' ? { reverse: true } : undefined;
     return arraySort(data, `data.${sort.field.name}`, reverse);
 };
 
 const Card = styled.div`
-    display:block;
+    display: block;
     background: #ffffff;
     width: 98%;
     height: 100%;
     overflow: hidden;
-    box-shadow: 0px 4px 9px rgba(0,0,0,0.02);
+    box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.02);
 `;
 
 const DataTableWithSort = () => {
@@ -122,7 +137,7 @@ const DataTableWithSort = () => {
 
     return (
         <Card ref={ref}>
-           {props.width > 200 && (
+            {props.width > 200 && (
                 <DataTable
                     columns={columns}
                     data={data}
@@ -131,28 +146,40 @@ const DataTableWithSort = () => {
                     width={props.width}
                     height={props.height - 48}
                 />
-           ) }
+            )}
         </Card>
     );
 };
 
-storiesOf('Layout', module)
-.add('Basic', () => {
-
+storiesOf('Layout', module).add('Basic', () => {
     const left = (
         <Navigation>
             <NavigationItem icon={<Home />}>Dashboard</NavigationItem>
             <NavigationItem icon={<Inbox />}>Inbox</NavigationItem>
             <NavigationItem icon={<Clients />}>Clients</NavigationItem>
-            <NavigationItem isActive={true} icon={<Agenda />}>Agenda</NavigationItem>
-            <NavigationItem icon={<ProjectManagement />}>Project management</NavigationItem>
+            <NavigationItem isActive={true} icon={<Agenda />}>
+                Agenda
+            </NavigationItem>
+            <NavigationItem icon={<ProjectManagement />}>
+                Project management
+            </NavigationItem>
             <NavigationItem icon={<Invoices />}>Invoices</NavigationItem>
-            <NavigationItem icon={<TimeManagement />}>Time management</NavigationItem>
+            <NavigationItem icon={<TimeManagement />}>
+                Time management
+            </NavigationItem>
         </Navigation>
     );
 
+    const toolbar = (
+        <React.Fragment>
+            <Button>Button</Button>
+            <Button>Button</Button>
+            <Button>Button</Button>
+        </React.Fragment>
+    );
+
     return (
-        <Basic pageTitle="Client management" left={left}>
+        <Basic pageTitle="Client management" left={left} toolbar={toolbar}>
             <DataTableWithSort />
         </Basic>
     );
