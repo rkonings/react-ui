@@ -11,6 +11,7 @@ import { DataTable } from '../src/DataTable';
 import RowAction from '../src/DataTable/DataTableRowAction';
 import { Edit, Options, Trash } from '../src/Icon';
 
+import Button from '../src/Button/Button';
 import { getDefaultSort, Sort } from '../src/DataTable/DataTable';
 import {
     Agenda,
@@ -169,8 +170,16 @@ storiesOf('Layout', module).add('Basic', () => {
         </Navigation>
     );
 
+    const toolbar = (
+        <React.Fragment>
+            <Button>Button</Button>
+            <Button>Button</Button>
+            <Button>Button</Button>
+        </React.Fragment>
+    );
+
     return (
-        <Basic pageTitle="Client management" left={left}>
+        <Basic pageTitle="Client management" left={left} toolbar={toolbar}>
             <DataTableWithSort />
         </Basic>
     );
