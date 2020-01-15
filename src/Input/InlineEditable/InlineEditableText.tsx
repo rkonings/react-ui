@@ -69,6 +69,7 @@ const InlineEditableText = ({
     const [isEditable, setIsEditable] = React.useState<boolean>(false);
     const [innerValue, setInnerValue] = React.useState<string>(value);
     const [error, setError] = React.useState<Yup.ValidationError | null>(null);
+    const ref = React.useRef<HTMLDivElement>(null);
 
     const onCancel = () => {
         setIsEditable(false);
@@ -98,6 +99,11 @@ const InlineEditableText = ({
         errorText: (error && error.message) || undefined,
     };
 
+    const getCalculatedTextFieldHeight = () => {
+        const rect = ref && ref.current && ref.current.getBoundingClientRect();
+        return `${rect && rect.height}px` || undefined;
+    };
+
     return (
         <Wrapper
             onClick={() => {
@@ -118,6 +124,7 @@ const InlineEditableText = ({
                     )}
                     {type === 'TEXTAREA' && (
                         <TextArea
+                            height={getCalculatedTextFieldHeight()}
                             {...inputProps}
                             onChange={e => onChangeInput(e.currentTarget.value)}
                         />
@@ -136,7 +143,7 @@ const InlineEditableText = ({
                 </InputWrapper>
             ) : (
                 <React.Fragment>
-                    <Label>
+                    <Label ref={ref}>
                         {innerValue.split('\n').map((item, key) => {
                             return (
                                 <p key={key}>

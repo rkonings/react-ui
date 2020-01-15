@@ -1,5 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
+import faker from 'faker';
 import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
@@ -57,7 +58,7 @@ storiesOf('Input/InlineEditable', module)
                     field="title"
                     onChange={action('onChange')}
                     validationSchema={validationSchema}
-                    value="FOO is not BAZ or FOOBAR"
+                    value={faker.lorem.paragraphs(2)}
                     type="TEXTAREA"
                 />
                 <InlineEditableText
