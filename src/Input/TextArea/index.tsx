@@ -13,6 +13,7 @@ import {
 import { ErrorText, HelperText } from '../Core';
 
 export interface TextAreaProps extends InputProps, HelperText, ErrorText {
+    height?: string;
     onChange?(e: React.FormEvent<HTMLTextAreaElement>): void;
     onBlur?(e: React.FormEvent<HTMLTextAreaElement>): void;
     onFocus?(e: React.FormEvent<HTMLTextAreaElement>): void;
@@ -28,6 +29,7 @@ const TextArea = ({
     onBlur,
     onFocus,
     name,
+    height,
     style,
     readOnly,
     helperText,
@@ -94,6 +96,17 @@ const TextArea = ({
 const StyledTextArea = styled(TextArea)`
     ${BaseStyle};
     ${Style};
+
+    ${({ height }) => {
+        if (height) {
+            return `
+                textarea{
+                    height: ${height};
+                }
+            `;
+        }
+        return ``;
+    }}
 `;
 
 export default StyledTextArea;
