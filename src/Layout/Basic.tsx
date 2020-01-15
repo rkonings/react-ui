@@ -37,6 +37,8 @@ const Header = styled.div`
     align-items: center;
     width: 98%;
     justify-content: space-between;
+    margin-bottom: 1em;
+`;
 const HeaderToolbar = styled.div`
     display: flex;
     flex-direction: row;
