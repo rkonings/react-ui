@@ -88,6 +88,7 @@ storiesOf('Filters', module)
                 <FilterPopup
                     data={data}
                     width="90%"
+                    height="400px"
                     onChange={action('changed')}
                 />
             </WrapperAlignTop>

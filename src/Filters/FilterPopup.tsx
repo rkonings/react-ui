@@ -8,6 +8,7 @@ import { FilterConfig, FilterList } from './Filter';
 interface FilterPopup {
     className?: string;
     width?: string;
+    height?: string;
     data: FilterConfig[];
     onChange(values: { [key: string]: string[] }): void;
 }
@@ -32,7 +33,13 @@ const setFilterValues = (
     return filters;
 };
 
-const FilterPopup = ({ className, width, data, onChange }: FilterPopup) => {
+const FilterPopup = ({
+    className,
+    width,
+    data,
+    onChange,
+    height,
+}: FilterPopup) => {
     const [filters, setFilters] = React.useState<FilterConfig[]>(data);
     const [currentFilters, setCurrentFilters] = React.useState<
         Map<string, string[]>
@@ -64,6 +71,7 @@ const FilterPopup = ({ className, width, data, onChange }: FilterPopup) => {
         <div className={className}>
             <Popup
                 width={width}
+                height={height}
                 clickAway={true}
                 link={<Button>Filter</Button>}
             >
