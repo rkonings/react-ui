@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import AppBar, { AppBarTitle } from '../AppBar/AppBar';
 import { Grid, Item } from '../Grid';
 import { Navigation } from '../Navigation/index';
+import { Header, HeaderTitle, HeaderToolbar } from './Header';
 
 interface Basic {
     className?: string;
@@ -25,27 +26,6 @@ const Main = styled.div`
     flex-direction: column;
 `;
 
-const Title = styled.h1`
-    font-size: 22px;
-    color: #1b2327;
-    font-weight: 400;
-`;
-
-const Header = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 98%;
-    justify-content: space-between;
-    margin-bottom: 1em;
-`;
-const HeaderToolbar = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-`;
-
 const Basic = styled(
     ({ className, children, left, pageTitle, toolbar }: Basic) => {
         return (
@@ -60,7 +40,9 @@ const Basic = styled(
                     <Item height="100%" width="calc(100% - 200px)">
                         <Main>
                             <Header>
-                                {pageTitle && <Title>{pageTitle}</Title>}
+                                {pageTitle && (
+                                    <HeaderTitle>{pageTitle}</HeaderTitle>
+                                )}
                                 {toolbar && (
                                     <HeaderToolbar>{toolbar}</HeaderToolbar>
                                 )}
