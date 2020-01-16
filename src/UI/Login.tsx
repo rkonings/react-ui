@@ -130,5 +130,11 @@ const Login = ({ className, onLogin }: LoginProps) => {
     );
 };
 
-const StyledLogin = styled(Login)``;
+const StyledLogin = styled(Login)`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 export default StyledLogin;
