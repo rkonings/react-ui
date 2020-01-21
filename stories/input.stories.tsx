@@ -250,10 +250,12 @@ storiesOf('Input/TextField', module)
         );
         const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
         const style = select('Style', ['default', 'outlined'], 'default');
+        const hasError = boolean('Has error', false);
 
         return (
             <TextField
                 value={value}
+                hasError={hasError}
                 inputType={inputType}
                 size={size as Size}
                 onChange={action('onChange')}

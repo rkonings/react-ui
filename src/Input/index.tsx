@@ -47,6 +47,7 @@ interface Label {
     focus: boolean;
     disabled?: boolean;
     errorText?: string;
+    hasError?: boolean;
     _style?: InputStyle;
 }
 export const Wrapper = styled.label<Label>`
@@ -61,6 +62,7 @@ export const Wrapper = styled.label<Label>`
             input: { textField, error },
         },
         errorText = false,
+        hasError = false,
         disabled,
         _style = 'default',
     }) => {
@@ -69,9 +71,10 @@ export const Wrapper = styled.label<Label>`
             border = 'border';
         }
 
-        const borderColor = errorText
-            ? error.color
-            : textField.default.hover.borderColor;
+        const borderColor =
+            errorText || hasError
+                ? error.color
+                : textField.default.hover.borderColor;
 
         return disabled
             ? null
@@ -88,14 +91,16 @@ export const Wrapper = styled.label<Label>`
             input: { textField, error },
         },
         errorText = false,
+        hasError = false,
         focus,
         _style = 'default',
     }) => {
         const type = 'default';
         const state = focus ? 'focus' : 'default';
-        const borderColor = errorText
-            ? error.color
-            : textField[type][state].borderColor;
+        const borderColor =
+            errorText || hasError
+                ? error.color
+                : textField[type][state].borderColor;
 
         let border = 'border-bottom';
         if (_style === 'outlined') {
