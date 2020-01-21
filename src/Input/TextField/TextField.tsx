@@ -14,6 +14,7 @@ import { ErrorText, HelperText } from '../Core';
 const DEFAULT_TYPE = 'text';
 
 export interface TextFieldProps extends InputProps, HelperText, ErrorText {
+    hasError?: boolean;
     onClick?: (
         event: React.MouseEvent<HTMLInputElement, MouseEvent>
     ) => void | undefined;
@@ -37,6 +38,7 @@ const TextField = ({
     readOnly,
     helperText,
     errorText,
+    hasError = false,
     autoFocus,
     disabled,
     inputType = DEFAULT_TYPE,
@@ -72,6 +74,7 @@ const TextField = ({
             {label && <Label>{label}</Label>}
             <Wrapper
                 focus={focus}
+                hasError={hasError}
                 disabled={disabled}
                 errorText={errorText}
                 _style={style}
