@@ -18,6 +18,7 @@ interface DatePicker {
     value?: Date;
     startYear?: number;
     endYear?: number;
+    amountMonths?: number;
 }
 
 const DATE_FORMAT = 'D-M-YYYY';
@@ -154,6 +155,7 @@ const DatePicker = ({
     onChange,
     startYear = 2000,
     endYear = 2030,
+    amountMonths = 3,
 }: DatePicker) => {
     const [openMonthSelect, setOpenMonthSelect] = React.useState(false);
 
@@ -257,7 +259,7 @@ const DatePicker = ({
                                     onCalendarChange(date);
                                     setOpen(false);
                                 }}
-                                amountMonths={2}
+                                amountMonths={amountMonths}
                                 month={month}
                                 year={year}
                                 value={selectedDate}
