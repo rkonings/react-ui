@@ -13,7 +13,7 @@ import { mapValidationErrors, ValidationErrors } from '../../Validation';
 
 import { ErrorText } from '../Core/ErrorText';
 
-const inputValidation = Yup.object({
+export const inputValidation = Yup.object({
     start: Yup.string().matches(
         /^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/,
         'start time is not valid'
@@ -25,27 +25,27 @@ const inputValidation = Yup.object({
     date: Yup.date().required('date is required'),
 });
 
-const valueValidation = Yup.object({
+export const valueValidation = Yup.object({
     start: Yup.date(),
     end: Yup.date().when('start', (start: string) => {
         return Yup.date().min(start, 'end time must be later than start time');
     }),
 });
 
-const UntilLabel = styled.div`
+export const UntilLabel = styled.div`
     padding: 1em 1em;
 `;
 
-const DurationLabel = styled.div`
+export const DurationLabel = styled.div`
     padding: 1em 1em;
     width: 100px;
 `;
 
-export interface TimePickerValues {
-    start?: Date | null;
-    end?: Date | null;
+export type TimePickerValues = {
+    start: Date | null;
+    end: Date | null;
     duration?: string;
-}
+} | null;
 
 export interface TimePickerInputValues {
     start: string;
@@ -55,39 +55,78 @@ export interface TimePickerInputValues {
 
 interface TimePicker {
     className?: string;
-    value?: TimePickerValues | null;
-    onChange?: (values: TimePickerValues) => void;
+    value?: TimePickerValues;
+    onChange?: (values: TimePickerValues | null) => void;
+    errorText?: string;
 }
 
-const TIME_FORMAT = 'H:mm';
-const DATE_FORMAT = 'D-M-YYYY';
-const DATE_TIME_FORMAT = 'D-M-YYYY H:mm';
+export const TIME_FORMAT = 'H:mm';
+export const DATE_FORMAT = 'D-M-YYYY';
+export const DATE_TIME_FORMAT = 'D-M-YYYY H:mm';
 
-const formatDuration = (duration: moment.Duration) => {
+export const formatDuration = (duration: moment.Duration) => {
     return moment.utc(duration.asMilliseconds()).format('H:mm');
 };
 
-const ErrorLabel = styled.div`
+export const ErrorLabel = styled.div`
     width: 100%;
     flex-basis: 100%;
     font-size: 14px;
-    padding: 0 1em;
 `;
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     font-size: 14px;
+    width: 100%;
 `;
 
-const TimePicker = ({ className, value, onChange }: TimePicker) => {
-    const defaultValues = {
-        start: null,
-        end: null,
-        duration: undefined,
-    };
+export const getDateTime = (date: Date, time: string) => {
+    return moment(
+        moment(date).format(DATE_FORMAT) + ' ' + time,
+        DATE_TIME_FORMAT
+    );
+};
 
+export const determineDuration = async (
+    date: Date,
+    start: string,
+    end: string
+) => {
+    let startDate: moment.Moment;
+    let endDate: moment.Moment;
+
+    const validationResult = await inputValidation
+        .validate({ start, end, date })
+        .catch(r => r);
+    if (validationResult instanceof Yup.ValidationError) {
+        throw validationResult;
+    }
+
+    startDate = getDateTime(date, start);
+    endDate = getDateTime(date, end);
+
+    return valueValidation
+        .validate({
+            start: startDate.toDate(),
+            end: endDate.toDate(),
+        })
+        .then(result => {
+            const duration = moment.duration(endDate.diff(startDate));
+
+            return {
+                start: result.start,
+                end: result.end,
+                duration,
+            };
+        })
+        .catch(error => {
+            throw error;
+        });
+};
+
+const TimePicker = ({ className, value, onChange, errorText }: TimePicker) => {
     const defaultInputValues = {
         start: '',
         end: '',
@@ -104,9 +143,7 @@ const TimePicker = ({ className, value, onChange }: TimePicker) => {
         defaultInputValues
     );
 
-    const [values, setValues] = React.useState<TimePickerValues>(
-        value || defaultValues
-    );
+    const [values, setValues] = React.useState<TimePickerValues>(value || null);
 
     React.useEffect(() => {
         const defaultInputValues = {
@@ -130,35 +167,58 @@ const TimePicker = ({ className, value, onChange }: TimePicker) => {
 
     const determineValues = async (inputValues: TimePickerInputValues) => {
         const date = moment(inputValues.date);
+        let start: moment.Moment | null = null;
+        let end: moment.Moment | null = null;
+        let duration;
 
-        const start = moment(
-            date.format(DATE_FORMAT) + ' ' + inputValues.start,
-            DATE_TIME_FORMAT
-        );
-        const end = moment(
-            date.format(DATE_FORMAT) + ' ' + inputValues.end,
-            DATE_TIME_FORMAT
-        );
+        const validationResult = await inputValidation
+            .validate(inputValues)
+            .catch(r => r);
+
+        if (validationResult instanceof Yup.ValidationError) {
+            return;
+        }
+        start =
+            (inputValues.start &&
+                moment(
+                    date.format(DATE_FORMAT) + ' ' + inputValues.start,
+                    DATE_TIME_FORMAT
+                )) ||
+            null;
+        end =
+            (inputValues.end &&
+                moment(
+                    date.format(DATE_FORMAT) + ' ' + inputValues.end,
+                    DATE_TIME_FORMAT
+                )) ||
+            null;
 
         await valueValidation
-            .validate({ start, end })
+            .validate({
+                start: start && start.toDate(),
+                end: end && end.toDate(),
+            })
             .then(result => {
-                const duration = moment.duration(end.diff(start));
-                const newValues = {
-                    start: start && start.toDate(),
-                    end: end && end.toDate(),
-                    duration: formatDuration(duration),
-                };
-                setValues(newValues);
-                if (onChange) {
-                    onChange(newValues);
+                if (start && end) {
+                    duration = formatDuration(moment.duration(end.diff(start)));
+                    setInputErrors(new Map());
                 }
             })
             .catch(error => {
-                setValues({});
                 const errors = mapValidationErrors(error);
                 setInputErrors(errors);
             });
+
+        const newValues: TimePickerValues = {
+            start: (start && start.toDate()) || null,
+            end: (end && end.toDate()) || null,
+            duration,
+        };
+
+        setValues(newValues);
+        if (onChange) {
+            onChange(newValues);
+        }
     };
 
     const onChangeInputField = async (
@@ -167,20 +227,17 @@ const TimePicker = ({ className, value, onChange }: TimePicker) => {
     ) => {
         const input = { ...inputValues };
         dotProp.set(input, field, value);
+        setInputValues(input);
+        determineValues(input);
+    };
 
-        await inputValidation
-            .validate(input)
-            .then(result => {
-                determineValues(result);
-                const errors = new Map(inputErrors);
-                errors.delete(field);
-                setInputErrors(errors);
-                setInputValues(result);
-            })
-            .catch(error => {
-                setInputValues(input);
-                setValues({});
-            });
+    const onFocus = (field: string) => {
+        setFocusedField(field);
+        if (!touched.has(field)) {
+            const t = new Map(touched);
+            t.set(field, true);
+            setTouched(t);
+        }
     };
 
     const onBlur = async (field: string) => {
@@ -194,16 +251,8 @@ const TimePicker = ({ className, value, onChange }: TimePicker) => {
             .catch(error => {
                 const errors = mapValidationErrors(error);
                 setInputErrors(errors);
+                setValues(null);
             });
-    };
-
-    const onFocus = (field: string) => {
-        setFocusedField(field);
-        if (!touched.has(field)) {
-            const t = new Map(touched);
-            t.set(field, true);
-            setTouched(t);
-        }
     };
 
     const currentDate = moment();
@@ -223,17 +272,13 @@ const TimePicker = ({ className, value, onChange }: TimePicker) => {
                 <TextField
                     value={inputValues.start}
                     onFocus={() => onFocus('start')}
+                    onBlur={() => onBlur('start')}
                     onChange={e => {
                         onChangeInputField('start', e.currentTarget.value);
                     }}
                     prefix={<TimeManagement />}
                     width="70px"
-                    onBlur={() => onBlur('start')}
-                    hasError={
-                        touched.has('start') &&
-                        focusedField !== 'start' &&
-                        inputErrors.has('start')
-                    }
+                    hasError={inputErrors.size > 0}
                     placeHolder={moment().format(TIME_FORMAT)}
                 />
                 <UntilLabel>tot</UntilLabel>
@@ -245,19 +290,22 @@ const TimePicker = ({ className, value, onChange }: TimePicker) => {
                         onChangeInputField('end', e.currentTarget.value)
                     }
                     onBlur={() => onBlur('end')}
-                    hasError={
-                        touched.has('end') &&
-                        focusedField !== 'end' &&
-                        inputErrors.has('end')
-                    }
+                    hasError={inputErrors.size > 0}
                     prefix={<TimeManagement />}
                     width="70px"
                 />
 
                 <DurationLabel>
-                    {!!values.duration && `${values.duration} duration`}
+                    {values &&
+                        !!values.duration &&
+                        `${values.duration} duration`}
                 </DurationLabel>
             </Wrapper>
+            {errorText && (
+                <ErrorLabel>
+                    <ErrorText>{errorText}</ErrorText>
+                </ErrorLabel>
+            )}
             {inputErrors.size > 0 && (
                 <ErrorLabel>
                     <ErrorText>{inputErrors.get('end')}</ErrorText>
@@ -270,5 +318,9 @@ const TimePicker = ({ className, value, onChange }: TimePicker) => {
 export default styled(TimePicker)`
     ${TextField} {
         margin: 0 1em;
+
+        &:first-child {
+            margin-left: 0;
+        }
     }
 `;
