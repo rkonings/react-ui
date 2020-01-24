@@ -15,6 +15,7 @@ import { TimeManagement } from '../Icon';
 import { ValidationError } from 'yup';
 import Button from '../Button/Button';
 import {
+    DATE_FORMAT,
     determineDuration,
     DurationLabel,
     formatDuration,
@@ -26,6 +27,7 @@ import {
 interface Task {
     className?: string;
     onChange: OnChangeHandler;
+    task?: TaskValues;
 }
 
 interface TaskInputValues {
@@ -72,24 +74,59 @@ const validationSchema = Yup.object({
         }),
 });
 
-const Task = ({ className, onChange }: Task) => {
-    const [values, setValues] = React.useState<TaskValues>({
+const Task = ({ className, onChange, task }: Task) => {
+    const defaultValues = {
         title: '',
         description: '',
         start: null,
         end: null,
-    });
+    };
 
-    const [inputValues, setInputValues] = React.useState<TaskInputValues>({
+    const defaultInputValues = {
         title: '',
         description: '',
         start: '',
         end: '',
         date: new Date(),
-    });
+    };
+
+    const [values, setValues] = React.useState<TaskValues>(defaultValues);
+
+    const [inputValues, setInputValues] = React.useState<TaskInputValues>(
+        defaultInputValues
+    );
     const [inputErrors, setInputErrors] = React.useState<ValidationErrors>(
         new Map()
     );
+
+    const getInputValues = ({
+        title,
+        description,
+        start,
+        end,
+    }: TaskValues): TaskInputValues => {
+        const startTime = (start && moment(start).format(TIME_FORMAT)) || '';
+        const endTime = (end && moment(end).format(TIME_FORMAT)) || '';
+        const date = start || new Date();
+
+        return {
+            title,
+            description,
+            date,
+            start: startTime,
+            end: endTime,
+        };
+    };
+
+    React.useEffect(() => {
+        if (task) {
+            setValues(task);
+            setInputValues(getInputValues(task));
+        } else {
+            setValues(defaultValues);
+            setInputValues(defaultInputValues);
+        }
+    }, [task]);
 
     const onChangeDuration = async (
         field: string,
