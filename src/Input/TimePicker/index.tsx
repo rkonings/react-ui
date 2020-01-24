@@ -1,5 +1,5 @@
 import dotProp from 'dot-prop';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
 
