@@ -8,6 +8,7 @@ import CreateAccount from '../src/UI/CreateAccount';
 import Settings from '../src/UI/Settings';
 import ClientInfo from '../src/UI/Client/ClientInfo';
 import faker from 'faker';
+import Task from '../src/UI/Task';
 
 storiesOf('UI/ClientInfo', module).add('default', () => {
     const client = {
@@ -32,6 +33,9 @@ storiesOf('UI/ClientInfo', module).add('default', () => {
 });
 
 storiesOf('UI/Forms', module)
+    .add('task', () => {
+        return <Task onChange={action('onchange')} />;
+    })
     .add('login', () => {
         return <Login onLogin={action('login')} />;
     })
