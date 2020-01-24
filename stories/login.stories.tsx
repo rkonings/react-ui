@@ -9,6 +9,7 @@ import Settings from '../src/UI/Settings';
 import ClientInfo from '../src/UI/Client/ClientInfo';
 import faker from 'faker';
 import Task from '../src/UI/Task';
+import moment from 'moment';
 
 storiesOf('UI/ClientInfo', module).add('default', () => {
     const client = {
@@ -33,6 +34,18 @@ storiesOf('UI/ClientInfo', module).add('default', () => {
 });
 
 storiesOf('UI/Forms', module)
+    .add('task with values', () => {
+        const values = {
+            title: 'FOO',
+            description: 'BAZ',
+            start: moment().toDate(),
+            end: moment()
+                .add(1, 'h')
+                .toDate(),
+        };
+
+        return <Task task={values} onChange={action('onchange')} />;
+    })
     .add('task', () => {
         return <Task onChange={action('onchange')} />;
     })
