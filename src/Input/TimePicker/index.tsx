@@ -134,7 +134,7 @@ const TimePicker = ({ className, value, onChange, errorText }: TimePicker) => {
         duration: undefined,
     };
 
-    const [focusedField, setFocusedField] = React.useState<string>();
+    // const [focusedField, setFocusedField] = React.useState<string>();
     const [touched, setTouched] = React.useState<Map<string, boolean>>(
         new Map()
     );
@@ -232,7 +232,7 @@ const TimePicker = ({ className, value, onChange, errorText }: TimePicker) => {
     };
 
     const onFocus = (field: string) => {
-        setFocusedField(field);
+        // setFocusedField(field);
         if (!touched.has(field)) {
             const t = new Map(touched);
             t.set(field, true);
