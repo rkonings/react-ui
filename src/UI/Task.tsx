@@ -5,7 +5,7 @@ import moment from 'moment';
 import TextField from '../Input/TextField/TextField';
 
 import dotProp from 'dot-prop';
-import { ChangedItems, InputField, OnChangeHandler } from '../Form';
+import { InputField } from '../Form';
 import { mapValidationErrors, ValidationErrors, Yup } from '../Validation';
 
 import DateRangePicker from '../Input/DatePicker';
@@ -15,7 +15,6 @@ import { TimeManagement } from '../Icon';
 import { ValidationError } from 'yup';
 import Button from '../Button/Button';
 import {
-    DATE_FORMAT,
     determineDuration,
     DurationLabel,
     formatDuration,
@@ -24,30 +23,34 @@ import {
     Wrapper,
 } from '../Input/TimePicker';
 
-interface Task {
-    className?: string;
-    onChange: OnChangeHandler;
-    task?: TaskValues;
-}
-
-interface TaskInputValues {
-    title: string;
-    description: string;
-    start: string;
-    end: string;
-    date: Date;
-}
-
 interface TaskValues {
-    title: string;
+    task: string;
     description: string;
     start: Date | null;
     end: Date | null;
     duration?: moment.Duration;
 }
 
+interface Values extends Omit<TaskValues, 'duration'> {
+    duration: number;
+}
+
+interface Task {
+    className?: string;
+    onChange: (task: Values, callback?: () => void) => void;
+    task?: TaskValues;
+}
+
+interface TaskInputValues {
+    task: string;
+    description: string;
+    start: string;
+    end: string;
+    date: Date;
+}
+
 export const inputValidation = Yup.object({
-    title: Yup.string().required(),
+    task: Yup.string().required(),
     description: Yup.string(),
     start: Yup.string().matches(
         /^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/,
@@ -61,7 +64,7 @@ export const inputValidation = Yup.object({
 });
 
 const validationSchema = Yup.object({
-    title: Yup.string().required(),
+    task: Yup.string().required(),
     description: Yup.string(),
     start: Yup.date().nullable(),
     end: Yup.date()
@@ -76,14 +79,14 @@ const validationSchema = Yup.object({
 
 const Task = ({ className, onChange, task }: Task) => {
     const defaultValues = {
-        title: '',
+        task: '',
         description: '',
         start: null,
         end: null,
     };
 
     const defaultInputValues = {
-        title: '',
+        task: '',
         description: '',
         start: '',
         end: '',
@@ -100,7 +103,7 @@ const Task = ({ className, onChange, task }: Task) => {
     );
 
     const getInputValues = ({
-        title,
+        task,
         description,
         start,
         end,
@@ -110,7 +113,7 @@ const Task = ({ className, onChange, task }: Task) => {
         const date = start || new Date();
 
         return {
-            title,
+            task,
             description,
             date,
             start: startTime,
@@ -195,6 +198,11 @@ const Task = ({ className, onChange, task }: Task) => {
         setValues(nextValues);
     };
 
+    const clear = () => {
+        setValues(defaultValues);
+        setInputValues(defaultInputValues);
+    };
+
     const onSave = async () => {
         const inputValidationResult = await inputValidation
             .validate(inputValues, { abortEarly: false })
@@ -216,15 +224,9 @@ const Task = ({ className, onChange, task }: Task) => {
             .validate(values, { abortEarly: false })
             .then(() => {
                 setInputErrors(new Map());
-                const result = Object.entries(values).map(([key, value]) => ({
-                    field: key,
-                    value,
-                }));
-                onChange(
-                    result as ChangedItems,
-                    { saveFields: true },
-                    () => {}
-                );
+                const duration =
+                    (values.duration && values.duration.asSeconds()) || 0;
+                onChange({ ...values, duration }, () => clear());
             })
             .catch(error => {
                 const errors = mapValidationErrors(error);
@@ -246,12 +248,12 @@ const Task = ({ className, onChange, task }: Task) => {
         <div className={className}>
             <TextField
                 grow={true}
-                value={inputValues.title}
+                value={inputValues.task}
                 placeHolder="Enter task"
                 onChange={e =>
-                    onChangeInputField('title', e.currentTarget.value)
+                    onChangeInputField('task', e.currentTarget.value)
                 }
-                errorText={inputErrors.get('title')}
+                errorText={inputErrors.get('task')}
             />
             <InputField spacingBottom="1em">
                 <Wrapper>
