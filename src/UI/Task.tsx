@@ -37,7 +37,7 @@ interface Values extends Omit<TaskValues, 'duration'> {
 
 interface Task {
     className?: string;
-    onChange: (task: Values) => void;
+    onChange: (task: Values, callback?: () => void) => void;
     task?: TaskValues;
 }
 
@@ -198,6 +198,11 @@ const Task = ({ className, onChange, task }: Task) => {
         setValues(nextValues);
     };
 
+    const clear = () => {
+        setValues(defaultValues);
+        setInputValues(defaultInputValues);
+    };
+
     const onSave = async () => {
         const inputValidationResult = await inputValidation
             .validate(inputValues, { abortEarly: false })
@@ -221,7 +226,7 @@ const Task = ({ className, onChange, task }: Task) => {
                 setInputErrors(new Map());
                 const duration =
                     (values.duration && values.duration.asSeconds()) || 0;
-                onChange({ ...values, duration });
+                onChange({ ...values, duration }, () => clear());
             })
             .catch(error => {
                 const errors = mapValidationErrors(error);
