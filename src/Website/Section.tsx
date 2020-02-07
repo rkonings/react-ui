@@ -1,15 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
+import { device } from '../Device';
 
 export const Title = styled.div`
     font-size: 26px;
     font-weight: 500;
     margin-bottom: 1em;
+    line-height: 1.1em;
 `;
 
 export const SubTitle = styled.div`
     font-size: 16px;
     margin-bottom: 1em;
+    font-weight: 300;
 `;
 
 const Content = styled.div`
@@ -19,6 +22,11 @@ const Content = styled.div`
     line-height: 1.5em;
     box-sizing: border-box;
     width: 300px;
+
+    @media ${device.tablet} {
+        width: 100%;
+        padding: 2em;
+    }
 `;
 
 const ContentWrapper = styled.div`
@@ -26,6 +34,10 @@ const ContentWrapper = styled.div`
     justify-content: center;
     align-items: center;
     width: 50%;
+
+    @media ${device.tablet} {
+        width: 100%;
+    }
 `;
 
 const ImageWrapper = styled.div`
@@ -33,6 +45,10 @@ const ImageWrapper = styled.div`
     justify-content: center;
     align-items: center;
     width: 50%;
+
+    @media ${device.tablet} {
+        width: 0%;
+    }
 `;
 
 const Image = styled.div``;
@@ -65,6 +81,7 @@ export const ServiceSection = styled(
     }
 )`
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
     box-sizing: border-box;
     padding: 10em 2em;
@@ -96,6 +113,15 @@ export const ServiceSection = styled(
           background: ${color.gray10};
         `;
     }}
+
+    @media ${device.tablet} {
+        padding: 2em 0em;
+
+        ${Image} {
+            height: 0px;
+        }
+
+    }
 `;
 
 export const ClientSection = styled(
@@ -123,6 +149,18 @@ export const ClientSection = styled(
     align-items: flex-start;
     justify-content: flex-end;
 
+    @media ${device.tablet} {
+        flex-direction: column-reverse;
+        padding: 2em 2em;
+    }
+
+    ${Content} {
+        @media ${device.tablet} {
+            width: 100%;
+            padding: 0em 0em 2em 0;
+        }
+    }
+
     ${Image} {
         width: 650px;
         height: 350px;
@@ -136,6 +174,12 @@ export const ClientSection = styled(
             }
             return '';
         }}
+    }
+
+    ${ImageWrapper} {
+        @media ${device.tablet} {
+            width: 100%;
+        }
     }
 
     ${({ theme: { color } }) => {

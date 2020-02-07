@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { device } from '../Device';
 import { Title } from './';
 
 interface Footer {
@@ -11,17 +12,31 @@ interface Footer {
 export const FooterCol1 = styled.div`
     display: flex;
     flex-grow: 1;
+    flex-wrap: wrap;
     flex-direction: column;
     font-size: 14px;
     line-height: 1.2em;
+
+    @media ${device.tablet} {
+        width: 100%;
+        padding: 1em;
+    }
 `;
 
 export const FooterCol2 = styled.div`
     margin-right: 10em;
+    @media ${device.tablet} {
+        width: 100%;
+        padding: 1em;
+    }
 `;
 
 export const FooterCol3 = styled.div`
     margin-right: 10em;
+    @media ${device.tablet} {
+        width: 100%;
+        padding: 1em;
+    }
 `;
 
 export const FooterNav = styled.ul`
@@ -62,7 +77,7 @@ export const Footer = styled(({ className, children }: Footer) => {
     display: flex;
     width: 100%;
     box-sizing: border-box;
-    padding: 10em 4em;
+    padding: 6em 4em;
     align-items: flex-start;
 
     ${Title} {
@@ -76,4 +91,9 @@ export const Footer = styled(({ className, children }: Footer) => {
           color: ${color.white};
       `;
     }}
+
+    @media ${device.tablet} {
+        flex-direction: column;
+        padding: 2em 2em;
+    }
 `;

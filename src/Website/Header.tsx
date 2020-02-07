@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { device } from '../Device';
 
 interface Header {
     className?: string;
@@ -9,9 +10,14 @@ interface Header {
 
 const Logo = styled.div`
     box-sizing: border-box;
+    font-weight: bold;
     padding: 2em;
     font-size: 20px;
-    font-weight: bold;
+
+    @media ${device.tablet} {
+        padding: 1em;
+        font-size: 16px;
+    }
 `;
 
 const Navigation = styled.div`
@@ -21,6 +27,10 @@ const Navigation = styled.div`
     align-items: center;
     justify-content: flex-end;
     padding: 0 2em;
+
+    @media ${device.tablet} {
+        display: none;
+    }
 `;
 
 export const Header = styled(({ className, logo, children }: Header) => {
@@ -31,11 +41,15 @@ export const Header = styled(({ className, logo, children }: Header) => {
         </div>
     );
 })`
+    display: flex;
     width: 100%;
     height: 100px;
-    display: flex;
+
     flex-direction: row;
     justify-content: center;
-
     background: ${({ theme: { color } }) => color.white};
+
+    @media ${device.tablet} {
+        height: 50px;
+    }
 `;

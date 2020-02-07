@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { device } from '../Device';
 import { SubTitle, Title } from './';
 
 interface HomepageBanner {
@@ -34,7 +35,7 @@ export const HomepageBanner = styled(
     ${({ background }) => {
         if (background) {
             return `
-              background-image: url(${background});
+              background-image: linear-gradient(to bottom,rgba(245,246,252,0.52),rgba(0, 0, 0, 0.73)), url(${background});
         `;
         }
 
@@ -48,6 +49,11 @@ export const HomepageBanner = styled(
 
     ${SubTitle} {
         font-size: 20px;
+    }
+
+    @media ${device.tablet} {
+        height: 450px;
+        padding: 1em;
     }
 `;
 

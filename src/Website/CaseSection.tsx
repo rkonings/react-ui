@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { device } from '../Device';
 import { Title } from './';
 
 interface CasesSection {
@@ -15,6 +16,10 @@ const CasesWrapper = styled.div`
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
+
+    @media ${device.tablet} {
+        width: 100%;
+    }
 `;
 
 export const CasesSection = styled(
@@ -39,4 +44,14 @@ export const CasesSection = styled(
     box-sizing: border-box;
     align-items: center;
     justify-content: space-between;
+
+    @media ${device.tablet} {
+        padding: 2em 1em;
+        ${Title} {
+            font-size: 20px;
+            margin-bottom: 2em;
+            width: 100%;
+            text-align: center;
+        }
+    }
 `;
