@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { usePortal } from '../Portal/Portal';
 import { device } from '../Device';
+import { usePortal } from '../Portal/Portal';
 import { MainNavigation, MobileNavigation, NavigationToggle } from './';
 
 interface Header {
