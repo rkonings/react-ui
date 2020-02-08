@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react';
 import faker from 'faker';
 import React from 'react';
 import {
+    CallToAction,
     Case,
     CasesSection,
     ClientSection,
@@ -12,21 +13,17 @@ import {
     FooterCol3,
     FooterNav,
     FooterNavItem,
+    Header,
     Homepage,
     HomepageBanner,
-    ServiceSection,
-    Title,
-    Header,
-    CallToAction,
-    MainNavigation,
-    MobileNavigation,
     MainNavItem,
     SectionNavigation,
     SectionNavigationItem,
-    CallToActionBox,
-} from '../src/Website';
+    ServiceSection,
+    Title,
+} from '../../src/Website';
 
-import Button from '../src/Button/Button';
+import Button from '../../src/Button/Button';
 
 storiesOf('Website', module).add('Homepage', () => {
     const background = text(
