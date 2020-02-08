@@ -24,7 +24,7 @@ export const FooterCol1 = styled.div`
 `;
 
 export const FooterCol2 = styled.div`
-    margin-right: 10em;
+    margin-right: 4em;
     @media ${device.tablet} {
         width: 100%;
         padding: 1em;
@@ -32,7 +32,7 @@ export const FooterCol2 = styled.div`
 `;
 
 export const FooterCol3 = styled.div`
-    margin-right: 10em;
+    margin-right: 1em;
     @media ${device.tablet} {
         width: 100%;
         padding: 1em;
@@ -41,6 +41,7 @@ export const FooterCol3 = styled.div`
 
 export const FooterNav = styled.ul`
     padding: 0;
+    margin: 0;
 `;
 
 interface FooterNavItem {
@@ -65,6 +66,10 @@ export const FooterNavItem = styled(
     list-style: none;
     margin: 0;
 
+    @media ${device.tablet} {
+        font-size: 14px;
+    }
+
     a {
         color: ${({ theme: { color } }) => color.white};
         text-decoration: none;
@@ -83,6 +88,11 @@ export const Footer = styled(({ className, children }: Footer) => {
     ${Title} {
         font-weight: 400;
         font-size: 24px;
+
+        @media ${device.tablet} {
+            font-size: 18px;
+            margin-bottom: 0.5em;
+        }
     }
 
     ${({ theme: { color } }) => {
