@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { device } from '../Device';
+import { ArrowRight } from '../Icon';
 
 export const Title = styled.div`
     font-size: 26px;
@@ -27,6 +28,61 @@ const Content = styled.div`
         width: 100%;
         padding: 2em;
     }
+`;
+
+interface SectionNavigationItem {
+    className?: string;
+    children: string | JSX.Element;
+    url: string;
+    title?: string;
+    active?: boolean;
+}
+
+export const SectionNavigationItem = styled(
+    ({ className, children, title, url }: SectionNavigationItem) => {
+        return (
+            <li className={className}>
+                <a href={url} title={title}>
+                    {children} <ArrowRight />
+                </a>
+            </li>
+        );
+    }
+)`
+    list-style: none;
+    margin: 0;
+
+    a {
+        color: ${({ theme: { color } }) => color.black};
+        text-decoration: none;
+        padding: 0.2em 0;
+        width: 200px;
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    ${ArrowRight} {
+        fill: ${({ theme: { color } }) => color.gray80};
+    }
+`;
+
+interface SectionNavigation {
+    className?: string;
+    children: JSX.Element | JSX.Element[];
+}
+
+export const SectionNavigation = styled(
+    ({ className, children }: SectionNavigation) => {
+        return <ul className={className}>{children}</ul>;
+    }
+)`
+    padding: 0;
+`;
+
+export const CallToAction = styled.div`
+    padding: 2em 0 2em 0;
 `;
 
 const ContentWrapper = styled.div`
