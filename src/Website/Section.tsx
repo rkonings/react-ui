@@ -61,10 +61,36 @@ export const SectionNavigationItem = styled(
         display: flex;
         justify-content: space-between;
         align-items: center;
-    }
+        position: relative;
 
-    ${ArrowRight} {
-        fill: ${({ theme: { color } }) => color.gray80};
+        &::after {
+            content: ' ';
+            position: absolute;
+            bottom: 3px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: ${({ theme: { color } }) => color.black};
+            opacity: 0;
+            display: block;
+            transition: all 0.3s ease-in-out;
+        }
+
+        ${ArrowRight} {
+            fill: ${({ theme: { color } }) => color.gray80};
+            transition: all 0.5s ease-in-out;
+        }
+
+        &:hover {
+            ${ArrowRight} {
+                transform: translate(5px, 0px);
+            }
+
+            &::after {
+                width: 30px;
+                opacity: 1;
+            }
+        }
     }
 `;
 
