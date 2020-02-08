@@ -17,9 +17,16 @@ import {
     ServiceSection,
     Title,
     Header,
+    CallToAction,
     MainNavigation,
+    MobileNavigation,
     MainNavItem,
+    SectionNavigation,
+    SectionNavigationItem,
+    CallToActionBox,
 } from '../src/Website';
+
+import Button from '../src/Button/Button';
 
 storiesOf('Website', module).add('Homepage', () => {
     const background = text(
@@ -50,23 +57,50 @@ storiesOf('Website', module).add('Homepage', () => {
         'https://us.123rf.com/450wm/archidea/archidea1604/archidea160400040/55875137-minimalistische-zwart-wit-woonkamer-met-een-bank-en-air-conditioner-3d-rendering.jpg?ver=6',
     ];
 
+    const mobileNavigation = (
+        <React.Fragment>
+            <MainNavItem url="#" title="#">
+                home
+            </MainNavItem>
+            <MainNavItem url="#" title="#">
+                oplossingen
+            </MainNavItem>
+            <MainNavItem url="#" title="#">
+                projecten
+            </MainNavItem>
+            <MainNavItem url="#" title="#">
+                klanten
+            </MainNavItem>
+            <MainNavItem url="#" title="#">
+                over ons
+            </MainNavItem>
+            <MainNavItem url="#" title="#">
+                contact
+            </MainNavItem>
+        </React.Fragment>
+    );
+
     return (
         <Homepage>
-            <Header logo={'KLIMA'}>
-                <MainNavigation>
-                    <MainNavItem url="#" title="#">
-                        home
-                    </MainNavItem>
-                    <MainNavItem url="#" title="#">
-                        diensten
-                    </MainNavItem>
-                    <MainNavItem url="#" title="#">
-                        over ons
-                    </MainNavItem>
-                    <MainNavItem url="#" title="#">
-                        contact
-                    </MainNavItem>
-                </MainNavigation>
+            <Header mobileNavigation={mobileNavigation} logo={'KLIMA'}>
+                <MainNavItem url="#" title="#">
+                    home
+                </MainNavItem>
+                <MainNavItem url="#" title="#">
+                    oplossingen
+                </MainNavItem>
+                <MainNavItem url="#" title="#">
+                    projecten
+                </MainNavItem>
+                <MainNavItem url="#" title="#">
+                    klanten
+                </MainNavItem>
+                <MainNavItem url="#" title="#">
+                    over ons
+                </MainNavItem>
+                <MainNavItem url="#" title="#">
+                    contact
+                </MainNavItem>
             </Header>
             <HomepageBanner
                 background={background}
@@ -79,14 +113,66 @@ storiesOf('Website', module).add('Homepage', () => {
                 subTitle={'Energie zuinig met een hoog rendement'}
                 image={sectionImage1}
             >
-                {faker.lorem.words(50)}
+                <React.Fragment>
+                    {faker.lorem.words(20)}
+                    <CallToAction>
+                        <Button contentAlignment="LEFT" width="fit-content">
+                            Bekijk onze oplossingen
+                        </Button>
+                    </CallToAction>
+
+                    <SectionNavigation>
+                        <SectionNavigationItem url="#" title="#">
+                            Airco prijs calculator
+                        </SectionNavigationItem>
+                        <SectionNavigationItem url="#" title="#">
+                            Onze werkwijze
+                        </SectionNavigationItem>
+                        <SectionNavigationItem url="#" title="#">
+                            Oplossingen
+                        </SectionNavigationItem>
+                        <SectionNavigationItem url="#" title="#">
+                            Advies
+                        </SectionNavigationItem>
+                        <SectionNavigationItem url="#" title="#">
+                            Onderhoud &amp; service
+                        </SectionNavigationItem>
+                        <SectionNavigationItem url="#" title="#">
+                            Storingsdienst
+                        </SectionNavigationItem>
+                    </SectionNavigation>
+                </React.Fragment>
             </ServiceSection>
             <ServiceSection
-                title={'Inspectie, service & onderhoud'}
+                title={'Zakelijke oplossingen'}
                 subTitle={'Levensduur van een airconditioning verlengen'}
                 image={sectionImage2}
             >
-                {faker.lorem.words(50)}
+                <React.Fragment>
+                    {faker.lorem.words(20)}
+                    <CallToAction>
+                        <Button contentAlignment="LEFT" width="fit-content">
+                            Bekijk onze oplossingen
+                        </Button>
+                    </CallToAction>
+                    <SectionNavigation>
+                        <SectionNavigationItem url="#" title="#">
+                            Onze werkwijze
+                        </SectionNavigationItem>
+                        <SectionNavigationItem url="#" title="#">
+                            Oplossingen
+                        </SectionNavigationItem>
+                        <SectionNavigationItem url="#" title="#">
+                            Advies
+                        </SectionNavigationItem>
+                        <SectionNavigationItem url="#" title="#">
+                            Onderhoud &amp; service
+                        </SectionNavigationItem>
+                        <SectionNavigationItem url="#" title="#">
+                            Storingsdienst
+                        </SectionNavigationItem>
+                    </SectionNavigation>
+                </React.Fragment>
             </ServiceSection>
             <ClientSection
                 reverse={true}
@@ -97,11 +183,20 @@ storiesOf('Website', module).add('Homepage', () => {
                 {faker.lorem.words(50)}
             </ClientSection>
             <CasesSection title={'Onze projecten'}>
-                <Case image={caseImage[2]} title={'M. van Eck uit Utrecht'} />
-                <Case image={caseImage[1]} title={'R. Dijkema uit Maarssen'} />
+                <Case
+                    image={caseImage[2]}
+                    title={'M. van Eck'}
+                    subTitle={'Utrecht'}
+                />
+                <Case
+                    image={caseImage[1]}
+                    title={'R. Dijkema'}
+                    subTitle={'Maarssen'}
+                />
                 <Case
                     image={caseImage[0]}
-                    title={'Administratie kantoor KS uit Breukelen'}
+                    title={'Administratie kantoor KS'}
+                    subTitle={'Breukelen'}
                 />
             </CasesSection>
 
