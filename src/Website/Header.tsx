@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { usePortal } from '../Portal/Portal';
 import { device } from '../Device';
 import { MainNavigation, MobileNavigation, NavigationToggle } from './';
-import { usePortal } from '../Portal/Portal';
 
 interface Header {
     className?: string;
@@ -14,6 +14,8 @@ interface Header {
 const Logo = styled.div`
     box-sizing: border-box;
     font-weight: bold;
+    display: flex;
+    align-items: center;
     padding: 2em;
     font-size: 20px;
 
@@ -88,6 +90,6 @@ export const Header = styled(
     background: ${({ theme: { color } }) => color.white};
 
     @media ${device.tablet} {
-        height: 50px;
+        height: 80px;
     }
 `;

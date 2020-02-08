@@ -52,6 +52,11 @@ export const NavigationToggle = styled(
     padding: 1em;
     align-self: center;
 
+    ${Close}, ${Bars} {
+        width: 20px;
+        height: 20px;
+    }
+
     @media ${device.tablet} {
         display: block;
     }
@@ -76,7 +81,7 @@ export const MobileNavigation = styled(
     height: 100%;
     box-sizing: border-box;
     position: fixed;
-    top: 50px;
+    top: 80px;
     left: 0;
     background: #ffffff;
     padding: 2em;
