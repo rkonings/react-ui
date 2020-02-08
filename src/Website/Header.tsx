@@ -9,6 +9,7 @@ interface Header {
     logo: JSX.Element | string;
     children: JSX.Element | JSX.Element[];
     mobileNavigation: JSX.Element;
+    contactInfo: JSX.Element | string;
 }
 
 const Logo = styled.div`
@@ -53,7 +54,7 @@ const ContactInfo = styled.div`
 `;
 
 export const Header = styled(
-    ({ className, logo, children, mobileNavigation }: Header) => {
+    ({ className, logo, children, mobileNavigation, contactInfo }: Header) => {
         const [navOpen, setNavOpen] = React.useState<boolean>(false);
         const { Portal } = usePortal();
 
@@ -72,7 +73,7 @@ export const Header = styled(
                         <MobileNavigation>{mobileNavigation}</MobileNavigation>
                     </Portal>
                 )}
-                {/* <ContactInfo>+31 (020) - 4023777</ContactInfo> */}
+                <ContactInfo>{contactInfo}</ContactInfo>
             </div>
         );
     }

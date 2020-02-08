@@ -82,7 +82,11 @@ storiesOf('Website', module).add('Homepage', () => {
 
     return (
         <Homepage>
-            <Header mobileNavigation={mobileNavigation} logo={'KLIMA'}>
+            <Header
+                mobileNavigation={mobileNavigation}
+                contactInfo="030 60 34 23 234"
+                logo={'KLIMA'}
+            >
                 <MainNavItem url="#" title="#">
                     home
                 </MainNavItem>
