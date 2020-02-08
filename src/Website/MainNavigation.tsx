@@ -47,6 +47,7 @@ export const MainNavItem = styled(
         }
 
         &:hover {
+            color: ${({ theme: { color } }) => color.gray110};
             &::after {
                 width: 50%;
                 opacity: 1;
