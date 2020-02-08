@@ -30,6 +30,7 @@ export const MainNavItem = styled(
         color: ${({ theme: { color } }) => color.gray80};
         text-decoration: none;
         padding: 1em;
+        font-size: 14px;
         position: relative;
 
         &::after {
