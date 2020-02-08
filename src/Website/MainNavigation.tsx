@@ -30,6 +30,27 @@ export const MainNavItem = styled(
         color: ${({ theme: { color } }) => color.gray80};
         text-decoration: none;
         padding: 1em;
+        position: relative;
+
+        &::after {
+            content: ' ';
+            position: absolute;
+            bottom: 0.5em;
+            left: 1em;
+            width: 0;
+            height: 1px;
+            background: ${({ theme: { color } }) => color.gray80};
+            opacity: 0;
+            display: block;
+            transition: all 0.5s ease-in-out;
+        }
+
+        &:hover {
+            &::after {
+                width: 50%;
+                opacity: 1;
+            }
+        }
     }
 `;
 
@@ -103,13 +124,35 @@ export const MobileNavigation = styled(
         a {
             font-size: 22px;
             font-weight: 300;
-            display: block;
+            display: flex;
+            width: fit-content;
             padding: 0.5em 0;
+            position: relative;
             ${({ theme: { color } }) => {
                 return `
                   color: ${color.white};
               `;
             }}
+
+            &::after {
+                content: ' ';
+                position: absolute;
+                bottom: 0em;
+                left: 0;
+                width: 0;
+                height: 1px;
+                background: ${({ theme: { color } }) => color.white};
+                opacity: 0;
+                display: block;
+                transition: all 0.5s ease-in-out;
+            }
+
+            &:hover {
+                &::after {
+                    width: 75%;
+                    opacity: 1;
+                }
+            }
         }
     }
 `;
