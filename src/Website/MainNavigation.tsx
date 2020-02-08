@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { device } from '../Device';
 import { Bars, Close } from '../Icon';
@@ -11,6 +11,18 @@ interface MainNavItem {
     title?: string;
     active?: boolean;
 }
+
+const fade = keyframes`
+    from {
+        opacity: 0;
+        transform: translateY(100%)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+`;
 
 export const MainNavItem = styled(
     ({ className, children, title, url }: MainNavItem) => {
@@ -109,6 +121,8 @@ export const MobileNavigation = styled(
     background: #ffffff;
     padding: 2em;
     z-index: 9999;
+
+    animation: ${fade} 0.3s ease-in;
 
     ul {
         display: flex;
