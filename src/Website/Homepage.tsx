@@ -70,4 +70,6 @@ const Homepage = ({ className, children }: Homepage) => {
 export default styled(Homepage)`
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
+    padding-top: 100px;
 `;

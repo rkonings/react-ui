@@ -12,11 +12,12 @@ interface Case {
 
 const Title = styled.div`
     font-size: 18px;
-    margin: 1em 0;
+    margin: 1em 0 0 0;
 `;
 
 const SubTitle = styled.div`
-    font-size: 16px;
+    font-size: 13px;
+    font-weight: 300;
     margin-bottom: 1em;
 `;
 
