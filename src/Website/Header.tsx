@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { device } from '../Device';
-import { usePortal } from '../Portal/Portal';
 import { MainNavigation, MobileNavigation, NavigationToggle } from './';
 
 interface Header {
@@ -56,7 +55,6 @@ const ContactInfo = styled.div`
 export const Header = styled(
     ({ className, logo, children, mobileNavigation, contactInfo }: Header) => {
         const [navOpen, setNavOpen] = React.useState<boolean>(false);
-        const { Portal } = usePortal();
 
         return (
             <div className={className}>
@@ -69,9 +67,7 @@ export const Header = styled(
                     onClick={() => setNavOpen(!navOpen)}
                 />
                 {navOpen && (
-                    <Portal onClose={() => setNavOpen(false)}>
-                        <MobileNavigation>{mobileNavigation}</MobileNavigation>
-                    </Portal>
+                    <MobileNavigation>{mobileNavigation}</MobileNavigation>
                 )}
                 <ContactInfo>{contactInfo}</ContactInfo>
             </div>
