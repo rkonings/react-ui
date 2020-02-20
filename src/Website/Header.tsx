@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { device } from '../Device';
-import { MainNavigation, MobileNavigation, NavigationToggle } from './';
+import {
+    MainNavigation,
+    MobileNavigation,
+    NavigationToggle,
+    TopNavigation,
+} from './';
 
 interface Header {
     className?: string;
@@ -9,6 +14,7 @@ interface Header {
     children: JSX.Element | JSX.Element[];
     mobileNavigation: JSX.Element;
     contactInfo: JSX.Element | string;
+    top?: JSX.Element;
 }
 
 const Logo = styled.div`
@@ -16,7 +22,7 @@ const Logo = styled.div`
     font-weight: bold;
     display: flex;
     align-items: center;
-    padding: 2em;
+    padding: 0.5em 2em 2em 2em;
     font-size: 20px;
 
     @media ${device.tablet} {
@@ -30,7 +36,20 @@ const Navigation = styled.div`
     flex-grow: 1;
     height: 100%;
     align-items: center;
+    justify-content: flex-end;
     padding: 0 2em;
+`;
+
+const Top = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    padding: 1em 2em;
+
+    @media ${device.tablet} {
+        display: none;
+    }
 `;
 
 const ContactInfo = styled.div`
@@ -53,11 +72,23 @@ const ContactInfo = styled.div`
 `;
 
 export const Header = styled(
-    ({ className, logo, children, mobileNavigation, contactInfo }: Header) => {
+    ({
+        className,
+        logo,
+        children,
+        mobileNavigation,
+        contactInfo,
+        top,
+    }: Header) => {
         const [navOpen, setNavOpen] = React.useState<boolean>(false);
 
         return (
             <div className={className}>
+                {top && (
+                    <Top>
+                        <TopNavigation>{top}</TopNavigation>
+                    </Top>
+                )}
                 <Logo>{logo}</Logo>
                 <Navigation>
                     <MainNavigation>{children}</MainNavigation>
@@ -69,18 +100,19 @@ export const Header = styled(
                 {navOpen && (
                     <MobileNavigation>{mobileNavigation}</MobileNavigation>
                 )}
-                <ContactInfo>{contactInfo}</ContactInfo>
+                {/* <ContactInfo>{contactInfo}</ContactInfo> */}
             </div>
         );
     }
 )`
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
-    height: 100px;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 999;
+    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.5);
 
     flex-direction: row;
     justify-content: center;

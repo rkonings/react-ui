@@ -39,10 +39,10 @@ export const MainNavItem = styled(
     margin: 0;
 
     a {
-        color: ${({ theme: { color } }) => color.gray80};
+        color: ${({ theme: { color } }) => color.gray100};
         text-decoration: none;
         padding: 1em;
-        font-size: 14px;
+        font-size: 18px;
         position: relative;
 
         &::after {
@@ -94,6 +94,28 @@ export const NavigationToggle = styled(
 
     @media ${device.tablet} {
         display: block;
+    }
+`;
+
+interface TopNavigation {
+    className?: string;
+    children: JSX.Element | JSX.Element[];
+}
+
+export const TopNavigation = styled(
+    ({ className, children }: TopNavigation) => {
+        return <div className={className}>{children}</div>;
+    }
+)`
+    display: flex;
+    flex-direction: row;
+
+    ${MainNavItem} {
+        a {
+            font-size: 16px;
+            font-weight: 200;
+            color: ${({ theme: { color } }) => color.gray120};
+        }
     }
 `;
 
