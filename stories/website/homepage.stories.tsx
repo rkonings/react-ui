@@ -19,9 +19,19 @@ import {
     MainNavItem,
     SectionNavigation,
     SectionNavigationItem,
+    Section,
+    BigTextCenter,
     ServiceSection,
     Title,
 } from '../../src/Website';
+
+import { Card } from '../../src/Website/Elements/Card';
+import {
+    Speciality,
+    SpecialityColumnLeft,
+    SpecialityColumnRight,
+    SpecialityTitle,
+} from '../../src/Website/Elements/Speciality';
 
 import Button from '../../src/Button/Button';
 
@@ -98,7 +108,7 @@ storiesOf('Website', module).add('Homepage', () => {
 
     const sectionImage2 = text(
         'section 2 image',
-        'https://www.dekatec.nl/wp-content/uploads/2014/08/20140428_1337141-1024x576.jpg'
+        'https://images.pexels.com/photos/842567/pexels-photo-842567.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
         // 'https://gavinlowe.co.nz/wp-content/uploads/2019/05/GavinLowe-Panasonic-ceiling-cassette.jpg'
     );
 
@@ -180,6 +190,147 @@ storiesOf('Website', module).add('Homepage', () => {
                 title={title}
                 subTitle={subTitle}
             />
+            <Section>
+                <BigTextCenter>
+                    duurzame oplossingen voor efficient koelen, verwarmen en
+                    ventileren van gebouwen en woningen voor een comfortabel
+                    binnenklimaat en betere luchtkwaltieit
+                </BigTextCenter>
+            </Section>
+
+            <Section>
+                <Speciality>
+                    <SpecialityColumnLeft>
+                        <SpecialityTitle>voor uw woning</SpecialityTitle>
+                        <Card
+                            title={'woonkamer'}
+                            image={
+                                'https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                            }
+                        />
+                        <Card
+                            title={'Slaapkamer'}
+                            image={
+                                'https://images.pexels.com/photos/90317/pexels-photo-90317.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                            }
+                        />
+                    </SpecialityColumnLeft>
+                    <SpecialityColumnRight>
+                        <SpecialityTitle>zakelijke oplossingen</SpecialityTitle>
+                        <Card
+                            title={'kantoor'}
+                            image={
+                                'https://images.pexels.com/photos/380768/pexels-photo-380768.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                            }
+                        />
+                        <Card
+                            title={'food'}
+                            image={
+                                'https://images.pexels.com/photos/2253643/pexels-photo-2253643.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                            }
+                        />
+                        <Card
+                            title={'winkel'}
+                            image={
+                                'https://images.pexels.com/photos/581344/pexels-photo-581344.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                            }
+                        />
+                        <Card
+                            title={'restaurant & cafe'}
+                            image={
+                                'https://images.pexels.com/photos/1581554/pexels-photo-1581554.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                            }
+                        />
+                        <Card
+                            title={'Serverruimte & IT'}
+                            image={
+                                'https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                            }
+                        />
+                        <Card
+                            title={'Zorg'}
+                            image={
+                                'https://images.pexels.com/photos/305568/pexels-photo-305568.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                            }
+                        />
+                    </SpecialityColumnRight>
+                </Speciality>
+            </Section>
+            <ClientSection
+                reverse={true}
+                title={'Onze klanten'}
+                subTitle={'Wat zeggen onze klanten over ons'}
+                image={sectionImage2}
+            >
+                {faker.lorem.words(50)}
+            </ClientSection>
+            <CasesSection title={'Onze projecten'}>
+                <Case
+                    image={caseImage[2]}
+                    title={'M. van Eck'}
+                    subTitle={'Utrecht'}
+                />
+                <Case
+                    image={caseImage[1]}
+                    title={'R. Dijkema'}
+                    subTitle={'Maarssen'}
+                />
+                <Case
+                    image={caseImage[0]}
+                    title={'Administratie kantoor KS'}
+                    subTitle={'Breukelen'}
+                />
+            </CasesSection>
+            <Footer>
+                <FooterCol1>
+                    <Title>Wij staan voor u klaar</Title>
+                    <p>Ma - Zo, 9.00 - 18.00</p>
+                    <p>
+                        +31 (020) - 4023777
+                        <br />
+                        info@airco.nl
+                        <br />
+                        +31 6 33665533
+                    </p>
+                </FooterCol1>
+                <FooterCol2>
+                    <Title>Voor bedrijven</Title>
+                    <FooterNav>
+                        <FooterNavItem url="#" title="zorg">
+                            Zorg
+                        </FooterNavItem>
+                        <FooterNavItem url="#" title="kantoor">
+                            Kantoor
+                        </FooterNavItem>
+                        <FooterNavItem url="#" title="retail">
+                            Retail
+                        </FooterNavItem>
+                        <FooterNavItem url="#" title="educatie">
+                            Educatie
+                        </FooterNavItem>
+                        <FooterNavItem url="#" title="restaurant &amp; Hotel">
+                            Restaurant &amp; Hotel
+                        </FooterNavItem>
+                    </FooterNav>
+                </FooterCol2>
+                <FooterCol3>
+                    <Title>Voor Particulieren</Title>
+                    <FooterNav>
+                        <FooterNavItem url="#" title="woonkamer">
+                            Woonkamer
+                        </FooterNavItem>
+                        <FooterNavItem url="#" title="slaapkamer">
+                            Slaapkamer
+                        </FooterNavItem>
+                        <FooterNavItem url="#" title="hobbiekamer">
+                            Hobbiekamer
+                        </FooterNavItem>
+                        <FooterNavItem url="#" title="voordelen">
+                            Voordelen
+                        </FooterNavItem>
+                    </FooterNav>
+                </FooterCol3>
+            </Footer>
             <ServiceSection
                 reverse={true}
                 title={'Slimme airconditioning oplossingen voor woningen'}
@@ -247,82 +398,6 @@ storiesOf('Website', module).add('Homepage', () => {
                     </SectionNavigation>
                 </React.Fragment>
             </ServiceSection>
-            <ClientSection
-                reverse={true}
-                title={'Onze klanten'}
-                subTitle={'Wat zeggen onze klanten over ons'}
-                image={sectionImage2}
-            >
-                {faker.lorem.words(50)}
-            </ClientSection>
-            <CasesSection title={'Onze projecten'}>
-                <Case
-                    image={caseImage[2]}
-                    title={'M. van Eck'}
-                    subTitle={'Utrecht'}
-                />
-                <Case
-                    image={caseImage[1]}
-                    title={'R. Dijkema'}
-                    subTitle={'Maarssen'}
-                />
-                <Case
-                    image={caseImage[0]}
-                    title={'Administratie kantoor KS'}
-                    subTitle={'Breukelen'}
-                />
-            </CasesSection>
-
-            <Footer>
-                <FooterCol1>
-                    <Title>Wij staan voor u klaar</Title>
-                    <p>Ma - Zo, 9.00 - 18.00</p>
-                    <p>
-                        +31 (020) - 4023777
-                        <br />
-                        info@airco.nl
-                        <br />
-                        +31 6 33665533
-                    </p>
-                </FooterCol1>
-                <FooterCol2>
-                    <Title>Voor bedrijven</Title>
-                    <FooterNav>
-                        <FooterNavItem url="#" title="zorg">
-                            Zorg
-                        </FooterNavItem>
-                        <FooterNavItem url="#" title="kantoor">
-                            Kantoor
-                        </FooterNavItem>
-                        <FooterNavItem url="#" title="retail">
-                            Retail
-                        </FooterNavItem>
-                        <FooterNavItem url="#" title="educatie">
-                            Educatie
-                        </FooterNavItem>
-                        <FooterNavItem url="#" title="restaurant &amp; Hotel">
-                            Restaurant &amp; Hotel
-                        </FooterNavItem>
-                    </FooterNav>
-                </FooterCol2>
-                <FooterCol3>
-                    <Title>Voor Particulieren</Title>
-                    <FooterNav>
-                        <FooterNavItem url="#" title="woonkamer">
-                            Woonkamer
-                        </FooterNavItem>
-                        <FooterNavItem url="#" title="slaapkamer">
-                            Slaapkamer
-                        </FooterNavItem>
-                        <FooterNavItem url="#" title="hobbiekamer">
-                            Hobbiekamer
-                        </FooterNavItem>
-                        <FooterNavItem url="#" title="voordelen">
-                            Voordelen
-                        </FooterNavItem>
-                    </FooterNav>
-                </FooterCol3>
-            </Footer>
         </Homepage>
     );
 });
