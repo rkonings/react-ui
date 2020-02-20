@@ -144,6 +144,21 @@ interface Section {
     reverse?: boolean;
 }
 
+export const Section = styled.section`
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5em 0;
+`;
+
+export const BigTextCenter = styled.div`
+    font-size: 24px;
+    text-align: center;
+    max-width: 800px;
+`;
+
 export const ServiceSection = styled(
     ({ className, children, title, subTitle }: Section) => {
         return (
