@@ -25,9 +25,18 @@ const Logo = styled.div`
     padding: 0.5em 2em 2em 2em;
     font-size: 20px;
 
+    svg {
+        height: 40px;
+    }
+
     @media ${device.tablet} {
         padding: 1em;
         font-size: 16px;
+        height: 100%;
+
+        svg {
+            height: 30px;
+        }
     }
 `;
 
@@ -37,7 +46,11 @@ const Navigation = styled.div`
     height: 100%;
     align-items: center;
     justify-content: flex-end;
-    padding: 0 2em;
+    padding: 1em 0 2em 0;
+
+    @media ${device.tablet} {
+        display: none;
+    }
 `;
 
 const Top = styled.div`
@@ -45,7 +58,7 @@ const Top = styled.div`
     display: flex;
     justify-content: flex-end;
     box-sizing: border-box;
-    padding: 1em 2em;
+    padding: 1em 2em 0 2em;
 
     @media ${device.tablet} {
         display: none;
@@ -120,5 +133,6 @@ export const Header = styled(
 
     @media ${device.tablet} {
         height: 80px;
+        justify-content: space-between;
     }
 `;
