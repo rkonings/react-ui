@@ -28,12 +28,12 @@ import Button from '../../src/Button/Button';
 storiesOf('Website', module).add('Homepage', () => {
     const background = text(
         'background',
-        'https://www.lg.com/uk/business/images/AC/features/uk_standard-plus_Feature_Simple-and-Slim-Design_D_1484045214178.jpg'
+        'https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
     );
 
     const title = text(
         'title',
-        'Specialist in airconditioning installatie en onderhoud'
+        'De specialist in klimaatbeheersing koelen en verwarmen van ruimtes'
     );
     const subTitle = text('sub title', faker.lorem.words(8));
 
@@ -54,6 +54,23 @@ storiesOf('Website', module).add('Homepage', () => {
         'https://us.123rf.com/450wm/archidea/archidea1604/archidea160400040/55875137-minimalistische-zwart-wit-woonkamer-met-een-bank-en-air-conditioner-3d-rendering.jpg?ver=6',
     ];
 
+    const topNavigation = (
+        <React.Fragment>
+            <MainNavItem url="#" title="#">
+                klantenservice
+            </MainNavItem>
+            <MainNavItem url="#" title="#">
+                kennisbank
+            </MainNavItem>
+            <MainNavItem url="#" title="#">
+                inloggen
+            </MainNavItem>
+            <MainNavItem url="#" title="#">
+                offerte aanvragen
+            </MainNavItem>
+        </React.Fragment>
+    );
+
     const mobileNavigation = (
         <React.Fragment>
             <MainNavItem url="#" title="#">
@@ -63,13 +80,13 @@ storiesOf('Website', module).add('Homepage', () => {
                 oplossingen
             </MainNavItem>
             <MainNavItem url="#" title="#">
-                projecten
+                service &amp; onderhoud
             </MainNavItem>
             <MainNavItem url="#" title="#">
-                klanten
+                het klimaat
             </MainNavItem>
             <MainNavItem url="#" title="#">
-                over ons
+                over Nova clima
             </MainNavItem>
             <MainNavItem url="#" title="#">
                 contact
@@ -83,6 +100,7 @@ storiesOf('Website', module).add('Homepage', () => {
                 mobileNavigation={mobileNavigation}
                 contactInfo="030 60 34 23 234"
                 logo={'KLIMA'}
+                top={topNavigation}
             >
                 <MainNavItem url="#" title="#">
                     home
@@ -91,13 +109,13 @@ storiesOf('Website', module).add('Homepage', () => {
                     oplossingen
                 </MainNavItem>
                 <MainNavItem url="#" title="#">
-                    projecten
+                    service &amp; onderhoud
                 </MainNavItem>
                 <MainNavItem url="#" title="#">
-                    klanten
+                    het klimaat
                 </MainNavItem>
                 <MainNavItem url="#" title="#">
-                    over ons
+                    over Nova clima
                 </MainNavItem>
                 <MainNavItem url="#" title="#">
                     contact
