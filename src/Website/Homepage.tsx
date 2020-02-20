@@ -21,7 +21,7 @@ export const HomepageBanner = styled(
     }
 )`
     width: 100%;
-    height: 600px;
+    height: 100%;
     background-size: cover;
     background-position: bottom;
     display: flex;
@@ -35,7 +35,7 @@ export const HomepageBanner = styled(
     ${({ background }) => {
         if (background) {
             return `
-              background-image: linear-gradient(to bottom,rgba(245,246,252,0.52),rgba(0, 0, 0, 0.73)), url(${background});
+              background-image: linear-gradient(to bottom,rgba(0, 0, 0, 0.33),rgba(0, 0, 0, 0.9)), url(${background});
         `;
         }
 
