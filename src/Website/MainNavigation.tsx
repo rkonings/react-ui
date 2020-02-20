@@ -39,10 +39,10 @@ export const MainNavItem = styled(
     margin: 0;
 
     a {
-        color: ${({ theme: { color } }) => color.gray100};
+        color: ${({ theme: { color } }) => color.gray90};
         text-decoration: none;
         padding: 1em;
-        font-size: 18px;
+        font-size: 16px;
         position: relative;
 
         &::after {
@@ -52,7 +52,7 @@ export const MainNavItem = styled(
             left: 1em;
             width: 0;
             height: 1px;
-            background: ${({ theme: { color } }) => color.gray80};
+            background: ${({ theme: { color } }) => color.gray120};
             opacity: 0;
             display: block;
             transition: all 0.5s ease-in-out;
@@ -112,7 +112,7 @@ export const TopNavigation = styled(
 
     ${MainNavItem} {
         a {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 200;
             color: ${({ theme: { color } }) => color.gray120};
         }
@@ -207,6 +207,13 @@ export const MainNavigation = styled(
 )`
     display: flex;
     flex-direction: row;
+    box-sizing: border-box;
+    margin-right: 2em;
+    margin-bottom: 0;
+
+    ul {
+        margin: 0;
+    }
 
     @media ${device.tablet} {
         display: none;
