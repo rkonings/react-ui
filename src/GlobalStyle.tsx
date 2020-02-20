@@ -5,6 +5,20 @@ const GlobalStyle = createGlobalStyle`
     @font-face {
       font-family: 'Jost';
       font-style: normal;
+      font-weight: 200;
+      font-display: swap;
+      src: local('Jost* Thin'),
+      local('Jost-Thin'),
+      url('./assets/fonts/jost-VF.woff') format("woff-variations"),
+      url('./assets/fonts/jost-VF.woff2') format("woff2-variations"),
+      url('./assets/fonts/Jost-200-Thin.woff') format('woff'),
+      url('./assets/fonts/Jost-200-Thin.woff2') format('woff2');
+    }
+
+
+    @font-face {
+      font-family: 'Jost';
+      font-style: normal;
       font-weight: 400;
       font-display: swap;
       src: local('Jost* Book'),
