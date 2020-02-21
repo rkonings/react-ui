@@ -5,9 +5,9 @@ import React from 'react';
 import { Card } from '../../src/Website/Elements/Card';
 import {
     Speciality,
-    SpecialityTitle,
     SpecialityColumnLeft,
     SpecialityColumnRight,
+    SpecialityTitle,
 } from '../../src/Website/Elements/Speciality';
 
 storiesOf('website/elements', module)
