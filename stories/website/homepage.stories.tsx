@@ -28,6 +28,7 @@ import {
 import { Card } from '../../src/Website/Elements/Card';
 import {
     Speciality,
+    Speciality2,
     SpecialityColumnLeft,
     SpecialityColumnRight,
     SpecialityTitle,
@@ -281,6 +282,54 @@ storiesOf('Website', module).add('Homepage', () => {
                     subTitle={'Breukelen'}
                 />
             </CasesSection>
+            <Section>
+                <BigTextCenter>
+                    duurzame oplossingen voor efficient koelen, verwarmen en
+                    ventileren van gebouwen en woningen voor een comfortabel
+                    binnenklimaat en betere luchtkwaltieit
+                </BigTextCenter>
+            </Section>
+
+            <Section>
+                <Speciality2>
+                    <Card
+                        title={'kantoor'}
+                        image={
+                            'https://images.pexels.com/photos/380768/pexels-photo-380768.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                        }
+                    />
+                    <Card
+                        title={'food'}
+                        image={
+                            'https://images.pexels.com/photos/2253643/pexels-photo-2253643.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                        }
+                    />
+                    <Card
+                        title={'winkel'}
+                        image={
+                            'https://images.pexels.com/photos/581344/pexels-photo-581344.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                        }
+                    />
+                    <Card
+                        title={'restaurant & cafe'}
+                        image={
+                            'https://images.pexels.com/photos/1581554/pexels-photo-1581554.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                        }
+                    />
+                    <Card
+                        title={'Serverruimte & IT'}
+                        image={
+                            'https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                        }
+                    />
+                    <Card
+                        title={'Zorg'}
+                        image={
+                            'https://images.pexels.com/photos/305568/pexels-photo-305568.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                        }
+                    />
+                </Speciality2>
+            </Section>
             <Footer>
                 <FooterCol1>
                     <Title>Wij staan voor u klaar</Title>
@@ -333,18 +382,21 @@ storiesOf('Website', module).add('Homepage', () => {
             </Footer>
             <ServiceSection
                 reverse={true}
-                title={'Slimme airconditioning oplossingen voor woningen'}
-                subTitle={'Energie zuinig met een hoog rendement'}
-                image={sectionImage1}
+                title={
+                    'Efficiënter. Milieuvriendelijker. Betere luchtkwaliteit.'
+                }
+                image={
+                    'https://www.aircon.panasonic.eu/uploads/__/clima_happenings/2019/MAIN%20PAGES/MP_DOMESTIC_19_01.jpg'
+                }
             >
                 <React.Fragment>
-                    {faker.lorem.words(20)}
+                    Efficiënte airconditioners,optimate prestaties en
+                    verminderen daarmee de energiekosten.
                     <CallToAction>
                         <Button contentAlignment="LEFT" width="fit-content">
                             Bekijk onze oplossingen
                         </Button>
                     </CallToAction>
-
                     <SectionNavigation>
                         <SectionNavigationItem url="#" title="#">
                             Airco prijs calculator
@@ -368,12 +420,15 @@ storiesOf('Website', module).add('Homepage', () => {
                 </React.Fragment>
             </ServiceSection>
             <ServiceSection
-                title={'Zakelijke oplossingen'}
-                subTitle={'Levensduur van een airconditioning verlengen'}
-                image={sectionImage2}
+                title={'Verkoeling & verwarming in iedere ruimte'}
+                image={
+                    'https://www.aircon.panasonic.eu/uploads/__/clima_happenings/2019/MAIN%20PAGES/MP_DOMESTIC_19_02.jpg'
+                }
             >
                 <React.Fragment>
-                    {faker.lorem.words(20)}
+                    De meest comfortabele temperatuur en gezonde lucht gedurende
+                    het gehele jaar, verwarming in de winter en koeling in de
+                    zomer.
                     <CallToAction>
                         <Button contentAlignment="LEFT" width="fit-content">
                             Bekijk onze oplossingen
