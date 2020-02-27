@@ -16,13 +16,13 @@ export const SubTitle = styled.div`
     font-weight: 300;
 `;
 
-const Content = styled.div`
+export const Content = styled.div`
     display: flex;
     flex-direction: column;
     font-size: 14px;
     line-height: 1.5em;
     box-sizing: border-box;
-    width: 300px;
+    max-width: 500px;
 
     @media ${device.tablet} {
         width: 100%;
@@ -151,6 +151,22 @@ export const Section = styled.section`
     align-items: center;
     justify-content: center;
     padding: 5em 0;
+
+    @media ${device.tablet} {
+        display: block;
+    }
+`;
+
+export const SelectionCol = styled.div`
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+
+    @media ${device.tablet} {
+        width: 100%;
+    }
 `;
 
 export const BigTextCenter = styled.div`

@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import { Card } from '../../src/Website/Elements/Card';
+import { Expert } from '../../src/Website/Elements/Expert';
 import {
     Speciality,
     SpecialityColumnLeft,
@@ -11,6 +12,16 @@ import {
 } from '../../src/Website/Elements/Speciality';
 
 storiesOf('website/elements', module)
+    .add('Expert', () => {
+        return (
+            <Expert
+                title="Heeft u advies nodig?"
+                content="Bel met onze specialist of laat uw contactgegevens achter en u wordt terug gebeld."
+                phone="030 60 234 23"
+                image="https://images.pexels.com/photos/937481/pexels-photo-937481.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+            />
+        );
+    })
     .add('card', () => {
         const title = text('title', 'Woonkamer');
         const image = text(
