@@ -65,24 +65,24 @@ const Top = styled.div`
     }
 `;
 
-const ContactInfo = styled.div`
-    display: flex;
-    align-self: center;
-    margin: 2em;
-    padding: 0.8em 1em;
-    font-weight: 800;
+// const ContactInfo = styled.div`
+//     display: flex;
+//     align-self: center;
+//     margin: 2em;
+//     padding: 0.8em 1em;
+//     font-weight: 800;
 
-    ${({ theme: { color } }) => {
-        return `
-          background: ${color.black};
-          color: ${color.white};
-      `;
-    }}
+//     ${({ theme: { color } }) => {
+//         return `
+//           background: ${color.black};
+//           color: ${color.white};
+//       `;
+//     }}
 
-    @media ${device.tablet} {
-        display: none;
-    }
-`;
+//     @media ${device.tablet} {
+//         display: none;
+//     }
+// `;
 
 export const Header = styled(
     ({

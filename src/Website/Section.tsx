@@ -8,6 +8,7 @@ export const Title = styled.div`
     font-weight: 500;
     margin-bottom: 1em;
     line-height: 1.1em;
+    width: 100%;
 `;
 
 export const SubTitle = styled.div`
@@ -26,7 +27,6 @@ export const Content = styled.div`
 
     @media ${device.tablet} {
         width: 100%;
-        padding: 2em;
     }
 `;
 
@@ -144,28 +144,51 @@ interface Section {
     reverse?: boolean;
 }
 
-export const Section = styled.section`
+const Row = styled.div`
+    width: 100%;
+    max-width: 1300px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+
+    @media ${device.tablet} {
+        display: block;
+        padding: 1em;
+    }
+`;
+
+export const Section = styled(({ className, children }: Section) => {
+    return (
+        <section className={className}>
+            <Row>{children}</Row>
+        </section>
+    );
+})`
     width: 100%;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5em 0;
+    padding: 5em 2em;
 
     @media ${device.tablet} {
         display: block;
+        padding: 1em;
     }
 `;
 
 export const SelectionCol = styled.div`
     width: 50%;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     display: flex;
     flex-direction: column;
 
     @media ${device.tablet} {
         width: 100%;
+        padding-bottom: 2em;
     }
 `;
 
@@ -228,7 +251,7 @@ export const ServiceSection = styled(
     }}
 
     @media ${device.tablet} {
-        padding: 2em 0em;
+        padding: 2em 2em;
 
         ${Image} {
             height: 0px;

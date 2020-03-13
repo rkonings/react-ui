@@ -43,7 +43,7 @@ export const HomepageBanner = styled(
     }}
 
     ${Title} {
-        font-size: 28px;
+        font-size: 38px;
         font-weight: 500;
     }
 

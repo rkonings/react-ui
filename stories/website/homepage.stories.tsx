@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions';
 import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import faker from 'faker';
@@ -7,8 +8,8 @@ import {
     CallToAction,
     Case,
     CasesSection,
-    Content,
     ClientSection,
+    Content,
     Footer,
     FooterCol1,
     FooterCol2,
@@ -26,12 +27,14 @@ import {
     ServiceSection,
     Title,
 } from '../../src/Website';
-
 import { Card } from '../../src/Website/Elements/Card';
+import { ContactForm } from '../../src/Website/Elements/ContactForm';
+import { ContactInfo } from '../../src/Website/Elements/ContactInfo';
 import { Expert } from '../../src/Website/Elements/Expert';
 import {
     Speciality,
     Speciality2,
+    Speciality3,
     SpecialityColumnLeft,
     SpecialityColumnRight,
     SpecialityTitle,
@@ -189,6 +192,78 @@ storiesOf('Website', module).add('Homepage', () => {
                     contact
                 </MainNavItem>
             </Header>
+
+            <Section>
+                <Title>Onze werkwijze</Title>
+                <SelectionCol>
+                    <Content>
+                        Wij staan bekend om onze unieke werkwijze. Ons team
+                        bestaat uit monteurs met ieder zijn eigen kwaliteiten. U
+                        komt altijd persoonlijk in contact met een vakbekwamde
+                        monteur om al u vragen te beantwoorden. Er spelen vele
+                        factoren mee om een goede airconditioning installatie te
+                        ontwerpen. Ieder huis en iedere ruimte vraagt om andere
+                        verkoeling en verwarming.
+                    </Content>
+                </SelectionCol>
+                <SelectionCol>
+                    <Content>
+                        Wij komen altijd graag langs om de ruimtes te bekijken
+                        om direct een efficiënte en kwalitatieve oplossing samen
+                        te stellen die aansluit op uw behoeften en situatie. Wij
+                        nemen altijd de nieuwste koeltechniek installatie
+                        innovaties mee bij het samenstellen van maatwerk
+                        oplossingen.
+                    </Content>
+                </SelectionCol>
+            </Section>
+            <Section>
+                <Speciality3>
+                    <Card
+                        title={'woonkamer'}
+                        image={
+                            'https://images.pexels.com/photos/380768/pexels-photo-380768.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                        }
+                    />
+                    <Card
+                        title={'slaapkamer'}
+                        image={
+                            'https://images.pexels.com/photos/2253643/pexels-photo-2253643.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                        }
+                    />
+                    <Card
+                        title={'zolderkamer'}
+                        image={
+                            'https://images.pexels.com/photos/581344/pexels-photo-581344.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                        }
+                    />
+                    <Card
+                        title={'thuiskantoor'}
+                        image={
+                            'https://images.pexels.com/photos/1581554/pexels-photo-1581554.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+                        }
+                    />
+                </Speciality3>
+            </Section>
+            <Section>
+                <SelectionCol>
+                    <Content>
+                        <Title>Vragen of opmerkingen?</Title>
+                        Vul her formulier in en wij nemen zo spoeding mogelijk
+                        contact op!
+                        <ContactInfo
+                            address="toermalijnlaan 40"
+                            city="Utrecht"
+                            zipcode="3523 BH"
+                            email="info@novaclima.nl"
+                            phone="030 254 23 56"
+                        />
+                    </Content>
+                </SelectionCol>
+                <SelectionCol>
+                    <ContactForm onSubmit={action('onSubmit')} />
+                </SelectionCol>
+            </Section>
             <Section>
                 <SelectionCol>
                     <Content>
@@ -380,6 +455,7 @@ storiesOf('Website', module).add('Homepage', () => {
                     />
                 </Speciality2>
             </Section>
+
             <Footer>
                 <FooterCol1>
                     <Title>Wij staan voor u klaar</Title>

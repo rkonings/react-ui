@@ -1,9 +1,13 @@
 import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import { Card } from '../../src/Website/Elements/Card';
+import { ContactForm } from '../../src/Website/Elements/ContactForm';
 import { Expert } from '../../src/Website/Elements/Expert';
+import { ContactInfo } from '../../src/Website/Elements/ContactInfo';
+
 import {
     Speciality,
     SpecialityColumnLeft,
@@ -12,6 +16,20 @@ import {
 } from '../../src/Website/Elements/Speciality';
 
 storiesOf('website/elements', module)
+    .add('ContactInfo', () => {
+        return (
+            <ContactInfo
+                address="toermalijnlaan 40"
+                city="Utrecht"
+                zipcode="3523 BH"
+                email="info@novaclima.nl"
+                phone="030 254 23 56"
+            />
+        );
+    })
+    .add('Contact Form', () => {
+        return <ContactForm onSubmit={action('onSubmit')} />;
+    })
     .add('Expert', () => {
         return (
             <Expert

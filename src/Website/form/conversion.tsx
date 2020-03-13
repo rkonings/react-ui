@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { mapValidationErrors, ValidationErrors } from '../../Validation';
 import { Step1, Step2, Step3, Step4, Step5 } from './step';
 import { Steps } from './Steps';
-import { Footer } from './BaseStep';
+// import { Footer } from './BaseStep';
 
 interface Conversion {
     className?: string;
@@ -120,19 +120,19 @@ export const Conversion = styled(({ className, onChange }: Conversion) => {
         }
     };
 
-    const onCancel = () => {
-        setErrors(new Map());
-    };
+    // const onCancel = () => {
+    //     setErrors(new Map());
+    // };
 
-    const nextStep = async (currentIndex: number, nextIndex?: number) => {
-        if (await validateStep(Validation[currentIndex])) {
-            setStep(nextIndex || currentIndex + 1);
-        }
-    };
+    // const nextStep = async (currentIndex: number, nextIndex?: number) => {
+    //     if (await validateStep(Validation[currentIndex])) {
+    //         setStep(nextIndex || currentIndex + 1);
+    //     }
+    // };
 
-    const prevStep = (prevIndex: number) => {
-        setStep(prevIndex);
-    };
+    // const prevStep = (prevIndex: number) => {
+    //     setStep(prevIndex);
+    // };
 
     const next = async () => {
         if (await validateStep(Validation[currentStep])) {

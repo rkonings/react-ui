@@ -9,7 +9,7 @@ interface Card {
 
 const Title = styled.div`
     color: #ffffff;
-    font-family: Jost-Semi;
+    font-weight: 600;
     padding: 1em;
 `;
 
@@ -23,6 +23,7 @@ export const Card = styled(({ className, title }: Card) => {
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
+    box-sizing: border-box;
     width: 300px;
     height: 150px;
 

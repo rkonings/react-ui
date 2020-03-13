@@ -13,6 +13,10 @@ export const SpecialityTitle = styled.div`
     width: 100%;
     font-size: 24px;
     margin-bottom: 0.5em;
+
+    @media ${device.tablet} {
+        margin-top: 1em;
+    }
 `;
 export const SpecialityColumnLeft = styled.div`
     display: flex;
@@ -57,6 +61,7 @@ export const Speciality = styled(({ className, children }: Speciality) => {
     justify-content: flex-start;
     flex-direction: row;
     max-width: 1000px;
+    box-sizing: border-box;
 
     ${Card} {
         margin: 2px;
@@ -66,6 +71,10 @@ export const Speciality = styled(({ className, children }: Speciality) => {
     @media ${device.tablet} {
         display: block;
         width: 100%;
+
+        ${Card} {
+            width: 49%;
+        }
     }
 `;
 
@@ -76,6 +85,7 @@ export const Speciality2 = styled(({ className, children }: Speciality) => {
     align-items: center;
     justify-content: center;
     flex-direction: row;
+    box-sizing: border-box;
 
     flex-wrap: wrap;
     max-width: 1000px;
@@ -88,5 +98,38 @@ export const Speciality2 = styled(({ className, children }: Speciality) => {
     @media ${device.tablet} {
         display: block;
         width: 100%;
+
+        ${Card} {
+            width: 100%;
+        }
+    }
+`;
+
+export const Speciality3 = styled(({ className, children }: Speciality) => {
+    return <div className={className}>{children}</div>;
+})`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    box-sizing: border-box;
+
+    flex-wrap: wrap;
+    max-width: 1000px;
+    width: 100%;
+
+    ${Card} {
+        margin: 2px;
+        height: 300px;
+        width: 23%;
+    }
+
+    @media ${device.tablet} {
+        display: block;
+        width: 100%;
+
+        ${Card} {
+            width: 100%;
+        }
     }
 `;

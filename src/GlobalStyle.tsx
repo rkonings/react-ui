@@ -60,7 +60,7 @@ const GlobalStyle = createGlobalStyle`
        margin:0;
     }
 
-    #root {
+    #root, #__next {
       height: 100%;
       width: 100%;
     }
@@ -72,6 +72,8 @@ const GlobalStyle = createGlobalStyle`
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
+
+
 `;
 
 export default GlobalStyle;

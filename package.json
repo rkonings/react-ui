@@ -1,6 +1,6 @@
 {
-    "name": "react-ui",
-    "version": "0.0.1",
+    "name": "@randykonings/react-ui",
+    "version": "0.0.2",
     "description": "React UI Elements",
     "scripts": {
         "test": "jest",
@@ -60,6 +60,7 @@
         "jest-styled-components": "^6.3.3",
         "source-map-loader": "^0.2.4",
         "storybook-react-router": "^1.0.8",
+        "styled-components": "^4.3.2",
         "stylelint": "^10.1.0",
         "stylelint-config-recommended": "^2.2.0",
         "stylelint-config-styled-components": "^0.1.1",
@@ -70,6 +71,11 @@
         "tslint-plugin-prettier": "^2.0.1",
         "tslint-react": "^4.1.0",
         "typescript": "^3.6.3"
+    },
+    "peerDependencies": {
+        "styled-components": "^4.3.2",
+        "react": "^16.13.0",
+        "react-dom": "^16.13.0"
     },
     "dependencies": {
         "@charlietango/use-focus-trap": "^1.2.3",
@@ -91,7 +97,6 @@
         "react-useportal": "^1.0.13",
         "react-virtualized": "^9.21.1",
         "react-window": "^1.8.5",
-        "styled-components": "^4.3.2",
         "yup": "^0.27.0"
     }
 }
