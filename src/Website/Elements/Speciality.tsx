@@ -66,6 +66,7 @@ export const Speciality = styled(({ className, children }: Speciality) => {
     ${Card} {
         margin: 2px;
         height: 170px;
+        box-sizing: border-box;
     }
 
     @media ${device.tablet} {
@@ -73,7 +74,7 @@ export const Speciality = styled(({ className, children }: Speciality) => {
         width: 100%;
 
         ${Card} {
-            width: 49%;
+            width: 48%;
         }
     }
 `;
@@ -130,6 +131,7 @@ export const Speciality3 = styled(({ className, children }: Speciality) => {
 
         ${Card} {
             width: 100%;
+            height: 150px;
         }
     }
 `;

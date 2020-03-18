@@ -72,4 +72,9 @@ export default styled(Homepage)`
     height: 100%;
     box-sizing: border-box;
     padding-top: 100px;
+
+    @media ${device.tablet} {
+        height: 80px;
+        padding-top: 80px;
+    }
 `;

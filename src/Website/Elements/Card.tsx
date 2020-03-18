@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { device } from '../../Device';
 
 interface Card {
     className?: string;
@@ -7,16 +8,20 @@ interface Card {
     image: string;
 }
 
-const Title = styled.div`
+export const CardTitle = styled.div`
     color: #ffffff;
     font-weight: 600;
     padding: 1em;
+
+    @media ${device.tablet} {
+        font-size: 14px;
+    }
 `;
 
 export const Card = styled(({ className, title }: Card) => {
     return (
         <div className={className}>
-            <Title>{title}</Title>
+            <CardTitle>{title}</CardTitle>
         </div>
     );
 })`

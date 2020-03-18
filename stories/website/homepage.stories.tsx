@@ -245,7 +245,7 @@ storiesOf('Website', module).add('Homepage', () => {
                     />
                 </Speciality3>
             </Section>
-            <Section>
+            <Section fullScreen={true}>
                 <SelectionCol>
                     <Content>
                         <Title>Vragen of opmerkingen?</Title>

@@ -142,6 +142,7 @@ interface Section {
     subTitle?: string;
     image?: string;
     reverse?: boolean;
+    fullScreen?: boolean;
 }
 
 const Row = styled.div`
@@ -177,6 +178,19 @@ export const Section = styled(({ className, children }: Section) => {
         display: block;
         padding: 1em;
     }
+
+    ${({ fullScreen }) => {
+        if (fullScreen) {
+            return `
+                height: 100vh;
+                @media ${device.tablet} {
+                    height: auto;
+                }
+            `;
+        }
+
+        return ``;
+    }}
 `;
 
 export const SelectionCol = styled.div`
