@@ -6,10 +6,62 @@ import StoryRouter from 'storybook-react-router';
 import Login from '../src/UI/Login';
 import CreateAccount from '../src/UI/CreateAccount';
 import Settings from '../src/UI/Settings';
-import ClientInfo from '../src/UI/Client/ClientInfo';
+import OfferForm, { Offer } from '../src/UI/OfferForm';
 import faker from 'faker';
 import Task from '../src/UI/Task';
 import moment from 'moment';
+
+storiesOf('UI/Offer', module)
+    .addDecorator(StoryRouter())
+    .add('default', () => {
+        const Wrapper = styled.div`
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-self: flex-start;
+        `;
+
+        const offer: Offer = {
+            id: 'FOO',
+            type: 'particulier',
+            reference: 'FOOBAZ',
+            date: '02/03/2020',
+            expiration: 14,
+            client: 'Ajax Amsterdam',
+            user: 'R. Konings',
+            assemblyHours: {
+                assembly: 10,
+                electricity: 4,
+                refrigeration: 4,
+            },
+            installation: {
+                type: 'single',
+                indoorUnits: ['2.0 kW'],
+                outdoorUnits: ['2.0 kW'],
+                amountDrillHoles: 2,
+                coolingPipe: 10,
+                electricity: {
+                    communication: 20,
+                    control: 20,
+                    power: 20,
+                    powerGroup: '',
+                },
+                mounting: {
+                    wallBracket: '> 40kg',
+                },
+                pump: {
+                    type: 'PUMP 001',
+                    amount: 1,
+                },
+            },
+        };
+
+        return (
+            <Wrapper>
+                <OfferForm offer={offer} onChange={action('login')} />
+            </Wrapper>
+        );
+    });
 
 storiesOf('UI/ClientInfo', module).add('default', () => {
     const client = {
