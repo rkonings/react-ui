@@ -10,14 +10,23 @@ export const Document = styled.div`
     }
 `;
 
-export const Page = styled.div`
+interface Page {
+    background?: boolean;
+    noMargin?: boolean;
+}
+
+export const Page = styled.div<Page>`
     font-size: 14px;
     width: 21cm;
-    height: 29.7cm;
-    padding: 4em 6em;
-    background: #fdfdfd;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #000;
+    height: 28.7cm;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    /* padding: 4em 6em; */
+    padding: 2em 4em;
+    background: ${({ background = true }) => (background ? '#fdfdfd' : 'none')};
+    /* margin-bottom: 10px; */
+    /* border-bottom: 1px solid #000; */
     display: flex;
     flex-direction: column;
 `;
