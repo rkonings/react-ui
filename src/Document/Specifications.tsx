@@ -1,7 +1,7 @@
 import React from 'react';
-import syled from 'styled-components';
-import { Table } from './Elements';
 import styled from 'styled-components';
+
+import { Table } from './Elements';
 
 interface WorkDaySpecification {
     date: string;

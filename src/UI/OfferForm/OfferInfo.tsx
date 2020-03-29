@@ -5,23 +5,11 @@ import * as Yup from 'yup';
 import { Button } from '../../Button';
 import TextButton from '../../Button/TextButton';
 import { OnChangeHandler } from '../../Form';
-import { Edit } from '../../Icon';
-import Checkbox from '../../Input/Checkbox/Checkbox';
-import Select from '../../Input/Select/Select';
-import Switch from '../../Input/Switch/Switch';
-import { Section, SettingsField, Title } from '../../SettingsField';
+import { Section } from '../../SettingsField';
 import { ValidationErrors } from '../../Validation';
-import { User } from './../Settings';
 
 import ButtonGroup from '../../ButtonGroup/ButtonGroup';
-import { PopoverInput } from '../../CombinedInput/PopoverInput';
-import PopupInput from '../../CombinedInput/PopupInput';
-import TextField from '../../Input/TextField/TextField';
 
-import { InputField } from '../../Form';
-
-import { PopoverFooter } from '../../Popover/Popover';
-import { PopupContent, PopupFooter, PopupHeader } from '../../Popup/Popup';
 import { Offer } from '../OfferForm';
 
 interface OfferInfo {
@@ -84,7 +72,7 @@ const Item = styled(({ className, label, value, measureUnit }: Item) => (
     flex-grow: 1;
 `;
 
-export default ({ data, onChange, errors, validationSchema }: OfferInfo) => {
+export default ({ data }: OfferInfo) => {
     return (
         <React.Fragment>
             <Section>

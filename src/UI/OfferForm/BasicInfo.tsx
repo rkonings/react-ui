@@ -1,26 +1,12 @@
 import React from 'react';
 import * as Yup from 'yup';
 
-import { Button } from '../../Button';
-import TextButton from '../../Button/TextButton';
 import { OnChangeHandler } from '../../Form';
-import { Edit } from '../../Icon';
-import Checkbox from '../../Input/Checkbox/Checkbox';
-import Select from '../../Input/Select/Select';
-import Switch from '../../Input/Switch/Switch';
-import { Section, SettingsField } from '../../SettingsField';
-import { ValidationErrors } from '../../Validation';
-import { User } from './../Settings';
-
-import ButtonGroup from '../../ButtonGroup/ButtonGroup';
-import { PopoverInput } from '../../CombinedInput/PopoverInput';
-import PopupInput from '../../CombinedInput/PopupInput';
-import TextField from '../../Input/TextField/TextField';
-
 import { InputField } from '../../Form';
-
-import { PopoverFooter } from '../../Popover/Popover';
-import { PopupContent, PopupFooter, PopupHeader } from '../../Popup/Popup';
+import Select from '../../Input/Select/Select';
+import TextField from '../../Input/TextField/TextField';
+import { Section } from '../../SettingsField';
+import { ValidationErrors } from '../../Validation';
 import { Offer } from '../OfferForm';
 
 interface BasicInfo {
@@ -30,7 +16,7 @@ interface BasicInfo {
     validationSchema: Yup.ObjectSchema;
 }
 
-export default ({ data, onChange, errors, validationSchema }: BasicInfo) => {
+export default ({ data, onChange, errors }: BasicInfo) => {
     return (
         <React.Fragment>
             <Section>

@@ -12,12 +12,11 @@ import ElectricityInfo from './OfferForm/ElectricityInfo';
 import AssemblyInfo from './OfferForm/AssemblyInfo';
 import OfferInfo from './OfferForm/OfferInfo';
 import UnitInfo from './OfferForm/UnitInfo';
-import ContactsCompanies from './Settings/ContactsCompanies';
-import { string } from 'yup';
+// import ContactsCompanies from './Settings/ContactsCompanies';
 
 export interface User {
     firstName: string;
-    lastName: string;
+    lastName: string; 
     phone: string;
     email: string;
 }
