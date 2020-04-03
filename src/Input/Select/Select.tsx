@@ -6,12 +6,17 @@ import { ArrowDown, ArrowUp } from '../../Icon';
 import { Size } from '../../interfaces/Theme';
 import { ErrorText, HelperText } from '../Core';
 
+interface Option {
+    label: string;
+    value: string;
+}
+
 interface Select extends HelperText, ErrorText {
     className?: string;
     value?: string;
     name?: string;
     isOpen?: boolean;
-    options: string[];
+    options: string[] | Option[];
     width?: string;
     label?: string | JSX.Element;
     size?: Size;
@@ -59,7 +64,6 @@ interface MenuItem {
 }
 
 const StyledMenuItem = styled.div<MenuItem>`
-
     ${({
         selected,
         theme: {
@@ -76,7 +80,7 @@ const StyledMenuItem = styled.div<MenuItem>`
         }
         return null;
     }};
-    padding 1em;
+    padding: 1em;
     font-size: 14px;
     &:hover {
         ${({
@@ -98,7 +102,6 @@ const StyledMenuItem = styled.div<MenuItem>`
                 color: ${hover.item.color};
             `;
         }};
-
 
         ${({ selected, theme: { color } }) =>
             selected ? `color: ${color.white};` : null}
@@ -181,7 +184,7 @@ const Label = styled.span`
 
 const Select = ({
     className,
-    options,
+    options: _options,
     value: _value,
     isOpen: _open = false,
     onChange,
@@ -191,6 +194,7 @@ const Select = ({
 }: Select) => {
     const [value, setValue] = React.useState<string>('');
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
+    const [options, setOptions] = React.useState<Option[]>([]);
     const [selectedItem, setSelectedItem] = React.useState<
         string | undefined
     >();
@@ -199,9 +203,25 @@ const Select = ({
     const focusTrap = useFocusTrap();
 
     React.useEffect(() => {
-        const val = _value || options[0];
-        setValue(val);
-        setSelectedItem(val);
+        let defaultValue;
+
+        if (_options[0] && typeof _options[0] === 'string') {
+            const opts = (_options as string[]).map((value: string) => {
+                return {
+                    label: value,
+                    value,
+                };
+            });
+            setOptions(opts);
+
+            defaultValue = _value || _options[0];
+        } else {
+            setOptions(_options as Option[]);
+            defaultValue = _value || (_options[0] as Option).value;
+        }
+
+        setValue(defaultValue);
+        setSelectedItem(defaultValue);
         setIsOpen(_open);
     }, []);
 
@@ -217,24 +237,24 @@ const Select = ({
     const nextSelectedItem = () => {
         let nextIndex = 0;
         const currentIndex = options.findIndex(
-            option => option === selectedItem
+            option => option.value === selectedItem
         );
         if (currentIndex < options.length - 1) {
             nextIndex = currentIndex + 1;
         }
 
-        setSelectedItem(options[nextIndex]);
+        setSelectedItem(options[nextIndex].value);
     };
 
     const prevSelectedItem = () => {
         const currentIndex = options.findIndex(
-            option => option === selectedItem
+            option => option.value === selectedItem
         );
         let prevIndex = currentIndex - 1;
         if (currentIndex === 0) {
             prevIndex = options.length - 1;
         }
-        setSelectedItem(options[prevIndex]);
+        setSelectedItem(options[prevIndex].value);
     };
 
     const keyPressHandler = (e: KeyboardEvent) => {
@@ -267,6 +287,14 @@ const Select = ({
         };
     });
 
+    const getLabel = (value: string) => {
+        const option = options.find(opt => {
+            return opt.value === value;
+        });
+
+        return (option && option.label) || '';
+    };
+
     return (
         <div ref={isOpen ? focusTrap : null} className={className}>
             {label && <Label>{label}</Label>}
@@ -291,7 +319,7 @@ const Select = ({
                     onChange={e => {
                         setValue(e.currentTarget.value);
                     }}
-                    value={value}
+                    value={getLabel(value)}
                 />
                 <StyledArrow direction={isOpen ? 'UP' : 'DOWN'} />
             </InputWrapper>
@@ -304,14 +332,14 @@ const Select = ({
                         {options.map((option, optIndex) => (
                             <StyledMenuItem
                                 onClick={() => {
-                                    setSelectedItem(option);
+                                    setSelectedItem(option.value);
                                     setIsOpen(false);
-                                    changeValue(option);
+                                    changeValue(option.value);
                                 }}
                                 key={optIndex}
-                                selected={selectedItem === option}
+                                selected={selectedItem === option.value}
                             >
-                                {option}
+                                {option.label}
                             </StyledMenuItem>
                         ))}
                     </StyledMenu>
