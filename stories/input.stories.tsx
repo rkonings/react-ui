@@ -45,13 +45,11 @@ storiesOf('Input/DateRangePicker', module).add('advanced', () => {
 storiesOf('Input/Select', module)
     .add('default', () => {
         const options = [
-            'Dijkstra - Jacobs',
-            'Ven V.O.F.',
-            'Janssen, Groot and Dijk',
-            'Boer, Stichting and Jacobs',
-            'Willems Group',
-            'Brink, Brink and Dijkstra',
-            'Smits, Boer and Brouwer',
+            { label: 'Dijkstra - Jacobs', value: '001' },
+            { label: 'Ven V.O.F.', value: '002' },
+            { label: 'Janssen, Groot and Dijk', value: '003' },
+            { label: 'Willems Group', value: '004' },
+            { label: 'Brink, Brink and Dijkstra', value: '005' },
         ];
         const size = select(sizeLabel, sizeOptions, sizeDefaultValue);
         return (
@@ -64,7 +62,7 @@ storiesOf('Input/Select', module)
                     <Select
                         size={size as Size}
                         onChange={action('onChange')}
-                        options={array('Options', options, ':')}
+                        options={options}
                         name={'companies'}
                     />
                 </Item>

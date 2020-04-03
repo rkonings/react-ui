@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
+import NumberFormatter from '../../src/Formatter/NumberFormatter';
 
 interface ClientInfo {
     className?: string;
     company?: string;
-    firstName: string;
-    lastName: string;
-    address: string;
-    zipcode: string;
-    city: string;
-    country: string;
+    firstName?: string;
+    lastName?: string;
+    address?: string;
+    zipcode?: string;
+    city?: string;
+    country?: string;
 }
 
 export const ClientInfo = styled(
@@ -25,14 +26,18 @@ export const ClientInfo = styled(
     }: ClientInfo) => (
         <div className={className}>
             {company && <p>{company}</p>}
-            <p>
-                Tav. {firstName} {lastName}
-            </p>
-            <p>{address}</p>
-            <p>
-                {zipcode} {city}
-            </p>
-            <p>{country}</p>
+            {firstName && (
+                <p>
+                    Tav. {firstName} {lastName}
+                </p>
+            )}
+            {address && <p>{address}</p>}
+            {(zipcode || city) && (
+                <p>
+                    {zipcode} {city}
+                </p>
+            )}
+            {country && <p>{country}</p>}
         </div>
     )
 )`
@@ -118,15 +123,23 @@ interface InvoiceInfo {
     invoiceNumber: string;
     expirationDate: string;
     date: string;
+    downpaymentInvoice?: boolean;
+    discount: number;
 }
 
 export const InvoiceInfo = styled(
     ({ className, invoiceNumber, expirationDate, date }) => {
         return (
             <div className={className}>
-                <p>factuurnummer {invoiceNumber}</p>
-                <p>factuurdatum {date}</p>
-                <p>vervaldatum {expirationDate}</p>
+                <p>
+                    <span>factuurnummer</span> {invoiceNumber}
+                </p>
+                <p>
+                    <span>factuurdatum</span> {date}
+                </p>
+                <p>
+                    <span>vervaldatum</span> {expirationDate}
+                </p>
             </div>
         );
     }
@@ -134,5 +147,81 @@ export const InvoiceInfo = styled(
     p {
         margin: 0;
     }
+    span {
+        display: inline-block;
+        width: 120px;
+        font-weight: 600;
+    }
     width: 100%;
 `;
+
+const getSubTotal = (invoiceLines: InvoiceLine[]) => {
+    return invoiceLines.reduce(
+        (price, line) => price + (line.amount * line.price) / 100,
+        0
+    );
+};
+
+interface SubTotal {
+    invoiceLines: InvoiceLine[];
+    discount?: number;
+}
+
+type Tax = SubTotal;
+type Total = SubTotal;
+type SubTotalWithDiscount = SubTotal;
+
+export const SubTotal = ({ invoiceLines }: SubTotal) => {
+    const subTotal = getSubTotal(invoiceLines);
+    return <NumberFormatter value={subTotal} type="currency" />;
+};
+
+export const SubTotalWithDiscount = ({
+    invoiceLines,
+    discount,
+}: SubTotalWithDiscount) => {
+    const subTotal = getSubTotal(invoiceLines);
+    return <NumberFormatter value={subTotal} type="currency" />;
+};
+
+export const Tax = ({ invoiceLines }: Tax) => {
+    const subTotal = getSubTotal(invoiceLines);
+    const tax = subTotal * 0.21;
+    return <NumberFormatter value={tax} type="currency" />;
+};
+export const Total = ({ invoiceLines }: Total) => {
+    const subTotal = getSubTotal(invoiceLines);
+    const total = subTotal * 1.21;
+    return <NumberFormatter value={total} type="currency" />;
+};
+
+export interface InvoiceLine {
+    amount: number;
+    description: string | JSX.Element;
+    price: number;
+    className?: string;
+}
+
+export const InvoiceLine = styled(
+    ({ className, amount, description, price }: InvoiceLine) => {
+        return (
+            <tr className={className}>
+                <td className="amount">{amount}</td>
+                <td className="description">{description}</td>
+                <td className="currency">&euro;</td>
+                <td className="unit-price">
+                    <NumberFormatter type="currency" value={price / 100} />
+                </td>
+                <td className="currency">&euro;</td>
+                <td className="price">
+                    {
+                        <NumberFormatter
+                            type="currency"
+                            value={(price * amount) / 100}
+                        />
+                    }
+                </td>
+            </tr>
+        );
+    }
+)``;
