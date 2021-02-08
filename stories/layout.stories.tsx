@@ -4,7 +4,7 @@ import faker from 'faker/locale/nl';
 import React from 'react';
 import useDimensions from 'react-use-dimensions';
 import styled from 'styled-components';
-import { Basic, Dashbaord } from '../src/Layout';
+import { Basic, Dashboard } from '../src/Layout';
 
 import ButtonGroup from '../src/ButtonGroup/ButtonGroup';
 import { DataTable } from '../src/DataTable';
@@ -214,7 +214,7 @@ storiesOf('Layout', module)
 
         return (
             <Basic pageTitle="Dashboard" left={left} toolbar={toolbar}>
-                <Dashbaord />
+                <Dashboard />
             </Basic>
         );
     });
