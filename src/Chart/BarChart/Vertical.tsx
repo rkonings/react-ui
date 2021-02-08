@@ -28,7 +28,7 @@ const Vertical = styled(
                     return (
                         <React.Fragment key={name}>
                             <Bar
-                                x={scaleBand(name)}
+                                x={scaleBand(name) || 0}
                                 y={y}
                                 height={barHeight}
                                 width={barWidth}
