@@ -4,7 +4,7 @@ import faker from 'faker/locale/nl';
 import React from 'react';
 import useDimensions from 'react-use-dimensions';
 import styled from 'styled-components';
-import { Basic } from '../src/Layout';
+import { Basic, Dashboard } from '../src/Layout';
 
 import ButtonGroup from '../src/ButtonGroup/ButtonGroup';
 import { DataTable } from '../src/DataTable';
@@ -151,36 +151,70 @@ const DataTableWithSort = () => {
     );
 };
 
-storiesOf('Layout', module).add('Basic', () => {
-    const left = (
-        <Navigation>
-            <NavigationItem icon={<Home />}>Dashboard</NavigationItem>
-            <NavigationItem icon={<Inbox />}>Inbox</NavigationItem>
-            <NavigationItem icon={<Clients />}>Clients</NavigationItem>
-            <NavigationItem isActive={true} icon={<Agenda />}>
-                Agenda
-            </NavigationItem>
-            <NavigationItem icon={<ProjectManagement />}>
-                Project management
-            </NavigationItem>
-            <NavigationItem icon={<Invoices />}>Invoices</NavigationItem>
-            <NavigationItem icon={<TimeManagement />}>
-                Time management
-            </NavigationItem>
-        </Navigation>
-    );
+storiesOf('Layout', module)
+    .add('Basic', () => {
+        const left = (
+            <Navigation>
+                <NavigationItem icon={<Home />}>Dashboard</NavigationItem>
+                <NavigationItem icon={<Inbox />}>Inbox</NavigationItem>
+                <NavigationItem icon={<Clients />}>Clients</NavigationItem>
+                <NavigationItem isActive={true} icon={<Agenda />}>
+                    Agenda
+                </NavigationItem>
+                <NavigationItem icon={<ProjectManagement />}>
+                    Project management
+                </NavigationItem>
+                <NavigationItem icon={<Invoices />}>Invoices</NavigationItem>
+                <NavigationItem icon={<TimeManagement />}>
+                    Time management
+                </NavigationItem>
+            </Navigation>
+        );
 
-    const toolbar = (
-        <React.Fragment>
-            <Button>Button</Button>
-            <Button>Button</Button>
-            <Button>Button</Button>
-        </React.Fragment>
-    );
+        const toolbar = (
+            <React.Fragment>
+                <Button>Button</Button>
+                <Button>Button</Button>
+                <Button>Button</Button>
+            </React.Fragment>
+        );
 
-    return (
-        <Basic pageTitle="Client management" left={left} toolbar={toolbar}>
-            <DataTableWithSort />
-        </Basic>
-    );
-});
+        return (
+            <Basic pageTitle="Client management" left={left} toolbar={toolbar}>
+                <DataTableWithSort />
+            </Basic>
+        );
+    })
+    .add('Dashboard', () => {
+        const left = (
+            <Navigation>
+                <NavigationItem isActive={true} icon={<Home />}>
+                    Dashboard
+                </NavigationItem>
+                <NavigationItem icon={<Inbox />}>Inbox</NavigationItem>
+                <NavigationItem icon={<Clients />}>Clients</NavigationItem>
+                <NavigationItem icon={<Agenda />}>Agenda</NavigationItem>
+                <NavigationItem icon={<ProjectManagement />}>
+                    Project management
+                </NavigationItem>
+                <NavigationItem icon={<Invoices />}>Invoices</NavigationItem>
+                <NavigationItem icon={<TimeManagement />}>
+                    Time management
+                </NavigationItem>
+            </Navigation>
+        );
+
+        const toolbar = (
+            <React.Fragment>
+                <Button>Button</Button>
+                <Button>Button</Button>
+                <Button>Button</Button>
+            </React.Fragment>
+        );
+
+        return (
+            <Basic pageTitle="Dashboard" left={left} toolbar={toolbar}>
+                <Dashboard />
+            </Basic>
+        );
+    });
