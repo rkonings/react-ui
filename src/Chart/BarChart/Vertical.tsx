@@ -23,12 +23,12 @@ const Vertical = styled(
                     );
 
                     const y =
-                        scaleLinear(Math.min(salary || 0, 0)) || 0 - barHeight;
+                        (scaleLinear(Math.min(salary, 0)) || 0) - barHeight;
 
                     return (
                         <React.Fragment key={name}>
                             <Bar
-                                x={scaleBand(name) || 0}
+                                x={scaleBand(name)}
                                 y={y}
                                 height={barHeight}
                                 width={barWidth}
